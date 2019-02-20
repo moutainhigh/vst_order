@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ITEM_SHOW_TICKET_INFO" >
+
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.order.vo.OrdItemShowTicketInfoVO" >
+    <id column="order_item_id" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="price_id" property="priceId" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="price_type" property="priceType" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    order_item_id,price_id,price,price_type, UPDATE_TIME
+  </sql>
+ 
+ 
+  <select id="queryByOrdItemId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ITEM_SHOW_TICKET_INFO
+    where order_item_id = #{orderItemId,jdbcType=DECIMAL}
+  </select>
+   
+  <insert id="insert" parameterType="com.lvmama.vst.order.vo.OrdItemShowTicketInfoVO" >
+	 insert into ORD_ITEM_SHOW_TICKET_INFO
+	  (order_item_id, price_id, price, price_type)
+	  values
+	  (#{orderItemId,jdbcType=DECIMAL},#{priceId,jdbcType=VARCHAR},#{price,jdbcType=DECIMAL},#{priceType,jdbcType=DECIMAL})
+  </insert>
+  
+</mapper>

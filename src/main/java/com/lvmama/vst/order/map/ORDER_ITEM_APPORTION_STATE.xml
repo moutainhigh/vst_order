@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORDER_ITEM_APPORTION_STATE" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrderItemApportionState" >
+    <id column="ORDER_ITEM_APPORTION_STATE_ID" property="orderItemApportionStateId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="COST_CATEGORY" property="costCategory" jdbcType="VARCHAR" />
+    <result column="APPORTION_AMOUNT" property="apportionAmount" jdbcType="DECIMAL" />
+    <result column="VALID_FLAG" property="validFlag" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORDER_ITEM_APPORTION_STATE_ID, ORDER_ID, ORDER_ITEM_ID, COST_CATEGORY, APPORTION_AMOUNT, 
+    VALID_FLAG, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORDER_ITEM_APPORTION_STATE
+    where ORDER_ITEM_APPORTION_STATE_ID = #{orderItemApportionStateId,jdbcType=DECIMAL}
+  </select>
+
+  <select id="queryResultListByParam" parameterType="com.lvmama.vst.back.order.vo.OrderItemApportionStateQueryVO" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ORDER_ITEM_APPORTION_STATE
+    where VALID_FLAG = 'Y'
+    <include refid="queryParameters" />
+  </select>
+  
+  <sql id="queryParameters">
+    <if test="orderId != null">
+      AND ORDER_ID = #{orderId, jdbcType=DECIMAL}
+    </if>
+    <if test="orderItemId != null">
+      AND ORDER_ITEM_ID = #{orderItemId, jdbcType=DECIMAL}
+    </if>
+    <if test="orderItemIdList != null">
+      AND ORDER_ITEM_ID IN
+      <foreach collection="orderItemIdList" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="orderIdList != null">
+      AND ORDER_ID IN
+      <foreach collection="orderIdList" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="costCategory != null">
+      AND COST_CATEGORY = #{costCategory}
+    </if>
+    <if test="costCategoryList != null">
+      AND COST_CATEGORY IN
+      <foreach collection="costCategoryList" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORDER_ITEM_APPORTION_STATE
+    where ORDER_ITEM_APPORTION_STATE_ID = #{orderItemApportionStateId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrderItemApportionState" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderItemApportionStateId" order="BEFORE" >
+      select SEQ_ORDER_ITEM_APPORTION_STATE.nextval from dual
+    </selectKey>
+    insert into ORDER_ITEM_APPORTION_STATE (ORDER_ITEM_APPORTION_STATE_ID, ORDER_ID, 
+      ORDER_ITEM_ID, COST_CATEGORY, APPORTION_AMOUNT, 
+      VALID_FLAG, CREATE_TIME, UPDATE_TIME
+      )
+    values (#{orderItemApportionStateId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, 
+      #{orderItemId,jdbcType=DECIMAL}, #{costCategory,jdbcType=VARCHAR}, #{apportionAmount,jdbcType=DECIMAL}, 
+      #{validFlag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrderItemApportionState" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderItemApportionStateId" order="BEFORE" >
+      select SEQ_ORDER_ITEM_APPORTION_STATE.nextval from dual
+    </selectKey>
+    insert into ORDER_ITEM_APPORTION_STATE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORDER_ITEM_APPORTION_STATE_ID,
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID,
+      </if>
+      <if test="costCategory != null" >
+        COST_CATEGORY,
+      </if>
+      <if test="apportionAmount != null" >
+        APPORTION_AMOUNT,
+      </if>
+      <if test="validFlag != null" >
+        VALID_FLAG,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{orderItemApportionStateId,jdbcType=DECIMAL},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="costCategory != null" >
+        #{costCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="apportionAmount != null" >
+        #{apportionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="validFlag != null" >
+        #{validFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrderItemApportionState" >
+    update ORDER_ITEM_APPORTION_STATE
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="costCategory != null" >
+        COST_CATEGORY = #{costCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="apportionAmount != null" >
+        APPORTION_AMOUNT = #{apportionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="validFlag != null" >
+        VALID_FLAG = #{validFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ORDER_ITEM_APPORTION_STATE_ID = #{orderItemApportionStateId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrderItemApportionState" >
+    update ORDER_ITEM_APPORTION_STATE
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      COST_CATEGORY = #{costCategory,jdbcType=VARCHAR},
+      APPORTION_AMOUNT = #{apportionAmount,jdbcType=DECIMAL},
+      VALID_FLAG = #{validFlag,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ORDER_ITEM_APPORTION_STATE_ID = #{orderItemApportionStateId,jdbcType=DECIMAL}
+  </update>
+
+  <!--作废原有记录-->
+  <update id="invalidRecords" parameterType="com.lvmama.vst.back.order.vo.OrderItemApportionStateQueryVO" >
+    UPDATE ORDER_ITEM_APPORTION_STATE
+    SET VALID_FLAG = 'N'
+    WHERE VALID_FLAG = 'Y'
+    <include refid="queryParameters" />
+  </update>
+
+  <!--作废原有记录-->
+  <update id="updateAmountByParam" parameterType="com.lvmama.vst.back.order.po.OrderItemApportionState" >
+    UPDATE ORDER_ITEM_APPORTION_STATE
+    SET APPORTION_AMOUNT = #{apportionAmount,jdbcType=DECIMAL},
+        UPDATE_TIME = sysdate
+    WHERE VALID_FLAG = 'Y'
+      AND ORDER_ID = #{orderId,jdbcType=DECIMAL}
+      AND ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+      AND COST_CATEGORY = #{costCategory,jdbcType=VARCHAR}
+  </update>
+</mapper>

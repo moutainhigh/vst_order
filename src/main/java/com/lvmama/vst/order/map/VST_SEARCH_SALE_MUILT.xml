@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="VST_SEARCH_SALE_MUILT">	
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.VstSearchSaleMuilt">
+		<id column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+		<result column="WEEK_SALE" property="weekSale" jdbcType="DECIMAL" />
+		<result column="QUANTITY_SALE" property="quantitySale" jdbcType="DECIMAL" />
+		<result column="SALE_PER" property="salePer" jdbcType="FLOAT" />
+		<result column="START_DISTRICT_ID" property="startDistrictId" jdbcType="DECIMAL" />
+		<result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		PRODUCT_ID, WEEK_SALE, QUANTITY_SALE, SALE_PER, START_DISTRICT_ID, UPDATE_TIME
+	</sql>
+	<select id="selectByProductId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from VST_SEARCH_SALE_MUILT
+		where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteAll">
+		delete from VST_SEARCH_SALE_MUILT
+	</delete>
+	<insert id="insert" parameterType="com.lvmama.vst.back.order.po.VstSearchSaleMuilt">
+		insert into VST_SEARCH_SALE_MUILT
+		(PRODUCT_ID, WEEK_SALE, QUANTITY_SALE,
+		SALE_PER,START_DISTRICT_ID)
+		values
+		(#{productId,jdbcType=DECIMAL}, #{weekSale,jdbcType=DECIMAL},
+		#{quantitySale,jdbcType=DECIMAL},
+		#{salePer,jdbcType=FLOAT},#{startDistrictId,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.VstSearchSaleMuilt">
+		insert into VST_SEARCH_SALE_MUILT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null">
+				PRODUCT_ID,
+			</if>
+			<if test="weekSale != null">
+				WEEK_SALE,
+			</if>
+			<if test="quantitySale != null">
+				QUANTITY_SALE,
+			</if>
+			<if test="salePer != null">
+				SALE_PER,
+			</if>
+			<if test="startDistrictId != null">
+				START_DISTRICT_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null">
+				#{productId,jdbcType=DECIMAL},
+			</if>
+			<if test="weekSale != null">
+				#{weekSale,jdbcType=DECIMAL},
+			</if>
+			<if test="quantitySale != null">
+				#{quantitySale,jdbcType=DECIMAL},
+			</if>
+			<if test="salePer != null">
+				#{salePer,jdbcType=FLOAT},
+			</if>
+			<if test="startDistrictId != null">
+				#{startDistrictId,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.VstSearchSaleMuilt">
+		update VST_SEARCH_SALE_MUILT
+		<set>
+			<if test="weekSale != null">
+				WEEK_SALE = #{weekSale,jdbcType=DECIMAL},
+			</if>
+			<if test="quantitySale != null">
+				QUANTITY_SALE = #{quantitySale,jdbcType=DECIMAL},
+			</if>
+			<if test="salePer != null">
+				SALE_PER = #{salePer,jdbcType=FLOAT},
+			</if>
+			<if test="startDistrictId != null">
+				START_DISTRICT_ID = #{startDistrictId,jdbcType=DECIMAL},
+			</if>
+			UPDATE_TIME = sysdate
+		</set>
+		where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.VstSearchSaleMuilt">
+		update
+		VST_SEARCH_SALE_MUILT
+		set WEEK_SALE = #{weekSale,jdbcType=DECIMAL},
+		QUANTITY_SALE = #{quantitySale,jdbcType=DECIMAL},
+		SALE_PER = #{salePer,jdbcType=FLOAT},
+		START_DISTRICT_ID = #{startDistrictId,jdbcType=DECIMAL},
+		UPDATE_TIME = sysdate
+		where PRODUCT_ID =
+		#{productId,jdbcType=DECIMAL}
+	</update>
+
+
+	<select id="selectProductWeekSaleByDistribute" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		<include refid="basic.pageSearchHead" />
+		select product_id, count(1) as WEEK_SALE,start_district_id
+		from (select
+		a.product_id, a.order_id,
+		case when b.start_district_id is null then -1 when b.start_district_id = 0 then -1 else b.start_district_id end as start_district_id
+		from ord_order_item
+		a,ord_order b
+		where 1=1 and a.order_id = b.order_id and b.is_test_order='N'
+		and a.create_time
+		between #{beginDate, jdbcType=TIMESTAMP} and #{endDate, jdbcType=TIMESTAMP}
+		 <if test="categoryIdStr != null and categoryIdStr != ''">
+			${categoryIdStr}
+	     </if>	
+		and a.order_pack_id is null
+		and a.category_id != 1
+		group
+		by a.product_id, a.order_id,b.start_district_id)
+		group by
+		product_id,start_district_id
+		order by product_id
+		<include refid="basic.pageSearchFoot" />
+	</select>
+
+	<select id="selectHotelWeekSaleByDistribute" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		<include refid="basic.pageSearchHead" />
+		select product_id, count(1) as WEEK_SALE
+		from (select a.product_id, a.order_id
+		 from ord_order_item a,ord_order b
+		where a.create_time between #{beginDate, jdbcType=TIMESTAMP} and
+		#{endDate,jdbcType=TIMESTAMP}
+		and (b.distributor_id in (3,26,28) or b.distribution_Channel in (108,110,10000,10001,10002))
+		and a.order_id = b.order_id and b.is_test_order='N'
+		and a.category_id = #{hotelCategoryId, jdbcType=VARCHAR}
+		group by a.product_id, a.order_id)
+		group by product_id
+		order by product_id
+
+		<include refid="basic.pageSearchFoot" />
+	</select>
+
+	<select id="countHotelWeekSaleByDistribute" resultType="Integer"
+		parameterType="java.util.Map">
+		select count(1)
+		from (select product_id, count(1) as
+		WEEK_SALE
+		from (select a.product_id,a.order_id
+		from ord_order_item a,ord_order b
+		where
+		a.create_time between #{beginDate,jdbcType=TIMESTAMP} and
+		#{endDate,jdbcType=TIMESTAMP}
+		and a.order_id = b.order_id and b.is_test_order='N'
+		and a.category_id = #{hotelCategoryId, jdbcType=VARCHAR}
+		group by a.product_id,
+		a.order_id)
+		group by product_id
+		order by product_id)
+
+	</select>
+
+	<select id="selectPackProductWeekSaleByDistribute" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		<include refid="basic.pageSearchHead" />
+		select product_id, count(1) as WEEK_SALE,start_district_id
+		from (select b.product_id, b.order_id,
+		case when a.start_district_id is null then -1 when a.start_district_id = 0 then -1 else a.start_district_id end as start_district_id
+		from ord_order_pack
+		b,ord_order a
+		where b.create_time between #{beginDate, jdbcType=TIMESTAMP} and
+		#{endDate,jdbcType=TIMESTAMP}
+		and b.order_id = a.order_id and a.is_test_order = 'N' 
+		 <if test="categoryIdStr != null and categoryIdStr != ''">
+			${categoryIdStr}
+	     </if>	
+		group by b.product_id, b.order_id,a.start_district_id)
+		group by
+		product_id,start_district_id
+		order by product_id
+		<include refid="basic.pageSearchFoot" />
+	</select>
+
+	<select id="countProductWeekSaleByDistribute" resultType="Integer"
+		parameterType="java.util.Map">
+		select count(1) from (select product_id, count(1) as
+		WEEK_SALE,start_district_id
+		from (select a.product_id,a.order_id,
+		case when b.start_district_id is null then -1 when b.start_district_id = 0 then -1 else b.start_district_id end as start_district_id
+		from ord_order_item a,ord_order b
+		where 1
+		= 1 and a.order_id = b.order_id and b.is_test_order='N'
+		and a.create_time between
+		#{beginDate,jdbcType=TIMESTAMP} and
+		#{endDate,jdbcType=TIMESTAMP}
+		 <if test="categoryIdStr != null and categoryIdStr != ''">
+			${categoryIdStr}
+	     </if>	
+	    and a.category_id != 1
+		and a.order_pack_id is null
+		group by
+		a.product_id, a.order_id,b.start_district_id)
+		group by
+		product_id,start_district_id)
+
+	</select>
+	
+	
+	<select id="countPackProductWeekSaleByDistribute" resultType="Integer"
+		parameterType="java.util.Map">
+		select count(1)
+		from (select product_id, count(1) as
+		WEEK_SALE
+		from (select b.product_id, b.order_id,
+		case when d.start_district_id is null then -1 when d.start_district_id = 0 then -1 else d.start_district_id end as start_district_id
+		from ord_order_pack b,ord_order d
+		where b.create_time between
+		#{beginDate,jdbcType=TIMESTAMP} and
+		#{endDate,jdbcType=TIMESTAMP}
+		and b.order_id = d.order_id and d.is_test_order='N'
+		<if test="categoryIdStr != null and categoryIdStr != ''">
+		 ${categoryIdStr}
+	    </if>	
+		group by b.product_id, b.order_id,d.start_district_id)
+		group by
+		product_id)
+	</select>
+	
+	<!-- 根据产品ID查询是否是多出发地 -->
+	<select id="selectFlagByPrdId" parameterType="java.lang.Long" resultType="String">
+		select a.muilt_departure_flag from prod_product a where a.product_id = #{productId,jdbcType=DECIMAL}
+	</select>
+
+</mapper>

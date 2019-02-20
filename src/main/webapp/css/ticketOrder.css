@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* CSS Document */
+
+.hotel_title{height:40px; line-height:40px; overflow:hidden}
+.hotel_t{float:left; height:40px; line-height:40px;}
+.hotel_link{float:right; height:40px;}
+
+.hotel_tab_title{height:35px; line-height:35px; padding:0 8px; color:#fff; background:#538ed7;}
+.hotel_tab{border:1px solid #CCC; padding:5px; border-top:0; margin-bottom:10px;}
+.hotel_tab h6{height:25px; line-height:25px; font-size:12px; padding-top:8px;}
+.hotel_tab input.input-date{vertical-align:middle; margin-top:3px;}
+.hotel_tab table td{vertical-align:middle;}
+.table_t{height:35px; line-height:35px; background:#f0f0f0; font-size:14px; font-weight:bold; padding:0 8px;}
+.hotel_sum{width:80px; vertical-align:middle; margin:0;}
+
+
+.hotel_submit {overflow:hidden; padding-bottom:10px;}
+.hotel_submit p{float:left; width:650px; height:auto;}
+.hotel_submit a{float:right;}
+
+/*修改日历控件样式*/
+.ui-calendar .month-next,.ui-calendar .month-prev,.ui-calendar-mini .calmonth .caltable th.sun,.ui-calendar-mini .calmonth .caltable th.sat{color:#348feb;}
+.ui-calendar .caltitle{background:#348feb;}
+.ui-calendar-mini .calmonth .caldate:hover, .ui-calendar-mini .calmonth .selectDay:hover{background:#348feb;}
+.ui-calendar-mini .calmonth .today{border:1px solid #d2e7fb; background:#eef5fd; color:#348feb} 
+.ui-calendar-mini .calmonth .calfest{color:#348feb;}
+.ui-calendar .calbox{margin-top:0;}
+.ui-calendar-mini .calmonth .selectDay{background:#348feb; color:#fff};

@@ -1,0 +1,2067 @@
+﻿@charset "UTF-8";
+
+/* 公共部分开始 */
+.info_arrow{
+    display: block;
+    width: 16px;
+    height: 10px;
+    position: absolute;
+    left: 35px;
+    top:-7px;
+} 
+.info_arrow span, .info_arrow i{
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #eee;
+    display: block;
+    line-height: 14px;
+    font-size: 14px;
+} 
+.info_arrow i{
+    top: 1px;
+    color: #F6F6F6;
+}
+
+.clear-border{
+    border: none !important;
+}
+/* 公共部分结束 */
+
+.line-detail-main{
+    width: 100%;
+    background: #F5F5F5;
+}
+
+/* 面包屑导航开始 */
+.crumbs {
+    position: relative;
+    margin: 0 auto;
+    padding: 9px 0;
+    width: 1000px;
+    font-family: \5b8b\4f53,sans-serif;
+    font-size: 12px;
+    clear: both;
+}
+
+.crumbs-link {
+    float: left;
+    display: inline;
+    color: #999;
+}
+
+.crumbs-link a {
+    color: #666;
+}
+
+.crumbs-link a:hover {
+    color: #e38;
+}
+
+.crumbs-link a.current {
+    color: #999;
+    text-decoration: none;
+}
+
+.crumbs-link .icon-ihome {
+    vertical-align: text-top;
+    position: relative;
+    top: -1px;
+    margin-right: 2px;
+}
+
+.crumbs .other-info {
+    float: right;
+    display: inline;
+    color: #bbb;
+}
+/* 面包屑导航结束 */
+
+.product-main {
+    width: 1000px;
+    margin: 0 auto;
+    color: #666;
+}
+
+.product-main i {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.product-main iframe {
+    border: 0;
+}
+
+.product-main .pull-left {
+    float: left;
+    width: 60px;
+}
+.product-main .pull-left span{
+    float: right;
+}
+.product-main .pull-right {
+    width: 40px;
+    float: right;
+}
+
+.product-main .pull-right span{
+    float: left;
+}
+.product-main .fs-12 {
+    font-size: 12px;
+}
+
+.product-main .color-style1 {
+    color: #999999;
+}
+.product-main .color-style2 {
+    color: #FFF;
+}
+
+.product-main .mt-5 {
+    margin-top: 5px;
+}
+
+/* 产品类型标志开始 */
+.product-type {
+    width: 66px;
+    height: 66px;
+    position: absolute;
+    z-index: 9;
+}
+
+.product-type div {
+    position: relative;
+    top: -5px;
+    left: -5px;
+}
+
+.package-tour-icon {
+    width: 69px;
+    height: 69px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -1px -146px;
+}
+
+.free-tour-icon {
+    width: 69px;
+    height: 69px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -70px -146px;
+}
+
+.local-tour-icon {
+    width: 69px;
+    height: 69px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -143px -146px;
+}
+.local-hotel-package-icon {
+    width: 69px;
+    height: 69px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -220px -146px;
+}
+.local-half-diy-icon {
+    width: 69px;
+    height: 69px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -293px -146px;
+}
+/* 产品类型标志结束 */
+
+/* 顶部产品概览开始 */
+.product-overview, .product-modules, .product-detail-header {
+    border: 1px solid #DEDEDE;
+}
+.product-overview{
+    background: #FFF;
+}
+
+
+/* 产品缩略图幻灯开始 */
+.overview-slide {
+    width: 360px;
+    height: 305px;
+    float: left;
+    margin: 20px;
+    margin-right: 15px;
+    display: inline;
+    overflow: hidden;
+}
+
+.overview-slide-show {
+    position: relative;
+    overflow: hidden;
+    width: 360px;
+}
+
+.overview-slide-show .slides {
+    display: none;
+}
+
+.slide-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+}
+
+.slide-container img {
+    width: 360px;
+    height: 240px;
+}
+
+/* 产品缩略图幻灯结束 */
+.overview-description {
+    float: left;
+    margin: 20px 0;
+    width: 458px;
+    font-size: 14px;
+}
+
+.product-name {
+    border-bottom: 1px solid #EEE;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.product-name h1 {
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: normal;
+    font-family: "Microsoft YaHei", "simsun";
+    color: #333;
+    display: inline;
+    word-wrap: break-word;
+}
+.product-name span {
+    margin-top: -5px;
+}
+
+.product-price-item {
+    margin-top: 15px;
+}
+
+.product-price-title {
+    float: left;
+    width: 75px;
+}
+
+.product-lvmama-price {
+    margin-top: 15px;
+}
+
+.product-price-content-val{
+    margin-top: 10px !important;
+    line-height: 20px !important;
+}
+.product-price-content {
+    float: left;
+    margin-left: 3px;
+    line-height: 20px;
+    width: 380px;
+}
+
+.product-price-content .product-preferential {
+    margin-left: 5px;
+}
+
+#product-price-explain {
+    padding-bottom: 2px;
+    border-bottom: 1px dashed #999;
+    color: #999;
+}
+
+.product-price-rmb {
+    color: #f60;
+}
+
+.rmb-symbol {
+    font-family: "arial";
+}
+
+.product-price-value {
+    font-size: 32px;
+    font-family: "Arial";
+    font-weight: bold;
+}
+
+.product-price-explain-icon {
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -135px 0px;
+    display: inline-block;
+    margin-top: 5px;
+    vertical-align: -3px;
+    width: 14px;
+    height: 14px;
+}
+
+#price-view-more {
+    margin-left: 5px;
+    color: #999;
+}
+
+/* 更多促销详情hover特效开始 */
+.price-view-more-over {
+    transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    -o-transform: rotate(-180deg);
+    -webkit-transform: rotate(-180deg);
+    transition: transform 550ms ease;
+    -moz-transition: -moz-transform 550ms ease;
+    -ms-transition: -ms-transform 550ms ease;
+    -o-transition: -o-transform 550ms ease;
+    -webkit-transition: -webkit-transform 550ms ease;
+}
+
+.price-view-more-out {
+    transform: rotate(-360deg);
+    -moz-transform: rotate(-360deg);
+    -ms-transform: rotate(-360deg);
+    -o-transform: rotate(-360deg);
+    -webkit-transform: rotate(-360deg);
+    transition: transform 550ms ease;
+    -moz-transition: -moz-transform 550ms ease;
+    -ms-transition: -ms-transform 550ms ease;
+    -o-transition: -o-transform 550ms ease;
+    -webkit-transition: -webkit-transform 550ms ease;
+}
+
+/* 更多促销详情hover特效结束 */
+.price-view-more-icon {
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -193px -49px;
+    display: inline-block;
+    margin-top: 5px;
+    vertical-align: 2px;
+    width: 10px;
+    height: 5px;
+}
+
+.product-overview-protect {
+    float: right;
+    background: #F7F7F7;
+    border-left: 1px solid #DDDDDD;
+    width: 130px;
+}
+
+.overview-protect-top, .overview-protect-middle {
+    border-bottom: 1px dashed #DDD;
+}
+
+.product-protect-info, .product-basic-info {
+    padding: 15px;
+}
+.product-basic-info .product-no:last-child{
+    margin-top: 6px;
+}
+.product-no .val {
+    color: #FF6600;
+}
+
+.product-score {
+    margin-top: 15px;
+}
+
+.product-score .pull-left {
+    letter-spacing: 6px;
+}
+
+.product-score .pull-right {
+    color: #FF6600;
+    display: block;
+    width: 42px;
+}
+
+.overview-protect-middle ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.overview-protect-middle ul li {
+    display: block;
+    clear: both;
+    margin: 5px 0;
+    line-height: 18px;
+}
+
+.overview-protect-middle ul li a {
+    color: #09C;
+    margin-left: 5px;
+}
+
+.overview-protect-middle i {
+    display: block;
+    width: 16px;
+    height: 16px;
+    float: left;
+    background-image: url("http://pic.lvmama.com/img/line/product-detail-all.png");
+    background-repeat: no-repeat;
+}
+
+.protect-price-icon {
+    background-position: -114px 0px;
+}
+
+.protect-refund-icon {
+    background-position: -114px -26px;
+}
+
+.protect-help-icon {
+    background-position: -114px -53px;
+}
+
+.protect-allday-icon {
+    background-position: -114px -79px;
+}
+
+.overview-protect-bottom {
+    padding: 15px;
+}
+
+.overview-protect-qrcode img {
+    display: block;
+    margin: 0 auto;
+}
+
+.overview-protect-qrcode p {
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* 顶部产品概览结束 */
+
+/* 预订开始 */
+.selectbox .selectbox-drop{ max-height:320px;}
+.product-preorder {
+    width: 994px;
+    font-size: 12px;
+    position: relative;
+    background: #FFFAEE;
+    border-top: 3px solid #FF9900;
+}
+
+.preorder-config {
+    padding: 15px;
+    padding-left: 0;
+    float: left;
+    margin-top: 5px;
+}
+
+.preorder-input-group {
+    float: left;
+    display: inline;
+    margin-left: 30px;
+    line-height: 30px;
+}
+
+/* 在Chrome 36.0.1985.143 m版本中出现了日期选择框换行的问题，强制设置宽度解决*/
+.chrome-hack-1{
+    width: 192px;
+}
+.chrome-hack-2{
+    float: left;
+}
+.trip-time {
+    float: right;
+    border: 1px solid #ABC;
+    background: #FFF;
+    -moz-box-shadow: inset 1px 1px 2px #ABC;
+    -webkit-box-shadow: inset 1px 1px 2px #ABC;
+    box-shadow: inset 1px 1px 2px #ABC;
+}
+.trip-time input {
+    border: none;
+}
+
+.preorder-input-group select {
+    width: 60px;
+    height: 30px;
+    color: #666;
+    border: 1px solid #ABC;
+    margin-right: 0px;
+}
+.preorder-input-group .select-arrow {
+    border-left: 1px solid #EAEAEA;
+}
+
+.preorder-start-time {
+    width: 120px;
+    height: 27px;
+    background: url("http://pic.lvmama.com/img/line/calendar-icon.png") no-repeat 110px 5px;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.preorder-confirm {
+    width: 430px;
+    padding: 15px;
+    padding-left: 0;
+    float: right;
+    display: inline-block;
+}
+
+
+
+.preorder-total-price {
+    float: right;
+    width: 280px;
+    margin: 10px 0 0 0;
+    display: inline;
+	position:relative;
+}
+
+.total-price-title {
+    display: block;
+    float: right;
+    margin: 2px 1px 0 0;
+}
+
+.total-price-symbol{
+    display: none;
+    float: right;
+    margin: 2px 5px 0 0;
+    color: #f60;
+}
+
+.total-price-value {
+    font-size: 32px;
+    font-family: "Arial";
+    font-weight: 700;
+    color: #F60;
+    float: right;
+}
+.fangcha{ position:absolute; right:0; top:23px; font-size:12px; color:#999;}
+.fangcha dfn{ font-family:"微软雅黑";}
+
+#preorder-confirm-button {
+    margin-left: 20px;
+    display: block;
+    width: 125px;
+    height: 38px;
+    float: right;
+    color: #FFF;
+    line-height: 38px;
+    font-size: 20px;
+    font-family: "Microsoft YaHei", "simsun";
+    text-align: center;
+    background: url("http://pic.lvmama.com/img/line/confirm-order-bg.png") repeat-x;
+    border: 1px solid #F60;
+    border-radius: 2px;
+}
+
+#preorder-confirm-button:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#product-preorder .btn_stop{ background:#bbb; border:#999 solid 1px; cursor:default;}
+
+#calendar-area {
+    position: absolute;
+    background: #FFF;
+    top: 70px;
+    display: none;
+    z-index: 1;
+}
+.preorder-adjust{border-bottom: 1px solid #E3E3E3;}
+.preorder-adjust .noresult{
+    text-align: center;
+    font-size: 14px;
+    margin: 15px 0;
+}
+.noresult p{ font-size:12px; color:#999;}
+.noresult_box{ width:190px; margin:0 auto; padding-left:45px; text-align:left; position:relative; overflow:hidden;}
+.noresult_box .icon_warning{ float:left; margin:5px 0 0 -45px !important;}
+.icon_warning{ display:inline-block; width:33px; height:33px; background:url(http://pic.lvmama.com/img/v4/tip-icon.png) -33px 0 no-repeat;}
+.noresult_box span{ font-size:12px; color:#0099CC; cursor:pointer;}
+
+.preorder-adjust .noresult .reselect-date{
+    color: blue;
+}
+
+/* 预订结束 */
+.product-modules {
+    background: #FFF;
+}
+
+.loading-data-status{
+    text-align: center;
+}
+
+.product-detail-title, .recommand-title-main {
+    font-size: 22px;
+    color: #656565;
+}
+
+.product-detail-header {
+    border-bottom: 2px solid #EA1786;
+    background: #FFF;
+    width: 998px;
+}
+
+.product-detail-header li {
+    float: left;
+}
+
+.product-detail-header li .active {
+    text-decoration: none;
+    cursor: pointer;
+    color: #FFF;
+    background: #EA1786;
+}
+
+.product-detail-header li .active:hover {
+    color: #FFF !important;
+}
+.product-detail-header li a {
+    display: block;
+    float: left;
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
+    font-family: "Microsoft YaHei", "simsun";
+    border-right: 1px solid #E3E3E3;
+    color: #666;
+}
+
+.product-detail-header li a:hover {
+    text-decoration: none;
+    color: #F60;
+}
+
+.customer-review-count {
+    color: #F60;
+}
+
+/* 产品经理推荐开始 */
+.product-pm-recommand {
+    padding: 20px 25px;
+    background: #FFFAEE;
+}
+
+.recommand-left-quotation {
+    float: left;
+    width: 24px;
+    height: 21px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -85px -0px;
+}
+
+.recommand-title-main {
+    float: left;
+    font-weight: 400;
+    font-size: 22px;
+    font-family: "Microsoft YaHei", "simsun";
+    line-height: 22px;
+    color: #656565;
+    margin-left: 25px;
+}
+
+.recommand-right-quotation {
+    float: right;
+    width: 24px;
+    height: 21px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -82px -27px;
+}
+
+.pm-recomman-body {
+    margin: 20px 50px;
+    margin-bottom: 0px;
+}
+
+.pm-recomman-body li {
+    margin: 10px 0;
+    padding-left: 20px;
+    background-image: url("http://pic.lvmama.com/img/line/pm-recommand-start-icon.png");
+    background-repeat: no-repeat;
+    background-position: 0 2px;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+/* 产品经理推荐结束 */
+.product-detail-instance {
+    margin:50px 20px 0;
+}
+
+.instance-title {
+    height: 35px;
+    width: 100%;
+    border-bottom: 3px solid #E3E3E3;
+}
+
+.instance-title h3 {
+    font-weight: 400;
+    font-size: 22px;
+    font-family: "Microsoft YaHei", "simsun";
+    line-height: 22px;
+    color: #656565;
+    margin-left: 35px;
+}
+
+.title-icon-container {
+    float: left;
+    height: 35px;
+    border-bottom: 3px solid #F90;
+}
+
+.product-detail-icon {
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -76px -116px;
+    display: inline-block;
+    width: 24px;
+    height: 23px;
+}
+
+.product-line-icon {
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -114px -113px;
+    display: inline-block;
+    width: 24px;
+    height: 30px;
+}
+
+.product-map-icon {
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -149px -115px;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+}
+
+.product-cost-icon {
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -5px -114px;
+    display: inline-block;
+    width: 24px;
+    height: 25px;
+}
+
+.product-notice-icon {
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -186px -116px;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+}
+
+.product-dest-icon {
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -41px -117px;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+}
+
+.product-review-icon {
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -222px -116px;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+}
+
+.product-similar-icon {
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -257px -116px;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+}
+
+.detail-instance-body {
+    padding: 30px 0;
+}
+
+.detail-instance-body a {
+    color: #0099CC;
+}
+
+/* 行程介绍开始 */
+.travel-fixed {
+    float: left;
+    width: 100px;
+}
+
+.travel-fixed li {
+    display: block;
+    width: 80px;
+    height: 35px;
+    font-size: 14px;
+    text-align: center;
+    line-height: 35px;
+    vertical-align: middle;
+    background: #DBDBDB;
+    color: #FFF;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+.travel-fixed li:hover {
+    background: #F90;
+}
+
+.travel-fixed .active {
+    background: #F90;
+}
+
+.travel-instance {
+    float: right;
+    width: 840px;
+}
+
+.travel-instance .tips {
+    padding: 5px;
+    border: 1px solid #FA0;
+    background: #FFFDE6;
+    color: #333;
+    padding: 10px;
+    margin-bottom: 15px;
+    line-height: 10px;
+}
+
+#travel-traffic {
+    margin-bottom: 60px;
+}
+
+.traffic-type {
+    height: 28px;
+    border-bottom: 1px solid #DDD;
+}
+
+.traffic-type li {
+    display: block;
+    width: 90px;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 5px 0;
+    position: relative;
+    top: 1px;
+    color: #333;
+    float: left;
+    text-align: center;
+    cursor: pointer;
+}
+
+
+.traffic-type li .arrow{
+    display: none;
+}
+
+.traffic-type .active {
+    margin-top: -1px;
+    border-bottom: 2px solid #F90;
+    font-weight: 900;
+}
+
+.traffic-type .active .arrow{
+    display: inline-block;
+    margin-left: 4px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #F90 #fff #fff #fff;
+    width:0;
+    height:0;
+    overflow:hidden;
+    font-size:0;
+    position:absolute;
+    right:41px;
+    top:29px;
+}
+
+.traffic-container {
+    margin-top: 10px;
+}
+
+.traffic-instance {
+    display: none;
+    background: #F5F5F5;
+}
+
+.traffic-instance .traffic-item:nth-last-child(1) {
+    border: none;
+}
+
+
+.traffic-item {
+    border-bottom: 1px solid #E3E3E3;
+    overflow: hidden;
+}
+
+.traffic-item .title {
+    width: 90px;
+    float: left;
+    font-size: 14px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.traffic-item .outer-container {
+    float: right;
+    width: 725px;
+    font-size: 12px;
+    line-height: 24px;
+    background: #FFF;
+    overflow: hidden;
+    margin-top: -1px;
+}
+
+.traffic-item .container {
+    margin-left: 20px;
+    padding: 20px 0;
+    border-top: 1px dashed #E3E3E3;
+}
+
+.traffic-item .container .left{
+    width: 520px;
+    float: left;
+}
+
+
+.traffic-airplane-icon{
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat 0px 0px;
+}
+
+.traffic-train-icon{
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -21px 0px;
+}
+
+.traffic-ship-icon{
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -22px -67px;
+}
+
+.traffic-bus-icon{
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -44px 0px;
+}
+
+.traffic-item .container .gray{
+    color: #BBBBBB !important;
+}
+.traffic-item .container .icon{
+    float: left;
+    margin: 12px 15px 0 0;
+}
+.traffic-item .container ul p{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.traffic-item .container .provider{
+    float: left;
+    width: 120px;
+}
+
+.traffic-item .container .train .provider{
+    height: 36px;
+    line-height: 36px;
+}
+.traffic-item .container .train .provider .middle{
+    line-height: 46px;
+}
+
+.traffic-item .container .time{
+    float: left;
+    font-weight: 900;
+    width: 95px;
+}
+
+.traffic-item .container .time span{
+    color: #F60;
+    font-weight: 400;
+    margin-left: 5px;
+}
+
+.traffic-item .container .station{
+    float: left;
+}
+
+.traffic-item .container .station span, .traffic-item .container .transport span span{
+    color: #999;
+    margin-left: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px dashed #999;
+}
+
+.traffic-item .container .bus-time{
+    font-weight: 900;
+}
+.traffic-item .container .station .bottom{
+    margin-top: 17px;
+}
+
+.traffic-item .container .right{
+    float: left;
+    width: 150px;
+}
+
+.traffic-item .container .right .time-cost{
+    float: left;
+}
+
+.traffic-item .container .right .type{
+    float: right;
+}
+
+.traffic-item .container .transport{
+}
+
+.traffic-item .container .transport .border{
+    width: 215px;
+    border-top: 1px solid #E3E3E3;
+    margin: 10px 0 0 15px;
+    float: left;
+}
+
+.traffic-go-text-icon{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 4px;
+    background: #E3F3F9;
+    border: 1px solid #039ACD;
+    color: #0099CC;
+}
+.traffic-back-text-icon{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 4px;
+    background: #E1FBE3;
+    border: 1px solid #47B547;
+    color: #029902;
+}
+.transport-text-icon{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 4px;
+    background: #FFF0D7;
+    border: 1px solid #F60;
+    color: #F60;
+}
+
+
+.travel-days {
+    float: right;
+    font-size: 12px;
+    width: 840px;
+    background-image: url("http://pic.lvmama.com/img/line/travel-border.png");
+    background-repeat: repeat-y;
+    background-position: 89px 0px;
+}
+
+.travel-nav-fixed {
+    position: fixed;
+    top: 50px;
+}
+
+.travel-traffic-icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -180px -72px;
+}
+
+.travel-hotel-icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -204px -71px;
+}
+
+.travel-dinner-icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -229px -74px;
+}
+
+.travel-flag-icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -254px -73px;
+}
+
+.travel-notice-icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -338px -73px;
+}
+
+.travel-end-icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -362px -64px;
+}
+
+.travel-title {
+    padding-left: 72px;
+}
+
+.travel-title .day {
+    display: block;
+    width: 35px;
+    height: 44px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -145px -64px;
+    line-height: 38px;
+    font-size: 12px;
+    text-align: center;
+    color: #FFF;
+    float: left;
+    margin: 0;
+}
+
+.travel-title .destination {
+    margin: 15px 0 0 15px;
+    font-size: 16px;
+    font-weight: 900;
+    float: left;
+    color: #333;
+    line-height: 16px;
+}
+
+.travel-time-line {
+    margin: 15px 0 30px 0;
+}
+
+.travel-time-line .time {
+    float: left;
+    width: 90px;
+}
+
+.travel-time-line .time span {
+    width: 85px;
+    height: 22px;
+    display: block;
+    color: #333;
+    text-align: center;
+}
+
+.travel-time-line .detail {
+    width: 720px;
+    float: right;
+    line-height: 22px;
+}
+
+.travel-time-line i {
+    position: relative;
+    left: 74px;
+    top: -24px;
+}
+
+.travel-time-line .detail-notice {
+    width: 690px;
+    float: right;
+    padding: 15px;
+    line-height: 26px;
+    background: #F5F5F5;
+}
+
+.end-of-travel {
+    padding-left: 81px;
+}
+
+/* 行程介绍结束 */
+/* 预订须知开始 */
+.preorder-notice {
+    font-size: 14px;
+}
+.preorder-notice .declaration {
+    color: #F60;
+    margin-bottom: 15px;
+}
+
+.preorder-notice .notice {
+    padding: 20px;
+    border: 1px solid #FA0;
+    background: #FFFDE6;
+    line-height: 28px;
+}
+
+.detail-desc-item{
+    margin-bottom: 20px;
+    word-wrap: break-word;
+}
+
+.detail-desc-item .operate {
+    font-size: 14px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    line-height: 14px;
+}
+
+.detail-desc-item p, .detail-desc-item .detail{
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.preorder-notice table {
+    border: #e3e3e3 solid 1px;
+}
+.preorder-notice th {
+    border: 0;
+    text-align: center;
+    background: #F5F5F5;
+    color: #999;
+    padding: 5px 0;
+    font-weight: normal;
+}
+.preorder-notice .cell-pull-left {
+    text-align: left;
+}
+.preorder-notice td {
+    padding: 10px 15px;
+    border: #e3e3e3 solid 1px;
+    text-align: center;
+    border-color: #E3E3E3;
+}
+
+/* 预订须知结束 */
+/* 目的地情报开始 */
+.destination-detail a {
+    font-size: 12px;
+    color: #666;
+}
+
+.destination-detail dt {
+    font-size: 14px;
+    font-weight: 900;
+    margin-bottom: 25px;
+}
+
+.destination-detail .viewpoint {
+    float: left;
+    width: 470px;
+}
+
+.destination-detail .viewpoint dd {
+    display: block;
+    width: 155px;
+    float: left;
+    margin-bottom: 20px;
+}
+
+.destination-detail .guide {
+    float: right;
+    width: 470px;
+}
+
+.destination-detail .guide .point {
+    width: 4px;
+    height: 4px;
+    background: #CCC;
+    border-radius: 4px;
+    float: left;
+    margin: 10px 10px 0 0;
+}
+
+.destination-detail .guide dd {
+    margin-bottom: 20px;
+}
+
+/* 目的地情报结束 */
+
+/* 交通地图开始 */
+.map-detail {
+    width: 100%;
+    height: 350px;
+}
+
+/* 交通地图结束 */
+
+/* 悬浮开始 */
+.navigate-fixed {
+    position: fixed;
+    top: 0;
+    margin: 0 auto;
+    z-index: 999;
+}
+
+.nav-height-holder {
+    background: #FFF;
+    height: 45px;
+}
+.preorder-height-holder {
+    background: #FFF;
+    margin: 20px 0 20px 0;
+    border: 3px solid #FF9900;
+    border-top: none;
+}
+
+/* 悬浮结束 */
+
+/* 预订配置开始 */
+
+.adjust-item{
+    background: #FBFBFB;
+    font-size: 12px;
+}
+
+.adjust-item .title{
+    width: 95px;
+    float: left;
+    font-size: 18px;
+    font-family: "Microsoft YaHei", "simsun";
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
+}
+
+.adjust-item .gray{
+    color: #666 !important;
+}
+.adjust-item .shadow{
+    background: #E3F3F9;
+    padding: 1px 13px 1px 12px;
+    float: left;
+    color: #666;
+	font-weight:normal;
+}
+.adjust-item .replace-button{
+    color: #FFF;
+    background: #F80;
+    border: 0;
+    height: 26px;
+    width: 110px;
+    line-height: 26px;
+    border-radius: 2px;
+}
+
+.adjust-item .arrow, .dialog-content .arrow{
+    display: inline-block;
+    margin-left: 4px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #666 #fff #fff #fff;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    font-size: 0;
+    position: relative;
+    top: 2px;
+}
+
+.adjust-item .arrow-blue-up, .dialog-content .arrow-blue-up{
+    border-color: #fff #fff #09c #fff;
+    top: -2px;
+}
+.adjust-item .arrow-blue-down, .dialog-content .arrow-blue-down{
+    border-color: #09c #fff #fff #fff;
+    top: 2px;
+}
+.adjust-item .arrow-up, .dialog-content .arrow-up{
+    top: -2px;
+    border-color: #fff #fff #666 #fff;
+}
+.price{
+    font-family: "arial";
+    color: #f60;
+}
+.adjust-item .thumbnail, .dialog-content .thumbnail{
+    float: left;
+    margin-right: 20px;
+}
+
+.adjust-item .thumbnail img, .dialog-content .thumbnail img{
+    width: 90px;
+    height: 60px;
+}
+
+.toggle-detail{
+    cursor: pointer;
+    color: #333;
+    text-decoration: underline;
+}
+.adjust-item .hotel-margin{
+    margin-right: 10px;
+}
+
+.adjust-item .toggle-others, .dialog-content .toggle-others{
+    cursor: pointer;
+    color: #09C;
+    padding-top: 10px;
+}
+
+.adjust-item .btn-mini{
+    color: #666;
+}
+
+.product-item-checked-icon{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat -66px 0;
+}
+
+.adjust-product-item-status{
+    width: 45px;
+    text-align: center;
+    float: right;
+}
+
+.adjust-item .right-container{
+    float: right;
+    background: #FFF;
+    padding: 20px 0 20px 20px;
+    width: 876px;
+    
+}
+
+.adjust-item select, .dialog-content select{
+    height: 26px;
+    color: #666;
+    border: 1px solid #ABC;
+}
+.adjust-item .product-upgrade-operator span, .adjust-item .product-upgrade-operator i{
+    cursor: pointer;
+}
+
+.adjust-item .right-container .type{
+    width: 125px;
+    min-height: 20px;
+    float: left;
+    line-height: 20px;
+}
+
+.adjust-item .right-container .detail, .dialog-content .detail{
+    float: left;
+    width: 630px;
+}
+.adjust-item .right-container .detail{ overflow:hidden;}
+
+.adjust-item .right-container .detail .spot, .dialog-content .detail .spot{
+    width: 500px;
+    float: left;
+    line-height: 24px;
+}
+
+.adjust-item .right-container .detail .name, .dialog-content .detail .name{
+    font-size: 14px;
+    color: #09C;
+}
+.adjust-item .right-container .detail .name a, .dialog-content .detail .name a{
+    color: #09c;
+}
+
+.adjust-item .hotel-package-other, .adjust-item .package-other, .adjust-item .local-other, .adjust-item .upgrade-other, .adjust-item .optional-addition-other{
+    display: block !important;
+}
+.adjust-item .item-name a{
+    font-size: 14px;
+    color: #09c;
+}
+
+.adjust-product-item{
+    line-height: 26px;
+    padding: 10px 0 0;
+    border-bottom: 1px dashed #E3E3E3;
+}
+
+
+.hotel-item-name{
+    width: 150px;
+    float: left;
+}
+
+.hotel-item-capacity{
+    width: 90px;
+    float: left;
+}
+.hotel-item-number-of-beds{
+    width: 55px;
+    float: left;
+}
+.hotel-item-internet{
+    width: 90px;
+    float: left;
+}
+
+.hotel-item-price{
+    width: 75px;
+    float: left;
+}
+
+.hotel-item-quantity{
+    width: 110px;
+    float: left;
+}
+
+.hotel-item-quantity select{
+    width: 60px;
+}
+
+
+/* 交通相关开始 */
+.traffic-detail{
+    border: 1px solid #E3E3E3;
+    padding: 0 10px;
+    margin: 0 10px;
+    color: #666;
+}
+.traffic-detail-item{
+    padding: 15px 0;
+    border-bottom: 1px dashed #E3E3E3;
+    line-height: 14px;
+}
+.traffic-detail-item:last-child{
+    border: none;
+}
+.traffic-type-date{
+    width: 120px;
+}
+.traffic-logo{
+    width: 35px;
+}
+.traffic-no-company{
+    width: 115px;
+}
+.traffic-time-interval{
+    width: 95px;
+}
+.traffic-time-interval span{
+    color: #F60;
+    margin-left: 5px;
+}
+.traffic-station{
+    width: 150px;
+}
+.traffic-station .transport{
+    color: #999;
+    margin-left: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px dashed #999;
+}
+.traffic-border{
+    width: 215px;
+    border-top: 1px solid #E3E3E3;
+    margin: 3px 0 0 15px;
+    float: left;
+}
+.adjust-ticket-item-name{
+    width: 225px;
+    float: left;
+}
+.adjust-traffic-item-type{
+    width: 160px;
+    float: left;
+}
+.adjust-traffic-item-price{
+    width: 170px;
+    float: left;
+}
+.adjust-traffic-item-status{
+    width: 45px;
+    text-align: center;
+    float: right;
+}
+/* 交通相关结束 */
+
+
+/* 门票相关开始 */
+.ticket-item-name{
+    width: 230px;
+    float: left;
+}
+.ticket-item-expires{
+    width: 140px;
+    float: left;
+}
+.ticket-item-days{
+    width: 150px;
+    float: left;
+}
+.ticket-item-price{
+    width: 70px;
+    float: left;
+}
+
+.ticket-item-days{
+    width: 150px;
+    float: left;
+}
+.ticket-item-days select{
+    width: 110px;
+}
+.ticket-item-status{
+    width: 40px;
+    text-align: center;
+    float: right;
+}
+/* 门票相关结束 */
+
+/* 酒店套餐开始 */
+
+.hotel-package-item-name{
+    width: 360px;
+    float: left;
+}
+.hotel-package-item-quantity{
+    width: 115px;
+    float: left;
+}
+.hotel-package-item-quantity select{
+    width: 60px;
+}
+.hotel-package-item-price{
+    width: 70px;
+    float: left;
+}
+
+.hotel-package-item-status{
+    width: 45px;
+    text-align: center;
+    float: right;
+}
+
+/* 酒店套餐结束 */
+
+/* 套餐开始*/
+.package-item-name{
+    width: 360px;
+    float: left;
+}
+
+.package-item-quantity{
+    width: 115px;
+    float: left;
+}
+
+.package-item-quantity select{
+    width: 60px;
+}
+
+.package-item-price{
+    width: 65px;
+    float: left;
+}
+
+.package-item-status{
+    width: 45px;
+    text-align: center;
+    float: right;
+}
+
+/* 套餐结束*/
+
+/* 当地游开始 */
+
+.local-item-name{
+    width: 210px;
+    float: left;
+    font-size: 14px;
+}
+.local-item-name .toggle-detail{
+    color: #09c;
+    text-decoration: none;
+    cursor: auto;
+}
+.local-item-name a{
+    color: #09c;
+}
+.local-item-day{
+    width: 150px;
+    float: left;
+}
+
+.local-item-day select{
+    width: 110px;
+}
+
+.local-item-quantity{
+    width: 115px;
+    float: left;
+}
+
+.local-item-quantity select{
+    width: 60px;
+}
+
+.local-item-price{
+    width: 105px;
+    float: left;
+}
+
+.local-item-status{
+    width: 45px;
+    text-align: center;
+    float: right;
+}
+/* 当地游结束 */
+
+/* 升级服务开始*/
+.upgrade-item-name{
+    width: 360px;
+    float: left;
+}
+.upgrade-item-quantity{
+    width: 115px;
+    float: left;
+}
+.upgrade-item-quantity select{
+    width: 60px;
+}
+.upgrade-item-price{
+    width: 105px;
+    float: left;
+}
+
+.upgrade-item-status{
+    width: 45px;
+    text-align: center;
+    float: right;
+}
+.upgrade-item-status span{
+    color: #09c;
+    cursor: pointer;
+}
+/* 升级服务结束 */
+
+/* 可选服务开始 */
+
+.optional-addition-item-name, .optional-insurance-item-name{
+    float: left;
+    width: 135px;
+}
+.optional-addition-single-price, .optional-insurance-single-price{
+    float: left;
+    width: 230px;
+}
+.optional-addition-quantity, .optional-insurance-quantity{
+    float: left;
+    width: 110px;
+}
+.optional-addition-quantity select, .optional-insurance-quantity select{
+    width: 60px;
+}
+.optional-addition-total-price, .optional-insurance-total-price{
+    float: left;
+    width: 75px;
+    text-align: center;
+}
+.optional-item-status{
+    width: 45px;
+    text-align: center;
+    float: right;
+}
+
+.optional-item-status span{
+    color: #09c;
+    cursor: pointer;
+}
+
+.detail-ticket-item, .detail-insurance-item{
+    padding: 20px 0;
+    border-bottom: 1px solid #E3E3E3;
+}
+.optional-ticket-spot{
+    width: 630px;
+}
+.optional-ticket-name{
+    float: left;
+    margin-right: 20px;
+}
+.optional-score-level{
+    display: inline-block;
+    vertical-align: middle;
+    width: 70px;
+    height: 20px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat 0px -23px;
+}
+.optional-score-level i{
+    display: inline-block;
+    vertical-align: middle;
+    height: 20px;
+    background: url("http://pic.lvmama.com/img/line/product-detail-all.png") no-repeat 0px -44px;
+}
+
+.optional-ticket-item-name{
+    width: 135px;
+    float: left;
+}
+.optional-ticket-single-price{
+    width: 90px;
+    float: left;
+}
+.optional-ticket-day{
+    width: 140px;
+    float: left;
+}
+.optional-ticket-day select{
+    width: 110px;
+}
+
+.optional-ticket-quantity{
+    width: 110px;
+    float: left;
+}
+.optional-ticket-quantity select{
+    width: 60px;
+}
+.optional-ticket-total-price{
+    float: left;
+    width: 50px;
+}
+
+.detail-ticket-item:nth-last-child(1), .detail-insurance-item:nth-last-child(1){
+    padding-bottom: 0;
+    border: 0;
+}
+
+
+/* 可选服务结束 */
+
+
+.adjust-product-item-detail{
+    background: #FBFBFB;
+    margin-top: 13px;
+    padding: 10px;
+    display: none;
+    border: 1px solid #EEEEEE;
+    position: relative;
+}
+.adjust-product-item-detail .detail-title{
+    margin-right: 10px;
+	float:left;
+}
+.adjust-product-item-detail .content{ float:left; width:570px;}
+
+.adjust-product-item-detail .collapse-detail span{
+    float: right;
+    color: #09c;
+    cursor: pointer;
+}
+
+.adjust-item .other, .dialog-content .other{
+    display: none;
+}
+
+.insurance-detail-item .other{ border-top:#E3E3E3 dashed 1px;}
+
+.adjust-item .replace{
+    float: left;
+}
+
+/* 预定配置结束 */
+
+/* 产品详情几个预定义的样式 */
+.detail-layout-container{
+    width: 960px;
+    overflow: hidden;
+}
+.detail-layout .right{
+    float: right;
+}
+.detail-layout .mt{
+    margin-top: 23px;
+}
+.detail-layout .left{
+    float: left;
+}
+.detail-layout-1 img{
+    width: 948px;
+    height: 474px;
+}
+.detail-layout-2 img{
+    width: 948px;
+    height: 632px;
+}
+.detail-layout-3 img{
+    display: block;
+    width: 469px;
+    height: 313px;
+}
+.detail-layout-4 img{
+    display: block;
+    width: 469px;
+    height: 235px;
+}
+.detail-layout-5 img{
+    display: block;
+    float: left;
+    width: 308px;
+    height: 155px;
+    margin-right: 12px;
+}
+.detail-layout-6 img, .detail-layout-7 img{
+    display: block;
+    width: 297px;
+    height: 149px;
+    margin-right: 12px;
+}
+.detail-layout-6 .large, .detail-layout-7 .large{
+    width: 639px;
+    height: 321px;
+}
+.detail-layout-6 img{
+    float: left;
+}
+.detail-layout-7 img{
+    float: right;
+}
+.detail-layout-8 img{
+    display: block;
+    float: left;
+    width: 308px;
+    height: 206px;
+    margin-right: 12px;
+}
+.detail-layout-9 img, .detail-layout-10 img{
+    display: block;
+    width: 300px;
+    height: 200px;
+    margin-right: 12px;
+}
+.detail-layout-9 img{
+    float: left;
+}
+.detail-layout-10 img{
+    float: right;
+}
+.detail-layout-9 .large, .detail-layout-10 .large{
+    width: 636px;
+    height: 423px;
+}
+.detail-layout-11 img{
+    width: 223px;
+    height: 112px;
+    float: left;
+    margin-right: 17px;
+}
+.detail-layout-12 img{
+    width: 223px;
+    height: 149px;
+    float: left;
+    margin-right: 17px;
+}
+.show-hidden{
+    display: block !important;
+}
+
+/* 签证相关开始 */
+#product-visa{
+    font-size: 14px;
+}
+/* 签证相关结束 */
+
+/* 顶部图片切换效果开始 */
+.pika-textnav{
+    display: none;
+}
+.pika-stage{
+    padding: 0;
+    border: 0;
+}
+/* 顶部图片切换效果结束 */
+
+/* 百度地图相关开始 */
+.line-baidu-map{
+    height: 350px;
+}
+/* 百度地图相关结束 */
+
+/* 2014年11月04日新增产品预订交互开始 */
+.item-title{
+    font-size: 14px;
+    color: #09c;
+}
+/* 2014年11月04日新增产品预订交互结束 */
+
+
+/* 2014年11月07日 韩创新需求开始*/
+.abort-upgrade-action{
+    float: right;
+    line-height: 15px;
+    cursor: pointer;
+}
+.upgrade-item-status i{
+    float: left;
+}
+/* 2014年11月07日 韩创新需求结束*/
+
+/* 2014年11月09日 韩创新需求开始*/
+.insurance-detail-item{
+    margin:-1px 0 5px 0;
+	padding-top:5px;
+    border-top: 1px dashed #E3E3E3;
+}
+.insurance-detail-item .adjust-product-item{
+    border: none;
+}
+/* 2014年11月09日 韩创新需求开始*/
+
+.price_day{float: right;}
+.price_day select{ width:120px;}
+
+
+/*2015-3-26 机票弹出层扩展*/
+.plane_box{ width:800px; margin:0 auto; background:#fff;}
+.plane_tab{ padding-left:30px; height:26px; line-height:26px; border-bottom:#ddd solid 1px;}
+.plane_tab li{ float:left; margin-left:10px; display:inline; padding:0 20px; background:#eee;}
+.plane_tab li.active{ background:#fff; height:26px; border:#ddd solid 1px; border-bottom:none;}
+{ border:#ddd solid 1px;}
+
+.plane_list{ padding:10px 0;}
+.plane_list_qu,.plane_list_fan{ padding:0 0 10px;}
+.plane_search{ padding-bottom:8px; border:#ddd solid 1px;}
+.plane_search_tit{ margin-bottom:5px; border-bottom:#ddd solid 1px; height:40px; line-height:40px; padding:0 15px;}
+.plane_search_tit b{ margin-right:12px; font-size:14px; color:#666;}
+.plane_search_tit span{ color:#666;}
+.plane_search_tit .person_num {float:right; display:inline-block;}
+.plane_search_tit .person_num input {border:1px solid #ccc; padding:0; width:30px; line-height:20px; text-align:center;}
+.plane_kind{ padding:5px 0 5px 76px; font-size:12px; color:#333;/* border-bottom:#eee dashed 1px;*/ position:relative; z-index:3; overflow:hidden;}
+.plane_kind dt{ float:left; width:66px; margin-left:-76px; font-size:12px; font-weight:bold; text-align:right; color:#999;}
+.plane_kind dd{ float:left; position:relative; margin:0 0 5px 10px; display:inline;}
+.plane_kind dd.active{ color:#fff; background:#f90;}
+.plane_kind dd.active label{ color:#fff; }
+.plane_kind label{ display:inline-block; height:22px; line-height:22px; padding:0 6px; color:#333;}
+.plane_kind .check{ float:left; margin:5px 5px 0 0;}
+
+.plane_search_b{ padding:10px 0 20px;}
+.plane_search_b p{ color:#999;}
+.btn_yu,.btn_cha{ float:right; height:24px; line-height:24px; background:#fff; border:#ddd solid 1px; padding:0 10px; margin-left:20px; color:#333; cursor:pointer;}
+.btn.disable{background:#ccc; cursor:default;}
+.scroll_y{ overflow-y:scroll; height:215px; border:#ddd solid 1px;}
+.scroll_y .plane_table{ border:none;}
+.plane_table{ width:100%; border:#ddd solid 1px;}
+.qidi_box li{ float:left; text-align:center; line-height:18px; padding:0 5px;}
+.qidi_box li p{ width:80px; height:20px; border-bottom:#ddd solid 1px; position:relative;}
+.qidi_box li p span{ display:block; width:54px; text-align:center; position:absolute; left:50%; margin-left:-27px; top:11px; background:#fff; line-height:18px;}
+.qidi_box li p .qidi_zhuan{ color:#09c; cursor:pointer;}
+
+.plane_table th,.plane_table td{ padding:8px 5px;}
+.plane_table th{ border-bottom:#ddd solid 1px; color:#666; background:#f9f9f9;}
+.plane_table td{ color:#888; border-bottom:#ddd dashed 1px;}
+.plane_table td p{ line-height:18px; margin:0;}
+.plane_name,.plane_ban{ line-height:18px;}
+.plane_type{ color:#09c; cursor:pointer;}
+.plane_table .adjust-traffic-item-status{ float:none; width:auto;}
+.plane_table .c_red{ color:#F00;}
+.btn_cw{ display:inline-block; position:relative; padding-right:15px; line-height:18px; color:#09c; cursor:pointer;}
+.btn_cw i{ top:8px; border-color:#09c #fff #fff #fff;}
+.btn_up i{ top:5px; border-color:#fff #fff #09c #fff;}
+.btn_cw:hover{ color:#f60;}
+
+.plane_info{ line-height:18px;}
+.plane_info b{ margin-right:10px;}
+.plane_ok{ margin:10px 0;}
+
+.plane_type_box{ position:absolute; left:0; top:0; width:500px; border:#ddd solid 1px; background:#fff; display:none; z-index:99999;}
+.plane_type_box th{ font-weight:normal; background:#eee;}
+.plane_type_box td,.plane_type_box th{ padding:5px; border:#ddd solid 1px; text-align:center;}
+.poptip{ z-index:9999;}
+
+.transport_hide{display:none;}
+
+
+
+
+
+
+

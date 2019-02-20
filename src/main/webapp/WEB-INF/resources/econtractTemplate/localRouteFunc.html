@@ -1,0 +1,25 @@
+<#macro addSpace str="" len=-1>
+   <#if str !="null">
+            <#assign str_replace = str?replace("<br/>"," ")>
+            <#assign total_length = str_replace?length>
+            <#assign count = total_length/len>
+            <#assign spaceStart="<p>">
+            <#assign spaceEnd="</p>">
+            
+            <#if total_length%len gt 0>
+                 <#assign count=count+1>
+            </#if>
+            <#assign start=0>
+            <#assign end=0>
+            <#list 1..count as c>
+                 <#assign end=end+len>
+                 <#if end gt total_length>
+    	              <#assign end=total_length/>
+                 </#if>
+	             ${spaceStart} ${str_replace?substring(start,end)} ${spaceEnd}
+	             <#assign start=end>
+           </#list>
+        
+         
+   </#if>
+</#macro>

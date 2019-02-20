@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<!-- 数据源配置,使用应用内的DBCP数据库连接池 -->
+	<bean id="defaultDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<property name="maxActive">
+			<value>${jdbc.maxActive}</value>
+		</property>
+		<property name="maxWait">
+			<value>${jdbc.maxWait}</value>
+		</property>
+		<property name="maxIdle">
+			<value>${jdbc.maxIdle}</value>
+		</property>
+		<property name="initialSize">
+			<value>${jdbc.initSize}</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="testWhileIdle">
+			<value>true</value>
+		</property>
+		<property name="testOnBorrow">
+			<value>false</value>
+		</property>
+		<property name="validationQuery">
+			<value>SELECT 1 FROM SYS.DUAL</value>
+		</property>
+		<property name="connectionProperties">
+			<value>clientEncoding=UTF-8;serverEncoding=GBK;</value>
+		</property>
+	</bean>
+	<!-- 只读数据源配置 -->
+	<bean id="readOnlyDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.readonly.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.readonly.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.readonly.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.readonly.password}</value>
+		</property>
+		<property name="maxActive">
+			<value>${jdbc.readonly.maxActive}</value>
+		</property>
+		<property name="maxWait">
+			<value>${jdbc.readonly.maxWait}</value>
+		</property>
+		<property name="maxIdle">
+			<value>${jdbc.readonly.maxIdle}</value>
+		</property>
+		<property name="initialSize">
+			<value>${jdbc.readonly.initSize}</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="testWhileIdle">
+			<value>true</value>
+		</property>
+		<property name="testOnBorrow">
+			<value>false</value>
+		</property>
+		<property name="validationQuery">
+			<value>SELECT 1 FROM SYS.DUAL</value>
+		</property>
+		<property name="connectionProperties">
+			<value>clientEncoding=UTF-8;serverEncoding=GBK;</value>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="com.lvmama.hold.DynamicDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry value-ref="defaultDataSource" key="defaultDataSource" />
+				<entry value-ref="readOnlyDataSource" key="readOnlyDataSource" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="defaultDataSource" />
+	</bean>
+	
+	<!-- Oracle数据源配置,使用应用内的DBCP数据库连接池 -->
+	<bean id="oraDefaultDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.ora.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.ora.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.ora.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.ora.password}</value>
+		</property>
+		<property name="maxActive">
+			<value>${jdbc.ora.maxActive}</value>
+		</property>
+		<property name="maxWait">
+			<value>${jdbc.ora.maxWait}</value>
+		</property>
+		<property name="maxIdle">
+			<value>${jdbc.ora.maxIdle}</value>
+		</property>
+		<property name="initialSize">
+			<value>${jdbc.ora.initSize}</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="testWhileIdle">
+			<value>true</value>
+		</property>
+		<property name="testOnBorrow">
+			<value>false</value>
+		</property>
+		<property name="validationQuery">
+			<value>SELECT 1 FROM SYS.DUAL</value>
+		</property>
+		<property name="connectionProperties">
+			<value>clientEncoding=UTF-8;serverEncoding=GBK;</value>
+		</property>
+	</bean>
+	<!-- 只读数据源配置 -->
+	<bean id="oraReadOnlyDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.ora.readonly.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.ora.readonly.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.ora.readonly.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.ora.readonly.password}</value>
+		</property>
+		<property name="maxActive">
+			<value>${jdbc.ora.readonly.maxActive}</value>
+		</property>
+		<property name="maxWait">
+			<value>${jdbc.ora.readonly.maxWait}</value>
+		</property>
+		<property name="maxIdle">
+			<value>${jdbc.ora.readonly.maxIdle}</value>
+		</property>
+		<property name="initialSize">
+			<value>${jdbc.ora.readonly.initSize}</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="testWhileIdle">
+			<value>true</value>
+		</property>
+		<property name="testOnBorrow">
+			<value>false</value>
+		</property>
+		<property name="validationQuery">
+			<value>SELECT 1 FROM SYS.DUAL</value>
+		</property>
+		<property name="connectionProperties">
+			<value>clientEncoding=UTF-8;serverEncoding=GBK;</value>
+		</property>
+	</bean>
+	
+	<bean id="oraDataSource" class="com.lvmama.hold.DynamicDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry value-ref="oraDefaultDataSource" key="defaultDataSource" />
+				<entry value-ref="oraReadOnlyDataSource" key="readOnlyDataSource" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="oraDefaultDataSource" />
+	</bean>
+	
+	<!-- Transaction manager for a single JDBC DataSource -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:sqlmap-config.xml" />
+		<property name="mapperLocations">
+			<value>classpath*:com/lvmama/vst/**/map/*.xml</value>
+		</property>
+		<!-- <property name="plugins"> <list> <value>com.lvmama.vst.comm.mybatis.PaginationInterceptor</value> 
+			</list> </property> -->
+	</bean>
+
+	<bean id="oraSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="oraDataSource" />
+		<property name="mapperLocations">
+				<value>classpath*:com/lvmama/vst/**/map/**/*.xml</value>
+		</property>		
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- 连接事务的注解配置 -->
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<bean id="txInterceptor" class="com.lvmama.vst.comm.mybatis.VstOrderTransactionInterceptor">
+		<!--主从复制时间 -->
+		<property name="dbSyncSecond" value="${DB_SYNC_SECOND}" />
+		<!-- 强制从主库中取数据 -->
+		<property name="checkWriteInReadonly" value="${checkWriteInReadonly}" />
+		<property name="dataSourceHoldEnabled" value="${datasource.hold.enabled}" />
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="save*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="update*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="create*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+
+			</props>
+		</property>
+	</bean>
+
+	<!-- <bean id="autoProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" /> -->
+
+    <bean id="aspectJExpressionPointcutAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<ref bean="txInterceptor" />
+		</property>
+		<property name="expression">
+			<value><![CDATA[execution(* com.lvmama..*.*ServiceImpl.*(..)) && @within(org.springframework.stereotype.Service) && 
+			(@annotation(com.lvmama.annotation.ReadOnlyDataSource) || execution(* create*(..)) || execution(* check*(..)) || execution(* delete*(..)) || execution(* update*(..)) || execution(* save*(..)))
+			&& !@annotation(org.springframework.transaction.annotation.Transactional)
+			]]></value>
+		</property>
+	</bean>
+	
+
+</beans>

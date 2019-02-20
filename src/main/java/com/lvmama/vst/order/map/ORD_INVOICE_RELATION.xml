@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_INVOICE_RELATION" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdInvoiceRelation" >
+    <id column="INVOICE_RELATION_ID" property="invoiceRelationId" jdbcType="DECIMAL" />
+    <result column="ORD_INVOICE_ID" property="ordInvoiceId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    INVOICE_RELATION_ID, ORD_INVOICE_ID, ORDER_ID, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_INVOICE_RELATION
+    where INVOICE_RELATION_ID = #{invoiceRelationId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="getListByParam" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_INVOICE_RELATION
+    <if test="ordInvoiceId != null" >
+      where ORD_INVOICE_ID = #{ordInvoiceId,jdbcType=DECIMAL}
+    </if>
+    <if test="orderId != null" >
+       where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_INVOICE_RELATION
+    where INVOICE_RELATION_ID = #{invoiceRelationId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdInvoiceRelation" >
+    <selectKey resultType="java.lang.Long" keyProperty="invoiceRelationId" order="BEFORE" >
+      select SEQ_ORD_INVOICE_RELATION_ID.nextval from dual
+    </selectKey>
+    insert into ORD_INVOICE_RELATION (INVOICE_RELATION_ID, ORD_INVOICE_ID, 
+      ORDER_ID)
+    values (#{invoiceRelationId,jdbcType=DECIMAL}, #{ordInvoiceId,jdbcType=DECIMAL}, 
+      #{orderId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdInvoiceRelation" >
+    <selectKey resultType="java.lang.Long" keyProperty="invoiceRelationId" order="BEFORE" >
+      select SEQ_ORD_INVOICE_RELATION_ID.nextval from dual
+    </selectKey>
+    insert into ORD_INVOICE_RELATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      INVOICE_RELATION_ID,
+      <if test="ordInvoiceId != null" >
+        ORD_INVOICE_ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{invoiceRelationId,jdbcType=DECIMAL},
+      <if test="ordInvoiceId != null" >
+        #{ordInvoiceId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdInvoiceRelation" >
+    update ORD_INVOICE_RELATION
+    <set >
+      <if test="ordInvoiceId != null" >
+        ORD_INVOICE_ID = #{ordInvoiceId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where INVOICE_RELATION_ID = #{invoiceRelationId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdInvoiceRelation" >
+    update ORD_INVOICE_RELATION
+    set ORD_INVOICE_ID = #{ordInvoiceId,jdbcType=DECIMAL},
+      ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where INVOICE_RELATION_ID = #{invoiceRelationId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectInvoiceCountByOrderId" resultType="java.lang.Long"  parameterType="java.lang.Long">  
+	    select count(*) from ORD_INVOICE_RELATION ir,ord_invoice oi
+			where ir.ord_invoice_id = oi.ord_invoice_id
+			  and ir.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+			  and oi.status not in('CANCEL','RED')		  
+	</select>
+  
+  
+</mapper>

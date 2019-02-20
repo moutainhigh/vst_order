@@ -1,0 +1,23 @@
+﻿.calendar-wrap{position:absolute;z-index:999;overflow:hidden;width:363px;_height:186px;background:#fff;border:1px solid #ccc;box-shadow:0 3px 5px #ccc;font-size:12px;font-family:Verdana,Geneva,sans-serif;padding:5px 5px 0}
+.calendar-month{float:left;padding-bottom:5px;text-align:center}
+.calendar-title{background-color:#d17;color:#fff;font-weight:bold;height:23px;line-height:23px;text-align:center}
+.month-prev{float:left;cursor:pointer;height:18px;width:19px;margin:2px 0 0 5px;background:url(/vst_order/img/prev.png) no-repeat}
+.month-next{float:right;cursor:pointer;height:18px;width:19px;margin:2px 5px 0 0;background:url(/vst_order/img/next.png) no-repeat}
+.calendar-day{margin:0;overflow:hidden;padding-top:5px}
+.calendar-month .weekend{color:#f90;font-weight:bold}
+.calendar-month dt{background-color:#ececec;color:#666;float:left;height:22px;line-height:20px;margin-bottom:2px;width:25px}
+.calendar-day dd{margin:0;padding:0}
+.calendar-day .day-over,.calendar-day .day-no{color:#dbdbdb;cursor:default;font-weight:normal;outline:medium none}
+.calendar-day a{background-color:#fff;color:#005ead;cursor:pointer;float:left;font-size:11px;height:21px;line-height:21px;margin-bottom:1px;padding-right:1px;width:24px;text-decoration:none}
+.calendar-day .day-no:hover{background-color:#fff}
+.calendar-day a:hover{background-color:#ffe9f8;color:#005EAD}
+.calendar-day .day{background:#fc6;color:#005EAD}
+.calendar-day .day-hover{background:#f9b2e1;color:#fff}
+#calendar0{width:180px}
+#calendar1{width:183px}
+#calendar1 dl{border-left:2px solid #aaa;margin-bottom:-30px;padding-bottom:30px;padding-left:5px}
+.calendar-day .today{background-color:#fff5d1;background-position:0 -82px}
+.calendar-day .day-over,.calendar-day .day-no{color:#dbdbdb;cursor:default;font-weight:normal;outline:medium none}
+.calendar-day .day-over:hover,.calendar-day .day-no:hover{background:#fff;color:#dbdbdb}
+.calendar-day .day-selected{background:#d17;color:#fff}
+.calendar-day .day-selected:hover{background-color:#d17;color:#fff}

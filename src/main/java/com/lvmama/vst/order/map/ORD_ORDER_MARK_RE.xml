@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_MARK_RE">
+    <resultMap id="BaseResultMap" type="com.lvmama.vst.order.vo.OrdOrderMarkVo">
+        <id column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL"/>
+        <result column="DISTRIBUTOR_ID" property="distributorId" jdbcType="DECIMAL" />
+        <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+        <result column="INFO_STATUS" property="infoStatus" jdbcType="VARCHAR" />
+        <result column="RESOURCE_STATUS" property="resourceStatus" jdbcType="VARCHAR" />
+        <result column="PAYMENT_STATUS" property="paymentStatus" jdbcType="VARCHAR" />
+        <result column="CERT_CONFIRM_STATUS" property="certConfirmStatus" jdbcType="VARCHAR" />
+        <result column="NOTICE_REGIMENT_STATUS" property="noticeRegimentStatus" jdbcType="VARCHAR" />
+        <result column="PAYMENT_TARGET" property="paymentTarget" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+        <result column="BU_CODE" property="buCode" jdbcType="VARCHAR" />
+        <result column="GUARANTEE" property="guarantee" jdbcType="VARCHAR" />
+        <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+        <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+        <result column="MARK_FLAG" property="markFlag" jdbcType="INTEGER" />
+    </resultMap>
+    
+    <select id="findOrdOrderMarkResByParams" resultMap="BaseResultMap" parameterType="java.util.Map">
+        <include refid="basic.pageSearchHead" />
+			select 
+				   t.ORDER_ID,
+			       t.category_id,
+			       t.distributor_id,
+			       t.guarantee,
+			       (select p.product_name from ord_order_pack p where p.order_id=t.order_id and rownum =1) PRODUCT_NAME,
+			       t.payment_target,
+			       '1' buy_count,
+			       t.create_time,
+			       t.visit_time,
+			       (select f.full_name from ORD_PERSON f where t.ORDER_ID = f.OBJECT_ID and f.OBJECT_TYPE = 'ORDER' and f.PERSON_TYPE = 'CONTACT'  and rownum =1) contact_name,
+			       '' current_status,
+			       t.bu_code,
+			       t.ORDER_STATUS,
+			       t.INFO_STATUS,
+			       t.RESOURCE_STATUS,
+			       t.PAYMENT_STATUS,
+			       t.CERT_CONFIRM_STATUS,
+			       (select d.status from ORD_ADDITION_STATUS d where d.ORDER_ID = t.ORDER_ID and d.status_type = 'NOTICE_REGIMENT_STATUS'  and rownum =1) NOTICE_REGIMENT_STATUS,			
+				   mark.MARK_FLAG 
+				from (
+						select distinct ord.*
+						  from ord_order ord
+						    <if test="managerId != null">
+							  	, ord_order_item ooi
+			        		</if>
+						 where 1 = 1
+						<include refid="Base_Select_Condition_List" />
+					) t 
+				left join ORD_ORDER_MARK mark on t.ORDER_ID = mark.ORDER_ID
+					where 1=1 
+			        <if test="markFlag != null">
+			            and nvl(mark.MARK_FLAG,2) = #{markFlag}
+			        </if>			
+        <include refid="basic.pageSearchFoot" />
+    </select>    
+    
+    <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+			select count(1) from (select 
+									distinct ord.*
+			  					   from ord_order ord
+									    <if test="managerId != null">
+										  	, ord_order_item ooi
+						        		</if>
+									 		where 1 = 1
+											<include refid="Base_Select_Condition_List" />
+								) t 
+								left join ORD_ORDER_MARK mark on t.ORDER_ID = mark.ORDER_ID
+									where 1=1 
+								    <if test="markFlag != null">
+								       and nvl(mark.MARK_FLAG,2) = #{markFlag}
+								    </if>	     
+    </select>    
+
+    <sql id="Base_Select_Condition_List">
+        <if test="orderId != null">
+            and ord.ORDER_ID = #{orderId}
+        </if>
+        <if test="createTimeBegin != null and createTimeBegin != ''">
+            and ord.CREATE_TIME &gt;= #{createTimeBegin}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != ''">
+            and ord.CREATE_TIME &lt;= #{createTimeEnd}
+        </if>
+        <if test="managerId != null">
+        	and ord.order_id = ooi.order_id 
+        	and (ord.manager_id = #{managerId} or ooi.manager_id = #{managerId})
+        </if>
+        <if test="orderStatus != null and orderStatus != ''">
+            and ord.ORDER_STATUS = #{orderStatus}
+        </if>
+        <if test="paymentStatus != null and paymentStatus != ''">
+            and ord.PAYMENT_STATUS = #{paymentStatus}
+        </if>
+    </sql>
+
+</mapper>

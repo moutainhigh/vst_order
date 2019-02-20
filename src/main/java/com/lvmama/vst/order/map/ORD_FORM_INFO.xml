@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ORD_FORM_INFO">
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdFormInfo">
+    <id column="ORD_FORM_INFO_ID" jdbcType="DECIMAL" property="ordFormInfoId" />
+    <result column="ORDER_ID" jdbcType="DECIMAL" property="orderId" />
+    <result column="ORDER_ITEM_ID" jdbcType="DECIMAL" property="orderItemId" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="CONTENT_TYPE" jdbcType="VARCHAR" property="contentType" />
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ORD_FORM_INFO_ID, ORDER_ID, ORDER_ITEM_ID, CONTENT, CONTENT_TYPE, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_FORM_INFO
+    where ORD_FORM_INFO_ID = #{ordFormInfoId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ORD_FORM_INFO
+    where ORD_FORM_INFO_ID = #{ordFormInfoId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdTicketPerform">
+    <selectKey keyProperty="ordFormInfoId" order="BEFORE" resultType="java.lang.Long">
+      select seq_ord_form_info_id.nextval from dual
+    </selectKey>
+    insert into ORD_FORM_INFO (ORD_FORM_INFO_ID, ORDER_ID, ORDER_ITEM_ID, CONTENT, 
+      CONTENT_TYPE)
+    values (#{ordFormInfoId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}, 
+      #{contentType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdTicketPerform">
+    <selectKey keyProperty="ordFormInfoId" order="BEFORE" resultType="java.lang.Long">
+      select seq_ord_form_info_id.nextval from dual
+    </selectKey>
+    insert into ORD_FORM_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      ORD_FORM_INFO_ID,
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="orderItemId != null">
+        ORDER_ITEM_ID,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="contentType != null">
+        CONTENT_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{ordFormInfoId,jdbcType=DECIMAL},
+      <if test="orderId != null">
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderItemId != null">
+        #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null">
+        #{contentType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdTicketPerform">
+    update ORD_FORM_INFO
+    <set>
+      <if test="orderItemId != null">
+        ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null">
+        CONTENT_TYPE = #{contentType,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORD_FORM_INFO_ID = #{ordFormInfoId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdTicketPerform">
+    update ORD_FORM_INFO
+    set ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      CONTENT_TYPE = #{contentType,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate
+    where ORD_FORM_INFO_ID = #{ordFormInfoId,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateContentByPrimaryKey" parameterType="java.util.Map">
+    merge into ORD_FORM_INFO t
+		 using dual
+		 on (t.ORDER_ID = #{orderId,jdbcType=DECIMAL} and CONTENT_TYPE = #{contentType,jdbcType=VARCHAR})
+		 When not matched then
+		 	insert (ORD_FORM_INFO_ID, ORDER_ID, CONTENT, CONTENT_TYPE)
+		   	values (seq_ord_form_info_id.nextval, #{orderId,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR})
+		 When matched then
+		   update set t.CONTENT = #{content,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select 
+	    <include refid="Base_Column_List" />
+	    from ORD_FORM_INFO where 1=1 
+		<include refid="Base_Query_Column_List" />	
+   </select>
+   
+   <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_FORM_INFO 
+	     where 1=1  
+			<include refid="Base_Query_Column_List" />
+	</select>
+	
+   <sql id="Base_Query_Column_List" >
+   	  <if test="orderId != null">
+       and   ORDER_ID = #{orderId}
+      </if>
+     <if test="orderItemId != null">
+       and   ORDER_ITEM_ID = #{orderItemId}
+      </if>
+      <if test="content != null">
+        and  CONTENT = #{content}
+      </if>
+      <if test="contentType != null">
+       and   CONTENT_TYPE = #{contentType}
+      </if>
+  </sql>
+</mapper>

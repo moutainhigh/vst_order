@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_MARK">
+    <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderMark">
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="MARK_FLAG" property="markFlag" jdbcType="INTEGER" />
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+
+    <insert id="saveOrdOrderMark" parameterType="com.lvmama.vst.back.order.po.OrdOrderMark">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE">
+            select
+            SEQ_ORD_ORDER_MARK.nextval as id from dual
+        </selectKey>
+        insert into ORD_ORDER_MARK
+        (ID, ORDER_ID, MARK_FLAG)
+        values
+        (#{id,jdbcType=DECIMAL},
+        #{orderId,jdbcType=DECIMAL},
+        #{markFlag,jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateOrdOrderMark" parameterType="com.lvmama.vst.back.order.po.OrdOrderMark">
+        update
+        ORD_ORDER_MARK
+        set
+        MARK_FLAG = #{markFlag,jdbcType=INTEGER},
+        UPDATE_TIME = sysdate
+        where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </update>
+    
+    <select id="findOrdOrderMarkByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        ID, ORDER_ID, MARK_FLAG,UPDATE_TIME
+        from ORD_ORDER_MARK
+        where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </select>
+
+</mapper>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORDER_APPORTION_DEPOT" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrderApportionDepot" >
+    <id column="ORDER_APPORTION_ID" property="orderApportionId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="APPORTION_STATUS" property="apportionStatus" jdbcType="VARCHAR" />
+    <result column="APPORTION_MESSAGE" property="apportionMessage" jdbcType="VARCHAR" />
+    <result column="APPORTION_ORIGIN" property="apportionOrigin" jdbcType="VARCHAR" />
+    <result column="VALID_FLAG" property="validFlag" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    *
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from ORDER_APPORTION_DEPOT
+    where ORDER_APPORTION_ID = #{orderApportionId,jdbcType=DECIMAL}
+  </select>
+
+  <!--查询参数-->
+  <sql id="Base_Query_Column_List" >
+    <if test="orderId != null">
+    AND ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </if>
+    <if test="orderIdList != null">
+      AND ORDER_ID IN
+      <foreach collection="orderIdList" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="waitTime">
+      AND create_time &lt;= sysdate - #{waitTime,jdbcType=DECIMAL}/60/24
+    </if>
+  </sql>
+
+  <sql id="select_by_param" >
+    select *
+    from ORDER_APPORTION_DEPOT
+    where VALID_FLAG = 'Y'
+    <include refid="Base_Query_Column_List" />
+  </sql>
+
+  <!--分页查询-->
+  <select id="queryListByParam" resultMap="BaseResultMap" parameterType="java.util.Map">
+    <include refid="basic.pageSearchHead"/>
+    <include refid="select_by_param"/>
+    <include refid="basic.pageSearchFoot"/>
+  </select>
+
+  <!--查询记录总数-->
+  <select id="getRecordCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    SELECT COUNT(*) FROM ORDER_APPORTION_DEPOT
+    WHERE VALID_FLAG = 'Y'
+    <include refid="Base_Query_Column_List" />
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORDER_APPORTION_DEPOT
+    where ORDER_APPORTION_ID = #{orderApportionId,jdbcType=DECIMAL}
+  </delete>
+
+  <!--根据订单号删除记录-->
+  <delete id="deleteByOrderId" parameterType="java.lang.Long" >
+    delete from ORDER_APPORTION_DEPOT
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </delete>
+
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrderApportionDepot" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderApportionId" order="BEFORE" >
+      select SEQ_ORDER_APPORTION_DEPOT.nextval from dual
+    </selectKey>
+    insert into ORDER_APPORTION_DEPOT (ORDER_APPORTION_ID, ORDER_ID, APPORTION_STATUS, APPORTION_MESSAGE,
+    APPORTION_ORIGIN,VALID_FLAG, CREATE_TIME, UPDATE_TIME
+    )
+    values (#{orderApportionId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{apportionStatus,jdbcType=VARCHAR}, #{apportionMessage,jdbcType=VARCHAR},
+    #{apportionOrigin,jdbcType=VARCHAR}, #{validFlag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrderApportionDepot" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderApportionId" order="BEFORE" >
+      select SEQ_ORDER_APPORTION_DEPOT.nextval from dual
+    </selectKey>
+    insert into ORDER_APPORTION_DEPOT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORDER_APPORTION_ID,
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="apportionStatus != null" >
+        APPORTION_STATUS,
+      </if>
+      <if test="apportionMessage != null" >
+        APPORTION_MESSAGE,
+      </if>
+      <if test="apportionOrigin != null" >
+        APPORTION_ORIGIN,
+      </if>
+      <if test="validFlag != null" >
+        VALID_FLAG,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{orderApportionId,jdbcType=DECIMAL},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="apportionStatus != null" >
+        #{apportionStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="apportionMessage != null" >
+        #{apportionMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="apportionOrigin != null" >
+        #{apportionOrigin,jdbcType=VARCHAR},
+      </if>
+      <if test="validFlag != null" >
+        #{validFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrderApportionDepot" >
+    update ORDER_APPORTION_DEPOT
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="apportionStatus != null" >
+        APPORTION_STATUS = #{apportionStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="apportionMessage != null" >
+        APPORTION_MESSAGE = #{apportionMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="validFlag != null" >
+        VALID_FLAG = #{validFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ORDER_APPORTION_ID = #{orderApportionId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrderApportionDepot" >
+    update ORDER_APPORTION_DEPOT
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+    APPORTION_STATUS = #{apportionStatus,jdbcType=VARCHAR},
+    APPORTION_MESSAGE = #{apportionMessage,jdbcType=VARCHAR},
+    VALID_FLAG = #{validFlag,jdbcType=VARCHAR},
+    CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+    UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ORDER_APPORTION_ID = #{orderApportionId,jdbcType=DECIMAL}
+  </update>
+
+  <!--批量更新记录-->
+  <update id="updateOrderApportionDepotList" parameterType="com.lvmama.vst.order.vo.OrderApportionDepotUpdateVO">
+    update ORDER_APPORTION_DEPOT
+    <set >
+      <if test="apportionStatus != null" >
+        APPORTION_STATUS = #{apportionStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="apportionMessage != null" >
+        APPORTION_MESSAGE = #{apportionMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="validFlag != null" >
+        VALID_FLAG = #{validFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where valid_flag = 'Y'
+    <include refid="Ids_Query_Column_List"/>
+  </update>
+
+  <!--根据各种id来筛选记录的语句-->
+  <sql id="Ids_Query_Column_List">
+    <if test="orderId != null">
+      AND ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </if>
+    <if test="orderIdList != null">
+      AND ORDER_ID IN
+      <foreach collection="orderIdList" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="orderApportionId != null">
+      AND ORDER_APPORTION_ID = #{orderApportionId,jdbcType=DECIMAL}
+    </if>
+    <if test="orderApportionIdList != null">
+      AND ORDER_APPORTION_ID IN
+      <foreach collection="orderApportionIdList" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </sql>
+
+  <!--移除分摊好的订单-->
+  <delete id="batchDeleteByPrimaryKey" parameterType="java.util.List">
+    DELETE from ORDER_APPORTION_DEPOT
+    where VALID_FLAG = 'Y'
+    <if test="orderApportionIdList != null">
+      AND ORDER_APPORTION_ID IN
+      <foreach collection="orderApportionIdList" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+
+  <!--删除分摊信息-->
+  <update id="clearApportionMessage" parameterType="com.lvmama.vst.order.vo.OrderApportionDepotUpdateVO">
+    UPDATE ORDER_APPORTION_DEPOT depot
+    <set>
+      APPORTION_MESSAGE = null
+    </set>
+    WHERE depot.valid_flag = 'Y'
+    <include refid="Ids_Query_Column_List"/>
+  </update>
+
+  <!--根据订单号查询分摊记录-->
+  <select id="queryApportionByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM ORDER_APPORTION_DEPOT
+    WHERE valid_flag = 'Y' AND ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </select>
+
+  <!-- 批量更新下单项分摊完成的数据 -->
+  <update id="batchUpdateApportionDeportCreateEnd" parameterType="com.lvmama.vst.order.vo.OrderApportionDepotUpdateVO">
+    update ORDER_APPORTION_DEPOT
+    <set>
+      APPORTION_STATUS = #{apportionStatus,jdbcType=VARCHAR},
+      APPORTION_MESSAGE = #{apportionMessage,jdbcType=VARCHAR},
+      APPORTION_ORIGIN = #{apportionOrigin,jdbcType=VARCHAR},
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    where VALID_FLAG = 'Y'
+    <include refid="Ids_Query_Column_List"/>
+  </update>
+
+</mapper>

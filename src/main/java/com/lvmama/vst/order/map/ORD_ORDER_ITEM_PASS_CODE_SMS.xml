@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- Created by yangzhenzhong 2015/8/31 -->
+<mapper namespace="ORD_ORDER_ITEM_PASS_CODE_SMS" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderItemPassCodeSMS" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PASS_CODE_ID" property="passCodeId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+ 
+  <sql id="Base_Column_List" >
+     ID,PASS_CODE_ID, ORDER_ID,STATUS, CREATE_TIME, UPDATE_TIME
+  </sql>
+  
+  <update id="updateStatusByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdOrderItemPassCodeSMS">
+  	update ORD_ORDER_ITEM_PASS_CODE_SMS set STATUS='N', UPDATE_TIME=SYSDATE where ID=#{id,jdbcType=DECIMAL} and STATUS='Y'
+  </update>
+  
+  <update id="updateStatusByOrderId" parameterType="com.lvmama.vst.back.order.po.OrdOrderItemPassCodeSMS">
+  	update ORD_ORDER_ITEM_PASS_CODE_SMS set STATUS='N', UPDATE_TIME=#{updateTime,jdbcType=TIMESTAMP} where ORDER_ID=#{orderId,jdbcType=DECIMAL} and STATUS='Y'
+   </update>
+  
+  <select id="selectByStatus" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_ITEM_PASS_CODE_SMS
+    where STATUS = #{status,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectYesterdayByStatus" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select t2.ID,t2.PASS_CODE_ID,t2.ORDER_ID,t2.STATUS, t2.CREATE_TIME, t2.UPDATE_TIME
+    from ORD_ORDER_ITEM_PASS_CODE_SMS t1,ORD_ORDER_ITEM_PASS_CODE_SMS t2
+    where TRUNC(SYSDATE)-TRUNC(t1.CREATE_TIME)=1 and t1.PASS_CODE_ID=0 and t1.status='N' and t1.ORDER_ID=t2.ORDER_ID and t2.STATUS = #{status,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByOrderIdToday" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_ITEM_PASS_CODE_SMS
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL} and STATUS = 'Y' and TRUNC(SYSDATE)-TRUNC(CREATE_TIME)=0
+  </select>
+  
+  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_ITEM_PASS_CODE_SMS
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL} and STATUS = 'Y' 
+  </select>
+  
+   <select id="selectByOrderIdPassCodeId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_ITEM_PASS_CODE_SMS
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL} and PASS_CODE_ID = #{passCodeId,jdbcType=DECIMAL}  and STATUS = 'Y'
+  </select>
+  
+
+  
+  <select id="selectCountOfFlagData" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select count(1)
+    from ORD_ORDER_ITEM_PASS_CODE_SMS
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL} and PASS_CODE_ID = 0  and STATUS = 'N'
+  </select>
+  
+  <select id="selectSmsId" resultType="java.lang.Long">
+	    select SEQ_ORD_PASS_CODE_SMS_ID.currval from dual
+	</select>
+	
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderItemPassCodeSMS" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_ORD_PASS_CODE_SMS_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_ITEM_PASS_CODE_SMS (ID,PASS_CODE_ID,ORDER_ID,STATUS,CREATE_TIME,UPDATE_TIME)
+    values (#{id,jdbcType=DECIMAL}, #{passCodeId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL},#{status,jdbcType=VARCHAR},
+    		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+</mapper>

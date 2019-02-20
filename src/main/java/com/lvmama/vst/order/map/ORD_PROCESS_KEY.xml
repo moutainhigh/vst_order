@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_PROCESS_KEY">
+	<resultMap id="BaseResultMap"
+		type="com.lvmama.vst.back.order.po.OrdProcessKey">
+		<id column="ORD_PROCESS_KEY_ID" property="ordProcessKeyId" jdbcType="DECIMAL" />
+		<result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+		<result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+		<result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+		<result column="KEY_VALUE" property="keyValue" jdbcType="VARCHAR" />
+		<result column="KEY_TYPE" property="keyType" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="DECIMAL" />
+		<result column="VALID" property="valid" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="EXT_OBJ" property="extObj" jdbcType="VARCHAR" />
+		<result column="EXT_OBJ2" property="extObj2" jdbcType="VARCHAR" />
+		<result column="EXT_OBJ3" property="extObj3" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ORD_PROCESS_KEY_ID,ORDER_ID,OBJECT_ID,OBJECT_TYPE,KEY_VALUE,KEY_TYPE,STATUS,VALID,CREATE_TIME,UPDATE_TIME,EXT_OBJ,EXT_OBJ2,EXT_OBJ3
+	</sql>
+	
+	<sql id="Base_Query_Column_List">
+		<if test="ordProcessKeyId != null">
+			and ORD_PROCESS_KEY_ID = #{ordProcessKeyId}
+		</if>
+		<if test="orderId != null">
+			and ORDER_ID = #{orderId}
+		</if>
+		<if test="objectId != null">
+			and OBJECT_ID = #{objectId}
+		</if>
+		<if test="objectIdList != null and objectIdList.size > 0">
+		    and OBJECT_ID IN
+		    <foreach collection="objectIdList" index="index" item="item"
+		     open="(" separator="," close=")">
+		     #{item}
+		    </foreach>
+	    </if>
+		<if test="objectType != null">
+			and OBJECT_TYPE = #{objectType}
+		</if>
+		<if test="keyValue != null">
+			and KEY_VALUE = #{keyValue}
+		</if>
+		<if test="keyType != null">
+			and KEY_TYPE = #{keyType}
+		</if>
+		<if test="status != null">
+			and STATUS = #{status}
+		</if>
+		<if test="valid != null">
+			and VALID = #{valid}
+		</if>
+	</sql>
+	
+	<sql id="select_by_param">
+		select *
+		from ORD_PROCESS_KEY
+		where 1=1
+		<include refid="Base_Query_Column_List" />
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from ORD_PROCESS_KEY
+		where ORD_PROCESS_KEY_ID = #{ordProcessKeyId,jdbcType=DECIMAL}
+	</select>
+	
+	<select id="query" parameterType="com.lvmama.vst.back.order.po.OrdProcessKey" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from ORD_PROCESS_KEY
+		where 1=1
+		<if test="ordProcessKeyId != null">
+			and ORD_PROCESS_KEY_ID =
+			#{ordProcessKeyId,jdbcType=DECIMAL}
+		</if>
+		<if test="orderId != null">
+			and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectId != null">
+			and OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectType != null">
+			and OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+		<if test="keyValue != null">
+			and KEY_VALUE = #{keyValue,jdbcType=VARCHAR}
+		</if>
+		<if test="keyType != null">
+			and KEY_TYPE = #{keyType,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null">
+			and STATUS = #{status,jdbcType=DECIMAL}
+		</if>
+		<if test="valid != null">
+			and VALID = #{valid,jdbcType=VARCHAR}
+		</if>
+		<if test="extObj != null">
+			and EXT_OBJ = #{extObj,jdbcType=VARCHAR}
+		</if>
+		<if test="extObj2 != null">
+			and EXT_OBJ2 = #{extObj2,jdbcType=VARCHAR}
+		</if>
+		<if test="extObj3 != null">
+			and EXT_OBJ3 = #{extObj3,jdbcType=VARCHAR}
+		</if>
+		order by ORD_PROCESS_KEY_ID desc
+	</select>
+	
+	<select id="queryList" parameterType="com.lvmama.vst.back.order.po.OrdProcessKey" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from ORD_PROCESS_KEY where VALID='Y'
+		<if test="orderId != null">
+			and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectId != null">
+			and OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectType != null">
+			and OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+		<if test="keyValue != null">
+			and KEY_VALUE = #{"keyValue != null",jdbcType=VARCHAR}
+		</if>
+		<if test="keyType != null">
+			and KEY_TYPE = #{keyType,jdbcType=VARCHAR}
+		</if>
+		order by ORD_PROCESS_KEY_ID desc
+	</select>
+	
+	<select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+	<insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdProcessKey">
+		<selectKey resultType="java.lang.Long" keyProperty="ordProcessKeyId" order="BEFORE">
+			select seq_ord_process_key.nextval from dual
+		</selectKey>
+		insert into ORD_PROCESS_KEY (
+		ORD_PROCESS_KEY_ID,ORDER_ID,OBJECT_ID,OBJECT_TYPE,KEY_VALUE,KEY_TYPE,STATUS,VALID,CREATE_TIME,UPDATE_TIME,EXT_OBJ,EXT_OBJ2,EXT_OBJ3)
+		values (
+		#{ordProcessKeyId,jdbcType=DECIMAL},
+		#{orderId,jdbcType=DECIMAL},
+		#{objectId,jdbcType=DECIMAL},
+		#{objectType,jdbcType=VARCHAR},
+		#{keyValue,jdbcType=VARCHAR},
+		#{keyType,jdbcType=VARCHAR},
+		0,
+		'Y',sysdate, sysdate,
+		#{extObj,jdbcType=VARCHAR},#{extObj2,jdbcType=VARCHAR},#{extObj3,jdbcType=VARCHAR})
+	</insert>
+	<update id="update" parameterType="com.lvmama.vst.back.order.po.OrdProcessKey">
+		update ORD_PROCESS_KEY
+		set
+		<if test="orderId != null">
+			and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectId != null">
+			OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+		</if>
+		<if test="objectType != null">
+			and OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+		</if>
+		<if test="keyValue != null">
+			KEY_VALUE = #{keyValue,jdbcType=VARCHAR},
+		</if>
+		<if test="keyType != null">
+			KEY_TYPE = #{keyType,jdbcType=VARCHAR},
+		</if>
+		<if test="status != null">
+			STATUS = #{status,jdbcType=DECIMAL},
+		</if>
+		<if test="valid != null">
+			VALID = #{valid,jdbcType=VARCHAR},
+		</if>
+		<if test="extObj != null">
+			EXT_OBJ = #{extObj,jdbcType=VARCHAR},
+		</if>
+		<if test="extObj2 != null">
+			EXT_OBJ2 = #{extObj2,jdbcType=VARCHAR},
+		</if>
+		<if test="extObj3 != null">
+			EXT_OBJ3 = #{extObj3,jdbcType=VARCHAR},
+		</if>
+		UPDATE_TIME = sysdate
+		where 1=1
+		<if test="ordProcessKeyId != null">
+			AND ORD_PROCESS_KEY_ID = #{ordProcessKeyId,jdbcType=DECIMAL}
+		</if>
+		<if test="orderId != null">
+			and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectId != null">
+			AND OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectType != null">
+			AND OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+	</update>
+
+	<update id="updateStatus" parameterType="java.util.Map">
+		update ORD_PROCESS_KEY
+		set STATUS = #{status,jdbcType=DECIMAL}, UPDATE_TIME = sysdate
+		where 1=1
+		<if test="orderId != null">
+			and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectId != null">
+			and OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectType != null">
+			and OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+	</update>
+
+	<update id="deleteOrdProcessKey" parameterType="java.util.Map">
+		update ORD_PROCESS_KEY
+		set VALID = 'N', UPDATE_TIME = sysdate
+		where VALID='Y'
+		<if test="orderId != null">
+			and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectId != null">
+			and OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectType != null">
+			and OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+		<if test="keyType != null">
+			and WTYPE = #{keyType,jdbcType=VARCHAR}
+		</if>
+	</update>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from ORD_PROCESS_KEY
+		where ORD_PROCESS_KEY_ID = #{ordProcessKeyId,jdbcType=DECIMAL}
+	</delete>
+</mapper>

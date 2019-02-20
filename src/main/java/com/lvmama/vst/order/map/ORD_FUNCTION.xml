@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_FUNCTION" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdFunction" >
+    <id column="ORD_FUNCTION_ID" property="ordFunctionId" jdbcType="DECIMAL" />
+    <result column="FUNCTION_CODE" property="functionCode" jdbcType="VARCHAR" />
+    <result column="FUNCTION_NAME" property="functionName" jdbcType="VARCHAR" />
+    <result column="PERM_PERMISSION_ID" property="permPermissionId" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORD_FUNCTION_ID, FUNCTION_CODE, FUNCTION_NAME, PERM_PERMISSION_ID, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_FUNCTION
+    where ORD_FUNCTION_ID = #{ordFunctionId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_FUNCTION
+    where ORD_FUNCTION_ID = #{ordFunctionId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdFunction" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordFunctionId" order="BEFORE" >
+      select seq_order_function_id.nextval from dual
+    </selectKey>
+    insert into ORD_FUNCTION (ORD_FUNCTION_ID, FUNCTION_CODE, FUNCTION_NAME, 
+      PERM_PERMISSION_ID)
+    values (#{ordFunctionId,jdbcType=DECIMAL}, #{functionCode,jdbcType=VARCHAR}, #{functionName,jdbcType=VARCHAR}, 
+      #{permPermissionId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdFunction" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordFunctionId" order="BEFORE" >
+      select seq_order_function_id.nextval from dual
+    </selectKey>
+    insert into ORD_FUNCTION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORD_FUNCTION_ID,
+      <if test="functionCode != null" >
+        FUNCTION_CODE,
+      </if>
+      <if test="functionName != null" >
+        FUNCTION_NAME,
+      </if>
+      <if test="permPermissionId != null" >
+        PERM_PERMISSION_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{ordFunctionId,jdbcType=DECIMAL},
+      <if test="functionCode != null" >
+        #{functionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="functionName != null" >
+        #{functionName,jdbcType=VARCHAR},
+      </if>
+      <if test="permPermissionId != null" >
+        #{permPermissionId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdFunction" >
+    update ORD_FUNCTION
+    <set >
+      <if test="functionCode != null" >
+        FUNCTION_CODE = #{functionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="functionName != null" >
+        FUNCTION_NAME = #{functionName,jdbcType=VARCHAR},
+      </if>
+      <if test="permPermissionId != null" >
+        PERM_PERMISSION_ID = #{permPermissionId,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORD_FUNCTION_ID = #{ordFunctionId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdFunction" >
+    update ORD_FUNCTION
+    set FUNCTION_CODE = #{functionCode,jdbcType=VARCHAR},
+      FUNCTION_NAME = #{functionName,jdbcType=VARCHAR},
+      PERM_PERMISSION_ID = #{permPermissionId,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where ORD_FUNCTION_ID = #{ordFunctionId,jdbcType=DECIMAL}
+  </update>
+  
+  
+   <sql id="Base_Query_Column_List" >
+   	  <if test="ordFunctionId != null" >
+      and  ORD_FUNCTION_ID = #{ordFunctionId}
+      </if>
+	  <if test="functionCode != null" >
+      and  FUNCTION_CODE = #{functionCode}
+      </if>
+      <if test="functionName != null" >
+      and  FUNCTION_NAME  like '%'||#{functionName}||'%'  
+      </if>
+      <if test="permPermissionId != null" >
+      and  PERM_PERMISSION_ID = #{permPermissionId}
+      </if>
+  </sql>
+  
+    <sql id="select_by_param" >
+		select *	
+		from ORD_FUNCTION  
+		where 1=1
+			<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+	<select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_FUNCTION
+	     where 1=1
+			<include refid="Base_Query_Column_List" />
+	</select>
+  
+  
+  
+	
+</mapper>

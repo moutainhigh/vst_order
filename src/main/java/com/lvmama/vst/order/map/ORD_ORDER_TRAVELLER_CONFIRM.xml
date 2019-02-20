@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_TRAVELLER_CONFIRM">
+    <!--满映射,所有字段都需要包含在内-->
+    <resultMap id="FullResultMap" type="com.lvmama.vst.back.order.po.OrdOrderTravellerConfirm" >
+        <id column="TRAVELLER_CONFIRM_ID" property="travellerConfirmId" jdbcType="DECIMAL" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="CONTAIN_PREGNANT_WOMEN" property="containPregnantWomen" jdbcType="VARCHAR" />
+        <result column="CONTAIN_FOREIGN" property="containForeign" jdbcType="VARCHAR" />
+        <result column="CONTAIN_OLD_MAN" property="containOldMan" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="CONTAIN_BABY" property="containBaby" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <!--列集合，表示所有列-->
+    <sql id="All_Column_List" >
+      TRAVELLER_CONFIRM_ID,ORDER_ID,CONTAIN_PREGNANT_WOMEN,CONTAIN_FOREIGN,CONTAIN_OLD_MAN,CONTAIN_BABY,CREATE_TIME,UPDATE_TIME
+    </sql>
+    <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderTravellerConfirm" >
+        <selectKey resultType="java.lang.Long" keyProperty="travellerConfirmId" order="BEFORE" >
+            select SEQ_ORD_TRAVELLER_CONFIRM_ID.nextval from dual
+        </selectKey>
+        insert into ORD_ORDER_TRAVELLER_CONFIRM(TRAVELLER_CONFIRM_ID,ORDER_ID,CONTAIN_PREGNANT_WOMEN,CONTAIN_FOREIGN,CONTAIN_OLD_MAN,CREATE_TIME,UPDATE_TIME,CONTAIN_BABY)
+        VALUES (#{travellerConfirmId,jdbcType=DECIMAL},#{orderId,jdbcType=DECIMAL},#{containPregnantWomen,jdbcType=VARCHAR},#{containForeign,jdbcType=VARCHAR},#{containOldMan,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{containBaby,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByOrderId" parameterType="com.lvmama.vst.back.order.po.OrdOrderTravellerConfirm" >
+        update ORD_ORDER_TRAVELLER_CONFIRM
+        <set >
+            <if test="containPregnantWomen != null" >
+                CONTAIN_PREGNANT_WOMEN = #{containPregnantWomen,jdbcType=VARCHAR},
+            </if>
+            <if test="containForeign != null" >
+                CONTAIN_FOREIGN = #{containForeign,jdbcType=VARCHAR},
+            </if>
+            <if test="containOldMan != null" >
+                CONTAIN_OLD_MAN = #{containOldMan,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                CONTAIN_BABY = #{containBaby,jdbcType=VARCHAR},
+            </if>
+            
+        </set>
+            where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </update>
+    <select id="selectByOrderId" resultMap="FullResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="All_Column_List" />
+        from ORD_ORDER_TRAVELLER_CONFIRM
+        where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </select>
+
+    <!--根据订单id查询记录数量-->
+    <select id="selectCountByOrderId" resultType="java.lang.Long" parameterType="java.lang.Long">
+        select count(1)
+        from ORD_ORDER_TRAVELLER_CONFIRM
+        where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </select>
+</mapper>

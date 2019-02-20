@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_SHARED_STOCK" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderSharedStock" >
+    <id column="ORDER_SHARED_STOCK_ID" property="orderSharedStockId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+    <result column="GOODS_ID" property="goodsId" jdbcType="DECIMAL" />
+    <result column="GROUP_ID" property="groupId" jdbcType="DECIMAL" />
+    <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="INVENTORY" property="inventory" jdbcType="VARCHAR" />
+    <result column="NEED_RESOURCE_CONFIRM" property="needResourceConfirm" jdbcType="VARCHAR" />
+    <result column="RESOURCE_STATUS" property="resourceStatus" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORDER_SHARED_STOCK_ID, ORDER_ITEM_ID,OBJECT_ID, OBJECT_TYPE, GOODS_ID, GROUP_ID, VISIT_TIME, QUANTITY, INVENTORY, NEED_RESOURCE_CONFIRM,
+    RESOURCE_STATUS, UPDATE_TIME
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_SHARED_STOCK
+    where ORDER_SHARED_STOCK_ID = #{orderSharedStockId,jdbcType=DECIMAL}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_ORDER_SHARED_STOCK
+    where ORDER_SHARED_STOCK_ID = #{orderSharedStockId,jdbcType=DECIMAL}
+  </delete>
+
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderSharedStock" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderSharedStockId" order="BEFORE" >
+      select SEQ_ORDER_SHARED_STOCK_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_SHARED_STOCK (ORDER_SHARED_STOCK_ID, ORDER_ITEM_ID,OBJECT_ID, OBJECT_TYPE,
+      GOODS_ID, GROUP_ID,  VISIT_TIME, QUANTITY, INVENTORY,
+      NEED_RESOURCE_CONFIRM, RESOURCE_STATUS)
+    values (#{orderSharedStockId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL},#{objectId,jdbcType=DECIMAL}, #{objectType,jdbcType=VARCHAR},
+      #{goodsId,jdbcType=DECIMAL},#{groupId,jdbcType=DECIMAL},#{visitTime,jdbcType=TIMESTAMP}, #{quantity,jdbcType=DECIMAL}, #{inventory,jdbcType=VARCHAR},
+      #{needResourceConfirm,jdbcType=VARCHAR}, #{resourceStatus,jdbcType=VARCHAR})
+  </insert>
+
+  
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_SHARED_STOCK
+    where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+      <if test="visitTime != null" >
+         and  VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+</mapper>

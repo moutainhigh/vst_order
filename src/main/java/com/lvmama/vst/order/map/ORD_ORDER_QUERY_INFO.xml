@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_QUERY_INFO" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderQueryInfo" >
+    <id column="QUERY_INFO_ID" property="queryInfoId" jdbcType="DECIMAL" />
+	<result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+	<result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+	<result column="BACK_USER_ID" property="backUserId" jdbcType="VARCHAR" />
+	<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	<result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+	<result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+	<result column="INFO_STATUS" property="infoStatus" jdbcType="VARCHAR" />
+	<result column="RESOURCE_STATUS" property="resourceStatus" jdbcType="VARCHAR" />
+	<result column="PAYMENT_STATUS" property="paymentStatus" jdbcType="VARCHAR" />
+	<result column="PAYMENT_TIME" property="paymentTime" jdbcType="TIMESTAMP" />
+	<result column="CERT_CONFIRM_STATUS" property="certConfirmStatus" jdbcType="VARCHAR" />
+	<result column="NOTICE_REGIMENT_STATUS" property="noticeRegimentStatus" jdbcType="VARCHAR" />
+	<result column="DISTRIBUTOR_ID" property="distributorId" jdbcType="DECIMAL" />
+	<result column="MAIN_PRODUCT_ID" property="mainProductId" jdbcType="DECIMAL" />
+	<result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+	<result column="MAIN_PRODUCT_NAME" property="mainProductName" jdbcType="VARCHAR" />
+	<result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+	<result column="SUPP_GOODS_NAME" property="suppGoodsName" jdbcType="VARCHAR" />
+	<result column="SUPP_GOODS_ID" property="suppGoodsId" jdbcType="DECIMAL" />
+	<result column="MAIN_MANAGER_ID" property="mainManagerId" jdbcType="DECIMAL" />
+	<result column="MANAGER_ID" property="managerId" jdbcType="DECIMAL" />
+	<result column="MAIN_BU_CODE" property="mainBuCode" jdbcType="VARCHAR" />
+	<result column="BU_CODE" property="buCode" jdbcType="VARCHAR" />
+	<result column="MAIN_CATEGORY_ID" property="mainCategoryId" jdbcType="DECIMAL" />
+	<result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+	<result column="SUPPLIER_ID" property="supplierId" jdbcType="DECIMAL" />
+	<result column="PAYMENT_TARGET" property="paymentTarget" jdbcType="VARCHAR" />
+	<result column="FILIALE_NAME" property="filialeName" jdbcType="VARCHAR" />
+	<result column="BOOKER_NAME" property="bookerName" jdbcType="VARCHAR" />
+	<result column="BOOKER_MOBILE" property="bookerMobile" jdbcType="VARCHAR" />
+	<result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+	<result column="CONTACT_MOBILE" property="contactMobile" jdbcType="VARCHAR" />
+	<result column="CONTACT_PHONE" property="contactPhone" jdbcType="VARCHAR" />
+	<result column="CONTACT_EMAIL" property="contactEmail" jdbcType="VARCHAR" />
+	<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    QUERY_INFO_ID,ORDER_ID,ORDER_ITEM_ID,BACK_USER_ID,CREATE_TIME,VISIT_TIME,ORDER_STATUS,INFO_STATUS,
+    RESOURCE_STATUS,PAYMENT_STATUS,PAYMENT_TIME,CERT_CONFIRM_STATUS,NOTICE_REGIMENT_STATUS,DISTRIBUTOR_ID,MAIN_PRODUCT_ID,
+    PRODUCT_ID,MAIN_PRODUCT_NAME,PRODUCT_NAME,SUPP_GOODS_NAME,SUPP_GOODS_ID,MAIN_MANAGER_ID,MANAGER_ID,MAIN_BU_CODE,
+    BU_CODE,MAIN_CATEGORY_ID,CATEGORY_ID,SUPPLIER_ID,PAYMENT_TARGET,FILIALE_NAME,BOOKER_NAME,BOOKER_MOBILE,CONTACT_NAME,
+    CONTACT_MOBILE,CONTACT_PHONE,CONTACT_EMAIL,UPDATE_TIME
+  </sql>
+  <select id="selectInfoId" resultType="java.lang.Long">
+	    select SEQ_ORDER_QUERY_INFO_ID.currval from dual
+	</select>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderQueryInfo" >
+    <selectKey resultType="java.lang.Long" keyProperty="queryInfoId" order="BEFORE" >
+      select SEQ_ORDER_QUERY_INFO_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_QUERY_INFO (QUERY_INFO_ID,ORDER_ID,ORDER_ITEM_ID,BACK_USER_ID,CREATE_TIME,VISIT_TIME,ORDER_STATUS,INFO_STATUS,
+    RESOURCE_STATUS,PAYMENT_STATUS,PAYMENT_TIME,CERT_CONFIRM_STATUS,NOTICE_REGIMENT_STATUS,DISTRIBUTOR_ID,MAIN_PRODUCT_ID,
+    PRODUCT_ID,MAIN_PRODUCT_NAME,PRODUCT_NAME,SUPP_GOODS_NAME,SUPP_GOODS_ID,MAIN_MANAGER_ID,MANAGER_ID,MAIN_BU_CODE,
+    BU_CODE,MAIN_CATEGORY_ID,CATEGORY_ID,SUPPLIER_ID,PAYMENT_TARGET,FILIALE_NAME,BOOKER_NAME,BOOKER_MOBILE,CONTACT_NAME,
+    CONTACT_MOBILE,CONTACT_PHONE,CONTACT_EMAIL)
+    values (#{queryInfoId, jdbcType=DECIMAL},#{orderId, jdbcType=DECIMAL},#{orderItemId, jdbcType=DECIMAL},
+    #{backUserId, jdbcType=VARCHAR},#{createTime, jdbcType=TIMESTAMP},#{visitTime, jdbcType=TIMESTAMP},#{orderStatus, jdbcType=VARCHAR},
+    #{infoStatus, jdbcType=VARCHAR},#{resourceStatus, jdbcType=VARCHAR},#{paymentStatus, jdbcType=VARCHAR},#{paymentTime, jdbcType=TIMESTAMP},
+    #{certConfirmStatus, jdbcType=VARCHAR},#{noticeRegimentStatus, jdbcType=VARCHAR},#{distributorId, jdbcType=DECIMAL},
+    #{mainProductId, jdbcType=DECIMAL},#{productId, jdbcType=DECIMAL},#{mainProductName, jdbcType=VARCHAR},#{productName, jdbcType=VARCHAR},
+    #{suppGoodsName, jdbcType=VARCHAR},#{suppGoodsId, jdbcType=DECIMAL},#{mainManagerId, jdbcType=DECIMAL},#{managerId, jdbcType=DECIMAL},
+    #{mainBuCode, jdbcType=VARCHAR},#{buCode, jdbcType=VARCHAR},#{mainCategoryId, jdbcType=DECIMAL},#{categoryId, jdbcType=DECIMAL},
+    #{supplierId, jdbcType=DECIMAL},#{paymentTarget, jdbcType=VARCHAR},#{filialeName, jdbcType=VARCHAR},#{bookerName, jdbcType=VARCHAR},
+    #{bookerMobile, jdbcType=VARCHAR},#{contactName, jdbcType=VARCHAR},#{contactMobile, jdbcType=VARCHAR},#{contactPhone, jdbcType=VARCHAR},
+    #{contactEmail, jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdOrderQueryInfo">
+	update ORD_ORDER_QUERY_INFO
+	<set>
+		<if test="orderId != null">
+			ORDER_ID = #{orderId, jdbcType=DECIMAL},
+		</if>
+		<if test="orderItemId != null">
+			ORDER_ITEM_ID = #{orderItemId, jdbcType=DECIMAL},
+		</if>
+		<if test="backUserId != null">
+			BACK_USER_ID = #{backUserId, jdbcType=VARCHAR},
+		</if>
+		<if test="createTime != null">
+			CREATE_TIME = #{createTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="visitTime != null">
+			VISIT_TIME = #{visitTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="orderStatus != null">
+			ORDER_STATUS = #{orderStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="infoStatus != null">
+			INFO_STATUS = #{infoStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="resourceStatus != null">
+			RESOURCE_STATUS = #{resourceStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="paymentStatus != null">
+			PAYMENT_STATUS = #{paymentStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="paymentTime != null">
+			PAYMENT_TIME = #{paymentTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="certConfirmStatus != null">
+			CERT_CONFIRM_STATUS = #{certConfirmStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="noticeRegimentStatus != null">
+			NOTICE_REGIMENT_STATUS = #{noticeRegimentStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="distributorId != null">
+			DISTRIBUTOR_ID = #{distributorId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainProductId != null">
+			MAIN_PRODUCT_ID = #{mainProductId, jdbcType=DECIMAL},
+		</if>
+		<if test="productId != null">
+			PRODUCT_ID = #{productId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainProductName != null">
+			MAIN_PRODUCT_NAME = #{mainProductName, jdbcType=VARCHAR},
+		</if>
+		<if test="productName != null">
+			PRODUCT_NAME = #{productName, jdbcType=VARCHAR},
+		</if>
+		<if test="suppGoodsName != null">
+			SUPP_GOODS_NAME = #{suppGoodsName, jdbcType=VARCHAR},
+		</if>
+		<if test="suppGoodsId != null">
+			SUPP_GOODS_ID = #{suppGoodsId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainManagerId != null">
+			MAIN_MANAGER_ID = #{mainManagerId, jdbcType=DECIMAL},
+		</if>
+		<if test="managerId != null">
+			MANAGER_ID = #{managerId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainBuCode != null">
+			MAIN_BU_CODE = #{mainBuCode, jdbcType=VARCHAR},
+		</if>
+		<if test="buCode != null">
+			BU_CODE = #{buCode, jdbcType=VARCHAR},
+		</if>
+		<if test="mainCategoryId != null">
+			ORDER_ID = #{mainCategoryId, jdbcType=DECIMAL},
+		</if>
+		<if test="categoryId != null">
+			CATEGORY_ID = #{categoryId, jdbcType=DECIMAL},
+		</if>
+		<if test="supplierId != null">
+			SUPPLIER_ID = #{supplierId, jdbcType=DECIMAL},
+		</if>
+		<if test="paymentTarget != null">
+			PAYMENT_TARGET = #{paymentTarget, jdbcType=VARCHAR},
+		</if>
+		<if test="filialeName != null">
+			FILIALE_NAME = #{filialeName, jdbcType=VARCHAR},
+		</if>
+		<if test="bookerName != null">
+			BOOKER_NAME = #{bookerName, jdbcType=VARCHAR},
+		</if>
+		<if test="bookerMobile != null">
+			BOOKER_MOBILE = #{bookerMobile, jdbcType=VARCHAR},
+		</if>
+		<if test="contactName != null">
+			CONTACT_NAME = #{contactName, jdbcType=VARCHAR},
+		</if>
+		<if test="contactMobile != null">
+			CONTACT_MOBILE = #{contactMobile, jdbcType=VARCHAR},
+		</if>
+		<if test="contactPhone != null">
+			CONTACT_PHONE = #{contactPhone, jdbcType=VARCHAR},
+		</if>
+		<if test="contactEmail != null">
+			CONTACT_EMAIL = #{contactEmail, jdbcType=VARCHAR},
+		</if>
+		UPDATE_TIME = SYSDATE
+	</set>
+	where QUERY_INFO_ID = #{queryInfoId,jdbcType=DECIMAL}
+</update>
+<update id="updateByOrderId" parameterType="com.lvmama.vst.back.order.po.OrdOrderQueryInfo">
+	update ORD_ORDER_QUERY_INFO
+	<set>
+		<if test="orderItemId != null">
+			ORDER_ITEM_ID = #{orderItemId, jdbcType=DECIMAL},
+		</if>
+		<if test="backUserId != null">
+			BACK_USER_ID = #{backUserId, jdbcType=VARCHAR},
+		</if>
+		<if test="createTime != null">
+			CREATE_TIME = #{createTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="visitTime != null">
+			VISIT_TIME = #{visitTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="orderStatus != null">
+			ORDER_STATUS = #{orderStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="infoStatus != null">
+			INFO_STATUS = #{infoStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="resourceStatus != null">
+			RESOURCE_STATUS = #{resourceStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="paymentStatus != null">
+			PAYMENT_STATUS = #{paymentStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="paymentTime != null">
+			PAYMENT_TIME = #{paymentTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="certConfirmStatus != null">
+			CERT_CONFIRM_STATUS = #{certConfirmStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="noticeRegimentStatus != null">
+			NOTICE_REGIMENT_STATUS = #{noticeRegimentStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="distributorId != null">
+			DISTRIBUTOR_ID = #{distributorId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainProductId != null">
+			MAIN_PRODUCT_ID = #{mainProductId, jdbcType=DECIMAL},
+		</if>
+		<if test="productId != null">
+			PRODUCT_ID = #{productId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainProductName != null">
+			MAIN_PRODUCT_NAME = #{mainProductName, jdbcType=VARCHAR},
+		</if>
+		<if test="productName != null">
+			PRODUCT_NAME = #{productName, jdbcType=VARCHAR},
+		</if>
+		<if test="suppGoodsName != null">
+			SUPP_GOODS_NAME = #{suppGoodsName, jdbcType=VARCHAR},
+		</if>
+		<if test="suppGoodsId != null">
+			SUPP_GOODS_ID = #{suppGoodsId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainManagerId != null">
+			MAIN_MANAGER_ID = #{mainManagerId, jdbcType=DECIMAL},
+		</if>
+		<if test="managerId != null">
+			MANAGER_ID = #{managerId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainBuCode != null">
+			MAIN_BU_CODE = #{mainBuCode, jdbcType=VARCHAR},
+		</if>
+		<if test="buCode != null">
+			BU_CODE = #{buCode, jdbcType=VARCHAR},
+		</if>
+		<if test="mainCategoryId != null">
+			ORDER_ID = #{mainCategoryId, jdbcType=DECIMAL},
+		</if>
+		<if test="categoryId != null">
+			CATEGORY_ID = #{categoryId, jdbcType=DECIMAL},
+		</if>
+		<if test="supplierId != null">
+			SUPPLIER_ID = #{supplierId, jdbcType=DECIMAL},
+		</if>
+		<if test="paymentTarget != null">
+			PAYMENT_TARGET = #{paymentTarget, jdbcType=VARCHAR},
+		</if>
+		<if test="filialeName != null">
+			FILIALE_NAME = #{filialeName, jdbcType=VARCHAR},
+		</if>
+		<if test="bookerName != null">
+			BOOKER_NAME = #{bookerName, jdbcType=VARCHAR},
+		</if>
+		<if test="bookerMobile != null">
+			BOOKER_MOBILE = #{bookerMobile, jdbcType=VARCHAR},
+		</if>
+		<if test="contactName != null">
+			CONTACT_NAME = #{contactName, jdbcType=VARCHAR},
+		</if>
+		<if test="contactMobile != null">
+			CONTACT_MOBILE = #{contactMobile, jdbcType=VARCHAR},
+		</if>
+		<if test="contactPhone != null">
+			CONTACT_PHONE = #{contactPhone, jdbcType=VARCHAR},
+		</if>
+		<if test="contactEmail != null">
+			CONTACT_EMAIL = #{contactEmail, jdbcType=VARCHAR},
+		</if>
+		UPDATE_TIME = SYSDATE
+	</set>
+	where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+</update>
+
+<update id="updateByOrderItemId" parameterType="com.lvmama.vst.back.order.po.OrdOrderQueryInfo">
+	update ORD_ORDER_QUERY_INFO
+	<set>
+		<if test="backUserId != null">
+			BACK_USER_ID = #{backUserId, jdbcType=VARCHAR},
+		</if>
+		<if test="createTime != null">
+			CREATE_TIME = #{createTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="visitTime != null">
+			VISIT_TIME = #{visitTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="orderStatus != null">
+			ORDER_STATUS = #{orderStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="infoStatus != null">
+			INFO_STATUS = #{infoStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="resourceStatus != null">
+			RESOURCE_STATUS = #{resourceStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="paymentStatus != null">
+			PAYMENT_STATUS = #{paymentStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="paymentTime != null">
+			PAYMENT_TIME = #{paymentTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="certConfirmStatus != null">
+			CERT_CONFIRM_STATUS = #{certConfirmStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="noticeRegimentStatus != null">
+			NOTICE_REGIMENT_STATUS = #{noticeRegimentStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="distributorId != null">
+			DISTRIBUTOR_ID = #{distributorId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainProductId != null">
+			MAIN_PRODUCT_ID = #{mainProductId, jdbcType=DECIMAL},
+		</if>
+		<if test="productId != null">
+			PRODUCT_ID = #{productId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainProductName != null">
+			MAIN_PRODUCT_NAME = #{mainProductName, jdbcType=VARCHAR},
+		</if>
+		<if test="productName != null">
+			PRODUCT_NAME = #{productName, jdbcType=VARCHAR},
+		</if>
+		<if test="suppGoodsName != null">
+			SUPP_GOODS_NAME = #{suppGoodsName, jdbcType=VARCHAR},
+		</if>
+		<if test="suppGoodsId != null">
+			SUPP_GOODS_ID = #{suppGoodsId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainManagerId != null">
+			MAIN_MANAGER_ID = #{mainManagerId, jdbcType=DECIMAL},
+		</if>
+		<if test="managerId != null">
+			MANAGER_ID = #{managerId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainBuCode != null">
+			MAIN_BU_CODE = #{mainBuCode, jdbcType=VARCHAR},
+		</if>
+		<if test="buCode != null">
+			BU_CODE = #{buCode, jdbcType=VARCHAR},
+		</if>
+		<if test="mainCategoryId != null">
+			ORDER_ID = #{mainCategoryId, jdbcType=DECIMAL},
+		</if>
+		<if test="categoryId != null">
+			CATEGORY_ID = #{categoryId, jdbcType=DECIMAL},
+		</if>
+		<if test="supplierId != null">
+			SUPPLIER_ID = #{supplierId, jdbcType=DECIMAL},
+		</if>
+		<if test="paymentTarget != null">
+			PAYMENT_TARGET = #{paymentTarget, jdbcType=VARCHAR},
+		</if>
+		<if test="filialeName != null">
+			FILIALE_NAME = #{filialeName, jdbcType=VARCHAR},
+		</if>
+		<if test="bookerName != null">
+			BOOKER_NAME = #{bookerName, jdbcType=VARCHAR},
+		</if>
+		<if test="bookerMobile != null">
+			BOOKER_MOBILE = #{bookerMobile, jdbcType=VARCHAR},
+		</if>
+		<if test="contactName != null">
+			CONTACT_NAME = #{contactName, jdbcType=VARCHAR},
+		</if>
+		<if test="contactMobile != null">
+			CONTACT_MOBILE = #{contactMobile, jdbcType=VARCHAR},
+		</if>
+		<if test="contactPhone != null">
+			CONTACT_PHONE = #{contactPhone, jdbcType=VARCHAR},
+		</if>
+		<if test="contactEmail != null">
+			CONTACT_EMAIL = #{contactEmail, jdbcType=VARCHAR},
+		</if>
+		UPDATE_TIME = SYSDATE
+	</set>
+	where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+</update>
+	<!-- 将在线表中35天之前的数据移至历史表中 -->
+	<select id="findOrdQueryInfoHistoryData" resultType="java.lang.Long">
+	  	SELECT QUERY_INFO_ID
+	  FROM ORD_ORDER_QUERY_INFO
+	 <![CDATA[  WHERE CREATE_TIME < SYSDATE - 35 ]]>
+	   <![CDATA[  AND ROWNUM <= 1000 ]]>
+	</select>
+	<insert id="moveOrdQueryInfoHistoryData">
+	    insert into ORD_ORDER_QUERY_INFO_HISTORY (QUERY_INFO_ID,ORDER_ID,ORDER_ITEM_ID,BACK_USER_ID,CREATE_TIME,VISIT_TIME,ORDER_STATUS,INFO_STATUS,
+	    RESOURCE_STATUS,PAYMENT_STATUS,PAYMENT_TIME,CERT_CONFIRM_STATUS,NOTICE_REGIMENT_STATUS,DISTRIBUTOR_ID,MAIN_PRODUCT_ID,
+	    PRODUCT_ID,MAIN_PRODUCT_NAME,PRODUCT_NAME,SUPP_GOODS_NAME,SUPP_GOODS_ID,MAIN_MANAGER_ID,MANAGER_ID,MAIN_BU_CODE,
+	    BU_CODE,MAIN_CATEGORY_ID,CATEGORY_ID,SUPPLIER_ID,PAYMENT_TARGET,FILIALE_NAME,BOOKER_NAME,BOOKER_MOBILE,CONTACT_NAME,
+	    CONTACT_MOBILE,CONTACT_PHONE,CONTACT_EMAIL)
+	    select QUERY_INFO_ID,ORDER_ID,ORDER_ITEM_ID,BACK_USER_ID,CREATE_TIME,VISIT_TIME,ORDER_STATUS,INFO_STATUS,
+	    RESOURCE_STATUS,PAYMENT_STATUS,PAYMENT_TIME,CERT_CONFIRM_STATUS,NOTICE_REGIMENT_STATUS,DISTRIBUTOR_ID,MAIN_PRODUCT_ID,
+	    PRODUCT_ID,MAIN_PRODUCT_NAME,PRODUCT_NAME,SUPP_GOODS_NAME,SUPP_GOODS_ID,MAIN_MANAGER_ID,MANAGER_ID,MAIN_BU_CODE,
+	    BU_CODE,MAIN_CATEGORY_ID,CATEGORY_ID,SUPPLIER_ID,PAYMENT_TARGET,FILIALE_NAME,BOOKER_NAME,BOOKER_MOBILE,CONTACT_NAME,
+	    CONTACT_MOBILE,CONTACT_PHONE,CONTACT_EMAIL from ORD_ORDER_QUERY_INFO where QUERY_INFO_ID IN 
+	    <foreach item="item" index="index" collection="list" 
+                 open="(" separator="," close=")">
+                #{item}
+        </foreach>
+	</insert>
+	<delete id="deleteOrdQueryInfoData">
+		delete from ORD_ORDER_QUERY_INFO where QUERY_INFO_ID IN 
+	    <foreach item="item" index="index" collection="list" 
+                 open="(" separator="," close=")">
+                #{item}
+        </foreach>
+	</delete>
+	
+	<sql id="queryOrderByCondition_base">
+		 FROM ORD_ORDER_QUERY_INFO OOQI
+	  <if test="travellerName != null and travellerName != ''">
+	  	, ORD_PERSON OP
+	  </if>
+	  <if test="contractStatus != null and contractStatus != ''">
+	  	, ORD_TRAVEL_CONTRACT OTC
+	  </if>
+	 WHERE 1=1
+	  <if test="travellerName != null and travellerName != ''">
+	  	AND OOQI.ORDER_ID = OP.OBJECT_ID
+	   AND OP.OBJECT_TYPE = 'ORDER'
+	  </if>
+	  <if test="contractStatus != null and contractStatus != ''">
+	   AND OOQI.ORDER_ID = OTC.ORDER_ID
+	   </if>
+	  <if test="orderId != null">
+	   AND OOQI.ORDER_ID = #{orderId, jdbcType=DECIMAL}
+	   </if>
+	  <if test="orderItemId != null">
+	   AND OOQI.ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+	   </if>
+	  <if test="backUserId != null and backUserId != ''">
+	   AND OOQI.BACK_USER_ID LIKE '%${backUserId}%'
+	   </if>
+	  <if test="createTimeBegin != null and createTimeBegin != ''">
+	  	<![CDATA[	AND OOQI.CREATE_TIME >= TO_DATE(#{createTimeBegin, jdbcType=VARCHAR} , 'YYYY-MM-DD HH24:MI:ss') ]]>
+	   </if>
+	  <if test="createTimeEnd != null and createTimeEnd != ''">
+	   <![CDATA[	AND OOQI.CREATE_TIME <= TO_DATE(#{createTimeEnd, jdbcType=VARCHAR} , 'YYYY-MM-DD HH24:MI:ss') ]]>
+	   </if>
+	  <if test="visitTimeBegin != null">
+	   <![CDATA[	AND OOQI.VISIT_TIME >= #{visitTimeBegin,jdbcType=TIMESTAMP} ]]>
+	   </if>
+	  <if test="visitTimeEnd != null">
+	    <![CDATA[	AND OOQI.VISIT_TIME <= #{visitTimeEnd,jdbcType=TIMESTAMP} ]]>
+	   </if>
+	  <if test="orderStatus != null and orderStatus != ''">
+	   AND OOQI.ORDER_STATUS = #{orderStatus, jdbcType=VARCHAR}
+	   </if>
+	  <if test="infoStatus != null and infoStatus != ''">
+	   AND OOQI.INFO_STATUS = #{infoStatus, jdbcType=VARCHAR}
+	   </if>
+	  <if test="resourceStatus != null and resourceStatus != ''">
+	   AND OOQI.RESOURCE_STATUS = #{resourceStatus, jdbcType=VARCHAR}
+	   </if>
+	  <if test="paymentStatus != null and paymentStatus != ''">
+	   AND OOQI.PAYMENT_STATUS = #{paymentStatus, jdbcType=VARCHAR}
+	   </if>
+	  <if test="paymentTimeBegin != null">
+	 	<![CDATA[	AND OOQI.PAYMENT_TIME >= #{paymentTimeBegin,jdbcType=TIMESTAMP} ]]>
+	   </if>
+	  <if test="paymentTimeEnd != null">
+	   <![CDATA[	AND OOQI.PAYMENT_TIME <= #{paymentTimeEnd,jdbcType=TIMESTAMP} ]]>
+	   </if>
+	  <if test="certConfirmStatus != null and certConfirmStatus != ''">
+	   AND OOQI.CERT_CONFIRM_STATUS = #{certConfirmStatus, jdbcType=VARCHAR}
+	   </if>
+	  <if test="noticeRegimentStatus != null and noticeRegimentStatus != ''">
+	   AND OOQI.NOTICE_REGIMENT_STATUS = #{noticeRegimentStatus, jdbcType=VARCHAR}
+	   </if>
+	  <if test="distributorIds != null">
+	   AND OOQI.DISTRIBUTOR_ID IN 
+			<foreach collection="distributorIds" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	   </if>
+	  <if test="productId != null">
+	   AND (OOQI.MAIN_PRODUCT_ID = #{productId, jdbcType=DECIMAL} OR OOQI.PRODUCT_ID = #{productId, jdbcType=DECIMAL})
+	   </if>
+	  <if test="productName != null and productName != ''">
+	   AND (OOQI.MAIN_PRODUCT_NAME LIKE '%${productName}%' OR OOQI.PRODUCT_NAME LIKE '%${productName}%')
+	  </if>
+	  <if test="suppGoodsName != null and suppGoodsName != ''">
+	   AND OOQI.SUPP_GOODS_NAME LIKE '%${suppGoodsName}%'
+	   </if>
+	  <if test="suppGoodsId != null">
+	   AND OOQI.SUPP_GOODS_ID = #{suppGoodsId, jdbcType=DECIMAL}
+	   </if>
+	  <if test="managerId != null">
+	   AND (OOQI.MAIN_MANAGER_ID = #{managerId, jdbcType=DECIMAL} OR OOQI.MANAGER_ID = #{managerId, jdbcType=DECIMAL})
+	   </if>
+	  <if test="belongBU != null and belongBU != ''">
+	   AND OOQI.BU_CODE = #{belongBU, jdbcType=VARCHAR}
+	   </if>
+	  <if test="categoryIdList != null">
+	   AND OOQI.MAIN_CATEGORY_ID IN 
+			<foreach collection="categoryIdList" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	   </if>
+	  <if test="categoryIds != null and categoryIds != ''">
+	   AND OOQI.MAIN_CATEGORY_ID IN (${categoryIds})
+	  </if>
+	  <if test="supplierId != null">
+	   AND OOQI.SUPPLIER_ID = #{supplierId, jdbcType=DECIMAL}
+	   </if>
+	  <if test="payTarget != null and payTarget != ''">
+	   AND OOQI.PAYMENT_TARGET = #{payTarget, jdbcType=VARCHAR}
+	   </if>
+	  <if test="filialeNames != null">
+	   AND OOQI.FILIALE_NAME IN 
+	   		<foreach collection="filialeNames" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	  </if>  
+	  <if test="bookerName != null and bookerName != ''">
+	   AND OOQI.BOOKER_NAME LIKE '%${bookerName}%'
+	   </if>
+	  <if test="bookerMobile != null and bookerMobile != ''">
+	   AND OOQI.BOOKER_MOBILE LIKE '${bookerMobile}%'
+	   </if>
+	  <if test="contactName != null and contactName != ''">
+	  	 <if test="travellerName != null and travellerName != ''">
+	  	 	 AND (OOQI.CONTACT_NAME LIKE '%${contactName}%'
+             or OP.PERSON_TYPE = 'TRAVELLER' AND OP.FULL_NAME LIKE '%${travellerName}%')
+	  	 </if>
+	  	 <if test="travellerName == null or travellerName == ''">
+	  	 	AND OOQI.CONTACT_NAME LIKE '%${contactName}%'
+	  	 </if>
+	   </if>
+	  <if test="contactName == null or contactName == ''">
+	  	 <if test="travellerName != null and travellerName != ''">
+	  	 	AND OP.PERSON_TYPE = 'TRAVELLER'
+	  	    AND OP.FULL_NAME LIKE '%${travellerName}%'
+	  	 </if>
+	  </if>
+	  <if test="contactMobile != null and contactMobile != ''">
+	   AND OOQI.CONTACT_MOBILE LIKE '${contactMobile}%'
+	   </if>
+	  <if test="contactPhone != null and contactPhone != ''">
+	   AND OOQI.CONTACT_PHONE LIKE '${contactPhone}%'
+	   </if>
+	  <if test="contactEmail != null and contactEmail != ''">
+	   AND OOQI.CONTACT_EMAIL LIKE '%${contactEmail}%'
+	   </if>
+	  <!-- 
+	  <if test="travellerName != null and travellerName != ''">
+	   AND OP.PERSON_TYPE = 'TRAVELLER'
+	   AND OP.FULL_NAME LIKE '%${travellerName}%'
+	   </if>
+	    -->
+	  <if test="contractStatus != null and contractStatus != ''">
+	   AND OTC.STATUS = #{contractStatus, jdbcType=VARCHAR}
+	   </if>
+	</sql>
+	
+	<sql id="queryOrderByCondition_history">
+		 FROM ORD_ORDER_QUERY_INFO_HISTORY OOQIH
+	  <if test="travellerName != null and travellerName != ''">
+	  	, ORD_PERSON OP
+	  </if>
+	  <if test="contractStatus != null and contractStatus != ''">
+	  	, ORD_TRAVEL_CONTRACT OTC
+	  </if>
+	 WHERE 1=1
+	  <if test="travellerName != null and travellerName != ''">
+	  	AND OOQIH.ORDER_ID = OP.OBJECT_ID
+	   AND OP.OBJECT_TYPE = 'ORDER'
+	  </if>
+	  <if test="contractStatus != null and contractStatus != ''">
+	   AND OOQIH.ORDER_ID = OTC.ORDER_ID
+	   </if>
+	  <if test="orderId != null">
+	   AND OOQIH.ORDER_ID = #{orderId, jdbcType=DECIMAL}
+	   </if>
+	  <if test="orderItemId != null">
+	   AND OOQIH.ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+	   </if>
+	  <if test="backUserId != null and backUserId != ''">
+	   AND OOQIH.BACK_USER_ID LIKE '%${backUserId}%'
+	   </if>
+	  <if test="createTimeBegin != null and createTimeBegin != ''">
+	  	<![CDATA[	AND OOQIH.CREATE_TIME >= TO_DATE(#{createTimeBegin, jdbcType=VARCHAR} , 'YYYY-MM-DD HH24:MI:ss') ]]>
+	   </if>
+	  <if test="createTimeEnd != null and createTimeEnd != ''">
+	   <![CDATA[	AND OOQIH.CREATE_TIME <= TO_DATE(#{createTimeEnd, jdbcType=VARCHAR} , 'YYYY-MM-DD HH24:MI:ss') ]]>
+	   </if>
+	  <if test="visitTimeBegin != null">
+	   <![CDATA[	AND OOQIH.VISIT_TIME >= #{visitTimeBegin,jdbcType=TIMESTAMP} ]]>
+	   </if>
+	  <if test="visitTimeEnd != null">
+	    <![CDATA[	AND OOQIH.VISIT_TIME <= #{visitTimeEnd,jdbcType=TIMESTAMP} ]]>
+	   </if>
+	  <if test="orderStatus != null and orderStatus != ''">
+	   AND OOQIH.ORDER_STATUS = #{orderStatus, jdbcType=VARCHAR}
+	   </if>
+	  <if test="infoStatus != null and infoStatus != ''">
+	   AND OOQIH.INFO_STATUS = #{infoStatus, jdbcType=VARCHAR}
+	   </if>
+	  <if test="resourceStatus != null and resourceStatus != ''">
+	   AND OOQIH.RESOURCE_STATUS = #{resourceStatus, jdbcType=VARCHAR}
+	   </if>
+	  <if test="paymentStatus != null and paymentStatus != ''">
+	   AND OOQIH.PAYMENT_STATUS = #{paymentStatus, jdbcType=VARCHAR}
+	   </if>
+	  <if test="paymentTimeBegin != null">
+	 	<![CDATA[	AND OOQIH.PAYMENT_TIME >= #{paymentTimeBegin,jdbcType=TIMESTAMP} ]]>
+	   </if>
+	  <if test="paymentTimeEnd != null">
+	   <![CDATA[	AND OOQIH.PAYMENT_TIME <= #{paymentTimeEnd,jdbcType=TIMESTAMP} ]]>
+	   </if>
+	  <if test="certConfirmStatus != null and certConfirmStatus != ''">
+	   AND OOQIH.CERT_CONFIRM_STATUS = #{certConfirmStatus, jdbcType=VARCHAR}
+	   </if>
+	  <if test="noticeRegimentStatus != null and noticeRegimentStatus != ''">
+	   AND OOQIH.NOTICE_REGIMENT_STATUS = #{noticeRegimentStatus, jdbcType=VARCHAR}
+	   </if>
+	  <if test="distributorIds != null">
+	   AND OOQIH.DISTRIBUTOR_ID IN 
+			<foreach collection="distributorIds" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	   </if>
+	  <if test="productId != null">
+	   AND (OOQIH.MAIN_PRODUCT_ID = #{productId, jdbcType=DECIMAL} OR OOQIH.PRODUCT_ID = #{productId, jdbcType=DECIMAL})
+	   </if>
+	  <if test="productName != null and productName != ''">
+	   AND (OOQIH.MAIN_PRODUCT_NAME LIKE '%${productName}%' OR OOQIH.PRODUCT_NAME LIKE '%${productName}%')
+	  </if>
+	  <if test="suppGoodsName != null and suppGoodsName != ''">
+	   AND OOQIH.SUPP_GOODS_NAME LIKE '%${suppGoodsName}%'
+	   </if>
+	  <if test="suppGoodsId != null">
+	   AND OOQIH.SUPP_GOODS_ID = #{suppGoodsId, jdbcType=DECIMAL}
+	   </if>
+	  <if test="managerId != null">
+	   AND (OOQIH.MAIN_MANAGER_ID = #{managerId, jdbcType=DECIMAL} OR OOQIH.MANAGER_ID = #{managerId, jdbcType=DECIMAL})
+	   </if>
+	  <if test="belongBU != null and belongBU != ''">
+	   AND OOQIH.BU_CODE = #{belongBU, jdbcType=VARCHAR}
+	   </if>
+	  <if test="categoryIdList != null">
+	   AND OOQIH.MAIN_CATEGORY_ID IN 
+			<foreach collection="categoryIdList" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	   </if>
+	   <if test="categoryIds != null and categoryIds != ''">
+	   AND OOQIH.MAIN_CATEGORY_ID IN (${categoryIds})
+	  </if>
+	  <if test="supplierId != null">
+	   AND OOQIH.SUPPLIER_ID = #{supplierId, jdbcType=DECIMAL}
+	   </if>
+	  <if test="payTarget != null and payTarget != ''">
+	   AND OOQIH.PAYMENT_TARGET = #{payTarget, jdbcType=VARCHAR}
+	   </if>
+	  <if test="filialeNames != null">
+	   AND OOQIH.FILIALE_NAME IN 
+	   		<foreach collection="filialeNames" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	  </if>  
+	  <if test="bookerName != null and bookerName != ''">
+	   AND OOQIH.BOOKER_NAME LIKE '%${bookerName}%'
+	   </if>
+	  <if test="bookerMobile != null and bookerMobile != ''">
+	   AND OOQIH.BOOKER_MOBILE LIKE '${bookerMobile}%'
+	   </if>
+	  <!-- 
+	   <if test="contactName != null and contactName != ''">
+	   AND OOQIH.CONTACT_NAME LIKE '%${contactName}%'
+	   </if>
+	   -->
+	   <if test="contactName != null and contactName != ''">
+	  	 <if test="travellerName != null and travellerName != ''">
+	  	 	 AND (OOQIH.CONTACT_NAME LIKE '%${contactName}%'
+             or OP.PERSON_TYPE = 'TRAVELLER' AND OP.FULL_NAME LIKE '%${travellerName}%')
+	  	 </if>
+	  	 <if test="travellerName == null or travellerName == ''">
+	  	 	AND OOQIH.CONTACT_NAME LIKE '%${contactName}%'
+	  	 </if>
+	   </if>
+	  <if test="contactName == null or contactName == ''">
+	  	 <if test="travellerName != null and travellerName != ''">
+	  	 	AND OP.PERSON_TYPE = 'TRAVELLER'
+	  	    AND OP.FULL_NAME LIKE '%${travellerName}%'
+	  	 </if>
+	  </if>
+	  <if test="contactMobile != null and contactMobile != ''">
+	   AND OOQIH.CONTACT_MOBILE LIKE '${contactMobile}%'
+	   </if>
+	  <if test="contactPhone != null and contactPhone != ''">
+	   AND OOQIH.CONTACT_PHONE LIKE '${contactPhone}%'
+	   </if>
+	  <if test="contactEmail != null and contactEmail != ''">
+	   AND OOQIH.CONTACT_EMAIL LIKE '%${contactEmail}%'
+	   </if>
+	   <!-- 
+	  <if test="travellerName != null and travellerName != ''">
+	   AND OP.PERSON_TYPE = 'TRAVELLER'
+	   AND OP.FULL_NAME LIKE '%${travellerName}%'
+	   </if>
+	    -->
+	  <if test="contractStatus != null and contractStatus != ''">
+	   AND OTC.STATUS = #{contractStatus, jdbcType=VARCHAR}
+	   </if>
+	</sql>
+	
+	<select id="queryOrderIdsByCondition" resultType="java.lang.Long" parameterType="com.lvmama.vst.comm.vo.order.OrderMonitorCnd">
+	SELECT ORDER_ID
+  FROM (SELECT T.*, ROWNUM AS ROWNUM1
+          FROM (
+	  	SELECT DISTINCT TBL.ORDER_ID FROM (
+	  	SELECT OOQI.ORDER_ID
+	  	<include refid="queryOrderByCondition_base"/>
+	  	<if test="moreThanOneMonth == true">
+	  		UNION ALL
+	  		SELECT OOQIH.ORDER_ID
+	  		<include refid="queryOrderByCondition_history"/>
+	  	</if>
+	   ) TBL
+	   ORDER BY TBL.ORDER_ID DESC) T
+	   <if test="endIndex != null">
+         <![CDATA[ WHERE ROWNUM <= #{endIndex, jdbcType=DECIMAL}  ]]>
+       </if>
+         )
+         <if test="beginIndex != null">
+		 WHERE ROWNUM1 >= #{beginIndex, jdbcType=DECIMAL}
+		 </if>
+	</select>
+	
+	<select id="queryOrderCountByCondition" resultType="java.lang.Long" parameterType="com.lvmama.vst.comm.vo.order.OrderMonitorCnd">
+	  	SELECT COUNT(DISTINCT TBL.ORDER_ID) FROM
+		  (
+		  	SELECT OOQI.ORDER_ID
+		  	<include refid="queryOrderByCondition_base"/>
+		  	<if test="moreThanOneMonth == true">
+		  		UNION ALL
+		  		SELECT OOQIH.ORDER_ID
+		  		<include refid="queryOrderByCondition_history"/>
+		  	</if>
+		   ) TBL
+	</select>
+</mapper>

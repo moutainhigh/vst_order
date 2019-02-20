@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ADDRESS" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdAddress" >
+    <id column="ORD_ADDRESS_ID" property="ordAddressId" jdbcType="DECIMAL" />
+    <result column="ORD_PERSON_ID" property="ordPersonId" jdbcType="DECIMAL" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="DISTRICT" property="district" jdbcType="VARCHAR" />
+    <result column="STREET" property="street" jdbcType="VARCHAR" />
+    <result column="POSTAL_CODE" property="postalCode" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORD_ADDRESS_ID, ORD_PERSON_ID, PROVINCE, CITY, DISTRICT, STREET, POSTAL_CODE, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ADDRESS
+    where ORD_ADDRESS_ID = #{ordAddressId,jdbcType=DECIMAL}
+  </select>
+  
+   <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ADDRESS
+    where ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL}
+    
+  </select>
+ 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_ADDRESS
+    where ORD_ADDRESS_ID = #{ordAddressId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdAddress" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordAddressId" order="BEFORE" >
+      select SEQ_ORD_ADDRESS_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ADDRESS (ORD_ADDRESS_ID, ORD_PERSON_ID, PROVINCE, 
+      CITY, DISTRICT, STREET, 
+      POSTAL_CODE)
+    values (#{ordAddressId,jdbcType=DECIMAL}, #{ordPersonId,jdbcType=DECIMAL}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{street,jdbcType=VARCHAR}, 
+      #{postalCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdAddress" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordAddressId" order="BEFORE" >
+      select SEQ_ORD_ADDRESS_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ADDRESS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORD_ADDRESS_ID,
+      <if test="ordPersonId != null" >
+        ORD_PERSON_ID,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="district != null" >
+        DISTRICT,
+      </if>
+      <if test="street != null" >
+        STREET,
+      </if>
+      <if test="postalCode != null" >
+        POSTAL_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{ordAddressId,jdbcType=DECIMAL},
+      <if test="ordPersonId != null" >
+        #{ordPersonId,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null" >
+        #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null" >
+        #{postalCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdAddress" >
+    update ORD_ADDRESS
+    <set >
+      <if test="ordPersonId != null" >
+        ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        DISTRICT = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null" >
+        STREET = #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null" >
+        POSTAL_CODE = #{postalCode,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORD_ADDRESS_ID = #{ordAddressId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdAddress" >
+    update ORD_ADDRESS
+    set ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
+      DISTRICT = #{district,jdbcType=VARCHAR},
+      STREET = #{street,jdbcType=VARCHAR},
+      POSTAL_CODE = #{postalCode,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate
+    where ORD_ADDRESS_ID = #{ordAddressId,jdbcType=DECIMAL}
+  </update>
+</mapper>

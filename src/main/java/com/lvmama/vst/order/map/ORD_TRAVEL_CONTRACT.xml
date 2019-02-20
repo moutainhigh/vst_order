@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_TRAVEL_CONTRACT" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdTravelContract" >
+    <id column="ORD_CONTRACT_ID" property="ordContractId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="VERSION" property="version" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CONTRACT_TEMPLATE" property="contractTemplate" jdbcType="VARCHAR" />
+    <result column="CONTRACT_NAME" property="contractName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="SIGNING_TYPE" property="signingType" jdbcType="VARCHAR" />
+    <result column="FILE_ID" property="fileId" jdbcType="DECIMAL" />
+    <result column="ATTACHEMENT_URL" property="attachementUrl" jdbcType="VARCHAR" />
+     <result column="ADDITION_FILE_ID" property="additionFileId" jdbcType="VARCHAR" />
+    <result column="SEND_EMAIL_FLAG" property="sendEmailFlag" jdbcType="VARCHAR" />
+    <result column="CONTRACT_UID" property="contractUid" jdbcType="VARCHAR" />
+    <result column="CONTRACT_NO" property="contractNo" jdbcType="VARCHAR" />
+    <result column="SYNC_STATUS" property="syncStatus" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="PushDataMap" type="java.util.Map" >
+    <result column="ORD_CONTRACT_ID" property="ordContractId" jdbcType="DECIMAL" />   
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ORD_CONTRACT_ID, ORDER_ID, VERSION, STATUS, CONTRACT_TEMPLATE, CONTRACT_NAME, CREATE_TIME, 
+    SIGNING_TYPE, FILE_ID, ATTACHEMENT_URL,ADDITION_FILE_ID,SEND_EMAIL_FLAG,CONTRACT_UID,CONTRACT_NO,SYNC_STATUS,UPDATE_TIME
+  </sql>
+  
+  <sql id="Base_Query_Column_List" >
+  	<if test="orderId != null" >
+      and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </if>
+    <if test="version != null" >
+      and VERSION = #{version,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null" >
+      and STATUS = #{status,jdbcType=VARCHAR}
+    </if>
+    <if test="contractTemplate != null" >
+      and CONTRACT_TEMPLATE = #{contractTemplate,jdbcType=VARCHAR}
+    </if>
+    <if test="contractName != null" >
+      and CONTRACT_NAME = #{contractName,jdbcType=VARCHAR}
+    </if>
+    <if test="createTime != null" >
+      and CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="signingType != null" >
+      and SIGNING_TYPE = #{signingType,jdbcType=VARCHAR}
+    </if>
+    <if test="fileId != null" >
+      and FILE_ID = #{fileId,jdbcType=DECIMAL}
+    </if>
+    <if test="attachementUrl != null" >
+      and ATTACHEMENT_URL = #{attachementUrl,jdbcType=VARCHAR}
+    </if>
+    <if test="additionFileId != null" >
+      and addition_file_id = #{additionFileId,jdbcType=VARCHAR}
+    </if>
+    <if test="sendEmailFlag != null" >
+      and SEND_EMAIL_FLAG = #{sendEmailFlag,jdbcType=VARCHAR}
+    </if>
+    <if test="updateTime != null" >
+      and UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    </if>
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_TRAVEL_CONTRACT
+    where ORD_CONTRACT_ID = #{ordContractId,jdbcType=DECIMAL}
+  </select>
+   <select id="selectByParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from ORD_TRAVEL_CONTRACT where 1=1
+	<include refid="Base_Query_Column_List" />	
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_TRAVEL_CONTRACT
+    where ORD_CONTRACT_ID = #{ordContractId,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdTravelContract" >
+  	<selectKey resultType="java.lang.Long" keyProperty="ordContractId" order="BEFORE" >
+      select seq_ord_travel_contract_id.nextval from dual
+    </selectKey>
+    insert into ORD_TRAVEL_CONTRACT (ORD_CONTRACT_ID, ORDER_ID, VERSION, 
+      STATUS, CONTRACT_TEMPLATE, CONTRACT_NAME, 
+      CREATE_TIME, SIGNING_TYPE, FILE_ID, 
+      ATTACHEMENT_URL,ADDITION_FILE_ID,SEND_EMAIL_FLAG,UPDATE_TIME)
+    values (#{ordContractId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{version,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{contractTemplate,jdbcType=VARCHAR}, #{contractName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{signingType,jdbcType=VARCHAR}, #{fileId,jdbcType=DECIMAL}, 
+      #{attachementUrl,jdbcType=VARCHAR},#{additionFileId,jdbcType=VARCHAR},#{sendEmailFlag,jdbcType=VARCHAR}
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdTravelContract" >
+  	<selectKey resultType="java.lang.Long" keyProperty="ordContractId" order="BEFORE" >
+      select seq_ord_travel_contract_id.nextval from dual
+    </selectKey>
+    insert into ORD_TRAVEL_CONTRACT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ordContractId != null" >
+        ORD_CONTRACT_ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="contractTemplate != null" >
+        CONTRACT_TEMPLATE,
+      </if>
+      <if test="contractName != null" >
+        CONTRACT_NAME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="signingType != null" >
+        SIGNING_TYPE,
+      </if>
+      <if test="fileId != null" >
+        FILE_ID,
+      </if>
+      <if test="attachementUrl != null" >
+        ATTACHEMENT_URL,
+      </if>
+        <if test="additionFileId != null" >
+        ADDITION_FILE_ID,
+      </if>
+       <if test="sendEmailFlag != null" >
+        SEND_EMAIL_FLAG,
+      </if>
+      <if test="needSync != null" >
+        NEED_SYNC,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ordContractId != null" >
+        #{ordContractId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="contractTemplate != null" >
+        #{contractTemplate,jdbcType=VARCHAR},
+      </if>
+      <if test="contractName != null" >
+        #{contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signingType != null" >
+        #{signingType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null" >
+        #{fileId,jdbcType=DECIMAL},
+      </if>
+      <if test="attachementUrl != null" >
+        #{attachementUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="additionFileId != null" >
+       #{additionFileId,jdbcType=VARCHAR},
+    </if>
+    <if test="sendEmailFlag != null" >
+      #{sendEmailFlag,jdbcType=VARCHAR},
+     </if>
+     <if test="needSync != null" >
+        #{needSync,jdbcType=DECIMAL},
+      </if>
+       <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdTravelContract" >
+    update ORD_TRAVEL_CONTRACT
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="contractTemplate != null" >
+        CONTRACT_TEMPLATE = #{contractTemplate,jdbcType=VARCHAR},
+      </if>
+      <if test="contractName != null" >
+        CONTRACT_NAME = #{contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signingType != null" >
+        SIGNING_TYPE = #{signingType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null" >
+        FILE_ID = #{fileId,jdbcType=DECIMAL},
+      </if>
+      <if test="attachementUrl != null" >
+        ATTACHEMENT_URL = #{attachementUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="additionFileId != null" >
+       ADDITION_FILE_ID = #{additionFileId,jdbcType=VARCHAR},
+    </if>
+      <if test="sendEmailFlag != null" >
+       SEND_EMAIL_FLAG = #{sendEmailFlag,jdbcType=VARCHAR},
+    </if>
+       UPDATE_TIME = sysdate
+    </set>
+    where ORD_CONTRACT_ID = #{ordContractId,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdTravelContract" >
+    update ORD_TRAVEL_CONTRACT
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      VERSION = #{version,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CONTRACT_TEMPLATE = #{contractTemplate,jdbcType=VARCHAR},
+      CONTRACT_NAME = #{contractName,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = sysdate,
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      SIGNING_TYPE = #{signingType,jdbcType=VARCHAR},
+      FILE_ID = #{fileId,jdbcType=DECIMAL},
+      ATTACHEMENT_URL = #{attachementUrl,jdbcType=VARCHAR},
+       ADDITION_FILE_ID = #{additionFileId,jdbcType=VARCHAR},
+        SEND_EMAIL_FLAG = #{sendEmailFlag,jdbcType=VARCHAR}
+    where ORD_CONTRACT_ID = #{ordContractId,jdbcType=DECIMAL}
+  </update>
+  
+   <update id="updateContractStatusByOrderId" parameterType="java.util.Map" >
+    update ORD_TRAVEL_CONTRACT
+    set STATUS = #{status,jdbcType=VARCHAR},
+     UPDATE_TIME = sysdate
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  
+     <update id="updateSendEmailFlag"  parameterType="java.util.Map">
+    update ORD_TRAVEL_CONTRACT
+    set SEND_EMAIL_FLAG = 'Y',
+     UPDATE_TIME = sysdate
+    where ORD_CONTRACT_ID in 
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">  
+ 	 #{item}  
+ </foreach>  
+  </update>
+  
+  <select id="selectPushDataByParam" parameterType="java.util.Map" resultMap="PushDataMap">
+	  select distinct otc.ord_contract_id
+	  from ord_travel_contract otc
+	 where otc.need_sync='1'
+	   and ((otc.status = 'EFFECT' and otc.sync_status in ('UNSUBMITTED', 'MODIFIED_UNSUBMITTED')) or
+	       (otc.status = 'CANCEL' and otc.sync_status not in ('CANCELED', 'CANCELED_FAILED')))
+  </select>
+  
+  <update id="updatePushDataByContractId" parameterType="java.util.Map" >
+    update ORD_TRAVEL_CONTRACT
+    <set >
+      <if test="contractUid != null" >
+        CONTRACT_UID = #{contractUid,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        CONTRACT_NO = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="syncStatus != null" >
+        SYNC_STATUS = #{syncStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="syncLog != null" >
+        SYNC_LOG = #{syncLog,jdbcType=VARCHAR},
+      </if>
+       UPDATE_TIME = sysdate
+    </set>
+    where ORD_CONTRACT_ID = #{ordContractId,jdbcType=DECIMAL}
+  </update>
+</mapper>

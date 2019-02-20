@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_SMS_TEMPLATE" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdSmsTemplate" >
+    <id column="TEMPLATE_ID" property="templateId" jdbcType="DECIMAL" />
+    <result column="TEMPLATE_NAME" property="templateName" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+    <result column="DISTRIBUTOR_ID" property="distributorId" jdbcType="DECIMAL" />
+    <result column="SUPLIER_ID" property="suplierId" jdbcType="DECIMAL" />
+    <result column="SEND_NODE" property="sendNode" jdbcType="VARCHAR" />
+    <result column="ORDER_TIME" property="orderTime" jdbcType="VARCHAR" />
+    <result column="CREATA_TIME" property="creataTime" jdbcType="TIMESTAMP" />
+    <result column="VALID" property="valid" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    TEMPLATE_ID, TEMPLATE_NAME, CONTENT, CATEGORY_ID, DISTRIBUTOR_ID, SUPLIER_ID, SEND_NODE, 
+    ORDER_TIME, CREATA_TIME, VALID,UPDATE_TIME
+  </sql>
+   
+   <sql id="Base_Query_Column_List" >
+      <if test="templateName != null" >
+       and TEMPLATE_NAME like '%'||#{templateName}||'%'
+      </if>
+      <if test="categoryId != null" >
+       and CATEGORY_ID = #{categoryId,jdbcType=DECIMAL}
+      </if>
+      <if test="distributorId != null" >
+       and DISTRIBUTOR_ID = #{distributorId,jdbcType=DECIMAL}
+      </if>
+      <if test="suplierId != null" >
+       and SUPLIER_ID = #{suplierId,jdbcType=DECIMAL}
+      </if>
+      <if test="sendNode != null" >
+       and SEND_NODE = #{sendNode,jdbcType=VARCHAR}
+      </if>
+      <if test="orderTime != null" >
+       and ORDER_TIME = #{orderTime,jdbcType=VARCHAR}
+      </if>
+      <if test="valid != null" >
+       and VALID = #{valid,jdbcType=VARCHAR}
+      </if>
+      <if test="distributorIdIsNull != null" >
+       and DISTRIBUTOR_ID is null
+      </if>
+      <if test="suplierIdIsNull != null" >
+       and SUPLIER_ID is null
+      </if>
+  </sql>
+  
+  
+   <sql id="select_by_param" >
+		select * from ORD_SMS_TEMPLATE where 1=1
+		<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+    <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_SMS_TEMPLATE
+	     where 1=1
+			<include refid="Base_Query_Column_List" />
+	</select>
+	
+	<select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+  
+   <select id="isNameExists" parameterType="java.util.Map" resultType="Integer">
+		select  count(1) from ORD_SMS_TEMPLATE  where  1=1
+	  <if test="templateId != null" >
+       and TEMPLATE_ID  != #{templateId,jdbcType=DECIMAL}
+      </if>
+	  <if test="templateName != null" >
+       and TEMPLATE_NAME = #{templateName,jdbcType=DECIMAL}
+      </if>
+	  <if test="categoryId != null" >
+       and CATEGORY_ID = #{categoryId,jdbcType=DECIMAL}
+      </if>
+      <if test="distributorId != null" >
+       and DISTRIBUTOR_ID = #{distributorId,jdbcType=DECIMAL}
+      </if>
+      <if test="suplierId != null" >
+       and SUPLIER_ID = #{suplierId,jdbcType=DECIMAL}
+      </if>
+      <if test="sendNode != null" >
+       and SEND_NODE = #{sendNode,jdbcType=VARCHAR}
+      </if>
+      <if test="orderTime != null" >
+       and ORDER_TIME = #{orderTime,jdbcType=VARCHAR}
+      </if>
+	</select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_SMS_TEMPLATE
+    where TEMPLATE_ID = #{templateId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_SMS_TEMPLATE
+    where TEMPLATE_ID = #{templateId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdSmsTemplate" >
+  	<selectKey resultType="java.lang.Long" keyProperty="templateId" order="BEFORE" >
+      select SEQ_ORD_SMS_TEMPLATE_ID.nextval from dual
+    </selectKey>
+    insert into ORD_SMS_TEMPLATE (TEMPLATE_ID, TEMPLATE_NAME, CONTENT, 
+      CATEGORY_ID, DISTRIBUTOR_ID, SUPLIER_ID, 
+      SEND_NODE, ORDER_TIME, CREATA_TIME, 
+      VALID)
+    values (#{templateId,jdbcType=DECIMAL}, #{templateName,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{categoryId,jdbcType=DECIMAL}, #{distributorId,jdbcType=DECIMAL}, #{suplierId,jdbcType=DECIMAL}, 
+      #{sendNode,jdbcType=VARCHAR}, #{orderTime,jdbcType=VARCHAR}, #{creataTime,jdbcType=TIMESTAMP}, 
+      #{valid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdSmsTemplate" >
+    insert into ORD_SMS_TEMPLATE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="templateId != null" >
+        TEMPLATE_ID,
+      </if>
+      <if test="templateName != null" >
+        TEMPLATE_NAME,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="distributorId != null" >
+        DISTRIBUTOR_ID,
+      </if>
+      <if test="suplierId != null" >
+        SUPLIER_ID,
+      </if>
+      <if test="sendNode != null" >
+        SEND_NODE,
+      </if>
+      <if test="orderTime != null" >
+        ORDER_TIME,
+      </if>
+      <if test="creataTime != null" >
+        CREATA_TIME,
+      </if>
+      <if test="valid != null" >
+        VALID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="templateId != null" >
+        #{templateId,jdbcType=DECIMAL},
+      </if>
+      <if test="templateName != null" >
+        #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=DECIMAL},
+      </if>
+      <if test="suplierId != null" >
+        #{suplierId,jdbcType=DECIMAL},
+      </if>
+      <if test="sendNode != null" >
+        #{sendNode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="creataTime != null" >
+        #{creataTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="valid != null" >
+        #{valid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdSmsTemplate" >
+    update ORD_SMS_TEMPLATE
+    <set >
+      <if test="templateName != null" >
+        TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="distributorId != null" >
+        DISTRIBUTOR_ID = #{distributorId,jdbcType=DECIMAL},
+      </if>
+      <if test="suplierId != null" >
+        SUPLIER_ID = #{suplierId,jdbcType=DECIMAL},
+      </if>
+      <if test="sendNode != null" >
+        SEND_NODE = #{sendNode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        ORDER_TIME = #{orderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="creataTime != null" >
+        CREATA_TIME = #{creataTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="valid != null" >
+        VALID = #{valid,jdbcType=VARCHAR},
+      </if>
+        UPDATE_TIME = SYSDATE
+    </set>
+    where TEMPLATE_ID = #{templateId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdSmsTemplate" >
+    update ORD_SMS_TEMPLATE
+    set TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      DISTRIBUTOR_ID = #{distributorId,jdbcType=DECIMAL},
+      SUPLIER_ID = #{suplierId,jdbcType=DECIMAL},
+      SEND_NODE = #{sendNode,jdbcType=VARCHAR},
+      ORDER_TIME = #{orderTime,jdbcType=VARCHAR},
+      CREATA_TIME = #{creataTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = SYSDATE,
+      VALID = #{valid,jdbcType=VARCHAR}
+    where TEMPLATE_ID = #{templateId,jdbcType=DECIMAL}
+  </update>
+</mapper>

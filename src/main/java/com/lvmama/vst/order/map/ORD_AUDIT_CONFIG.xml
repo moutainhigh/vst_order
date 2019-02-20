@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_AUDITCONFIG" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdAuditConfig" >
+    <id column="ORD_AUDIT_CONFIG_ID" property="ordAuditConfigId" jdbcType="DECIMAL" />
+    <result column="ORD_FUNCTION_ID" property="ordFunctionId" jdbcType="DECIMAL" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+    <result column="OPERATOR_NAME" property="operatorName" jdbcType="VARCHAR" />
+    <result column="TASK_LIMIT" property="taskLimit" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORD_AUDIT_CONFIG_ID, ORD_FUNCTION_ID, CATEGORY_ID, OPERATOR_NAME, TASK_LIMIT, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_AUDIT_CONFIG
+    where ORD_AUDIT_CONFIG_ID = #{ordAuditConfigId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_AUDIT_CONFIG
+    where ORD_AUDIT_CONFIG_ID = #{ordAuditConfigId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdAuditConfig" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordAuditConfigId" order="BEFORE" >
+      select SEQ_ORD_AUDIT_CONFIG_ID.nextval from dual
+    </selectKey>
+    insert into ORD_AUDIT_CONFIG (ORD_AUDIT_CONFIG_ID, ORD_FUNCTION_ID, 
+      CATEGORY_ID, OPERATOR_NAME, TASK_LIMIT
+      )
+    values (#{ordAuditConfigId,jdbcType=DECIMAL}, #{ordFunctionId,jdbcType=DECIMAL}, 
+      #{categoryId,jdbcType=DECIMAL}, #{operatorName,jdbcType=VARCHAR}, #{taskLimit,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdAuditConfig" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordAuditConfigId" order="BEFORE" >
+      select SEQ_ORD_AUDIT_CONFIG_ID.nextval from dual
+    </selectKey>
+    insert into ORD_AUDIT_CONFIG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORD_AUDIT_CONFIG_ID,
+      <if test="ordFunctionId != null" >
+        ORD_FUNCTION_ID,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="operatorName != null" >
+        OPERATOR_NAME,
+      </if>
+      <if test="taskLimit != null" >
+        TASK_LIMIT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{ordAuditConfigId,jdbcType=DECIMAL},
+      <if test="ordFunctionId != null" >
+        #{ordFunctionId,jdbcType=DECIMAL},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="operatorName != null" >
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskLimit != null" >
+        #{taskLimit,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdAuditConfig" >
+    update ORD_AUDIT_CONFIG
+    <set >
+      <if test="ordFunctionId != null" >
+        ORD_FUNCTION_ID = #{ordFunctionId,jdbcType=DECIMAL},
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="operatorName != null" >
+        OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskLimit != null" >
+        TASK_LIMIT = #{taskLimit,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORD_AUDIT_CONFIG_ID = #{ordAuditConfigId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdAuditConfig" >
+    update ORD_AUDIT_CONFIG
+    set ORD_FUNCTION_ID = #{ordFunctionId,jdbcType=DECIMAL},
+      CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+      TASK_LIMIT = #{taskLimit,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where ORD_AUDIT_CONFIG_ID = #{ordAuditConfigId,jdbcType=DECIMAL}
+  </update>
+  
+  
+  
+  
+  
+  
+   <sql id="Base_Query_Column_List" >
+   	<if test="ordAuditConfigId != null" >
+      and  ORD_AUDIT_CONFIG_ID = #{ordAuditConfigId}
+      </if>
+   	  <if test="ordFunctionId != null" >
+      and  ORD_FUNCTION_ID = #{ordFunctionId}
+      </if>
+	  <if test="categoryId != null" >
+      and  CATEGORY_ID = #{categoryId}
+      </if>
+      <if test="operatorName != null" >
+      and  OPERATOR_NAME = #{operatorName} 
+      </if>
+      <if test="taskLimit != null" >
+      and  TASK_LIMIT = #{taskLimit}
+      </if>
+      
+      
+       <if test="categoryIdArray != null">
+			AND CATEGORY_ID IN
+			<foreach collection="categoryIdArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+       <if test="operatorNameArray != null">
+			AND OPERATOR_NAME IN
+			<foreach collection="operatorNameArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+      
+      
+  </sql>
+  
+    <sql id="select_by_param" >
+		select *	
+		from ORD_AUDIT_CONFIG  
+		where 1=1
+			<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+     <sql id="select_by_param_GroupBy" >
+		select category_id,operator_name	
+		from ORD_AUDIT_CONFIG  
+		where 1=1
+			<include refid="Base_Query_Column_List" />	group by category_id,operator_name
+    </sql>
+    <select id="selectByParamsGroupBy" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param_GroupBy"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+	<select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_AUDIT_CONFIG
+	     where 1=1
+			<include refid="Base_Query_Column_List" />
+	</select>
+	
+	<delete id="deleteOrdAuditConfigsByParams" parameterType="java.util.Map" >
+    	delete from ORD_AUDIT_CONFIG
+   		 where 1=1
+			<include refid="Base_Query_Column_List" />	
+  	</delete>
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="O2O_ORD_INVOICE_RELATION" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.O2oOrdInvoiceRelation" >
+    <id column="O2O_ORD_INVOICE_REL_ID" property="o2oOrdInvoiceRelId" jdbcType="DECIMAL" />
+    <result column="SUB_COMPANY_ID" property="subCompanyId" jdbcType="DECIMAL" />
+    <result column="BRANCH_OFFICE_ID" property="branchOfficeId" jdbcType="DECIMAL" />
+    <result column="STORE_ID" property="storeId" jdbcType="DECIMAL" />
+    <result column="INVOICE_ID" property="invoiceId" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    O2O_ORD_INVOICE_REL_ID, SUB_COMPANY_ID, BRANCH_OFFICE_ID, STORE_ID, INVOICE_ID,
+    UPDATE_TIME
+  </sql>
+  <select id="getInvoiceCount" parameterType="java.util.Map" resultType="Integer">
+		SELECT COUNT(1)
+		FROM ORD_INVOICE oi, O2O_ORD_INVOICE_RELATION ooir, ORD_INVOICE_RELATION oir
+        where oi.ORD_INVOICE_ID = ooir.INVOICE_ID  and oi.ORD_INVOICE_ID = oir.ORD_INVOICE_ID
+	   <include refid="pageWhere" />
+  </select>	
+  
+  <select id="selectByInvoiceId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from O2O_ORD_INVOICE_RELATION
+    where INVOICE_ID = #{invoiceId,jdbcType=DECIMAL}
+  </select>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.O2oOrdInvoiceRelation" >
+  	<selectKey resultType="java.lang.Long" keyProperty="o2oOrdInvoiceRelId" order="BEFORE" >
+      select o2oOrdInvoiceRelation_sequence.nextval from dual
+    </selectKey>
+    insert into O2O_ORD_INVOICE_RELATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="o2oOrdInvoiceRelId != null" >
+        O2O_ORD_INVOICE_REL_ID,
+      </if>
+      <if test="subCompanyId != null" >
+        SUB_COMPANY_ID,
+      </if>
+      <if test="branchOfficeId != null" >
+        BRANCH_OFFICE_ID,
+      </if>
+      <if test="storeId != null" >
+        STORE_ID,
+      </if>
+      <if test="invoiceId != null" >
+        INVOICE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     	#{o2oOrdInvoiceRelId,jdbcType=DECIMAL},
+      <if test="subCompanyId != null" >
+        #{subCompanyId,jdbcType=DECIMAL},
+      </if>
+      <if test="branchOfficeId != null" >
+        #{branchOfficeId,jdbcType=DECIMAL},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=DECIMAL},
+      </if>
+       <if test="invoiceId != null" >
+        #{invoiceId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <sql id="pageWhere">
+      <if test="subCompanyId != null">
+         and  ooir.SUB_COMPANY_ID = #{subCompanyId,jdbcType=DECIMAL}   
+	  </if>
+	  <if test="branchOfficeId != null">
+	     AND ooir.BRANCH_OFFICE_ID = #{branchOfficeId,jdbcType=DECIMAL}         
+	  </if>
+	  <if test="storeId != null">
+         AND ooir.STORE_ID = #{storeId,jdbcType=DECIMAL}
+	  </if>
+	  <if test="startApplyTime != null and endApplyTime != null" >
+       AND  oi.CREATE_TIME BETWEEN #{startApplyTime,jdbcType=TIMESTAMP} AND  #{endApplyTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="startApplyTime != null and endApplyTime == null" >
+       AND  oi.CREATE_TIME = #{startApplyTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="invoiceNo != null and invoiceNo !='' " >
+       And  oi.INVOICE_NO = #{invoiceNo,jdbcType=VARCHAR}
+     </if>
+	 <if test="orderId != null" >
+       And  oir.ORDER_ID = #{orderId,jdbcType=VARCHAR}
+     </if>
+     <if test="status != null and status !=''" >
+       And  oi.STATUS = #{status,jdbcType=VARCHAR}
+     </if>
+  </sql>
+</mapper>

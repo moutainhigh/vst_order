@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_AMOUNT_ITEM" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderAmountItem" >
+    <id column="ORDER_AMOUNT_ITEM_ID" property="orderAmountItemId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
+    <result column="ITEM_AMOUNT" property="itemAmount" jdbcType="DECIMAL" />
+    <result column="ORDER_AMOUNT_TYPE" property="orderAmountType" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORDER_AMOUNT_ITEM_ID, ORDER_ID, ITEM_NAME, ITEM_AMOUNT, ORDER_AMOUNT_TYPE, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_AMOUNT_ITEM
+    where ORDER_AMOUNT_ITEM_ID = #{orderAmountItemId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_ORDER_AMOUNT_ITEM
+    where ORDER_AMOUNT_ITEM_ID = #{orderAmountItemId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderAmountItem" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderAmountItemId" order="BEFORE" >
+      select SEQ_ORDER_AMOUNT_ITEM_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_AMOUNT_ITEM (ORDER_AMOUNT_ITEM_ID, ORDER_ID, ITEM_NAME, 
+      ITEM_AMOUNT, ORDER_AMOUNT_TYPE)
+    values (#{orderAmountItemId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{itemName,jdbcType=VARCHAR}, 
+      #{itemAmount,jdbcType=DECIMAL}, #{orderAmountType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderAmountItem" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderAmountItemId" order="BEFORE" >
+      select SEQ_ORDER_AMOUNT_ITEM_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_AMOUNT_ITEM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORDER_AMOUNT_ITEM_ID,
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="itemName != null" >
+        ITEM_NAME,
+      </if>
+      <if test="itemAmount != null" >
+        ITEM_AMOUNT,
+      </if>
+      <if test="orderAmountType != null" >
+        ORDER_AMOUNT_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{orderAmountItemId,jdbcType=DECIMAL},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemAmount != null" >
+        #{itemAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderAmountType != null" >
+        #{orderAmountType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  	
+   <sql id="Base_Query_Column_List" >
+   	  <if test="orderAmountItemId != null" >
+      and  ORDER_AMOUNT_ITEM_ID = #{orderAmountItemId}
+      </if>
+	  <if test="orderId != null" >
+      and  ORDER_ID = #{orderId}
+      </if>
+      <if test="orderIdList != null">
+             AND ORDER_ID IN
+        <foreach collection="orderIdList" index="index" item="item" open="(" separator="," close=")">
+                 #{item}
+        </foreach>
+      </if>
+      <if test="itemName != null" >
+      and  ITEM_NAME = #{itemName}
+      </if>
+      <if test="itemAmount != null" >
+      and  ITEM_AMOUNT = #{itemAmount}
+      </if>
+      <if test="orderAmountType != null" >
+      and  ORDER_AMOUNT_TYPE = #{orderAmountType}
+      </if>
+     <if test="orderAmountTypeArray != null" >
+       AND ORDER_AMOUNT_TYPE IN
+       <foreach collection="orderAmountTypeArray" index="index" item="item" open="(" separator="," close=")">
+         #{item}
+       </foreach>
+     </if>
+  </sql>
+  
+  <sql id="select_by_param" >
+		select *	
+		from ORD_ORDER_AMOUNT_ITEM  
+		where 1=1
+			<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+	
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderAmountItem" >
+    update ORD_ORDER_AMOUNT_ITEM
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="itemName != null" >
+        ITEM_NAME = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemAmount != null" >
+        ITEM_AMOUNT = #{itemAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderAmountType != null" >
+        ORDER_AMOUNT_TYPE = #{orderAmountType,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORDER_AMOUNT_ITEM_ID = #{orderAmountItemId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdOrderAmountItem" >
+    update ORD_ORDER_AMOUNT_ITEM
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      ITEM_NAME = #{itemName,jdbcType=VARCHAR},
+      ITEM_AMOUNT = #{itemAmount,jdbcType=DECIMAL},
+      ORDER_AMOUNT_TYPE = #{orderAmountType,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate
+    where ORDER_AMOUNT_ITEM_ID = #{orderAmountItemId,jdbcType=DECIMAL}
+  </update>
+</mapper>

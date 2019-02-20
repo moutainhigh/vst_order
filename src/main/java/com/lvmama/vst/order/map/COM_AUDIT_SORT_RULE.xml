@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="COM_AUDIT_SORT_RULE">
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.ComAuditSortRule">
+		<id column="SORT_RULE_ID" property="sortRuleId" jdbcType="DECIMAL" />
+		<result column="SORT_RULE_NAME" property="sortRuleName" jdbcType="VARCHAR" />
+		<result column="ARRIVE_TYPE" property="arriveType" jdbcType="VARCHAR" />
+		<result column="BU" property="bu" jdbcType="VARCHAR" />
+		<result column="OBJECT_ID" property="objectId" jdbcType="VARCHAR" />
+		<result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+		<result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="VALID" property="valid" jdbcType="VARCHAR" />
+		<result column="REMIND_TIME" property="remindTime" jdbcType="DECIMAL" />
+		<result column="SEQ" property="seq" jdbcType="DECIMAL" />
+		<result column="IMMEDIATELY_FLAG" property="immediatelyFlag" jdbcType="VARCHAR" />
+		<result column="OPERATE_NAME" property="operateName" jdbcType="VARCHAR" />
+		<result column="ORDER_CHANNEL" property="orderChannel" jdbcType="VARCHAR" />
+		<result column="ORDER_RESOURCE_STATUS" property="orderResourceStatus" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		SORT_RULE_ID, SORT_RULE_NAME, ARRIVE_TYPE, BU, OBJECT_ID, OBJECT_TYPE,
+		SUPPLIER_ID, CREATE_TIME, UPDATE_TIME, VALID, REMIND_TIME, SEQ, IMMEDIATELY_FLAG, OPERATE_NAME,ORDER_CHANNEL,ORDER_RESOURCE_STATUS
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from COM_AUDIT_SORT_RULE
+		where SORT_RULE_ID = #{sortRuleId,jdbcType=DECIMAL} AND VALID='Y'
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from COM_AUDIT_SORT_RULE
+		where SORT_RULE_ID = #{sortRuleId,jdbcType=DECIMAL}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lvmama.vst.back.order.po.ComAuditSortRule">
+		<selectKey resultType="java.lang.Long" keyProperty="sortRuleId"
+			order="BEFORE">
+			select SEQ_SORT_RULE_ID.nextval from dual
+		</selectKey>
+		insert into COM_AUDIT_SORT_RULE (SORT_RULE_ID, SORT_RULE_NAME, ARRIVE_TYPE, BU,
+		OBJECT_ID, OBJECT_TYPE, SUPPLIER_ID, CREATE_TIME, UPDATE_TIME, VALID, REMIND_TIME, SEQ,
+		IMMEDIATELY_FLAG, OPERATE_NAME,ORDER_CHANNEL,ORDER_RESOURCE_STATUS
+		)
+		values (#{sortRuleId,jdbcType=DECIMAL}, #{sortRuleName,jdbcType=VARCHAR},
+		#{arriveType,jdbcType=VARCHAR}, #{bu,jdbcType=VARCHAR}, 
+		#{objectId,jdbcType=VARCHAR}, #{objectType,jdbcType=VARCHAR},
+		#{supplierId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},'Y',
+		#{remindTime,jdbcType=DECIMAL},#{seq,jdbcType=DECIMAL},
+		#{immediatelyFlag,jdbcType=VARCHAR}, #{operateName,jdbcType=VARCHAR},#{orderChannel,jdbcType=VARCHAR},
+		#{orderResourceStatus,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.ComAuditSortRule">
+		<selectKey resultType="java.lang.Long" keyProperty="sortRuleId"
+			order="BEFORE">
+			select SEQ_SORT_RULE_ID.nextval from dual
+		</selectKey>
+		insert into COM_AUDIT_SORT_RULE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			SORT_RULE_ID,
+			<if test="sortRuleName != null">
+				SORT_RULE_NAME,
+			</if>
+			<if test="arriveType != null">
+				ARRIVE_TYPE,
+			</if>
+			<if test="bu != null">
+				BU,
+			</if>
+			<if test="objectId != null">
+				OBJECT_ID,
+			</if>
+			<if test="objectType != null">
+				OBJECT_TYPE,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="valid != null">
+				VALID,
+			</if>
+			<if test="remindTime != null">
+				REMIND_TIME,
+			</if>
+			<if test="seq != null">
+				SEQ,
+			</if>
+			<if test="immediatelyFlag != null">
+				IMMEDIATELY_FLAG,
+			</if>
+			<if test="operateName != null">
+				OPERATE_NAME,
+			</if>
+			<if test="orderChannel != null">
+				ORDER_CHANNEL,
+			</if>
+			<if test="orderResourceStatus !=null">
+				ORDER_RESOURCE_STATUS,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{sortRuleId,jdbcType=DECIMAL},
+			<if test="sortRuleName != null">
+				#{sortRuleName,jdbcType=VARCHAR},
+			</if>
+			<if test="arriveType != null">
+				#{arriveType,jdbcType=VARCHAR},
+			</if>
+			<if test="bu != null">
+				#{bu,jdbcType=VARCHAR},
+			</if>
+			<if test="objectId != null">
+				#{objectId,jdbcType=VARCHAR},
+			</if>
+			<if test="objectType != null">
+				#{objectType,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="valid != null">
+				#{valid,jdbcType=VARCHAR},
+			</if>
+			<if test="remindTime != null">
+				#{remindTime,jdbcType=DECIMAL},
+			</if>
+			<if test="seq != null">
+				#{seq,jdbcType=DECIMAL},
+			</if>
+			<if test="immediatelyFlag != null">
+				#{immediatelyFlag,jdbcType=VARCHAR},
+			</if>
+			<if test="operateName != null">
+				#{operateName,jdbcType=VARCHAR},
+			</if>
+			<if test="orderChannel != null">
+				#{orderChannel,jdbcType=VARCHAR},
+			</if>
+			<if test="orderResourceStatus !=null">
+				#{orderResourceStatus,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.ComAuditSortRule">
+		update COM_AUDIT_SORT_RULE
+		<set>
+			<if test="sortRuleName != null">
+				SORT_RULE_NAME = #{sortRuleName,jdbcType=VARCHAR},
+			</if>
+			<if test="arriveType != null">
+				ARRIVE_TYPE = #{arriveType,jdbcType=VARCHAR},
+			</if>
+			<if test="bu != null">
+				BU = #{bu,jdbcType=VARCHAR},
+			</if>
+			<if test="objectId != null">
+				OBJECT_ID = #{objectId,jdbcType=VARCHAR},
+			</if>
+			<if test="objectType != null">
+				OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="valid != null">
+				VALID = #{valid,jdbcType=VARCHAR},
+			</if>
+			<if test="remindTime != null">
+				REMIND_TIME = #{remindTime,jdbcType=DECIMAL},
+			</if>
+			<if test="seq != null">
+				SEQ = #{seq,jdbcType=DECIMAL},
+			</if>
+			<if test="immediatelyFlag != null">
+				IMMEDIATELY_FLAG = #{immediatelyFlag,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="orderChannel != null">
+				ORDER_CHANNEL = #{orderChannel,jdbcType=VARCHAR},
+			</if>
+			<if test="orderResourceStatus !=null">
+				ORDER_RESOURCE_STATUS = #{orderResourceStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="operateName != null">
+				OPERATE_NAME = #{operateName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where SORT_RULE_ID = #{sortRuleId,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.ComAuditSortRule">
+		update COM_AUDIT_SORT_RULE
+		set 
+		SORT_RULE_NAME = #{sortRuleName,jdbcType=VARCHAR},
+		ARRIVE_TYPE = #{arriveType,jdbcType=VARCHAR},
+		BU = #{bu,jdbcType=VARCHAR},
+		OBJECT_ID = #{objectId,jdbcType=VARCHAR},
+		OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+		SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		REMIND_TIME = #{remindTime,jdbcType=DECIMAL},
+		SEQ = #{seq,jdbcType=DECIMAL},
+		IMMEDIATELY_FLAG = #{immediatelyFlag,jdbcType=VARCHAR},
+		ORDER_CHANNEL = #{orderChannel,jdbcType=VARCHAR},
+		ORDER_RESOURCE_STATUS = #{orderResourceStatus,jdbcType=VARCHAR},
+		OPERATE_NAME = #{operateName,jdbcType=VARCHAR}
+		where SORT_RULE_ID = #{sortRuleId,jdbcType=DECIMAL}
+		AND VALID = 'Y'
+	</update>
+
+ 	<sql id="Base_Query_Column_List" >
+		<if test="sortRuleId != null">
+			AND COM_AUDIT_SORT_RULE.SORT_RULE_ID = #{sortRuleId,jdbcType=DECIMAL}
+		</if>
+		<if test="sortRuleName != null and sortRuleName != ''">
+			AND COM_AUDIT_SORT_RULE.SORT_RULE_NAME = #{sortRuleName,jdbcType=VARCHAR}
+		</if>		
+		<if test="arriveType != null and arriveType != ''">
+			AND COM_AUDIT_SORT_RULE.ARRIVE_TYPE = #{arriveType,jdbcType=VARCHAR}
+		</if>
+		<if test="bu != null and bu != ''">
+			AND COM_AUDIT_SORT_RULE.BU = #{bu,jdbcType=VARCHAR}
+		</if>
+		<if test="objectId != null and objectId != ''">
+			AND COM_AUDIT_SORT_RULE.OBJECT_ID = #{objectId,jdbcType=VARCHAR}
+		</if>
+		<if test="objectType != null and objectType != ''">
+			AND COM_AUDIT_SORT_RULE.OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+		<if test="supplierId != null and supplierId != ''">
+			AND COM_AUDIT_SORT_RULE.SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+		</if>
+		<if test="createTime != null">
+			AND COM_AUDIT_SORT_RULE.CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="updateTime != null">
+			AND COM_AUDIT_SORT_RULE.UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="valid != null and valid != ''">
+			AND COM_AUDIT_SORT_RULE.VALID = #{valid,jdbcType=VARCHAR}
+		</if>
+		<if test="seq != null">
+			AND COM_AUDIT_SORT_RULE.SEQ = #{seq,jdbcType=DECIMAL}
+		</if>
+		<if test="immediatelyFlag != null and immediatelyFlag != ''">
+			AND COM_AUDIT_SORT_RULE.IMMEDIATELY_FLAG = #{immediatelyFlag,jdbcType=VARCHAR}
+		</if>
+		<if test="operateName != null and operateName != ''">
+			AND COM_AUDIT_SORT_RULE.OPERATE_NAME = #{operateName,jdbcType=VARCHAR}
+		</if>		
+   	    <if test="sortRuleIds != null and sortRuleIds!=''">
+			AND COM_AUDIT_SORT_RULE.SORT_RULE_ID IN 
+			<foreach collection="sortRuleIds" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="objectIds != null and objectIds != ''">
+			AND COM_AUDIT_SORT_RULE.OBJECT_ID IN
+			<foreach collection="objectIds" item="item" index="index" open="("
+				separator="," close=")">
+					#{item}
+			</foreach>
+		</if>
+  </sql>
+  
+   <sql id="select_by_param" >
+		select *	
+		from COM_AUDIT_SORT_RULE  
+		where VALID='Y' 
+		<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+	<select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+    <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from COM_AUDIT_SORT_RULE
+	    where VALID='Y'
+		<include refid="Base_Query_Column_List" />
+	</select>
+</mapper>

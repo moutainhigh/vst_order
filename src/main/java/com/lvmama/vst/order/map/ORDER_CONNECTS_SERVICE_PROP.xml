@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORDER_CONNECTS_SERVICE_PROP" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.play.connects.po.OrderConnectsServiceProp" >
+      <id column="ORDER_SERVICE_ID" property="orderServiceId" jdbcType="DECIMAL" />
+      <result column="PROP_ID" property="propId" jdbcType="DECIMAL" />
+      <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+      <result column="PROP_VALUE" property="propValue" jdbcType="VARCHAR" />
+      <result column="BRANCH_ID" property="branchId" jdbcType="DECIMAL" />
+      <result column="PROP_NAME" property="propName" jdbcType="VARCHAR" />
+      <result column="PROP_CODE" property="propCode" jdbcType="VARCHAR" />
+      <result column="SEQ" property="seq" jdbcType="DECIMAL" />
+      <result column="MAX_LENGTH" property="maxLength" jdbcType="DECIMAL" />
+      <result column="REQUIRE" property="require" jdbcType="VARCHAR" />
+      <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+    
+  <sql id="Base_Query_Column_List_Sales" >
+	 <if test="orderServiceId != null" >
+      	and ORDER_SERVICE_ID = #{orderServiceId}
+     </if>
+      <if test="propId != null" >
+      	and PROP_ID = #{propId}
+     </if>
+      <if test="orderId != null" >
+      	and ORDER_ID = #{orderId}
+     </if>
+     <if test="PROP_VALUE != null" >
+      	and PROP_VALUE = #{propValue}
+     </if>
+  </sql>
+  
+  
+  <sql id="Base_Column_List" >
+    ORDER_SERVICE_ID, PROP_ID, ORDER_ID, PROP_VALUE, UPDATE_TIME
+  </sql>
+  
+  <sql id="Base_Query_Column_List">
+  	<if test="orderServiceId != null">
+  		AND ORDER_SERVICE_ID = #{orderServiceId}
+  	</if>
+  	<if test="propId != null">
+  		AND PROP_ID = #{propId}
+  	</if>
+  	<if test="orderId != null">
+  		AND ORDER_ID = #{orderId}
+  	</if>
+  	<if test="propValue != null">
+  		AND PROP_VALUE = #{propValue}
+  	</if>
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORDER_CONNECTS_SERVICE_PROP
+    where ORDER_SERVICE_ID = #{orderServiceId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select <include refid="Base_Column_List" />
+    from ORDER_CONNECTS_SERVICE_PROP where 1=1
+    <include refid="Base_Query_Column_List_Sales" />
+  </select>
+  
+  <select id="selectPropId" resultType="java.lang.Long">
+    select SEQ_ORDER_SERVICE_PROP.currval from dual
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  	DELETE FROM ORDER_CONNECTS_SERVICE_PROP
+             where ORDER_SERVICE_ID = #{orderServiceId,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.lvmama.vst.back.play.connects.po.OrderConnectsServiceProp">
+		<selectKey resultType="java.lang.Long" keyProperty="orderServiceId" order="BEFORE">
+			select
+			SEQ_ORDER_SERVICE_PROP.nextval from dual
+		</selectKey>
+		INSERT INTO ORDER_CONNECTS_SERVICE_PROP (
+			ORDER_SERVICE_ID, PROP_ID, ORDER_ID, PROP_VALUE
+		)
+		VALUES
+		(
+			#{orderServiceId,jdbcType=DECIMAL},
+			#{propId,jdbcType=DECIMAL},
+			#{orderId,jdbcType=DECIMAL},
+			#{propValue,jdbcType=VARCHAR}
+		)
+ </insert>
+  
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.play.connects.po.OrderConnectsServiceProp" >
+    <selectKey resultType="java.lang.Long" keyProperty="reId" order="BEFORE">
+			select
+			SEQ_ORDER_SERVICE_PROP.nextval from dual
+		</selectKey>
+    insert into ORDER_CONNECTS_SERVICE_PROP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderServiceId != null" >
+        ORDER_SERVICE_ID,
+      </if>
+      <if test="propId != null" >
+        PROP_ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="propValue != null" >
+        PROP_VALUE
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderServiceId != null" >
+        #{orderServiceId,jdbcType=DECIMAL},
+      </if>
+      <if test="propId != null" >
+        #{propId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="propValue != null">
+      	#{propValue,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.play.connects.po.OrderConnectsServiceProp" >
+    update ORDER_CONNECTS_SERVICE_PROP
+    <set >
+      <if test="propId != null" >
+        PROP_ID = #{propId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+         ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="propValue != null">
+      	PROP_VALUE = #{propValue,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORDER_SERVICE_ID = #{orderServiceId,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.play.connects.po.OrderConnectsServiceProp" >
+    update ORDER_CONNECTS_SERVICE_PROP
+    set 
+      PROP_ID = #{propId,jdbcType=DECIMAL},
+      ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      PROP_VALUE = #{propValue,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate
+    where ORDER_SERVICE_ID = #{orderServiceId,jdbcType=DECIMAL}
+  </update>
+  <delete id="deleteByParams" parameterType="java.util.Map">
+  	DELETE FROM ORDER_CONNECTS_SERVICE_PROP
+  	WHERE
+  	1=1
+  	<include refid="Base_Query_Column_List" />
+  </delete>
+
+    <select id="queryOrderConnectsPropByParams" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select prop.PROP_ID,prop.Branch_Id,prop.PROP_NAME,prop.PROP_CODE,prop.SEQ,prop.MAX_LENGTH,prop.REQUIRE,orderProp.ORDER_SERVICE_ID,orderProp.ORDER_ID,orderProp.PROP_VALUE,orderProp.UPDATE_TIME
+              from BIZ_ORDER_CONNECTS_PROP prop, order_connects_service_prop orderProp
+              where prop.prop_id = orderProp.Prop_Id
+              and orderProp.Order_Id = #{orderId,jdbcType=DECIMAL}
+              order by prop.seq asc
+    </select>
+    
+    <update id="updateOrderConnectsServicePropByOrderId" parameterType="com.lvmama.vst.back.play.connects.po.OrderConnectsServiceProp" >
+     update ORDER_CONNECTS_SERVICE_PROP
+	    <set >
+	      <if test="propValue != null">
+	      	PROP_VALUE = #{propValue,jdbcType=VARCHAR}
+	      </if>
+	    </set>
+	    where PROP_ID = #{propId,jdbcType=DECIMAL}  and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </update>
+
+</mapper>

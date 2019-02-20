@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ATTACHMENT">
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrderAttachment">
+		<id column="ORD_ATTACHMENT_ID" property="ordAttachmentId" jdbcType="DECIMAL" />
+		<result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+		<result column="ATTACHMENT_TYPE" property="attachmentType"
+			jdbcType="VARCHAR" />
+		<result column="ATTACHMENT_NAME" property="attachmentName"
+			jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="FILE_ID" property="fileId" jdbcType="DECIMAL" />
+		<result column="CONFIRM_TYPE" property="confirmType" jdbcType="VARCHAR" />
+		
+		<result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+	        <result column="FILE_TYPE" property="fileType" jdbcType="VARCHAR" />
+	        <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+	          <result column="CANCEL_FLAG" property="cancelFlag" jdbcType="VARCHAR" />
+	          <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ORD_ATTACHMENT_ID, ORDER_ID, ATTACHMENT_TYPE, ATTACHMENT_NAME, MEMO, CREATE_TIME,
+		FILE_ID, CONFIRM_TYPE,ORDER_ITEM_ID, FILE_TYPE, CONTENT, UPDATE_TIME
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from ORD_ATTACHMENT
+		where ORD_ATTACHMENT_ID = #{ordAttachmentId,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from ORD_ATTACHMENT
+		where ORD_ATTACHMENT_ID = #{ordAttachmentId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrderAttachment">
+		<selectKey resultType="java.lang.Long" keyProperty="ordAttachmentId"
+			order="BEFORE">
+			select SEQ_ORD_ATTACHMENT_ID.nextval from dual
+		</selectKey>
+		insert into ORD_ATTACHMENT (ORD_ATTACHMENT_ID, ORDER_ID,
+		ATTACHMENT_TYPE,
+		ATTACHMENT_NAME, MEMO, CREATE_TIME,
+		FILE_ID, CONFIRM_TYPE,ORDER_ITEM_ID,FILE_TYPE,CONTENT,CANCEL_FLAG)
+		values (#{ordAttachmentId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL},
+		#{attachmentType,jdbcType=VARCHAR},
+		#{attachmentName,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{fileId,jdbcType=DECIMAL}, #{confirmType,jdbcType=VARCHAR},
+		#{orderItemId,jdbcType=DECIMAL}, 
+     	#{fileType,jdbcType=VARCHAR},
+     	#{content,jdbcType=VARCHAR},
+     	#{cancelFlag,jdbcType=VARCHAR}
+		)
+		
+	</insert>
+	<insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrderAttachment">
+		<selectKey resultType="java.lang.Long" keyProperty="ordAttachmentId"
+			order="BEFORE">
+			select SEQ_ORD_ATTACHMENT_ID.nextval from dual
+		</selectKey>
+		insert into ORD_ATTACHMENT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			ORD_ATTACHMENT_ID,
+			<if test="orderId != null">
+				ORDER_ID,
+			</if>
+			<if test="attachmentType != null">
+				ATTACHMENT_TYPE,
+			</if>
+			<if test="attachmentName != null">
+				ATTACHMENT_NAME,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="fileId != null">
+				FILE_ID,
+			</if>
+			<if test="confirmType != null">
+				CONFIRM_TYPE,
+			</if>
+			
+			<if test="orderItemId != null">
+				ORDER_ITEM_ID,
+		      </if>
+		      <if test="fileType != null" >
+		        FILE_TYPE,
+		      </if>
+		      <if test="content != null" >
+		        CONTENT,
+		      </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{ordAttachmentId,jdbcType=DECIMAL},
+			<if test="orderId != null">
+				#{orderId,jdbcType=DECIMAL},
+			</if>
+			<if test="attachmentType != null">
+				#{attachmentType,jdbcType=VARCHAR},
+			</if>
+			<if test="attachmentName != null">
+				#{attachmentName,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fileId != null">
+				#{fileId,jdbcType=DECIMAL},
+			</if>
+			<if test="confirmType != null">
+				#{confirmType,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="orderItemId != null">
+				#{orderItemId,jdbcType=DECIMAL},
+		      </if>
+		      <if test="fileType != null" >
+		        #{fileType,jdbcType=VARCHAR},
+		      </if>
+		      <if test="content != null" >
+		        #{content,jdbcType=VARCHAR},
+		      </if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrderAttachment">
+		update ORD_ATTACHMENT
+		<set>
+			<if test="orderId != null">
+				ORDER_ID = #{orderId,jdbcType=DECIMAL},
+			</if>
+			<if test="attachmentType != null">
+				ATTACHMENT_TYPE = #{attachmentType,jdbcType=VARCHAR},
+			</if>
+			<if test="attachmentName != null">
+				ATTACHMENT_NAME = #{attachmentName,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fileId != null">
+				FILE_ID = #{fileId,jdbcType=DECIMAL},
+			</if>
+			<if test="confirmType != null">
+				CONFIRM_TYPE = #{confirmType,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="orderItemId != null">
+				ORDER_ITEM_ID=#{orderItemId,jdbcType=DECIMAL}
+			</if>
+			 <if test="fileType != null" >
+			        FILE_TYPE = #{fileType,jdbcType=VARCHAR},
+		        </if>
+		        <if test="content != null" >
+		               CONTENT = #{content,jdbcType=VARCHAR},
+		       </if>
+		       UPDATE_TIME = sysdate
+		</set>
+		where ORD_ATTACHMENT_ID = #{ordAttachmentId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrderAttachment">
+		update ORD_ATTACHMENT
+		set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+		ATTACHMENT_TYPE = #{attachmentType,jdbcType=VARCHAR},
+		ATTACHMENT_NAME = #{attachmentName,jdbcType=VARCHAR},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		FILE_ID = #{fileId,jdbcType=DECIMAL},
+		CONFIRM_TYPE = #{confirmType,jdbcType=VARCHAR},
+		ORDER_ITEM_ID=#{orderItemId,jdbcType=DECIMAL},
+	      FILE_TYPE = #{fileType,jdbcType=VARCHAR},
+	      CONTENT = #{content,jdbcType=VARCHAR},
+	      UPDATE_TIME = sysdate
+		where ORD_ATTACHMENT_ID = #{ordAttachmentId,jdbcType=DECIMAL}
+	</update>
+	
+	<!-- 根据订单ID查询结果集 -->
+	<select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select <include refid="Base_Column_List"/>
+		from ORD_ATTACHMENT
+		where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+		order by CREATE_TIME DESC
+	</select>
+	
+	<!-- 根据订单ID统计结果集 -->
+	<select id="countByOrderId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+		select count(1)
+		from ORD_ATTACHMENT
+		where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+	</select>
+	
+	<!-- 通用查询集合方法 -->
+	<select id="findOrderAttachmentByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+	<!-- 通用查询总数方法 -->
+	<select id="countOrderAttachmentByCondition" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select  count(1)
+		from ORD_ATTACHMENT
+	    where 1=1
+		<include refid="Base_Query_Column_List" />
+	</select>
+	
+	<!-- 公用语句块 -->
+	<sql id="Base_Query_Column_List" >
+   	  	<if test="orderId != null">
+			AND ORDER_ID = #{orderId,jdbcType=DECIMAL}
+		</if>
+		<if test="attachmentType != null and attachmentType != ''">
+			AND ATTACHMENT_TYPE = #{attachmentType,jdbcType=VARCHAR}
+		</if>
+		<if test="attachmentName != null and attachmentName !=''">
+			AND ATTACHMENT_NAME = #{attachmentName,jdbcType=VARCHAR}
+		</if>
+		<if test="memo != null and memo !='' ">
+			AND MEMO = #{memo,jdbcType=VARCHAR}
+		</if>
+		<if test="createTime != null">
+			AND CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="fileId != null">
+			AND FILE_ID = #{fileId,jdbcType=DECIMAL}
+		</if>
+		<if test="confirmType != null and confirmType != ''">
+			AND CONFIRM_TYPE = #{confirmType,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="orderItemId != null and orderItemId != 0">
+			AND ORDER_ITEM_ID = #{orderItemId,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="fileType != null" >
+	              and  FILE_TYPE = #{fileType,jdbcType=VARCHAR}
+	      </if>
+	      <if test="content != null" >
+	              and CONTENT = #{content,jdbcType=VARCHAR}
+	      </if>
+	      
+	      
+  	</sql>
+  
+    <sql id="select_by_param" >
+		select *	
+		from ORD_ATTACHMENT  
+		where 1=1
+		<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+     <update id="updateOrderAttachmentFlag" parameterType="com.lvmama.vst.back.order.po.OrderAttachment">
+		UPDATE ORD_ATTACHMENT
+		set CANCEL_FLAG = #{cancelFlag,jdbcType=VARCHAR}
+		where ORD_ATTACHMENT_ID = #{ordAttachmentId,jdbcType=DECIMAL}
+	</update>
+</mapper>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_DEPOSIT_REFUND_AUDIT">
+
+    <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdDepositRefundAudit">
+        <id column="REFUND_AUDIT_ID" property="refundAuditId" jdbcType="DECIMAL"/>
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL"/>
+        <result column="APPLY_TYPE" property="applyType" jdbcType="VARCHAR"/>
+        <result column="APPLICANT_NAME" property="applicantName" jdbcType="VARCHAR"/>
+        <result column="APPLY_INFO" property="applyInfo" jdbcType="VARCHAR"/>
+        <result column="ADUIT_STATUS" property="aduitStatus" jdbcType="VARCHAR"/>
+        <result column="ADUIT_REPLY" property="aduitReply" jdbcType="VARCHAR"/>
+        <result column="TRANSFER_ORDER_ID" property="transferOrderId" jdbcType="DECIMAL"/>
+        <result column="LOSS_AMOUNT" property="lossAmount" jdbcType="DECIMAL"/>
+        <result column="RETREAT_AMOUNT" property="retreatAmount" jdbcType="DECIMAL"/>
+        <result column="REFUND_FLAG" property="refundFlag" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    REFUND_AUDIT_ID,ORDER_ID,APPLY_TYPE,APPLICANT_NAME,APPLY_INFO,ADUIT_STATUS,ADUIT_REPLY,TRANSFER_ORDER_ID,LOSS_AMOUNT,RETREAT_AMOUNT,REFUND_FLAG,CREATE_TIME,UPDATE_TIME
+    </sql>
+
+    <sql id="common_where_if">
+        1 = 1
+        <if test="refundAuditId != null ">
+            AND REFUND_AUDIT_ID = #{refundAuditId}
+        </if>
+        <if test=" orderId != null ">
+            AND ORDER_ID = #{orderId}
+        </if>
+        <if test=" applyType != null and applyType != '' ">
+            AND APPLY_TYPE = #{applyType}
+        </if>
+        <if test=" applicantName != null and applicantName != '' ">
+            AND APPLICANT_NAME = #{applicantName}
+        </if>
+        <if test=" applyInfo != null and applyInfo != '' ">
+            AND APPLY_INFO = #{applyInfo}
+        </if>
+        <if test=" aduitStatus !=null and aduitStatus != '' ">
+            AND ADUIT_STATUS = #{aduitStatus}
+        </if>
+        <if test=" aduitReply != null and aduitReply != '' ">
+            AND ADUIT_REPLY = #{aduitReply}
+        </if>
+        <if test=" transferOrderId !=null ">
+            AND TRANSFER_ORDER_ID = #{transferOrderId}
+        </if>
+        <if test=" lossAmount != null ">
+            AND LOSS_AMOUNT = #{lossAmount}
+        </if>
+        <if test="retreatAmount != null ">
+            AND RETREAT_AMOUNT = #{retreatAmount}
+        </if>
+        <if test=" refundFlag != null and  refundFlag != '' ">
+            AND REFUND_FLAG = #{refundFlag}
+        </if>
+    </sql>
+
+    <insert id="save" parameterType="com.lvmama.vst.back.order.po.OrdDepositRefundAudit">
+        <selectKey resultType="java.lang.Long" keyProperty="refundAuditId" order="BEFORE">
+            select SEQ_ORD_DEPOSIT_REFUND_AUDIT.nextval from dual
+        </selectKey>
+        INSERT INTO ORD_DEPOSIT_REFUND_AUDIT
+        (REFUND_AUDIT_ID,ORDER_ID,APPLY_TYPE,APPLICANT_NAME,APPLY_INFO,ADUIT_REPLY,
+        TRANSFER_ORDER_ID,LOSS_AMOUNT,RETREAT_AMOUNT,CREATE_TIME,UPDATE_TIME)
+        VALUES
+        (#{refundAuditId,jdbcType=DECIMAL},#{orderId,jdbcType=DECIMAL},#{applyType,jdbcType=VARCHAR},#{applicantName,jdbcType=VARCHAR},
+        #{applyInfo,jdbcType=VARCHAR},#{aduitReply,jdbcType=VARCHAR},#{transferOrderId,jdbcType=DECIMAL},
+        #{lossAmount,jdbcType=DECIMAL},#{retreatAmount,jdbcType=DECIMAL},sysdate,sysdate)
+    </insert>
+
+    <update id="update" parameterType="com.lvmama.vst.back.order.po.OrdDepositRefundAudit">
+        UPDATE ORD_DEPOSIT_REFUND_AUDIT
+        <set>
+            <if test=" orderId != null ">
+                ORDER_ID = #{orderId,jdbcType=DECIMAL} ,
+            </if>
+            <if test=" applyType != null and applyType != '' ">
+                APPLY_TYPE = #{applyType,jdbcType=VARCHAR},
+            </if>
+            <if test=" applicantName != null and applicantName != '' ">
+                APPLICANT_NAME = #{applicantName,jdbcType=VARCHAR},
+            </if>
+            <if test=" applyInfo != null and applyInfo != '' ">
+                APPLY_INFO = #{applyInfo,jdbcType=VARCHAR},
+            </if>
+            <if test=" aduitStatus !=null and aduitStatus != '' ">
+                ADUIT_STATUS = #{aduitStatus,jdbcType=VARCHAR},
+            </if>
+            <if test=" aduitReply != null and aduitReply != '' ">
+                ADUIT_REPLY = #{aduitReply,jdbcType=VARCHAR},
+            </if>
+            <if test=" transferOrderId !=null ">
+                TRANSFER_ORDER_ID = #{transferOrderId,jdbcType=DECIMAL},
+            </if>
+            <if test=" lossAmount != null ">
+                LOSS_AMOUNT = #{lossAmount,jdbcType=DECIMAL},
+            </if>
+            <if test=" retreatAmount != null">
+                RETREAT_AMOUNT = #{retreatAmount,jdbcType=DECIMAL},
+            </if>
+            <if test=" refundFlag != null and  refundFlag != '' ">
+                REFUND_FLAG = #{refundFlag,jdbcType=VARCHAR},
+            </if>
+            UPDATE_TIME = sysdate
+        </set>
+        WHERE REFUND_AUDIT_ID = #{refundAuditId,jdbcType=DECIMAL}
+    </update>
+
+    <select id="findList" parameterType="com.lvmama.vst.back.order.po.OrdDepositRefundAudit" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ORD_DEPOSIT_REFUND_AUDIT
+        <where>
+            <include refid="common_where_if"/>
+        </where>
+        order by CREATE_TIME DESC
+    </select>
+
+    <select id="findCount" parameterType="com.lvmama.vst.back.order.po.OrdDepositRefundAudit" resultType="Integer">
+        SELECT COUNT(1) FROM ORD_DEPOSIT_REFUND_AUDIT
+        <where>
+            <include refid="common_where_if"/>
+        </where>
+    </select>
+
+    <update id="updateRefundFlag" parameterType="java.lang.Long" >
+        UPDATE ORD_DEPOSIT_REFUND_AUDIT
+        SET REFUND_FLAG = 'Y'
+        WHERE
+        APPLY_TYPE = 'LOSSES'
+        AND ADUIT_STATUS = 'PASS'
+        AND ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </update>
+
+    <select id="findRetreatAmountByOrderId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        SELECT d.RETREAT_AMOUNT from ORD_DEPOSIT_REFUND_AUDIT d where d.APPLY_TYPE = 'LOSSES' and d.ADUIT_STATUS = 'PASS' and d.REFUND_FLAG = 'N' and d.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </select>
+
+</mapper>

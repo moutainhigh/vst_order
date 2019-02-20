@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_CONFIRM_PROCESS_JOB">
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.order.po.OrdConfirmProcessJob">
+		<id column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+		<result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />	
+		<result column="AUDIT_ID" property="auditId" jdbcType="DECIMAL" />
+		<result column="TIMES" property="times" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	
+	<sql id="Base_Column_List">
+		ORDER_ID,ORDER_ITEM_ID,AUDIT_ID,TIMES,CREATE_TIME,UPDATE_TIME
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from ORD_CONFIRM_PROCESS_JOB
+		where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+	</select>
+	
+	<select id="selectValidOrdConfirmProcessJobList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select 
+		<include refid="Base_Column_List" />
+		from 
+		(
+			select <include refid="Base_Column_List" />
+			from ORD_CONFIRM_PROCESS_JOB
+			where  
+			<![CDATA[TIMES < 5 ]]>
+			order by TIMES
+		)
+		where rownum <![CDATA[<=]]> 25
+	</select>
+	
+	<insert id="insert" parameterType="com.lvmama.vst.order.po.OrdConfirmProcessJob">
+		insert into ORD_CONFIRM_PROCESS_JOB (ORDER_ID,ORDER_ITEM_ID,AUDIT_ID,TIMES,CREATE_TIME)
+		values (#{orderId,jdbcType=DECIMAL},#{orderItemId,jdbcType=DECIMAL},#{auditId,jdbcType=DECIMAL},#{times,jdbcType=DECIMAL},sysdate
+		)
+	</insert>
+	
+	<update id="addTimes" parameterType="java.lang.Long">
+		update ORD_CONFIRM_PROCESS_JOB
+		set TIMES = TIMES + 1,UPDATE_TIME=sysdate
+		where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="makeValid" parameterType="java.lang.Long">
+		update ORD_CONFIRM_PROCESS_JOB
+		set TIMES = 99,UPDATE_TIME=sysdate
+		where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+	</update>
+	
+</mapper>

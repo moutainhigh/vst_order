@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="COM_FILE_MAP" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.comm.po.ComFileMap" >
+    <id column="COM_FILE_ID" property="comFileId" jdbcType="DECIMAL" />
+    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+    <result column="FILE_ID" property="fileId" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    COM_FILE_ID, FILE_NAME, FILE_ID, CREATE_TIME
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from COM_FILE_MAP
+    where COM_FILE_ID = #{comFileId,jdbcType=DECIMAL}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from COM_FILE_MAP
+    where COM_FILE_ID = #{comFileId,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.lvmama.vst.comm.po.ComFileMap" >
+  	<selectKey resultType="java.lang.Long" keyProperty="comFileId" order="BEFORE" >
+		select SEQ_COM_FILE_MAP_ID.nextval as id from DUAL
+    </selectKey>
+    insert into COM_FILE_MAP (COM_FILE_ID, FILE_NAME, FILE_ID, 
+      CREATE_TIME)
+    values (#{comFileId,jdbcType=DECIMAL}, #{fileName,jdbcType=VARCHAR}, #{fileId,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lvmama.vst.comm.po.ComFileMap" >
+  	<selectKey resultType="java.lang.Long" keyProperty="comFileId" order="BEFORE" >
+		select SEQ_COM_FILE_MAP_ID.nextval as id from DUAL
+    </selectKey>
+    insert into COM_FILE_MAP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="comFileId != null" >
+        COM_FILE_ID,
+      </if>
+      <if test="fileName != null" >
+        FILE_NAME,
+      </if>
+      <if test="fileId != null" >
+        FILE_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="comFileId != null" >
+        #{comFileId,jdbcType=DECIMAL},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null" >
+        #{fileId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.comm.po.ComFileMap" >
+    update COM_FILE_MAP
+    <set >
+      <if test="fileName != null" >
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null" >
+        FILE_ID = #{fileId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where COM_FILE_ID = #{comFileId,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.comm.po.ComFileMap" >
+    update COM_FILE_MAP
+    set FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      FILE_ID = #{fileId,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where COM_FILE_ID = #{comFileId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	  from COM_FILE_MAP where 1=1
+	<include refid="Base_Query_Column_List" />	
+  </select>
+   
+  <sql id="Base_Query_Column_List" >
+   	<if test="comFileId != null" >
+       and  COM_FILE_ID = #{comFileId,jdbcType=DECIMAL}  
+    </if>
+   	<if test="fileName != null" >
+       and  FILE_NAME = #{fileName,jdbcType=VARCHAR}  
+    </if>
+    <if test="fileId != null" >
+       and  FILE_ID = #{fileId,jdbcType=DECIMAL}  
+    </if>
+    <if test="createTime != null" >
+       and  CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}  
+    </if>
+  </sql>
+</mapper>

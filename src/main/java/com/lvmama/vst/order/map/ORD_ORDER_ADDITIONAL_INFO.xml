@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_ADDITIONAL_INFO" >
+    <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderAdditionalInfo">
+        <id column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="ORDER_DESTINATION" property="orderDestination" jdbcType="DECIMAL" />
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="All_Column_List" >
+        ORDER_ID, ORDER_DESTINATION, UPDATE_TIME
+    </sql>
+    <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderAdditionalInfo">
+        INSERT INTO ORD_ORDER_ADDITIONAL_INFO (ORDER_ID, ORDER_DESTINATION) VALUES (#{orderId,jdbcType=DECIMAL}, #{orderDestination,jdbcType=DECIMAL})
+    </insert>
+    <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderAdditionalInfo">
+        INSERT INTO ORD_ORDER_ADDITIONAL_INFO
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            ORDER_ID,
+            <if test="orderDestination != null" >
+                ORDER_DESTINATION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            #{orderId,jdbcType=DECIMAL},
+            <if test="orderDestination != null">
+                #{orderDestination,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+</mapper>

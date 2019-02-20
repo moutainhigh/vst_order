@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_COURIER_LISTING" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdCourierListing" >
+    <id column="COURIER_LISTING_ID" property="courierListingId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="EXPRESS_TYPE" property="expressType" jdbcType="VARCHAR" />
+    <result column="EXPRESS_NUMBER" property="expressNumber" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    COURIER_LISTING_ID, ORDER_ID, ORDER_ITEM_ID, EXPRESS_TYPE, EXPRESS_NUMBER, CREATE_TIME, 
+    UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_COURIER_LISTING
+    where COURIER_LISTING_ID = #{courierListingId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+     select 
+    <include refid="Base_Column_List" />
+    from ORD_COURIER_LISTING
+    where 1=1  
+      <if test="orderId != null" >
+        and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+      </if>
+      <if test="orderItemId != null" >
+        and ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+      </if>
+      <if test="expressType != null" >
+        and EXPRESS_TYPE = #{expressType,jdbcType=VARCHAR}
+      </if>
+      <if test="expressNumber != null" >
+        and EXPRESS_NUMBER = #{expressNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_COURIER_LISTING
+    where COURIER_LISTING_ID = #{courierListingId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdCourierListing" >
+    <selectKey resultType="java.lang.Long" keyProperty="courierListingId" order="BEFORE" >
+      select SEQ_ORD_COURIER_LISTING_ID.nextval from dual
+    </selectKey>
+    insert into ORD_COURIER_LISTING (COURIER_LISTING_ID, ORDER_ID, ORDER_ITEM_ID, 
+      EXPRESS_TYPE, EXPRESS_NUMBER, CREATE_TIME
+      )
+    values (#{courierListingId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL}, 
+      #{expressType,jdbcType=VARCHAR}, #{expressNumber,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdCourierListing" >
+    <selectKey resultType="java.lang.Long" keyProperty="courierListingId" order="BEFORE" >
+      select SEQ_ORD_COURIER_LISTING_ID.nextval from dual
+    </selectKey>
+    insert into ORD_COURIER_LISTING
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      COURIER_LISTING_ID,
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID,
+      </if>
+      <if test="expressType != null" >
+        EXPRESS_TYPE,
+      </if>
+      <if test="expressNumber != null" >
+        EXPRESS_NUMBER,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{courierListingId,jdbcType=DECIMAL},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="expressType != null" >
+        #{expressType,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNumber != null" >
+        #{expressNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdCourierListing" >
+    update ORD_COURIER_LISTING
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="expressType != null" >
+        EXPRESS_TYPE = #{expressType,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNumber != null" >
+        EXPRESS_NUMBER = #{expressNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where COURIER_LISTING_ID = #{courierListingId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdCourierListing" >
+    update ORD_COURIER_LISTING
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      EXPRESS_TYPE = #{expressType,jdbcType=VARCHAR},
+      EXPRESS_NUMBER = #{expressNumber,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = sysdate
+    where COURIER_LISTING_ID = #{courierListingId,jdbcType=DECIMAL}
+  </update>
+</mapper>

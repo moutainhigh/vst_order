@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_PAYMENT_INFO" >
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdPaymentInfo" >
+		<result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+		<result column="PAYMENT_ID" property="paymentId" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+		ORDER_ID, PAYMENT_ID
+	</sql>
+  
+  	<select id="queryByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+	  SELECT <include refid="Base_Column_List" />
+	    from ORD_PAYMENT_INFO
+	         WHERE 1=1
+	          <if test="orderId != null">
+	            AND ORDER_ID = #{orderId,jdbcType=DECIMAL}
+	       </if>
+	       <if test="paymentId != null">
+	            AND PAYMENT_ID= #{paymentId,jdbcType=DECIMAL}
+	       </if>
+	</select>
+	
+	<insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdPaymentInfo" >
+	    insert into ORD_PAYMENT_INFO (ORDER_ID, PAYMENT_ID) values (#{orderId,jdbcType=DECIMAL}, #{paymentId,jdbcType=DECIMAL})
+  	</insert>
+</mapper>

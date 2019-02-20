@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_PROMOTION" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdPromotion" >
+    <id column="ORD_PROMOTION_ID" property="ordPromotionId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="PROM_PROMOTION_ID" property="promPromotionId" jdbcType="DECIMAL" />
+    <result column="PROM_TITLE" property="promTitle" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="PRICE_TYPE" property="priceType" jdbcType="VARCHAR" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+    <result column="favorable_amount" property="favorableAmount" jdbcType="DECIMAL" />
+    <result column="occupy_amount_flag" property="occupyAmountFlag" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORD_PROMOTION_ID, ORDER_ITEM_ID, PROM_PROMOTION_ID, PROM_TITLE, CODE, PRICE_TYPE,OBJECT_TYPE,favorable_amount,occupy_amount_flag,UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_PROMOTION
+    where ORD_PROMOTION_ID = #{ordPromotionId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectOrdPromotionsByOrderItemId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_PROMOTION
+    where PRICE_TYPE = 'DISTRIBUTOR_TYPE'
+    AND OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+    AND ORDER_ITEM_ID IN
+			<foreach collection="orderItemIdList" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	 <if test="orderItemIdList1 != null" >
+	UNION
+	select 
+    <include refid="Base_Column_List" />
+    from ORD_PROMOTION
+    where PRICE_TYPE = 'DISTRIBUTOR_TYPE'
+    AND OBJECT_TYPE = #{objectType1,jdbcType=VARCHAR}
+    AND ORDER_ITEM_ID IN
+			<foreach collection="orderItemIdList1" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>		
+			</if>
+  </select>
+  
+  
+    <select id="selectOrdPromotionsByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_PROMOTION
+    where PRICE_TYPE = 'DISTRIBUTOR_TYPE' AND occupy_amount_flag='Y'
+    AND OBJECT_TYPE = 'ORDER_ITEM'
+    AND ORDER_ITEM_ID IN (SELECT ORDER_ITEM_ID FROM ord_order_item WHERE ORDER_ID =#{orderId,jdbcType=DECIMAL})
+	UNION
+	select 
+    <include refid="Base_Column_List" />
+    from ORD_PROMOTION
+    where PRICE_TYPE = 'DISTRIBUTOR_TYPE' AND occupy_amount_flag='Y'
+    AND OBJECT_TYPE = 'ORDER_PACK' 
+    AND ORDER_ITEM_ID IN (SELECT ORDER_PACK_ID FROM ORD_ORDER_PACK WHERE ORDER_ID =#{orderId,jdbcType=DECIMAL}) 
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_PROMOTION
+    where ORD_PROMOTION_ID = #{ordPromotionId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdPromotion" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordPromotionId" order="BEFORE" >
+      select SEQ_ORD_PROMOTION_ID.nextval from dual
+    </selectKey>
+    insert into ORD_PROMOTION (ORD_PROMOTION_ID, ORDER_ITEM_ID, PROM_PROMOTION_ID, 
+      PROM_TITLE, CODE, PRICE_TYPE,OBJECT_TYPE,favorable_amount,occupy_amount_flag)
+    values (#{ordPromotionId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL}, #{promPromotionId,jdbcType=DECIMAL}, 
+      #{promTitle,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{priceType,jdbcType=VARCHAR},#{objectType,jdbcType=VARCHAR},
+      #{favorableAmount,jdbcType=DECIMAL},#{occupyAmountFlag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdPromotion" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordPromotionId" order="BEFORE" >
+      select SEQ_ORD_PROMOTION_ID.nextval from dual
+    </selectKey>
+    insert into ORD_PROMOTION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORD_PROMOTION_ID,
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID,
+      </if>
+      <if test="promPromotionId != null" >
+        PROM_PROMOTION_ID,
+      </if>
+      <if test="promTitle != null" >
+        PROM_TITLE,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="priceType != null" >
+        PRICE_TYPE,
+      </if>
+      <if test="objectType != null" >
+        OBJECT_TYPE,
+      </if>
+      <if test="favorableAmount != null" >
+        favorable_amount,
+      </if>
+      <if test="occupyAmountFlag != null" >
+        occupy_amount_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{ordPromotionId,jdbcType=DECIMAL},
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="promPromotionId != null" >
+        #{promPromotionId,jdbcType=DECIMAL},
+      </if>
+      <if test="promTitle != null" >
+        #{promTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+      	#{code,jdbcType=VARCHAR},
+      </if>
+      <if test="priceType != null" >
+        #{priceType,jdbcType=VARCHAR},
+      </if>
+      <if test="objectType != null" >
+        #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="favorableAmount != null" >
+        #{favorableAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="occupyAmountFlag != null" >
+        #{occupyAmountFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdPromotion" >
+    update ORD_PROMOTION
+    <set >
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="promPromotionId != null" >
+        PROM_PROMOTION_ID = #{promPromotionId,jdbcType=DECIMAL},
+      </if>
+      <if test="promTitle != null" >
+        PROM_TITLE = #{promTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+      	CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="priceType != null" >
+        PRICE_TYPE = #{priceType,jdbcType=VARCHAR},
+      </if>
+      <if test="objectType != null" >
+        OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="favorableAmount != null" >
+        favorable_amount = #{favorableAmount,jdbcType=DECIMAL},
+      </if>
+       <if test="occupyAmountFlag != null" >
+        occupy_amount_flag = #{occupyAmountFlag,jdbcType=VARCHAR},
+      </if>
+       UPDATE_TIME = SYSDATE
+    </set>
+    where ORD_PROMOTION_ID = #{ordPromotionId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdPromotion" >
+    update ORD_PROMOTION
+    set ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      PROM_PROMOTION_ID = #{promPromotionId,jdbcType=DECIMAL},
+      PROM_TITLE = #{promTitle,jdbcType=VARCHAR},
+      CODE = #{code,jdbcType=VARCHAR},
+      PRICE_TYPE = #{priceType,jdbcType=VARCHAR},
+      OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},UPDATE_TIME = SYSDATE,
+      favorable_amount = #{favorableAmount,jdbcType=DECIMAL},
+      occupy_amount_flag = #{occupyAmountFlag,jdbcType=VARCHAR} 
+    where ORD_PROMOTION_ID = #{ordPromotionId,jdbcType=DECIMAL}
+  </update>
+</mapper>

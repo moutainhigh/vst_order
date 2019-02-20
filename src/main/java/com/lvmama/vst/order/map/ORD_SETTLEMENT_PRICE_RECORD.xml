@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_SETTLEMENT_PRICE_RECORD" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdSettlementPriceRecord" >
+    <id column="RECORD_ID" property="recordId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="PRICE_TYPE" property="priceType" jdbcType="VARCHAR" />
+    <result column="OLD_ACTUAL_SETTLEMENT_PRICE" property="oldActualSettlementPrice" jdbcType="DECIMAL" />
+    <result column="OLD_TOTAL_SETTLEMENT_PRICE" property="oldTotalSettlementPrice" jdbcType="DECIMAL" />
+    <result column="NEW_ACTUAL_SETTLEMENT_PRICE" property="newActualSettlementPrice" jdbcType="DECIMAL" />
+    <result column="NEW_TOTAL_SETTLEMENT_PRICE" property="newTotalSettlementPrice" jdbcType="DECIMAL" />
+
+    <result column="OLD_BUDGET_UNIT_SETTLE_PRICE" property="oldBudgetUnitSettlementPrice" jdbcType="DECIMAL" />
+    <result column="OLD_BUDGET_TOTAL_SETTLE_PRICE" property="oldBudgetTotalSettlementPrice" jdbcType="DECIMAL" />
+    <result column="NEW_BUDGET_UNIT_SETTLE_PRICE" property="newBudgetUnitSettlementPrice" jdbcType="DECIMAL" />
+    <result column="NEW_BUDGET_TOTAL_SETTLE_PRICE" property="newBudgetTotalSettlementPrice" jdbcType="DECIMAL" />
+
+    <result column="CHANGE_TYPE" property="changeType" jdbcType="VARCHAR" />
+    <result column="CHANGE_RESULT" property="changeResult" jdbcType="VARCHAR" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="APPROVE_REMARK" property="approveRemark" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="OPERATOR_APPROVE" property="operatorApprove" jdbcType="VARCHAR" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="SUPP_GOODS_ID" property="suppGoodsId" jdbcType="DECIMAL" />
+    <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+    <result column="IS_APPROVE" property="isApprove" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RECORD_ID, ORDER_ITEM_ID, PRICE_TYPE, OLD_ACTUAL_SETTLEMENT_PRICE, OLD_TOTAL_SETTLEMENT_PRICE, 
+    NEW_ACTUAL_SETTLEMENT_PRICE, NEW_TOTAL_SETTLEMENT_PRICE, OLD_BUDGET_UNIT_SETTLE_PRICE,
+    OLD_BUDGET_TOTAL_SETTLE_PRICE,NEW_BUDGET_UNIT_SETTLE_PRICE,NEW_BUDGET_TOTAL_SETTLE_PRICE,
+    CHANGE_TYPE, CHANGE_RESULT,REASON, OPERATOR, CREATE_TIME, REMARK, APPROVE_REMARK, STATUS,
+    UPDATE_TIME, OPERATOR_APPROVE , ORDER_ID, SUPP_GOODS_ID,VISIT_TIME, IS_APPROVE
+  </sql>
+  
+   <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	<sql id="select_by_param" >
+		select *	
+		from ORD_SETTLEMENT_PRICE_RECORD  
+		where 1=1
+		<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+    <select id="selectByParamsCounts" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select  count(1)
+		from ORD_SETTLEMENT_PRICE_RECORD
+	    where 1=1
+		<include refid="Base_Query_Column_List" />
+	</select>
+  
+    <sql id="Base_Query_Column_List" >
+   	  	
+	  <if test="orderItemId != null" >
+        AND ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+      </if>
+      <if test="priceType != null" >
+       AND  PRICE_TYPE = #{priceType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldActualSettlementPrice != null" >
+       AND  OLD_ACTUAL_SETTLEMENT_PRICE = #{oldActualSettlementPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="oldTotalSettlementPrice != null" >
+       AND  OLD_TOTAL_SETTLEMENT_PRICE = #{oldTotalSettlementPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="newActualSettlementPrice != null" >
+       AND  NEW_ACTUAL_SETTLEMENT_PRICE = #{newActualSettlementPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="newActualSettlementPrice == null  " >
+      	<if test="buyoutRecord != null  " >
+	       AND (NEW_ACTUAL_SETTLEMENT_PRICE >= 0 OR (NEW_ACTUAL_SETTLEMENT_PRICE IS NULL AND CHANGE_TYPE in ('UNIT_PRICE','BUDGET_TOTAL_PRICE','BUDGET_UNIT_PRICE')))
+      	</if>
+      	<if test="buyoutRecord == null  " >
+      	AND (NEW_ACTUAL_SETTLEMENT_PRICE >= 0 OR (NEW_ACTUAL_SETTLEMENT_PRICE IS NULL AND CHANGE_TYPE = ('UNIT_PRICE')))
+      	</if>
+      </if>
+      <if test="newTotalSettlementPrice != null" >
+       AND  NEW_TOTAL_SETTLEMENT_PRICE = #{newTotalSettlementPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="changeType != null" >
+      AND   CHANGE_TYPE = #{changeType,jdbcType=VARCHAR}
+      </if>
+      <if test="changeResult != null" >
+       AND  CHANGE_RESULT = #{changeResult,jdbcType=VARCHAR}
+      </if>
+      <if test="reason != null" >
+      AND   REASON = #{reason,jdbcType=VARCHAR}
+      </if>
+      <if test="operator != null" >
+       AND  OPERATOR = #{operator,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+       AND CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="remark != null" >
+        AND REMARK = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="approveRemark != null" >
+        AND APPROVE_REMARK = #{approveRemark,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        AND STATUS = #{status,jdbcType=VARCHAR}
+      </if>
+      
+      <if test="updateTime != null" >
+       AND UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      
+       <if test="operatorApprove != null" >
+       AND  OPERATOR_APPROVE = #{operatorApprove,jdbcType=VARCHAR}
+      </if>
+      
+       <if test="orderId != null" >
+        AND ORDER_ID = #{orderId,jdbcType=DECIMAL}
+      </if>
+      <if test="suppGoodsId != null" >
+        AND SUPP_GOODS_ID = #{suppGoodsId,jdbcType=DECIMAL}
+      </if>
+      
+      <if test="visitTimeBegin != null">
+		<![CDATA[	AND visit_time >=#{visitTimeBegin,jdbcType=TIMESTAMP} ]]>
+		</if>
+	 <if test="visitTimeEnd != null">
+		<![CDATA[	AND visit_time <=#{visitTimeEnd,jdbcType=TIMESTAMP}  ]]>
+	 </if>
+      
+      <if test="isApprove != null" >
+       AND  IS_APPROVE = #{isApprove,jdbcType=VARCHAR}
+      </if>
+      
+      
+      
+      <if test="updateTimeIsNull != null" >
+       AND UPDATE_TIME is  null
+      </if>
+       <if test="operatorApproveIsNull != null" >
+       AND OPERATOR_APPROVE is  null
+      </if>
+      
+       <if test="priceTypeArray != null">
+			AND PRICE_TYPE IN
+			<foreach collection="priceTypeArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	  </if>
+	  <if test="orderItemIdArray != null">
+			AND ORDER_ITEM_ID IN
+			<foreach collection="orderItemIdArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	  </if>
+	  
+       
+      
+      
+      
+      
+      
+  	</sql>
+    
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_SETTLEMENT_PRICE_RECORD
+    where RECORD_ID = #{recordId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_SETTLEMENT_PRICE_RECORD
+    where RECORD_ID = #{recordId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdSettlementPriceRecord" >
+    <selectKey resultType="java.lang.Long" keyProperty="recordId" order="BEFORE" >
+      select SEQ_ORD_SETTLEMENT_PRICE_ID.nextval from dual
+    </selectKey>
+    insert into ORD_SETTLEMENT_PRICE_RECORD (RECORD_ID, ORDER_ITEM_ID, PRICE_TYPE, 
+      OLD_ACTUAL_SETTLEMENT_PRICE, OLD_TOTAL_SETTLEMENT_PRICE, 
+      NEW_ACTUAL_SETTLEMENT_PRICE, NEW_TOTAL_SETTLEMENT_PRICE, 
+      OLD_BUDGET_UNIT_SETTLE_PRICE,OLD_BUDGET_TOTAL_SETTLE_PRICE,
+      NEW_BUDGET_UNIT_SETTLE_PRICE,NEW_BUDGET_TOTAL_SETTLE_PRICE,
+      CHANGE_TYPE, CHANGE_RESULT, REASON, 
+      OPERATOR, CREATE_TIME, REMARK, 
+      APPROVE_REMARK, STATUS, UPDATE_TIME, 
+      OPERATOR_APPROVE, ORDER_ID, SUPP_GOODS_ID, 
+      VISIT_TIME, IS_APPROVE)
+    values (#{recordId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL}, #{priceType,jdbcType=VARCHAR}, 
+      #{oldActualSettlementPrice,jdbcType=DECIMAL}, #{oldTotalSettlementPrice,jdbcType=DECIMAL}, 
+      #{newActualSettlementPrice,jdbcType=DECIMAL}, #{newTotalSettlementPrice,jdbcType=DECIMAL}, 
+      
+      #{oldBudgetUnitSettlementPrice,jdbcType=DECIMAL}, #{oldBudgetTotalSettlementPrice,jdbcType=DECIMAL}, 
+      #{newBudgetUnitSettlementPrice,jdbcType=DECIMAL}, #{newBudgetTotalSettlementPrice,jdbcType=DECIMAL}, 
+      
+      #{changeType,jdbcType=VARCHAR}, #{changeResult,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
+      #{operator,jdbcType=VARCHAR}, sysdate, #{remark,jdbcType=VARCHAR},
+      #{approveRemark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, sysdate,
+      #{operatorApprove,jdbcType=VARCHAR}, #{orderId,jdbcType=DECIMAL}, #{suppGoodsId,jdbcType=DECIMAL}, 
+      #{visitTime,jdbcType=TIMESTAMP}, #{isApprove,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdSettlementPriceRecord" >
+    <selectKey resultType="java.lang.Long" keyProperty="recordId" order="BEFORE" >
+      select seq_ord_record_id.nextval from dual
+    </selectKey>
+    insert into ORD_SETTLEMENT_PRICE_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      RECORD_ID,
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID,
+      </if>
+      <if test="priceType != null" >
+        PRICE_TYPE,
+      </if>
+      <if test="oldActualSettlementPrice != null" >
+        OLD_ACTUAL_SETTLEMENT_PRICE,
+      </if>
+      <if test="oldTotalSettlementPrice != null" >
+        OLD_TOTAL_SETTLEMENT_PRICE,
+      </if>
+      <if test="newActualSettlementPrice != null" >
+        NEW_ACTUAL_SETTLEMENT_PRICE,
+      </if>
+      <if test="newTotalSettlementPrice != null" >
+        NEW_TOTAL_SETTLEMENT_PRICE,
+      </if>
+      <if test="changeType != null" >
+        CHANGE_TYPE,
+      </if>
+      <if test="changeResult != null" >
+        CHANGE_RESULT,
+      </if>
+      <if test="reason != null" >
+        REASON,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="approveRemark != null" >
+        APPROVE_REMARK,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+       <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="operatorApprove != null" >
+        OPERATOR_APPROVE,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="suppGoodsId != null" >
+        SUPP_GOODS_ID,
+      </if>
+      <if test="visitTime != null" >
+        VISIT_TIME,
+      </if>
+      <if test="isApprove != null" >
+        IS_APPROVE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{recordId,jdbcType=DECIMAL},
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="priceType != null" >
+        #{priceType,jdbcType=VARCHAR},
+      </if>
+      <if test="oldActualSettlementPrice != null" >
+        #{oldActualSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldTotalSettlementPrice != null" >
+        #{oldTotalSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="newActualSettlementPrice != null" >
+        #{newActualSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="newTotalSettlementPrice != null" >
+        #{newTotalSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="changeType != null" >
+        #{changeType,jdbcType=VARCHAR},
+      </if>
+      <if test="changeResult != null" >
+        #{changeResult,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="approveRemark != null" >
+        #{approveRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+        <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorApprove != null" >
+        #{operatorApprove,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="suppGoodsId != null" >
+        #{suppGoodsId,jdbcType=DECIMAL},
+      </if>
+      <if test="visitTime != null" >
+        #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isApprove != null" >
+        #{isApprove,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdSettlementPriceRecord" >
+    update ORD_SETTLEMENT_PRICE_RECORD
+    <set >
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="priceType != null" >
+        PRICE_TYPE = #{priceType,jdbcType=VARCHAR},
+      </if>
+      <if test="oldActualSettlementPrice != null" >
+        OLD_ACTUAL_SETTLEMENT_PRICE = #{oldActualSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldTotalSettlementPrice != null" >
+        OLD_TOTAL_SETTLEMENT_PRICE = #{oldTotalSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="newActualSettlementPrice != null" >
+        NEW_ACTUAL_SETTLEMENT_PRICE = #{newActualSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="newTotalSettlementPrice != null" >
+        NEW_TOTAL_SETTLEMENT_PRICE = #{newTotalSettlementPrice,jdbcType=DECIMAL},
+        </if>
+      <if test="oldBudgetUnitSettlementPrice != null" >
+        OLD_BUDGET_UNIT_SETTLE_PRICE = #{oldBudgetUnitSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldBudgetTotalSettlementPrice != null" >
+        OLD_BUDGET_TOTAL_SETTLE_PRICE = #{oldBudgetTotalSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="newBudgetUnitSettlementPrice != null" >
+        NEW_BUDGET_UNIT_SETTLE_PRICE = #{newBudgetUnitSettlementPrice,jdbcType=DECIMAL},
+        </if>
+      <if test="newBudgetTotalSettlementPrice != null" >
+        NEW_BUDGET_TOTAL_SETTLE_PRICE = #{newBudgetTotalSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="changeType != null" >
+        CHANGE_TYPE = #{changeType,jdbcType=VARCHAR},
+      </if>
+      <if test="changeResult != null" >
+        CHANGE_RESULT = #{changeResult,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="approveRemark != null" >
+        APPROVE_REMARK = #{approveRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorApprove != null" >
+        OPERATOR_APPROVE = #{operatorApprove,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="suppGoodsId != null" >
+        SUPP_GOODS_ID = #{suppGoodsId,jdbcType=DECIMAL},
+      </if>
+      <if test="visitTime != null" >
+        VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isApprove != null" >
+        IS_APPROVE = #{isApprove,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where RECORD_ID = #{recordId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdSettlementPriceRecord" >
+    update ORD_SETTLEMENT_PRICE_RECORD
+    set ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      PRICE_TYPE = #{priceType,jdbcType=VARCHAR},
+      OLD_ACTUAL_SETTLEMENT_PRICE = #{oldActualSettlementPrice,jdbcType=DECIMAL},
+      OLD_TOTAL_SETTLEMENT_PRICE = #{oldTotalSettlementPrice,jdbcType=DECIMAL},
+      NEW_ACTUAL_SETTLEMENT_PRICE = #{newActualSettlementPrice,jdbcType=DECIMAL},
+      NEW_TOTAL_SETTLEMENT_PRICE = #{newTotalSettlementPrice,jdbcType=DECIMAL},
+      OLD_BUDGET_UNIT_SETTLE_PRICE = #{oldBudgetUnitSettlementPrice,jdbcType=DECIMAL},
+      OLD_BUDGET_TOTAL_SETTLE_PRICE = #{oldBudgetTotalSettlementPrice,jdbcType=DECIMAL},
+      NEW_BUDGET_UNIT_SETTLE_PRICE = #{newBudgetUnitSettlementPrice,jdbcType=DECIMAL},
+      NEW_BUDGET_TOTAL_SETTLE_PRICE = #{newBudgetTotalSettlementPrice,jdbcType=DECIMAL},
+      CHANGE_TYPE = #{changeType,jdbcType=VARCHAR},
+      CHANGE_RESULT = #{changeResult,jdbcType=VARCHAR},
+      REASON = #{reason,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      APPROVE_REMARK = #{approveRemark,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate,
+      OPERATOR_APPROVE = #{operatorApprove,jdbcType=VARCHAR},
+      ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      SUPP_GOODS_ID = #{suppGoodsId,jdbcType=DECIMAL},
+      VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      IS_APPROVE = #{isApprove,jdbcType=VARCHAR}
+    where RECORD_ID = #{recordId,jdbcType=DECIMAL}
+  </update>
+</mapper>

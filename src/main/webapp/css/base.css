@@ -1,0 +1,28 @@
+.notnull {
+  font-family:Arial;font-size:13px;font-weight:normal;font-style:normal;text-decoration:none;color:#FF0000;
+}
+
+.error{
+	color:red;
+	margin:0px;
+	padding:0px;
+	display:inline;
+}
+/* 修改easyUI的combobox的默认样式  */
+.combo {
+  height: 26px;
+  width: 170px;
+  background-color: #ffffff;
+  border: 1px solid #aabbcc;
+  position: relative;
+}
+.combo .combo-text {
+  height: 26px;
+  padding: 0px 9px;
+}
+.combo-arrow {
+  background: url('../img/combo.png') no-repeat -47px -138px !important;
+  position: absolute;
+  right: 0px;
+  height: 26px;
+}

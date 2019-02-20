@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans default-autowire="byName">
+
+	<!-- Curator的FactoryBean，Spring启动时创建Curator实例。 -->
+	<bean id="zookeeperFactory" class="com.lvmama.vst.order.zk.ZookeeperFactory"
+		lazy-init="false">
+		<property name="connectionString" value="${zk.connectString}" />
+		<property name="rootPathBase" value="${zk.rootCommPath}" />
+		<property name="sessionTimeout" value="${zk.zkSessionTimeout}" />
+		<property name="userName" value="${zk.userName}" />
+		<property name="password" value="${zk.password}" />
+		<property name="reconnectPeriods" value="${zk.reconnectPeriods}" />
+		<property name="reconnectTimes" value="${zk.reconnectTimes}" />
+		<property name="connectionTimeout" value="${zk.connectionTimeout}" />
+	</bean>
+</beans> 

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_AUDIT_ALLOCATION_RELATION" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdAuditAllocationRelation" >
+    <id column="RELATION_ID" property="relationId" jdbcType="DECIMAL" />
+    <result column="ORD_FUNCTION_ID" property="ordFunctionId" jdbcType="DECIMAL" />
+    <result column="ORD_ALLOCATION_ID" property="ordAllocationId" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RELATION_ID, ORD_FUNCTION_ID, ORD_ALLOCATION_ID, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_AUDIT_ALLOCATION_RELATION
+    where RELATION_ID = #{relationId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_AUDIT_ALLOCATION_RELATION
+    where RELATION_ID = #{relationId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdAuditAllocationRelation" >
+    <selectKey resultType="java.lang.Long" keyProperty="relationId" order="BEFORE" >
+      select SEQ_ORD_AU_ALLOC_RELATION_ID.nextval from dual
+    </selectKey>
+    insert into ORD_AUDIT_ALLOCATION_RELATION (RELATION_ID, ORD_FUNCTION_ID, ORD_ALLOCATION_ID
+      )
+    values (#{relationId,jdbcType=DECIMAL}, #{ordFunctionId,jdbcType=DECIMAL}, #{ordAllocationId,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdAuditAllocationRelation" >
+    <selectKey resultType="java.lang.Long" keyProperty="relationId" order="BEFORE" >
+      select SEQ_ORD_AU_ALLOC_RELATION_ID.nextval from dual
+    </selectKey>
+    insert into ORD_AUDIT_ALLOCATION_RELATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      RELATION_ID,
+      <if test="ordFunctionId != null" >
+        ORD_FUNCTION_ID,
+      </if>
+      <if test="ordAllocationId != null" >
+        ORD_ALLOCATION_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{relationId,jdbcType=DECIMAL},
+      <if test="ordFunctionId != null" >
+        #{ordFunctionId,jdbcType=DECIMAL},
+      </if>
+      <if test="ordAllocationId != null" >
+        #{ordAllocationId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdAuditAllocationRelation" >
+    update ORD_AUDIT_ALLOCATION_RELATION
+    <set >
+      <if test="ordFunctionId != null" >
+        ORD_FUNCTION_ID = #{ordFunctionId,jdbcType=DECIMAL},
+      </if>
+      <if test="ordAllocationId != null" >
+        ORD_ALLOCATION_ID = #{ordAllocationId,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where RELATION_ID = #{relationId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdAuditAllocationRelation" >
+    update ORD_AUDIT_ALLOCATION_RELATION
+    set ORD_FUNCTION_ID = #{ordFunctionId,jdbcType=DECIMAL},
+      ORD_ALLOCATION_ID = #{ordAllocationId,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where RELATION_ID = #{relationId,jdbcType=DECIMAL}
+  </update>
+  <sql id="Base_Query_Column_List" >
+  	  <if test="relationId != null" >
+        AND RELATION_ID = #{relationId,jdbcType=DECIMAL}
+      </if>
+  	  <if test="ordFunctionId != null" >
+        AND ORD_FUNCTION_ID = #{ordFunctionId,jdbcType=DECIMAL}
+      </if>
+      <if test="ordAllocationId != null" >
+        AND ORD_ALLOCATION_ID = #{ordAllocationId,jdbcType=DECIMAL}
+      </if>
+  </sql>
+  <sql id="select_by_param" >
+		select *	
+		from ORD_AUDIT_ALLOCATION_RELATION  
+		where 1=1
+		<include refid="Base_Query_Column_List" />	
+  </sql>
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+  </select>
+   <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_AUDIT_ALLOCATION_RELATION
+	    where 1=1
+		<include refid="Base_Query_Column_List" />
+  </select>
+   <delete id="deleteByOrdAllocationId" parameterType="java.lang.Long" >
+    delete from ORD_AUDIT_ALLOCATION_RELATION
+    where ORD_ALLOCATION_ID = #{ordAllocationId,jdbcType=DECIMAL}
+  </delete>
+</mapper>

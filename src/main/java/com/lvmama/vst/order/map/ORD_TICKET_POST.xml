@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_TICKET_POST" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdTicketPost" >
+    <id column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+    <result column="SUPP_GOODS_ID" property="suppGoodsId" jdbcType="DECIMAL" />
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="ACTUAL_SETTLEMENT_PRICE" property="actualSettlementPrice" jdbcType="DECIMAL" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="TOTAL_SETTLEMENT_PRICE" property="totalSettlementPrice" jdbcType="DECIMAL" />
+    <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+    <result column="RESOURCE_STATUS" property="resourceStatus" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="PRODUCT_ID" property="productId"/>
+    <result column="SUPP_GOODS_NAME" property="suppGoodsName"/>
+    <result column="TICKET_TYPE" property="ticketType" jdbcType="VARCHAR" />
+    <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobie" jdbcType="VARCHAR" />
+    <result column="address_name" property="addressName" jdbcType="VARCHAR" />
+    <result column="address_mobile" property="addressMobile" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    
+  </resultMap>
+
+  
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdTicketPost" >
+    insert into ORD_TICKET_POST (ORDER_ITEM_ID, ORDER_ID, CATEGORY_ID, 
+      SUPP_GOODS_ID, PRODUCT_NAME,  PRICE, 
+      ACTUAL_SETTLEMENT_PRICE, 
+      QUANTITY, TOTAL_SETTLEMENT_PRICE, VISIT_TIME, 
+      RESOURCE_STATUS,  CONTENT, 
+      PRODUCT_ID,SUPP_GOODS_NAME,TICKET_TYPE,full_name,mobile,address_name,address_mobile,address,supplier_id
+      )
+    values (#{orderItemId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{categoryId,jdbcType=DECIMAL}, 
+      #{suppGoodsId,jdbcType=DECIMAL}, #{productName,jdbcType=VARCHAR},#{price,jdbcType=DECIMAL}, 
+      #{actualSettlementPrice,jdbcType=DECIMAL},
+      #{quantity,jdbcType=DECIMAL}, #{totalSettlementPrice,jdbcType=DECIMAL}, #{visitTime,jdbcType=TIMESTAMP},  #{resourceStatus,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR},#{productId},#{suppGoodsName},
+      #{ticketType,jdbcType=VARCHAR},#{fullName,jdbcType=VARCHAR},#{mobie,jdbcType=VARCHAR},#{addressName,jdbcType=VARCHAR},#{addressMobile,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR}, #{supplierId,jdbcType=DECIMAL}
+      )
+  </insert>
+  
+</mapper>

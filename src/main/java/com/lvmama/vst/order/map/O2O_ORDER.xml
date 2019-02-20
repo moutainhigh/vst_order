@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="O2O_ORDER" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.O2oOrder" >
+    <id column="O2O_ORDER_ID" property="o2oOrderId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="SUB_COMPANY_ID" property="subCompanyId" jdbcType="DECIMAL" />
+    <result column="BRANCH_OFFICE_ID" property="branchOfficeId" jdbcType="DECIMAL" />
+    <result column="STORE_ID" property="storeId" jdbcType="DECIMAL" />
+    <result column="SUB_COMMISSION_ID" property="subCommissionId" jdbcType="DECIMAL" />
+    <result column="BRANCH_COMMISSION_ID" property="branchCommissionId" jdbcType="DECIMAL" />
+    <result column="STORE_COMMISSION_ID" property="storeCommissionId" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    O2O_ORDER_ID, ORDER_ID, SUB_COMPANY_ID, BRANCH_OFFICE_ID, STORE_ID, SUB_COMMISSION_ID,BRANCH_COMMISSION_ID,STORE_COMMISSION_ID,
+    UPDATE_TIME
+  </sql>
+  
+  <sql id="Where_Column" >
+     <if test="orderId != null and orderId !=''">
+		AND ORD.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+	</if>
+	<if test="subCompanyId != null and subCompanyId !=''">
+		AND ORD.SUB_COMPANY_ID = #{subCompanyId,jdbcType=DECIMAL}
+	</if>
+	 <if test="branchOfficeId != null and branchOfficeId !=''">
+		AND ORD.BRANCH_OFFICE_ID = #{branchOfficeId,jdbcType=DECIMAL}
+	</if>
+	 <if test="storeId != null and storeId !=''">
+		AND ORD.STORE_ID = #{storeId,jdbcType=DECIMAL}
+	</if>
+	 <if test="subCommissionId != null and subCommissionId !=''">
+		AND ORD.SUB_COMMISSION_ID = #{subCommissionId,jdbcType=DECIMAL}
+	</if>
+	 <if test="branchCommissionId != null and branchCommissionId !=''">
+		AND ORD.BRANCH_COMMISSION_ID = #{branchCommissionId,jdbcType=DECIMAL}
+	</if>
+	 <if test="storeCommissionId != null and storeCommissionId !=''">
+		AND ORD.STORE_COMMISSION_ID = #{storeId,jdbcType=DECIMAL}
+	</if>
+  </sql>
+  <select id="queryByProperty" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT 
+    	<include refid="Base_Column_List" />
+    FROM O2O_ORDER ORD
+    WHERE 1=1 
+        <include refid="Where_Column" />
+  </select>
+  
+  <sql id="findByProperty" >
+    SELECT 
+    	<include refid="Base_Column_List" />
+    FROM O2O_ORDER ORD
+    WHERE 1=1 
+        <include refid="Where_Column" />
+  </sql>
+  
+ <select id="findO2oOrderList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        <include refid="basic.pageSearchHead"/>
+        <include refid="findByProperty"/>
+        <include refid="basic.pageSearchFoot"/>
+    </select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from O2O_ORDER
+    where O2O_ORDER_ID = #{o2oOrderId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from O2O_ORDER
+    where O2O_ORDER_ID = #{o2oOrderId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByOrderId" parameterType="java.lang.Long" >
+    delete from O2O_ORDER
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.O2oOrder" >
+    insert into O2O_ORDER (O2O_ORDER_ID, ORDER_ID, SUB_COMPANY_ID, 
+      BRANCH_OFFICE_ID, STORE_ID,SUB_COMMISSION_ID,BRANCH_COMMISSION_ID,STORE_COMMISSION_ID)
+    values (#{o2oOrderId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{subCompanyId,jdbcType=DECIMAL}, 
+      #{branchOfficeId,jdbcType=DECIMAL}, #{storeId,jdbcType=DECIMAL}, #{subCommissionId,jdbcType=DECIMAL}, 
+      #{branchCommissionId,jdbcType=DECIMAL}, #{storeCommissionId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.O2oOrder" >
+    <selectKey resultType="java.lang.Long" keyProperty="o2oOrderId" order="BEFORE" >
+      select SEQ_O2O_ORDER.nextval from dual
+    </selectKey>
+    insert into O2O_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="o2oOrderId != null" >
+        O2O_ORDER_ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="subCompanyId != null" >
+        SUB_COMPANY_ID,
+      </if>
+      <if test="branchOfficeId != null" >
+        BRANCH_OFFICE_ID,
+      </if>
+      <if test="storeId != null" >
+        STORE_ID,
+      </if>
+        <if test="subCommissionId != null" >
+        SUB_COMMISSION_ID,
+      </if>
+      <if test="branchCommissionId != null" >
+        BRANCH_COMMISSION_ID,
+      </if>
+      <if test="storeCommissionId != null" >
+        STORE_COMMISSION_ID
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{o2oOrderId,jdbcType=DECIMAL},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="subCompanyId != null" >
+        #{subCompanyId,jdbcType=DECIMAL},
+      </if>
+      <if test="branchOfficeId != null" >
+        #{branchOfficeId,jdbcType=DECIMAL},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=DECIMAL},
+      </if>
+         <if test="subCommissionId != null" >
+        #{subCommissionId,jdbcType=DECIMAL},
+      </if>
+      <if test="branchCommissionId != null" >
+        #{branchCommissionId,jdbcType=DECIMAL},
+      </if>
+      <if test="storeCommissionId != null" >
+        #{storeCommissionId,jdbcType=DECIMAL}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.O2oOrder" >
+    update O2O_ORDER
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="subCompanyId != null" >
+        SUB_COMPANY_ID = #{subCompanyId,jdbcType=DECIMAL},
+      </if>
+      <if test="branchOfficeId != null" >
+        BRANCH_OFFICE_ID = #{branchOfficeId,jdbcType=DECIMAL},
+      </if>
+      <if test="storeId != null" >
+        STORE_ID = #{storeId,jdbcType=DECIMAL},
+      </if>
+      <if test="subCommissionId != null" >
+        SUB_COMMISSION_ID = #{subCommissionId,jdbcType=DECIMAL},
+      </if>
+      <if test="branchCommissionId != null" >
+        BRANCH_COMMISSION_ID = #{branchCommissionId,jdbcType=DECIMAL},
+      </if>
+      <if test="storeCommissionId != null" >
+        STORE_COMMISSION_ID = #{storeCommissionId,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where O2O_ORDER_ID = #{o2oOrderId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.O2oOrder" >
+    update O2O_ORDER
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      SUB_COMPANY_ID = #{subCompanyId,jdbcType=DECIMAL},
+      BRANCH_OFFICE_ID = #{branchOfficeId,jdbcType=DECIMAL},
+      STORE_ID = #{storeId,jdbcType=DECIMAL},
+      SUB_COMMISSION_ID = #{subCommissionId,jdbcType=DECIMAL},
+      BRANCH_COMMISSION_ID = #{branchCommissionId,jdbcType=DECIMAL},
+      STORE_COMMISSION_ID = #{storeCommissionId,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where O2O_ORDER_ID = #{o2oOrderId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="getCountByProperty" parameterType="java.util.Map" resultType="Long">
+		select count(1)
+		FROM O2O_ORDER ORD
+    	WHERE 1=1 
+        <include refid="Where_Column" />
+  </select>
+
+</mapper>

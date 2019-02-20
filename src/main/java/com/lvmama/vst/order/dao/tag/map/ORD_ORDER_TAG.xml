@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_TAG" >
+
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.order.dao.tag.po.OrderTag" >
+    <id column="TAG_ID" property="tagId"  />
+    <result column="OBJECT_ID" property="objectId"  jdbcType="DECIMAL"/>
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR"/>
+    <result column="TAG_VALUE" property="tagValue"  jdbcType="VARCHAR"/>
+    <result column="TAG_TYPE" property="tagType" jdbcType="VARCHAR"/>
+    <result column="OPERATOR_NAME" property="operatorName" jdbcType="VARCHAR"/>
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="UPDATE_TIME" property="udpateTime" jdbcType="TIMESTAMP"/>
+  </resultMap>
+
+
+
+
+  <insert id="insert" parameterType="com.lvmama.vst.order.dao.tag.po.OrderTag" >
+	    <selectKey resultType="java.lang.Long" keyProperty="tagId" order="BEFORE" >
+	     	select seq_ord_order_tag.nextval from dual
+	    </selectKey>
+	    insert into ORD_ORDER_TAG (TAG_ID, OBJECT_ID, OBJECT_TYPE,
+      TAG_VALUE, TAG_TYPE, OPERATOR_NAME,CREATE_TIME)
+	    values (#{tagId}, #{objectId,jdbcType=DECIMAL}, #{objectType,jdbcType=VARCHAR},
+	     	 #{tagValue,jdbcType=VARCHAR}, #{tagType,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, sysdate)
+  </insert>
+  
+
+  
+
+  
+
+	
+
+
+
+	
+</mapper>

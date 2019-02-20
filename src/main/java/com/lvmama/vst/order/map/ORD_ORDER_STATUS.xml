@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_STATUS" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderStatus" >
+    <id column="ORD_STATUS_ID" property="ordStatusId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="ERROR_CODE" property="errorCode" jdbcType="VARCHAR" />
+    <result column="ERROR_MSG" property="errorMsg" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    ORD_STATUS_ID, ORDER_ID, ORDER_ITEM_ID, STATUS, ERROR_CODE, ERROR_MSG, CREATE_TIME, 
+    UPDATE_TIME
+  </sql>
+  
+   <sql id="Base_Query_Column_List" >
+      
+      <if test="ordStatusId != null" >
+            and  
+          ORD_STATUS_ID = #{ordStatusId}
+      </if>
+      <if test="orderId != null" >
+            and  
+        ORDER_ID = #{orderId}
+      </if>
+      <if test="orderItemId != null" >
+            and  
+             ORDER_ITEM_ID = #{orderItemId}
+      </if>
+      <if test="status != null" >
+            and  
+        STATUS = #{status}
+      </if>
+      <if test="errorCode != null" >
+            and  
+        ERROR_CODE = #{errorCode}
+      </if>
+      <if test="errorMsg != null" >
+            and  
+        ERROR_MSG = #{errorMsg}
+      </if>
+      <if test="createTime != null" >
+            and  
+        CREATE_TIME = #{createTime}
+      </if>
+      
+  </sql>
+   
+   <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+        <include refid="basic.pageSearchHead"/>
+        <include refid="select_by_param"/>
+        <include refid="basic.pageSearchFoot"/>  
+    </select>
+    <sql id="select_by_param" >
+        select *    
+        from ORD_ORDER_STATUS  
+        where 1=1
+            <include refid="Base_Query_Column_List" />  
+    </sql>
+    
+   <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+        select  count(1)
+        from ORD_ORDER_STATUS 
+         where 1=1  
+            <include refid="Base_Query_Column_List" />
+    </select>
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_STATUS
+    where ORD_STATUS_ID = #{ordStatusId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_STATUS
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_ORDER_STATUS
+    where ORD_STATUS_ID = #{ordStatusId,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderStatus" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordStatusId" order="BEFORE" >
+      select SEQ_ORD_ORDER_STATUS_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_STATUS (ORD_STATUS_ID, ORDER_ID, ORDER_ITEM_ID, STATUS, ERROR_CODE, ERROR_MSG, CREATE_TIME)
+    values (#{ordStatusId,jdbcType=DECIMAL}, 
+            #{orderId,jdbcType=DECIMAL}, 
+            #{orderItemId,jdbcType=DECIMAL}, 
+            #{status,jdbcType=DECIMAL}, 
+            #{errorCode,jdbcType=VARCHAR}, 
+            #{errorMsg,jdbcType=VARCHAR}, 
+            #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderStatus" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordStatusId" order="BEFORE" >
+      select SEQ_ORD_ORDER_STATUS_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_STATUS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORD_STATUS_ID,
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="errorCode != null" >
+        ERROR_CODE,
+      </if>
+      <if test="errorMsg != null" >
+        ERROR_MSG,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{ordStatusId,jdbcType=DECIMAL},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="errorCode != null" >
+        #{errorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </insert>
+  <select id="selectStatusId" resultType="java.lang.Long">
+    select SEQ_ORD_ORDER_STATUS_ID.currval from dual
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderItem" >
+    update ORD_ORDER_STATUS
+    <set >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL}
+      </if>
+      <if test="errorCode != null" >
+        #{errorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+       UPDATE_TIME = SYSDATE
+    </set>
+    where ORD_STATUS_ID = #{orderItemId,jdbcType=DECIMAL}
+  </update>
+</mapper>

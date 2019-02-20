@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_DOWNPAY" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderDownpay" >
+    <id column="ORDER_DOWNPAY_ID" property="orderDownpayId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" />
+    <result column="PAY_AMOUNT" property="payAmount" jdbcType="DECIMAL" />
+    <result column="PAY_STATUS" property="payStatus" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ORDER_DOWNPAY_ID,ORDER_ID, PAY_TYPE,PAY_AMOUNT,PAY_STATUS, UPDATE_TIME
+  </sql>
+
+	<select id="selectPayId" resultType="java.lang.Long">
+	    select SEQ_ORDER_DOWNPAY_ID.currval from dual
+	</select>
+	
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderDownpay" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderDownpayId" order="BEFORE" >
+      select SEQ_ORDER_DOWNPAY_ID.nextval from dual
+    </selectKey>
+    INSERT INTO ORD_ORDER_DOWNPAY(ORDER_DOWNPAY_ID,ORDER_ID,PAY_TYPE,PAY_AMOUNT,PAY_STATUS) 
+    VALUES (#{orderDownpayId,jdbcType=DECIMAL},#{orderId,jdbcType=DECIMAL},#{payType,jdbcType=VARCHAR},#{payAmount,jdbcType=DECIMAL},#{payStatus,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderDownpay" >
+    update ORD_ORDER_DOWNPAY
+    <set>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmount != null" >
+        PAY_AMOUNT = #{payAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payStatus != null" >
+        PAY_STATUS = #{payStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORDER_DOWNPAY_ID = #{orderDownpayId,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKeyOrderId" parameterType="com.lvmama.vst.back.order.po.OrdOrderDownpay" >
+    update ORD_ORDER_DOWNPAY
+    <set>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmount != null" >
+        PAY_AMOUNT = #{payAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payStatus != null" >
+        PAY_STATUS = #{payStatus,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdOrderDownpay" >
+    update ORD_ORDER_DOWNPAY
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      PAY_TYPE = #{payType,jdbcType=VARCHAR},
+      PAY_AMOUNT = #{payAmount,jdbcType=DECIMAL},
+      PAY_STATUS = #{payStatus,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate
+    where ORDER_DOWNPAY_ID = #{orderDownpayId,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updatePayStatusByOrderId" parameterType="java.util.Map">
+  	update ORD_ORDER_DOWNPAY set PAY_STATUS=#{payStatus},UPDATE_TIME = sysdate where ORDER_ID=#{orderId}
+  </update>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_DOWNPAY
+    where ORDER_DOWNPAY_ID = #{orderDownpayId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_DOWNPAY
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </select>
+
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_REMARK_LOG" >
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdRemarkLog" >
+	    <id column="LOG_ID" property="logId" jdbcType="DECIMAL" />
+	    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+	    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+	    <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
+	    <result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" />
+	    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		LOG_ID,ORDER_ID,CONTENT,CREATED_TIME,CREATED_USER,UPDATE_TIME
+	</sql>
+  
+	<sql id="Base_Query_Column_List" >
+		<if test="orderId != null" >
+	    	and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+		</if>
+		<if test="createdTime != null" >
+	     	and CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="createdUser != null" >
+	    	and CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+		</if>
+	</sql>
+  
+	<sql id="select_by_param" >
+		select * from ORD_ORDER_REMARK_LOG where 1=1
+		<include refid="Base_Query_Column_List" />	
+	</sql>  
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select 
+			<include refid="Base_Column_List" />
+		from ORD_ORDER_REMARK_LOG
+		where LOG_ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param" />			
+		<include refid="basic.pageSearchFoot"/>  
+	</select>  
+	
+	<select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select count(1) from ORD_ORDER_REMARK_LOG where 1=1
+		<include refid="Base_Query_Column_List" />	
+	</select>
+	
+	<insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdRemarkLog" >
+		<selectKey resultType="java.lang.Long" keyProperty="logId" order="BEFORE">
+			select seq_ord_remark_log_id.nextval from dual
+		</selectKey>
+		insert into ORD_ORDER_REMARK_LOG
+		  (log_id,
+		   order_id,
+		   content,
+		   created_time,
+		   created_user
+		  )
+		values (
+		        #{logId,jdbcType=DECIMAL}, 
+		        #{orderId,jdbcType=DECIMAL},
+		        #{content,jdbcType=VARCHAR}, 
+		        #{createdTime,jdbcType=TIMESTAMP},
+		        #{createdUser,jdbcType=VARCHAR}
+		       )			
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdRemarkLog">
+		<selectKey resultType="java.lang.Long" keyProperty="logId" order="BEFORE">
+			select seq_ord_remark_log_id.nextval from dual
+		</selectKey>	
+		insert into ORD_ORDER_REMARK_LOG
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				log_id,
+    			<if test="orderId != null">
+    				order_id,
+    			</if>				
+    			<if test="content != null">
+    				content,
+    			</if>
+    			<if test="createdTime != null">
+    				created_time,
+    			</if>
+    			<if test="createdUser != null">
+    				created_user,
+    			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+				#{logId,jdbcType=DECIMAL},
+    			<if test="orderId != null">
+    				 #{orderId,jdbcType=DECIMAL},
+    			</if>				
+    			<if test="content != null">
+    				 #{content,jdbcType=VARCHAR},
+    			</if>
+    			<if test="createdTime != null">
+    				 #{createdTime,jdbcType=TIMESTAMP},
+    			</if>
+    			<if test="createdUser != null">
+    				#{createdUser,jdbcType=VARCHAR},
+    			</if>
+		</trim>
+	</insert>	
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    	delete from ORD_ORDER_REMARK_LOG
+    		   where LOG_ID = #{id,jdbcType=DECIMAL}		
+	</delete>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdRemarkLog" >
+    	update ORD_ORDER_REMARK_LOG
+    		set order_id = #{orderId,jdbcType=DECIMAL},
+    			content = #{content,jdbcType=VARCHAR},
+      			created_time = #{createdTime,jdbcType=TIMESTAMP},
+      			created_user = #{createdUser,jdbcType=VARCHAR},
+      			UPDATE_TIME = sysdate
+    	where log_id = #{logId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdRemarkLog" >
+    	update ORD_ORDER_REMARK_LOG
+    		<set>
+    			<if test="orderId != null">
+    				order_id = #{orderId,jdbcType=DECIMAL},
+    			</if>    		
+    			<if test="content != null">
+    				content = #{content,jdbcType=VARCHAR},
+    			</if>
+    			<if test="createdTime != null">
+    				created_time = #{createdTime,jdbcType=TIMESTAMP},
+    			</if>
+    			<if test="createdUser != null">
+    				created_user = #{createdUser,jdbcType=VARCHAR},
+    			</if>
+    			UPDATE_TIME = sysdate
+    		</set>
+    		where log_id = #{logId,jdbcType=DECIMAL}
+	</update>		 	    
+</mapper>

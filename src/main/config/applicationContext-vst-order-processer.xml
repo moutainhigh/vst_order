@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	 
+	<bean id="updateOrderViewStatusProcesser" class="com.lvmama.vst.order.processer.UpdateOrderViewStatusProcesser" />
+	<bean id="supplierOrderProcesser" class="com.lvmama.vst.order.processer.SupplierOrderProcesser"/>
+	<bean id="supplierOrderProcesserAdapter" class="com.lvmama.vst.order.processer.SupplierOrderProcesserAdapter"/>
+
+	<bean id="orderTaskCreateProcesser" class="com.lvmama.vst.order.processer.OrderTaskCreateProcesser"/>
+	<bean id="orderAuditTaskProcesser" class="com.lvmama.vst.order.processer.OrderAuditTaskProcesser"/>
+	<bean id="orderSettlementProcesser" class="com.lvmama.vst.order.processer.OrderSettlementProcesser"/>
+	<bean id="autoOrderInfoPassProcesser" class="com.lvmama.vst.order.processer.AutoOrderInfoPassProcesser"/>
+	<bean id="orderSmsSendProcesser" class="com.lvmama.vst.order.processer.OrderSmsSendProcesser"/>
+	<bean id="orderEcontractProcesser" class="com.lvmama.vst.order.processer.OrderEcontractProcesser"/>
+	<bean id="markCouponProcesser" class="com.lvmama.vst.order.processer.MarkCouponProcesser"/>
+	<bean id="orderCourierListingProcesser" class="com.lvmama.vst.order.processer.OrderCourierListingProcesser"/>
+	<bean id="orderComMessageProcesser" class="com.lvmama.vst.order.processer.OrderComMessageProcesser"/>
+	<bean id="promotionProcesser" class="com.lvmama.vst.order.processer.PromotionProcesser"/>
+	<!-- Added by yangzhenzhong 2015/9/7 begin -->
+	<bean id="ordOrderItemPassCodeSMSProcesser" class="com.lvmama.vst.order.processer.OrdOrderItemPassCodeSMSProcesser"/>
+	<bean id="orderApportionProcesser" class="com.lvmama.vst.order.processer.OrderApportionProcesser"/>
+	<bean id="orderApportionSendFinanceProcesser" class="com.lvmama.vst.order.processer.OrderApportionSendFinanceProcesser"/>
+	<bean id="orderExpiredRefundProcesser" class="com.lvmama.vst.order.processer.OrderExpiredRefundProcesser" />
+	<bean id="orderAuditStatusProcesser" class="com.lvmama.vst.order.processer.UpdateOrderAuditStatusProcesser" />
+	
+	<!-- end -->
+	<!-- EBOOKING 订单凭证  -->
+	<!-- <bean id="ebkCertifProcesser" class="com.lvmama.vst.back.ebooking.processer.EbkCertifProcesser"/> -->
+
+	<!-- orderCreateMessage asynchronous -->
+	<bean id="orderCreateMessageProcesser" class="com.lvmama.vst.order.processer.OrderCreateMessageProcesser"/>
+	<!-- 下单成功消息接，消息转发 -->
+	<bean id="orderCreateMessageConsumer" class="com.lvmama.vst.comm.jms.TopicMessageConsumer">
+		<property name="destName"><value>ActiveMQ.COMM_ORDER.${jms_node}</value></property>
+		<property name="processerList">
+			<list>
+				<ref local="orderCreateMessageProcesser"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 出境BU发送信息安全卡邮件 消息 -->
+	<bean id="sendSafetyInfoEmailProcesser" class="com.lvmama.vst.neworder.processer.email.SendSafetyInfoEmailProcesser"/>
+	
+	<!-- 订阅 -->
+	<bean id="orderCreateMessageListener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+		<constructor-arg ref="orderCreateMessageConsumer" />
+		<property name="defaultListenerMethod" value="receive" />
+	</bean>
+	
+	<!-- 消息监听 TOPIC 模式    -->
+	<bean id="orderCreateTopicListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="COMM_ORDER_TOPIC" />
+		<property name="messageListener" ref="orderCreateMessageListener" />
+	</bean>
+	<!-- 消息接收 -->
+	<bean id="orderMessageConsumer" class="com.lvmama.vst.comm.jms.TopicMessageConsumer">
+		<property name="destName"><value>ActiveMQ.VST_ORDER.${jms_node}</value></property>
+		<property name="processerList">
+			<list>
+				<ref local="orderAuditTaskProcesser"/>
+				<ref local="updateOrderViewStatusProcesser"/>
+				<ref local="orderTaskCreateProcesser"/>
+				<ref local="orderSettlementProcesser"/>
+				<!-- <ref local="ebkCertifProcesser"/>-->
+				<ref local="supplierOrderProcesserAdapter"/>
+				<ref local="orderSmsSendProcesser"/>
+				<ref local="autoOrderInfoPassProcesser"/>
+				<ref local="orderEcontractProcesser"/>
+				<ref local="markCouponProcesser"/>
+				<ref local="orderCourierListingProcesser"/>
+				<ref local="orderComMessageProcesser"/>
+				<ref local="promotionProcesser"/>
+				<!-- Added by yangzhenzhong 2015/9/7 begin -->
+				<ref local="ordOrderItemPassCodeSMSProcesser"/>
+				<!-- end -->
+				<!-- <ref local="jmsDrivenWorkflowProcesser"/>
+				<ref local="ordAuditProcessTaskProcesser"/> -->
+				<ref local="orderApportionProcesser"/>
+				<ref local="orderExpiredRefundProcesser" />
+				<ref local="orderAuditStatusProcesser" />
+			<!--	<ref local="orderApportionSendFinanceProcesser"/>
+				<ref local="orderApportionSendFinanceProcesser"/>-->
+				<ref local="sendSafetyInfoEmailProcesser"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 订阅 -->
+	<bean id="orderMessageListener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+		<constructor-arg ref="orderMessageConsumer" />
+		<property name="defaultListenerMethod" value="receive" />
+	</bean>
+	
+	<!-- 消息监听 TOPIC 模式    -->
+	<bean id="orderTopicListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="VST_ORDER_TOPIC" />
+		<property name="messageListener" ref="orderMessageListener" />
+	</bean>
+	
+	<!-- 及时分单异步处理  Start-->
+	<bean id="orderAllocationProcesser" class="com.lvmama.vst.order.processer.OrderAllocationProcesser"/>
+	
+	<!-- 消息接收 -->
+	<bean id="allocationMessageConsumer" class="com.lvmama.vst.comm.jms.TopicMessageConsumer">
+		<property name="destName"><value>ActiveMQ.VST_ALLOCATION.${jms_node}</value></property>
+		<property name="processerList">
+			<list>
+				<ref local="orderAllocationProcesser"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 订阅 -->
+	<bean id="allocationMessageListener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+		<constructor-arg ref="allocationMessageConsumer" />
+		<property name="defaultListenerMethod" value="receive" />
+	</bean>
+	
+	<!-- 消息监听 TOPIC 模式    -->
+	<bean id="allocationTopicListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="VST_ALLOCATION_TOPIC" />
+		<property name="messageListener" ref="allocationMessageListener" />
+		<property name="maxConcurrentConsumers" value="2"/>
+		<property name="concurrency" value="1-2"></property>
+	</bean>
+	<!-- 及时分单异步处理  End-->
+	
+	<!-- 订单流程异步启动  Start-->
+	<bean id="jmsDrivenWorkflowProcesser" class="com.lvmama.vst.order.processer.workflow.JMSDrivenWorkflowProcesser"/>
+	<bean id="ordAuditProcessTaskProcesser" class="com.lvmama.vst.order.processer.workflow.OrdAuditProcessTaskProcesser"/>
+	
+	<!-- 消息接收 -->
+	<bean id="orderWorkflowMessageConsumer" class="com.lvmama.vst.comm.jms.TopicMessageConsumer">
+		<property name="destName"><value>ActiveMQ.VST_ORDER_WORKFLOW.${jms_node}</value></property>
+		<property name="processerList">
+			<list>
+				<ref local="jmsDrivenWorkflowProcesser"/>
+				<ref local="ordAuditProcessTaskProcesser"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 订阅 -->
+	<bean id="orderWorkflowMessageListener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+		<constructor-arg ref="orderWorkflowMessageConsumer" />
+		<property name="defaultListenerMethod" value="receive" />
+	</bean>
+	
+	<!-- 消息监听 TOPIC 模式    -->
+	<bean id="orderWorkflowTopicListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="VST_ORDER_WORKFLOW_TOPIC" />
+		<property name="messageListener" ref="orderWorkflowMessageListener" />
+		<property name="concurrentConsumers" value="12" />
+	</bean>
+	<!-- 订单流程异步启动  End-->
+	
+	
+	<!-- 订单活动创建  Start-->
+	<bean id="comAuditCreateProcesser" class="com.lvmama.vst.neworder.processer.audit.ComAuditCreateProcesser"/>
+	<bean id="comMessageCreateProcesser" class="com.lvmama.vst.neworder.processer.audit.ComMessageCreateProcesser"/>
+	
+	<!-- ebk关房 -->
+	<bean id="ebkCloseHouseProcesser" class="com.lvmama.vst.neworder.processer.audit.EbkCloseHouseProcesser"/>
+	<bean id="ebkCloseHouseConsumer" class="com.lvmama.vst.comm.jms.TopicMessageConsumer">
+		<property name="destName"><value>ActiveMQ.VST_ORDER_CLOSEHOUSE_EBK.${jms_node}</value></property>
+		<property name="processerList">
+			<list>
+				<ref local="ebkCloseHouseProcesser"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="ebkCloseHouseListener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+		<constructor-arg ref="ebkCloseHouseConsumer" />
+		<property name="defaultListenerMethod" value="receive" />
+	</bean>
+	<bean id="ebkCloseHouseTopicListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="VST_ORDER_CLOSEHOUSE_EBK" />
+		<property name="messageListener" ref="ebkCloseHouseListener" />
+		<property name="concurrentConsumers" value="1" />
+	</bean>
+	<!-- 消息接收 -->
+	<bean id="comAuditMessageConsumer" class="com.lvmama.vst.comm.jms.TopicMessageConsumer">
+		<property name="destName"><value>ActiveMQ.VST_COM_AUDIT.${jms_node}</value></property>
+		<property name="processerList">
+			<list>
+				<ref local="comAuditCreateProcesser"/>
+				<ref local="comMessageCreateProcesser"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 订阅 -->
+	<bean id="comAuditMessageListener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+		<constructor-arg ref="comAuditMessageConsumer" />
+		<property name="defaultListenerMethod" value="receive" />
+	</bean>
+	
+	<!-- 消息监听 TOPIC 模式    -->
+	<bean id="comAuditTopicListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="VST_COM_AUDIT_TOPIC" />
+		<property name="messageListener" ref="comAuditMessageListener" />
+		<property name="concurrentConsumers" value="2" />
+	</bean>
+	<!-- 订单活动创建   End-->
+	
+</beans>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ORD_PASS_CODE">
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdPassCode">
+    <id column="PASS_CODE_ID" jdbcType="DECIMAL" property="passCodeId" />
+    <result column="ORDER_ITEM_ID" jdbcType="DECIMAL" property="orderItemId" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="ADD_CODE" jdbcType="VARCHAR" property="addCode" />
+    <result column="CHECKING_ID" jdbcType="DECIMAL" property="checkingId" />
+    <result column="SERVICE_ID" jdbcType="DECIMAL" property="serviceId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="PASS_SERIALNO" jdbcType="VARCHAR" property="passSerialno" />
+    <result column="PASS_EXTID" jdbcType="VARCHAR" property="passExtid" />
+    <result column="SEND_SMS" jdbcType="VARCHAR" property="sendSms" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="PIC_FILEPATH" jdbcType="VARCHAR"  property="picFilePath" />
+    <result column="URL" jdbcType="VARCHAR"  property="url" />
+    <result column="CODE_IMAGE_FLAG" jdbcType="VARCHAR"  property="codeImageFlag" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    *
+  </sql>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdPassCode">
+    <selectKey keyProperty="passCodeId" order="BEFORE" resultType="java.lang.Long">
+      select SEQ_ORD_PASS_CODE_ID.nextval from dual
+    </selectKey>
+    insert into ORD_PASS_CODE (PASS_CODE_ID, ORDER_ITEM_ID, CODE,ADD_CODE, CHECKING_ID, SERVICE_ID, CREATE_TIME,PASS_SERIALNO,PASS_EXTID,SEND_SMS,CONTENT,PIC_FILEPATH,CODE_IMAGE_FLAG,URL)
+    values (#{passCodeId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, #{addCode,jdbcType=VARCHAR},
+      #{checkingId,jdbcType=DECIMAL},#{serviceId,jdbcType=DECIMAL},#{createTime,jdbcType=TIMESTAMP},
+      #{passSerialno,jdbcType=VARCHAR},#{passExtid,jdbcType=VARCHAR},#{sendSms,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{picFilePath,jdbcType=VARCHAR},#{codeImageFlag,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="com.lvmama.vst.back.order.po.OrdPassCode">
+  	update ORD_PASS_CODE set ORDER_ITEM_ID=#{orderItemId,jdbcType=DECIMAL}, 
+  		CODE = #{code,jdbcType=VARCHAR},
+  		ADD_CODE = #{addCode,jdbcType=VARCHAR}, 
+  		CHECKING_ID =  #{checkingId,jdbcType=DECIMAL},
+  		SERVICE_ID =  #{serviceId,jdbcType=DECIMAL},
+  		PASS_SERIALNO = #{passSerialno,jdbcType=VARCHAR},
+  		PASS_EXTID = #{passExtid,jdbcType=VARCHAR},
+  		UPDATE_TIME = SYSDATE,
+  		CONTENT = #{content,jdbcType=VARCHAR},
+  		PIC_FILEPATH = #{picFilePath,jdbcType=VARCHAR},
+  		CODE_IMAGE_FLAG = #{codeImageFlag,jdbcType=VARCHAR},
+  		URL = #{url,jdbcType=VARCHAR}
+  		where 
+  		PASS_CODE_ID = #{passCodeId,jdbcType=DECIMAL}
+  </update>
+  
+    <update id="updatePicFilePath" parameterType="com.lvmama.vst.back.order.po.OrdPassCode">
+  	update ORD_PASS_CODE set PIC_FILEPATH = #{picFilePath,jdbcType=VARCHAR},UPDATE_TIME = SYSDATE
+  	where PASS_SERIALNO = #{passSerialno,jdbcType=VARCHAR}
+  </update>
+  
+  
+   <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select *
+    from ORD_PASS_CODE
+    where 1=1
+    <if test="addCode != null" >  
+     and   ADD_CODE = #{addCode,jdbcType=VARCHAR}
+     </if>
+     <if test="checkingId != null" >  
+     and   CHECKING_ID = #{checkingId,jdbcType=DECIMAL}
+     </if> 
+      <if test="orderItemId != null" >  
+     and   ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+     </if>
+      <if test="code != null" >  
+     and   CODE = #{code,jdbcType=VARCHAR}
+     </if> 
+     <if test="passSerialno != null" >  
+     and   PASS_SERIALNO = #{passSerialno,jdbcType=VARCHAR}
+     </if> 
+  </select>
+  
+  <select id="selectCountByOrderItemId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+  	select count(*) from ORD_PASS_CODE where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="getOrdPassCodeByOrderItemId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from ORD_PASS_CODE where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+  	 order by CREATE_TIME DESC
+  </select>
+  
+  <select id="getOrdPassCodeByCheckInAndCode" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from ORD_PASS_CODE 
+  	where ADD_CODE = #{addCode,jdbcType=VARCHAR} 
+  	<if test="checkingId!=null">
+  	and CHECKING_ID = #{checkingId,jdbcType=DECIMAL}
+  	</if>
+  </select>
+</mapper>

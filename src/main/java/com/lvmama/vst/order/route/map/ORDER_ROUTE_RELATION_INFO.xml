@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORDER_ROUTE_RELATION_INFO" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.order.route.po.OrderRouteRelationInfo" >
+    <id column="ORDER_ROUTE_RELATION_ID" property="orderRouteRelationId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="ORDER_CATEGORY_ID" property="orderCategoryId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_CATEGORY_ID" property="orderItemCategoryId" jdbcType="DECIMAL" />
+    <result column="DISTRIBUTOR_ID" property="distributorId" jdbcType="DECIMAL" />
+    <result column="DISTRIBUTOR_CODE" property="distributorCode" jdbcType="VARCHAR" />
+    <result column="IS_TEST_ORDER" property="isTestOrder" jdbcType="CHAR" />
+    <result column="VALID_FLAG" property="validFlag" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    *
+  </sql>
+  <insert id="insert" parameterType="com.lvmama.vst.order.route.po.OrderRouteRelationInfo" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderRouteRelationId" order="BEFORE" >
+      select SEQ_ORDER_ROUTE_RELATION_INFO.nextval from dual
+    </selectKey>
+    insert into ORDER_ROUTE_RELATION_INFO (ORDER_ROUTE_RELATION_ID, ORDER_ID, ORDER_ITEM_ID, 
+      ORDER_CATEGORY_ID, ORDER_ITEM_CATEGORY_ID, DISTRIBUTOR_ID, 
+      DISTRIBUTOR_CODE, IS_TEST_ORDER, VALID_FLAG, CREATE_TIME,
+      UPDATE_TIME)
+    values (#{orderRouteRelationId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL}, 
+      #{orderCategoryId,jdbcType=DECIMAL}, #{orderItemCategoryId,jdbcType=DECIMAL}, #{distributorId,jdbcType=DECIMAL}, 
+      #{distributorCode,jdbcType=VARCHAR}, #{isTestOrder,jdbcType=CHAR}, #{validFlag,jdbcType=CHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from ORDER_ROUTE_RELATION_INFO
+    where 1=1
+    <include refid="Base_Query_Column_List" />
+  </select>
+
+  <sql id="Base_Query_Column_List" >
+    <if test="orderId != null" >
+      and ORDER_ID = #{orderId}
+    </if>
+    <if test="updateTime != null" >
+      and ORDER_ITEM_ID = #{orderItemId}
+    </if>
+  </sql>
+</mapper>

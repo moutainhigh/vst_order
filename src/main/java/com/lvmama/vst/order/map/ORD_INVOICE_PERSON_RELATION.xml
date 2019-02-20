@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_INVOICE_PERSON_RELATION" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdInvoicePersonRelation" >
+    <id column="INVOICE_PERSON_RELATION_ID" property="invoicePersonRelationId" jdbcType="DECIMAL" />
+    <result column="ORD_INVOICE_ID" property="ordInvoiceId" jdbcType="DECIMAL" />
+    <result column="PERSON_ID" property="personId" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    INVOICE_PERSON_RELATION_ID, ORD_INVOICE_ID, PERSON_ID, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_INVOICE_PERSON_RELATION
+    where INVOICE_PERSON_RELATION_ID = #{invoicePersonRelationId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_INVOICE_PERSON_RELATION
+    where INVOICE_PERSON_RELATION_ID = #{invoicePersonRelationId,jdbcType=DECIMAL}
+  </delete>
+  <select id="selectRelId" resultType="java.lang.Long">
+	    select SEQ_INVOICE_PERSON_RELATION_ID.currval from dual
+	</select>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdInvoicePersonRelation" >
+    <selectKey resultType="java.lang.Long" keyProperty="invoicePersonRelationId" order="BEFORE" >
+      select SEQ_INVOICE_PERSON_RELATION_ID.nextval from dual
+    </selectKey>
+    insert into ORD_INVOICE_PERSON_RELATION (INVOICE_PERSON_RELATION_ID, ORD_INVOICE_ID, 
+      PERSON_ID)
+    values (#{invoicePersonRelationId,jdbcType=DECIMAL}, #{ordInvoiceId,jdbcType=DECIMAL}, 
+      #{personId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdInvoicePersonRelation" >
+    <selectKey resultType="java.lang.Long" keyProperty="invoicePersonRelationId" order="BEFORE" >
+      select SEQ_INVOICE_PERSON_RELATION_ID.nextval from dual
+    </selectKey>
+    insert into ORD_INVOICE_PERSON_RELATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      INVOICE_PERSON_RELATION_ID,
+      <if test="ordInvoiceId != null" >
+        ORD_INVOICE_ID,
+      </if>
+      <if test="personId != null" >
+        PERSON_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{invoicePersonRelationId,jdbcType=DECIMAL},
+      <if test="ordInvoiceId != null" >
+        #{ordInvoiceId,jdbcType=DECIMAL},
+      </if>
+      <if test="personId != null" >
+        #{personId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdInvoicePersonRelation" >
+    update ORD_INVOICE_PERSON_RELATION
+    <set >
+      <if test="ordInvoiceId != null" >
+        ORD_INVOICE_ID = #{ordInvoiceId,jdbcType=DECIMAL},
+      </if>
+      <if test="personId != null" >
+        PERSON_ID = #{personId,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where INVOICE_PERSON_RELATION_ID = #{invoicePersonRelationId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdInvoicePersonRelation" >
+    update ORD_INVOICE_PERSON_RELATION
+    set ORD_INVOICE_ID = #{ordInvoiceId,jdbcType=DECIMAL},
+      PERSON_ID = #{personId,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where INVOICE_PERSON_RELATION_ID = #{invoicePersonRelationId,jdbcType=DECIMAL}
+  </update>
+</mapper>

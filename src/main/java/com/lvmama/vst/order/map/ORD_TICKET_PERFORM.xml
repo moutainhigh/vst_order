@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_TICKET_PERFORM" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdTicketPerform" >
+    <id column="TICKET_PERFORM_ID" property="ticketPerformId" jdbcType="DECIMAL" />
+    <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="ADULT_QUANTITY" property="adultQuantity" jdbcType="DECIMAL" />
+    <result column="CHILD_QUANTITY" property="childQuantity" jdbcType="DECIMAL" />
+    <result column="ACTUAL_ADULT" property="actualAdult" jdbcType="DECIMAL" />
+    <result column="ACTUAL_CHILD" property="actualChild" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="PERFORM_TIME" property="performTime" jdbcType="TIMESTAMP" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="PERFORM_PEOPLE_INFO" property="performPeopleInfo" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap> 
+  <sql id="Base_Column_List" >
+    TICKET_PERFORM_ID, VISIT_TIME, ORDER_ITEM_ID, ADULT_QUANTITY, CHILD_QUANTITY, ACTUAL_ADULT, ACTUAL_CHILD, ORDER_ID, 
+    CREATE_TIME,PERFORM_TIME, MEMO,OPERATOR,PERFORM_PEOPLE_INFO,UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_TICKET_PERFORM
+    where TICKET_PERFORM_ID = #{ticketPerformId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByOrderItem" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_TICKET_PERFORM
+    where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+  </select>
+  <!-- 根据orderItemId集合查询ORD_TICKET_PERFORM集合-->
+  <select id="selectByOrderItems"  resultMap="BaseResultMap" >
+	select 
+    <include refid="Base_Column_List" />
+    from ORD_TICKET_PERFORM where ORDER_ITEM_ID  in
+	   <foreach item="item" index="index" collection="list" 
+              open="(" separator="," close=")">
+             #{item}
+       </foreach>
+   </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_TICKET_PERFORM
+    where TICKET_PERFORM_ID = #{ticketPerformId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdTicketPerform" >
+    <selectKey resultType="java.lang.Long" keyProperty="ticketPerformId" order="BEFORE" >
+      select SEQ_ORD_TICKET_PERFORM_ID.nextval from dual
+    </selectKey>
+    insert into ORD_TICKET_PERFORM (TICKET_PERFORM_ID, VISIT_TIME, ORDER_ITEM_ID, 
+      ADULT_QUANTITY, CHILD_QUANTITY, ACTUAL_ADULT,ACTUAL_CHILD,ORDER_ID, 
+      CREATE_TIME, PERFORM_TIME, MEMO, OPERATOR, PERFORM_PEOPLE_INFO)
+    values (#{ticketPerformId,jdbcType=DECIMAL}, #{visitTime,jdbcType=TIMESTAMP}, #{orderItemId,jdbcType=DECIMAL}, 
+      #{adultQuantity,jdbcType=DECIMAL}, #{childQuantity,jdbcType=DECIMAL},#{actualAdult,jdbcType=DECIMAL}, #{actualChild,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP},#{performTime,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{performPeopleInfo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdTicketPerform" >
+    <selectKey resultType="java.lang.Long" keyProperty="ticketPerformId" order="BEFORE" >
+      select SEQ_ORD_TICKET_PERFORM_ID.nextval from dual
+    </selectKey>
+    insert into ORD_TICKET_PERFORM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      TICKET_PERFORM_ID,
+      <if test="visitTime != null" >
+        VISIT_TIME,
+      </if>
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID,
+      </if>
+      <if test="adultQuantity != null" >
+        ADULT_QUANTITY,
+      </if>
+      <if test="childQuantity != null" >
+        CHILD_QUANTITY,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="performPeopleInfo != null" >
+        PERFORM_PEOPLE_INFO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{ticketPerformId,jdbcType=DECIMAL},
+      <if test="visitTime != null" >
+        #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="adultQuantity != null" >
+        #{adultQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="childQuantity != null" >
+        #{childQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="performPeopleInfo != null" >
+        #{performPeopleInfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdTicketPerform" >
+    update ORD_TICKET_PERFORM
+    <set >
+      <if test="visitTime != null" >
+        VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="adultQuantity != null" >
+        ADULT_QUANTITY = #{adultQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="childQuantity != null" >
+        CHILD_QUANTITY = #{childQuantity,jdbcType=DECIMAL},
+      </if>
+      
+      <if test="adultQuantity != null" >
+        ACTUAL_ADULT = #{actualAdult,jdbcType=DECIMAL},
+      </if>
+      <if test="childQuantity != null" >
+        ACTUAL_CHILD = #{actualChild,jdbcType=DECIMAL},
+      </if>
+      
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="performPeopleInfo != null" >
+        PERFORM_PEOPLE_INFO = #{performPeopleInfo,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = SYSDATE
+    </set>
+    where TICKET_PERFORM_ID = #{ticketPerformId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdTicketPerform" >
+    update ORD_TICKET_PERFORM
+    set VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      ADULT_QUANTITY = #{adultQuantity,jdbcType=DECIMAL},
+      CHILD_QUANTITY = #{childQuantity,jdbcType=DECIMAL},
+      ACTUAL_ADULT = #{actualAdult,jdbcType=DECIMAL},
+      ACTUAL_CHILD = #{actualChild,jdbcType=DECIMAL},
+      ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      PERFORM_TIME = #{performTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      UPDATE_TIME = SYSDATE,
+      PERFORM_PEOPLE_INFO = #{performPeopleInfo,jdbcType=VARCHAR}
+    where TICKET_PERFORM_ID = #{ticketPerformId,jdbcType=DECIMAL}
+  </update>
+  
+  
+  
+  
+   <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select 
+	    <include refid="Base_Column_List" />
+	    from ORD_TICKET_PERFORM where 1=1 
+		<include refid="Base_Query_Column_List" />	
+   </select>
+   
+   <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_TICKET_PERFORM 
+	     where 1=1  
+			<include refid="Base_Query_Column_List" />
+   </select>
+	
+   <sql id="Base_Query_Column_List" >
+     <if test="visitTime != null" >
+        and  VISIT_TIME = #{visitTime}
+      </if>
+      <if test="orderItemId != null" >
+        and  ORDER_ITEM_ID = #{orderItemId}
+      </if>
+      <if test="adultQuantity != null" >
+       and   ADULT_QUANTITY = #{adultQuantity}
+      </if>
+      <if test="childQuantity != null" >
+       and   CHILD_QUANTITY = #{childQuantity}
+      </if>
+      <if test="orderId != null" >
+        and  ORDER_ID = #{orderId}
+      </if>
+      <if test="createTime != null" >
+        and  CREATE_TIME = #{createTime}
+      </if>
+      <if test="memo != null" >
+        and  MEMO = #{memo}
+      </if>
+      <if test="operator != null" >
+        and  OPERATOR = #{operator}
+      </if>
+      <if test="performPeopleInfo != null" >
+        and  PERFORM_PEOPLE_INFO = #{performPeopleInfo}
+      </if>
+  </sql>
+  
+  <select id="selectCountByOrderItem" parameterType="java.lang.Long" resultType="java.lang.Long">
+  	select count(*) from ORD_TICKET_PERFORM where ORDER_ITEM_ID = #{orderItemId}
+  </select>
+</mapper>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_STAMP_ORDER" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdStampOrder" >
+    <id column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_NO" property="userNo" jdbcType="VARCHAR" />
+    <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" />
+    <result column="DOWN_PAYMENT" property="downPayment" jdbcType="DECIMAL" />
+    <result column="DOWN_DATE" property="downDate" jdbcType="TIMESTAMP" />
+    <result column="BALANCE_DUE_WAIT_DATE" property="balanceDueWaitDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="REMIND_CUSTOMER_DATE" property="remindCustomerDate" jdbcType="TIMESTAMP" />
+    <result column="STAMP_ORDER_CLASSIFICATION" property="stampOrderClassification" jdbcType="VARCHAR" />
+    <result column="REMIND_CUSTOMER_TIMESLOT" property="remindCustomerTimeslot" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultVoMap" type="com.lvmama.vst.back.order.vo.StampOrderVo" >
+    <id column="order_id" property="orderId" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="down_date" property="firstPaymentTime" jdbcType="TIMESTAMP" />
+    <result column="payment_time" property="lastPaymentTime" jdbcType="TIMESTAMP" />
+    <result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+    <result column="payment_status" property="paymentStatus" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORDER_ID, USER_ID, USER_NO, PAY_TYPE, DOWN_PAYMENT, DOWN_DATE, BALANCE_DUE_WAIT_DATE, 
+    CREATE_DATE, UPDATE_DATE, REMIND_CUSTOMER_DATE, STAMP_ORDER_CLASSIFICATION, REMIND_CUSTOMER_TIMESLOT, 
+    UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_STAMP_ORDER
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_STAMP_ORDER
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdStampOrder" >
+    insert into ORD_STAMP_ORDER (ORDER_ID, USER_ID, USER_NO, 
+      PAY_TYPE, DOWN_PAYMENT, DOWN_DATE, 
+      BALANCE_DUE_WAIT_DATE, CREATE_DATE, UPDATE_DATE, 
+      REMIND_CUSTOMER_DATE, STAMP_ORDER_CLASSIFICATION, 
+      REMIND_CUSTOMER_TIMESLOT, UPDATE_TIME)
+    values (#{orderId,jdbcType=DECIMAL}, #{userId,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, 
+      #{payType,jdbcType=VARCHAR}, #{downPayment,jdbcType=DECIMAL}, #{downDate,jdbcType=TIMESTAMP}, 
+      #{balanceDueWaitDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{remindCustomerDate,jdbcType=TIMESTAMP}, #{stampOrderClassification,jdbcType=VARCHAR}, 
+      #{remindCustomerTimeslot,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdStampOrder" >
+    insert into ORD_STAMP_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userNo != null" >
+        USER_NO,
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE,
+      </if>
+      <if test="downPayment != null" >
+        DOWN_PAYMENT,
+      </if>
+      <if test="downDate != null" >
+        DOWN_DATE,
+      </if>
+      <if test="balanceDueWaitDate != null" >
+        BALANCE_DUE_WAIT_DATE,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="remindCustomerDate != null" >
+        REMIND_CUSTOMER_DATE,
+      </if>
+      <if test="stampOrderClassification != null" >
+        STAMP_ORDER_CLASSIFICATION,
+      </if>
+      <if test="remindCustomerTimeslot != null" >
+        REMIND_CUSTOMER_TIMESLOT,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null" >
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="downPayment != null" >
+        #{downPayment,jdbcType=DECIMAL},
+      </if>
+      <if test="downDate != null" >
+        #{downDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="balanceDueWaitDate != null" >
+        #{balanceDueWaitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remindCustomerDate != null" >
+        #{remindCustomerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stampOrderClassification != null" >
+        #{stampOrderClassification,jdbcType=VARCHAR},
+      </if>
+      <if test="remindCustomerTimeslot != null" >
+        #{remindCustomerTimeslot,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdStampOrder" >
+    update ORD_STAMP_ORDER
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null" >
+        USER_NO = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="downPayment != null" >
+        DOWN_PAYMENT = #{downPayment,jdbcType=DECIMAL},
+      </if>
+      <if test="downDate != null" >
+        DOWN_DATE = #{downDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="balanceDueWaitDate != null" >
+        BALANCE_DUE_WAIT_DATE = #{balanceDueWaitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remindCustomerDate != null" >
+        REMIND_CUSTOMER_DATE = #{remindCustomerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stampOrderClassification != null" >
+        STAMP_ORDER_CLASSIFICATION = #{stampOrderClassification,jdbcType=VARCHAR},
+      </if>
+      <if test="remindCustomerTimeslot != null" >
+        REMIND_CUSTOMER_TIMESLOT = #{remindCustomerTimeslot,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdStampOrder" >
+    update ORD_STAMP_ORDER
+    set USER_ID = #{userId,jdbcType=VARCHAR},
+      USER_NO = #{userNo,jdbcType=VARCHAR},
+      PAY_TYPE = #{payType,jdbcType=VARCHAR},
+      DOWN_PAYMENT = #{downPayment,jdbcType=DECIMAL},
+      DOWN_DATE = #{downDate,jdbcType=TIMESTAMP},
+      BALANCE_DUE_WAIT_DATE = #{balanceDueWaitDate,jdbcType=TIMESTAMP},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      REMIND_CUSTOMER_DATE = #{remindCustomerDate,jdbcType=TIMESTAMP},
+      STAMP_ORDER_CLASSIFICATION = #{stampOrderClassification,jdbcType=VARCHAR},
+      REMIND_CUSTOMER_TIMESLOT = #{remindCustomerTimeslot,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  <select id="countStampOrder" resultType="java.lang.Long" parameterType="java.util.Map" >
+    select count(o.order_id) 
+    from ord_order o 
+    join ord_person p on o.order_id=p.object_id
+    left join ord_order_item oi on o.order_id=oi.order_id
+    join ord_stamp_order_item soi on oi.order_item_id=soi.order_item_id
+    where o.order_subtype='STAMP' and p.person_type='CONTACT'    
+    <if test="stampId != null" >
+         and soi.stamp_definition_id=#{stampId}
+    </if>
+    <if test="orderId != null" >
+         and o.order_id=#{orderId}
+    </if>
+    <if test="contactName != null" >
+         and p.full_name like #{contactName}||'%'
+    </if>
+    <if test="contactMobile != null" >
+         and p.mobile like #{contactMobile}||'%'
+    </if>
+  </select>
+  <select id="queryStampOrder" resultMap="ResultVoMap" parameterType="java.util.Map" >
+  	<include refid="basic.pageSearchHead"/>
+  	<include refid="selectStampOrder"/>
+    <include refid="basic.pageSearchFoot"/>    
+  </select>
+  <sql id="selectStampOrder" >
+  	select o.order_id,o.create_time,so.down_date,o.payment_time,o.order_status,o.payment_status,so.pay_type,p.full_name,p.mobile     
+    from ord_order o 
+    join ord_person p on o.order_id=p.object_id and p.object_type='ORDER'
+    join ord_stamp_order so on o.order_id=so.order_id
+    left join ord_order_item oi on o.order_id=oi.order_id
+    join ord_stamp_order_item soi on oi.order_item_id=soi.order_item_id  
+    where o.order_subtype='STAMP' and p.person_type='CONTACT'
+    <if test="stampId != null" >
+         and soi.stamp_definition_id=#{stampId}
+    </if>
+    <if test="orderId != null" >
+         and o.order_id=#{orderId}
+    </if>
+    <if test="contactName != null" >
+         and p.full_name like #{contactName}||'%'
+    </if>
+    <if test="contactMobile != null" >
+         and p.mobile like #{contactMobile}||'%'
+    </if>
+  </sql>
+</mapper>

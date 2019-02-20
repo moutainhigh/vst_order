@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="PRE_REFUND_COUNTER" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.PreRefundCounter" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="MOBIE" property="mobie" jdbcType="VARCHAR" />
+    <result column="COUNT" property="" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.PreRefundCounter" >
+    insert into PRE_REFUND_COUNTER (ID, USER_ID, MOBIE,COUNT)
+    values (SEQ_PRE_REFUND_COUNTER_ID.nextval, #{userId,jdbcType=DECIMAL}, #{mobie,jdbcType=VARCHAR}, 
+      #{count,jdbcType=DECIMAL})
+  </insert>
+  
+  
+  <update id="increase" parameterType="com.lvmama.vst.back.order.po.PreRefundCounter">
+  	update PRE_REFUND_COUNTER
+    	set  COUNT = COUNT+1,UPDATE_TIME = SYSDATE
+	where USER_ID = #{userId,jdbcType=DECIMAL}
+	<if test="mobie!=null and mobie!=''">
+     and MOBIE = #{mobie,jdbcType=VARCHAR}
+    </if>
+  </update>
+  
+  <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select sum(COUNT) from PRE_REFUND_COUNTER
+  		<where>
+  			<if test="userId!=null">
+  				and USER_ID = #{userId,jdbcType=DECIMAL}
+  			</if>
+  			<if test="mobie!=null and mobie!=''">
+  				and MOBIE = #{mobie,jdbcType=VARCHAR}
+  			</if>
+  		</where>
+  </select>
+</mapper>

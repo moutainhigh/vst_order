@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="COM_MESSAGE">
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.pub.po.ComMessage">
+    <id column="MESSAGE_ID" jdbcType="DECIMAL" property="messageId" />
+    <result column="AUDIT_ID" jdbcType="DECIMAL" property="auditId" />
+    <result column="MESSAGE_CONTENT" jdbcType="VARCHAR" property="messageContent" />
+    <result column="SENDER" jdbcType="VARCHAR" property="sender" />
+    <result column="RECEIVER" jdbcType="VARCHAR" property="receiver" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="MESSAGE_STATUS" jdbcType="VARCHAR" property="messageStatus" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MESSAGE_ID, AUDIT_ID, MESSAGE_CONTENT, SENDER, RECEIVER, CREATE_TIME, MESSAGE_STATUS, 
+    UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from COM_MESSAGE
+    where MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from COM_MESSAGE
+    where MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.pub.po.ComMessage">
+    <selectKey keyProperty="messageId" order="BEFORE" resultType="java.lang.Long">
+      select SEQ_COM_MESSAGE_ID.nextval from dual
+    </selectKey>
+    insert into COM_MESSAGE (MESSAGE_ID, AUDIT_ID, MESSAGE_CONTENT, 
+      SENDER, RECEIVER, CREATE_TIME, 
+      MESSAGE_STATUS)
+    values (#{messageId,jdbcType=DECIMAL}, #{auditId,jdbcType=DECIMAL}, #{messageContent,jdbcType=VARCHAR}, 
+      #{sender,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{messageStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.pub.po.ComMessage">
+    <selectKey keyProperty="messageId" order="BEFORE" resultType="java.lang.Long">
+      select SEQ_COM_MESSAGE_ID.nextval from dual
+    </selectKey>
+    insert into COM_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      MESSAGE_ID,
+      <if test="auditId != null">
+        AUDIT_ID,
+      </if>
+      <if test="messageContent != null">
+        MESSAGE_CONTENT,
+      </if>
+      <if test="sender != null">
+        SENDER,
+      </if>
+      <if test="receiver != null">
+        RECEIVER,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="messageStatus != null">
+        MESSAGE_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{messageId,jdbcType=DECIMAL},
+      <if test="auditId != null">
+        #{auditId,jdbcType=DECIMAL},
+      </if>
+      <if test="messageContent != null">
+        #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null">
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageStatus != null">
+        #{messageStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.pub.po.ComMessage">
+    update COM_MESSAGE
+    <set>
+      <if test="auditId != null">
+        AUDIT_ID = #{auditId,jdbcType=DECIMAL},
+      </if>
+      <if test="messageContent != null">
+        MESSAGE_CONTENT = #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        SENDER = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null">
+        RECEIVER = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageStatus != null">
+        MESSAGE_STATUS = #{messageStatus,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.pub.po.ComMessage">
+    update COM_MESSAGE
+    set AUDIT_ID = #{auditId,jdbcType=DECIMAL},
+      MESSAGE_CONTENT = #{messageContent,jdbcType=VARCHAR},
+      SENDER = #{sender,jdbcType=VARCHAR},
+      RECEIVER = #{receiver,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      MESSAGE_STATUS = #{messageStatus,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate
+    where MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </update>
+
+
+ <sql id="Base_Query_Column_List" >
+ 
+ 	  <if test="messageId != null" >
+      and  MESSAGE_ID = #{messageId}
+      </if>
+ 	  <if test="auditId != null">
+         and  AUDIT_ID = #{auditId}
+      </if>
+      <if test="messageContent != null">
+        and   MESSAGE_CONTENT = #{messageContent}
+      </if>
+      <if test="sender != null">
+        and   SENDER = #{sender}
+      </if>
+      <if test="receiver != null">
+        and   RECEIVER = #{receiver}
+      </if>
+      <if test="createTime != null">
+         and  CREATE_TIME = #{createTime}
+      </if>
+      <if test="messageStatus != null">
+        and   MESSAGE_STATUS = #{messageStatus}
+      </if>
+      
+      
+      
+      
+   	  <if test="auditIdArray != null">
+			AND AUDIT_ID IN
+			<foreach collection="auditIdArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+   	 
+      
+  </sql>
+  
+   <sql id="select_by_param" >
+		select *	
+		from COM_MESSAGE  
+		where 1=1
+			<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+    
+	<select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+	<select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from COM_MESSAGE
+	     where 1=1
+			<include refid="Base_Query_Column_List" />
+	</select>
+	
+</mapper>

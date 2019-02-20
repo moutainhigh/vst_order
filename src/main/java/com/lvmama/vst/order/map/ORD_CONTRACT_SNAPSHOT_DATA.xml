@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_CONTRACT_SNAPSHOT_DATA" >
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdContractSnapshotData" >
+	  <id column="SNAPSHOT_DATA_ID" property="snapshotDataId" jdbcType="DECIMAL" />
+	  <result column="ORD_CONTRACT_ID" property="ordContractId" jdbcType="DECIMAL" />
+	  <result column="JSON_FILE_ID" property="jsonFileId" jdbcType="DECIMAL" />
+	  <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	  <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+  
+	<sql id="Base_Column_List" >
+	  SNAPSHOT_DATA_ID,ORD_CONTRACT_ID,JSON_FILE_ID,CREATE_TIME, UPDATE_TIME
+	</sql>
+  
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+	  select 
+	  <include refid="Base_Column_List" />
+	  from ORD_CONTRACT_SNAPSHOT_DATA
+	  where SNAPSHOT_DATA_ID = #{snapshotDataId,jdbcType=DECIMAL}
+	</select>
+
+	<select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from ORD_CONTRACT_SNAPSHOT_DATA  
+		where 1=1 
+			<include refid="Base_Query_Column_List" />
+			ORDER BY CREATE_TIME DESC	
+	</select>
+
+	<sql id="Base_Query_Column_List" >
+		<if test="snapshotDataId != null" >
+		 and   SNAPSHOT_DATA_ID = #{snapshotDataId,jdbcType=VARCHAR}
+		</if>
+		<if test="ordContractId != null" >
+		 and   ORD_CONTRACT_ID =#{ordContractId,jdbcType=VARCHAR}
+		</if>
+		<if test="jsonFileId != null" >
+		 and   JSON_FILE_ID =#{jsonFileId,jdbcType=VARCHAR}
+		</if>
+		<if test="createTime != null" >
+		 and   CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+	</sql>
+	
+	<insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdContractSnapshotData" >
+		<selectKey resultType="java.lang.Long" keyProperty="snapshotDataId" order="BEFORE" >
+	    select SEQ_CONTRACT_SNAPSHOT_DATA_ID.nextval from dual
+	  </selectKey>
+	  insert into ORD_CONTRACT_SNAPSHOT_DATA (SNAPSHOT_DATA_ID, ORD_CONTRACT_ID, JSON_FILE_ID, CREATE_TIME)
+	  	   values (#{snapshotDataId,jdbcType=DECIMAL}, #{ordContractId,jdbcType=DECIMAL}, #{jsonFileId,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP})
+	</insert>
+  
+	<insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdContractSnapshotData" >
+		<selectKey resultType="java.lang.Long" keyProperty="snapshotDataId" order="BEFORE" >
+	    	select SEQ_CONTRACT_SNAPSHOT_DATA_ID.nextval from dual
+	  	</selectKey>
+	  	insert into ORD_CONTRACT_SNAPSHOT_DATA
+	  	<trim prefix="(" suffix=")" suffixOverrides="," >
+		    <if test="snapshotDataId != null" >
+		      SNAPSHOT_DATA_ID,
+		    </if>
+		    <if test="ordContractId != null" >
+		      ORD_CONTRACT_ID,
+		    </if>
+		    <if test="jsonFileId != null" >
+		      JSON_FILE_ID,
+		    </if>
+		    <if test="createTime != null" >
+		      CREATE_TIME,
+		    </if>
+	  	</trim>
+	  	<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    <if test="snapshotDataId != null" >
+		      #{snapshotDataId,jdbcType=DECIMAL},
+		    </if>
+		    <if test="ordContractId != null" >
+		      #{ordContractId,jdbcType=DECIMAL},
+		    </if>
+		    <if test="jsonFileId != null" >
+		      #{jsonFileId,jdbcType=VARCHAR},
+		    </if>
+		    <if test="createTime != null" >
+		      #{createTime,jdbcType=VARCHAR},
+		    </if>
+	  	</trim>
+	</insert>
+
+</mapper>

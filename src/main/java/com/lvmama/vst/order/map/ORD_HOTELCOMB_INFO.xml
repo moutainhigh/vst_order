@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_HOTELCOMB_INFO">
+	<insert id="insert">
+		<selectKey resultType="java.lang.Long" keyProperty="orderHotelCombId" order="BEFORE" >
+      		select SEQ_ORD_HOTELCOMB_ID.nextval from dual
+    	</selectKey>
+		insert into ORD_HOTELCOMB_INFO
+		values(
+		#{orderHotelCombId,jdbcType=NUMERIC},
+		#{orderId,jdbcType=NUMERIC},
+		#{orderItemId,jdbcType=NUMERIC},
+		#{categoryId,jdbcType=NUMERIC},
+		#{productId,jdbcType=NUMERIC},
+		#{productName,jdbcType=VARCHAR},
+		#{branchId,jdbcType=NUMERIC},
+		#{branchName,jdbcType=VARCHAR},
+		#{goodsId,jdbcType=NUMERIC},
+		#{goodsName,jdbcType=VARCHAR},
+		#{quantity,jdbcType=NUMERIC},
+		#{adultQuantity,jdbcType=NUMERIC},
+		#{childQuantity,jdbcType=NUMERIC},
+		#{stayDay,jdbcType=VARCHAR},
+		SYSDATE,
+		SYSDATE)
+	</insert>
+</mapper>

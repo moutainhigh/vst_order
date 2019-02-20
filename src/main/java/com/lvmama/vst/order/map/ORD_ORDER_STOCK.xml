@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_STOCK" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderStock" >
+    <id column="ORDER_STOCK_ID" property="orderStockId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+    <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="INVENTORY" property="inventory" jdbcType="VARCHAR" />
+    <result column="INIT_INVENTORY" property="initInventory" jdbcType="VARCHAR" />
+    <result column="NEED_RESOURCE_CONFIRM" property="needResourceConfirm" jdbcType="VARCHAR" />
+    <result column="RESOURCE_STATUS" property="resourceStatus" jdbcType="VARCHAR" />
+    <result column="SHARE_TOTAL_STOCK_ID" property="shareTotalStockId" jdbcType="DECIMAL" />
+    <result column="SHARE_DAY_LIMIT_ID" property="shareDayLimitId" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORDER_STOCK_ID, ORDER_ITEM_ID,OBJECT_ID, OBJECT_TYPE, VISIT_TIME, QUANTITY, INVENTORY, INIT_INVENTORY, NEED_RESOURCE_CONFIRM, 
+    RESOURCE_STATUS, SHARE_TOTAL_STOCK_ID, SHARE_DAY_LIMIT_ID, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_STOCK
+    where ORDER_STOCK_ID = #{orderStockId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_ORDER_STOCK
+    where ORDER_STOCK_ID = #{orderStockId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderStock" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderStockId" order="BEFORE" >
+      select SEQ_ORDER_STOCK_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_STOCK (ORDER_STOCK_ID, ORDER_ITEM_ID,OBJECT_ID, OBJECT_TYPE, 
+      VISIT_TIME, QUANTITY, INVENTORY, INIT_INVENTORY, 
+      NEED_RESOURCE_CONFIRM, RESOURCE_STATUS, SHARE_TOTAL_STOCK_ID, SHARE_DAY_LIMIT_ID)
+    values (#{orderStockId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL},#{objectId,jdbcType=DECIMAL}, #{objectType,jdbcType=VARCHAR}, 
+      #{visitTime,jdbcType=TIMESTAMP}, #{quantity,jdbcType=DECIMAL}, #{inventory,jdbcType=VARCHAR}, #{inventory,jdbcType=VARCHAR}, 
+      #{needResourceConfirm,jdbcType=VARCHAR}, #{resourceStatus,jdbcType=VARCHAR}, #{shareTotalStockId,jdbcType=DECIMAL}, #{shareDayLimitId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderStock" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderStockId" order="BEFORE" >
+      select SEQ_ORDER_STOCK_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_STOCK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORDER_STOCK_ID,
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID,
+      </if>
+      <if test="objectId != null" >
+        OBJECT_ID,
+      </if>
+      <if test="objectType != null" >
+        OBJECT_TYPE,
+      </if>
+      <if test="visitTime != null" >
+        VISIT_TIME,
+      </if>
+      <if test="quantity != null" >
+        QUANTITY,
+      </if>
+      <if test="inventory != null" >
+        INVENTORY,
+        INIT_INVENTORY,
+      </if>
+      <if test="needResourceConfirm != null" >
+        NEED_RESOURCE_CONFIRM,
+      </if>
+      <if test="resourceStatus != null" >
+        RESOURCE_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{orderStockId,jdbcType=DECIMAL},
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="objectId != null" >
+        #{objectId,jdbcType=DECIMAL},
+      </if>
+      <if test="objectType != null" >
+        #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="visitTime != null" >
+        #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="inventory != null" >
+        #{inventory,jdbcType=VARCHAR},
+        #{inventory,jdbcType=VARCHAR},
+      </if>
+      <if test="needResourceConfirm != null" >
+        #{needResourceConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceStatus != null" >
+        #{resourceStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderStock" >
+    update ORD_ORDER_STOCK
+    <set >
+       <if test="orderItemId != null" >
+        ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="objectId != null" >
+        OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+      </if>
+      <if test="objectType != null" >
+        OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="visitTime != null" >
+        VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="inventory != null" >
+        INVENTORY = #{inventory,jdbcType=VARCHAR},
+      </if>
+      <if test="needResourceConfirm != null" >
+        NEED_RESOURCE_CONFIRM = #{needResourceConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceStatus != null" >
+        RESOURCE_STATUS = #{resourceStatus,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORDER_STOCK_ID = #{orderStockId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdOrderStock" >
+    update ORD_ORDER_STOCK
+    set ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+    OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+      OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      QUANTITY = #{quantity,jdbcType=DECIMAL},
+      INVENTORY = #{inventory,jdbcType=VARCHAR},
+      NEED_RESOURCE_CONFIRM = #{needResourceConfirm,jdbcType=VARCHAR},
+      RESOURCE_STATUS = #{resourceStatus,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate
+    where ORDER_STOCK_ID = #{orderStockId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectByOrderItemId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_STOCK
+    where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+  </select>
+  
+   <update id="updateStockStatusByOrderItemId" parameterType="java.util.Map" >
+    update ORD_ORDER_STOCK
+    set INVENTORY=#{stockStatus,jdbcType=VARCHAR},UPDATE_TIME = sysdate 
+    where ORDER_ITEM_ID=#{orderItemId,jdbcType=DECIMAL} AND INVENTORY='INVENTORY' AND SHARE_TOTAL_STOCK_ID > 0
+  </update>
+   <update id="updateShareIdByOrderItemId" parameterType="java.util.Map" >
+    update ORD_ORDER_STOCK
+     <set>
+        <if test="shareTotalStockId != null" >
+            SHARE_TOTAL_STOCK_ID = #{shareTotalStockId,jdbcType=DECIMAL},
+        </if>
+        <if test="shareDayLimitId != null" >
+            SHARE_DAY_LIMIT_ID = #{shareDayLimitId,jdbcType=DECIMAL},
+        </if>
+        UPDATE_TIME = sysdate
+     </set>
+     where ORDER_ITEM_ID=#{orderItemId,jdbcType=DECIMAL}
+   </update> 
+</mapper>

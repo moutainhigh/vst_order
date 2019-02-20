@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_TRAV_ADDITION_CONF">
+    <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdTravAdditionConf">
+        <id column="TRAV_ADDITION_CONF_ID" property="travAdditionConfId" jdbcType="DECIMAL" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="ORD_PERSON_ID" property="orderPersonId" jdbcType="DECIMAL" />
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+        <result column="PHONE_NUM" property="phoneNum" jdbcType="VARCHAR" />
+        <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+        <result column="EN_NAME" property="enName" jdbcType="VARCHAR" />
+        <result column="OCCUP" property="occup" jdbcType="VARCHAR" />
+        <result column="ID_TYPE" property="idType" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="VALID" property="valid" jdbcType="VARCHAR" />
+        <result column="RELATE_CONTACT_ID" property="relateContactId" jdbcType="VARCHAR" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        TRAV_ADDITION_CONF_ID, ORDER_ID, ORD_PERSON_ID, USER_NAME, PHONE_NUM,EMAIL,EN_NAME, OCCUP, ID_TYPE,CREATE_TIME, VALID, RELATE_CONTACT_ID,UPDATE_TIME 
+    </sql>
+    
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+        parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from ORD_TRAV_ADDITION_CONF
+        where VALID = 'Y' AND TRAV_ADDITION_CONF_ID = #{travAdditionConfId,jdbcType=DECIMAL}
+    </select>
+    
+    <select id="selectByParam" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from ORD_TRAV_ADDITION_CONF
+        where VALID = 'Y' 
+        <if test="travAdditionConfId != null">
+            AND TRAV_ADDITION_CONF_ID = #{travAdditionConfId,jdbcType=DECIMAL}
+        </if>
+        <if test="orderId != null">
+            AND ORDER_ID = #{orderId,jdbcType=DECIMAL}
+        </if>
+        <if test="orderPersonId != null">
+            AND ORD_PERSON_ID = #{orderPersonId,jdbcType=DECIMAL}
+        </if>
+        <if test="valid != null">
+            AND VALID = #{valid,jdbcType=VARCHAR}
+        </if>
+    </select>
+    
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from ORD_TRAV_ADDITION_CONF
+        where TRAV_ADDITION_CONF_ID = #{travAdditionConfId,jdbcType=DECIMAL}
+    </delete>
+    
+    <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdTravAdditionConf">
+        <selectKey resultType="java.lang.Long" keyProperty="travAdditionConfId"
+            order="BEFORE">
+            select seq_ord_trav_addition_conf_id.nextval from dual
+        </selectKey>
+        insert into ORD_TRAV_ADDITION_CONF 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            TRAV_ADDITION_CONF_ID,
+            <if test="orderId != null">
+                ORDER_ID,
+            </if>
+            <if test="orderPersonId != null">
+                ORD_PERSON_ID,
+            </if>
+            <if test="userName != null">
+                USER_NAME,
+            </if>
+            <if test="phoneNum != null">
+                PHONE_NUM,
+            </if>
+            <if test="email != null">
+                EMAIL,
+            </if>
+            <if test="enName != null">
+                EN_NAME,
+            </if>
+            <if test="occup != null">
+                OCCUP,
+            </if>
+            <if test="idType != null">
+                ID_TYPE,
+            </if>
+            <if test="relateContactId != null">
+                RELATE_CONTACT_ID,
+            </if>
+            CREATE_TIME, VALID
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{travAdditionConfId,jdbcType=DECIMAL},
+            <if test="orderId != null">
+                #{orderId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderPersonId != null">
+                #{orderPersonId,jdbcType=DECIMAL},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNum != null">
+                #{phoneNum,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="enName != null">
+                #{enName,jdbcType=VARCHAR},
+            </if>
+            <if test="occup != null">
+                #{occup,jdbcType=VARCHAR},
+            </if>
+            <if test="idType != null">
+                #{idType,jdbcType=VARCHAR},
+            </if>
+            <if test="relateContactId != null">
+                #{relateContactId,jdbcType=VARCHAR},
+            </if>
+            sysdate,'Y'
+        </trim>
+    </insert>
+    
+    <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdTravAdditionConf">
+        update ORD_TRAV_ADDITION_CONF
+        <set>
+            <if test="orderId != null">
+                ORDER_ID = #{orderId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderPersonId != null">
+                ORD_PERSON_ID = #{orderPersonId,jdbcType=DECIMAL},
+            </if>
+            <if test="userName != null">
+                USER_NAME = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNum != null">
+                PHONE_NUM = #{phoneNum,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                EMAIL = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="enName != null">
+                EN_NAME = #{enName,jdbcType=VARCHAR},
+            </if>
+            <if test="occup != null">
+                OCCUP = #{occup,jdbcType=VARCHAR},
+            </if>
+            <if test="idType != null">
+                ID_TYPE = #{idType,jdbcType=VARCHAR},
+            </if>
+            <if test="valid != null">
+                VALID = #{valid,jdbcType=VARCHAR},
+            </if>
+            <if test="relateContactId != null">
+                RELATE_CONTACT_ID = #{relateContactId,jdbcType=VARCHAR},
+            </if>
+             UPDATE_TIME = SYSDATE
+        </set>
+        where 1 = 1 
+        <if test="travAdditionConfId != null">
+            AND ORD_TRAV_ADDITION_CONF.TRAV_ADDITION_CONF_ID = #{travAdditionConfId,jdbcType=DECIMAL}
+        </if>
+        <if test="orderId != null and orderId != ''">
+            AND ORD_TRAV_ADDITION_CONF.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+        </if>
+    </update>
+    
+</mapper>

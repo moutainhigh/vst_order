@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_WECHAT_APP" >
+ <resultMap id="BaseResultMap" type="com.lvmama.vst.comm.vo.order.OrderWechatAppVo" >
+ 	<result column="app_id" property="appId" jdbcType="DECIMAL" />
+    <result column="order_id" property="orderId" jdbcType="DECIMAL" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="from_id" property="fromId" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="search" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select app_id,order_id, open_id, from_id from ord_wechat_app where order_id = #{orderId,jdbcType=DECIMAL}
+  </select>
+  <insert id="insert" parameterType="com.lvmama.vst.comm.vo.order.OrderWechatAppVo" >
+    insert into ord_wechat_app
+     (app_id,order_id, open_id, from_id)
+     values
+     (SEQ_ORD_WECHAT_APP_ID.nextval,
+     #{orderId,jdbcType=DECIMAL},
+     #{openId,jdbcType=VARCHAR},
+     #{fromId,jdbcType=VARCHAR})
+  </insert>
+ 
+</mapper>

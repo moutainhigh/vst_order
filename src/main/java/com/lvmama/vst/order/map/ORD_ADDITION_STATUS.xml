@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ADDITION_STATUS" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdAdditionStatus" >
+    <id column="ORD_ADDITION_STATUS_ID" property="ordAdditionStatusId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="STATUS_TYPE" property="statusType" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ORD_ADDITION_STATUS_ID, ORDER_ID, STATUS, STATUS_TYPE, UPDATE_TIME
+  </sql>
+  
+   <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select 
+	    <include refid="Base_Column_List" />
+	    from ORD_ADDITION_STATUS where 1=1
+		<include refid="Base_Query_Column_List" />	
+   </select>
+   
+   <sql id="Base_Query_Column_List" >
+      <if test="ordAdditionStatusId != null" >
+       and ORD_ADDITION_STATUS_ID = #{ordAdditionStatusId}
+      </if>
+      <if test="orderId != null" >
+       and ORDER_ID = #{orderId}
+      </if>
+      <if test="status != null" >
+       and STATUS = #{status}
+      </if>
+      <if test="statusType != null" >
+       and STATUS_TYPE = #{statusType}
+      </if>
+      
+      <if test="statusTypeArray != null">
+			AND STATUS_TYPE IN
+			<foreach collection="statusTypeArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	  </if>
+	  
+	   <if test="statusArray != null">
+			AND STATUS IN
+			<foreach collection="statusArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	  </if>
+  </sql>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ADDITION_STATUS
+    where ORD_ADDITION_STATUS_ID = #{ordAdditionStatusId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectByOrderIdKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ADDITION_STATUS
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_ADDITION_STATUS
+    where ORD_ADDITION_STATUS_ID = #{ordAdditionStatusId,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdAdditionStatus" >
+  	<selectKey resultType="java.lang.Long" keyProperty="ordAdditionStatusId" order="BEFORE" >
+      select SEQ_ORD_ADDITION_STATUS_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ADDITION_STATUS (ORD_ADDITION_STATUS_ID, ORDER_ID, STATUS, 
+      STATUS_TYPE)
+    values (#{ordAdditionStatusId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{statusType,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdAdditionStatus" >
+  	<selectKey resultType="java.lang.Long" keyProperty="ordAdditionStatusId" order="BEFORE" >
+      select SEQ_ORD_ADDITION_STATUS_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ADDITION_STATUS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ordAdditionStatusId != null" >
+        ORD_ADDITION_STATUS_ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="statusType != null" >
+        STATUS_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ordAdditionStatusId != null" >
+        #{ordAdditionStatusId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusType != null" >
+        #{statusType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+ 
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdAdditionStatus" >
+    update ORD_ADDITION_STATUS
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusType != null" >
+        STATUS_TYPE = #{statusType,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORD_ADDITION_STATUS_ID = #{ordAdditionStatusId,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdAdditionStatus" >
+    update ORD_ADDITION_STATUS
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      STATUS_TYPE = #{statusType,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate
+    where ORD_ADDITION_STATUS_ID = #{ordAdditionStatusId,jdbcType=DECIMAL}
+  </update>
+</mapper>

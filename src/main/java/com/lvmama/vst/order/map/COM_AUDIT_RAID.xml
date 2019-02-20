@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="COM_AUDIT_RAID">
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.back.pub.po.ComAuditRaid">
+		<id column="AUDIT_RAID_ID" property="auditRaidId" jdbcType="DECIMAL" />
+		<result column="AUDIT_ID" property="auditId" jdbcType="DECIMAL" />
+		<result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+		<result column="SUPPLIER_ID" property="supplierId" jdbcType="DECIMAL" />
+		<result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+		<result column="CONTACT_MOBILE" property="contactMobile" jdbcType="VARCHAR" />
+		<result column="ORDER_TAG" property="ordTag" jdbcType="DECIMAL" />		
+		<result column="ORDER_CREATE_TIME" property="orderCreateTime" jdbcType="TIMESTAMP" />
+		<result column="ORDER_VISIT_TIME" property="orderVisitTime" jdbcType="TIMESTAMP" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="BU_CODE" property="buCode" jdbcType="VARCHAR" />
+		<result column="DISTRIBUTOR_ID" property="distributorId" jdbcType="DECIMAL" />
+		<result column="STOCK_FLAG" jdbcType="VARCHAR" property="stockFlag" />
+	    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+	    <result column="IS_RETURN_BACK" jdbcType="VARCHAR" property="isReturnBack" />
+	</resultMap>
+	
+	
+	<sql id="Base_Column_List">
+		AUDIT_RAID_ID,AUDIT_ID, PRODUCT_ID, SUPPLIER_ID, CONTACT_NAME, CONTACT_MOBILE,
+		ORDER_TAG,ORDER_CREATE_TIME,ORDER_VISIT_TIME,CREATE_TIME,BU_CODE,DISTRIBUTOR_ID, STOCK_FLAG, 
+	    UPDATE_TIME,IS_RETURN_BACK
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from COM_AUDIT_RAID
+		where AUDIT_RAID_ID = #{auditRaidId,jdbcType=DECIMAL}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from COM_AUDIT_RAID
+		where AUDIT_RAID_ID = #{auditRaidId,jdbcType=DECIMAL}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lvmama.vst.back.pub.po.ComAuditRaid">
+		<selectKey resultType="java.lang.Long" keyProperty="auditRaidId"
+			order="BEFORE">
+			select SEQ_COM_AUDIT_RAID_ID.nextval from dual
+		</selectKey>
+		insert into COM_AUDIT_RAID (AUDIT_RAID_ID,AUDIT_ID, PRODUCT_ID, SUPPLIER_ID, CONTACT_NAME, CONTACT_MOBILE,
+		ORDER_TAG,ORDER_CREATE_TIME,ORDER_VISIT_TIME,CREATE_TIME,BU_CODE,DISTRIBUTOR_ID,STOCK_FLAG,IS_RETURN_BACK)
+		values (#{auditRaidId,jdbcType=DECIMAL},#{auditId,jdbcType=DECIMAL}, #{productId,jdbcType=DECIMAL},
+		#{supplierId,jdbcType=DECIMAL},#{contactName,jdbcType=VARCHAR},#{contactMobile,jdbcType=VARCHAR}, 
+		#{ordTag,jdbcType=DECIMAL},#{orderCreateTime,jdbcType=TIMESTAMP},
+		#{orderVisitTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP},#{buCode,jdbcType=VARCHAR}
+		,#{distributorId,jdbcType=DECIMAL},#{stockFlag,jdbcType=VARCHAR},#{isReturnBack,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lvmama.vst.back.pub.po.ComAuditRaid">
+		<selectKey resultType="java.lang.Long" keyProperty="auditRaidId" order="BEFORE">
+			select SEQ_COM_AUDIT_RAID_ID.nextval from dual
+		</selectKey>
+		insert into COM_AUDIT_RAID
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			AUDIT_RAID_ID,
+			<if test="auditId != null">
+				AUDIT_ID,
+			</if>
+			<if test="productId != null">
+				PRODUCT_ID,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="contactName != null">
+				CONTACT_NAME,
+			</if>
+			<if test="contactMobile != null">
+				CONTACT_MOBILE,
+			</if>
+			<if test="ordTag != null">
+				ORDER_TAG,
+			</if>
+			<if test="orderCreateTime != null">
+				ORDER_CREATE_TIME,
+			</if>
+			<if test="orderVisitTime != null">
+				ORDER_VISIT_TIME,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="buCode != null">
+				BU_CODE,
+			</if>
+			<if test="distributorId != null">
+                DISTRIBUTOR_ID,
+            </if>
+            <if test="stockFlag != null">
+                STOCK_FLAG,
+            </if>
+            <if test="isReturnBack != null">
+                IS_RETURN_BACK,
+            </if>
+            <if test="travellerDelayFlag != null">
+            	TRAVELLER_DELAY_FLAG,
+            </if>
+            <if test="travellerLockFlag != null">
+            	TRAVELLER_LOCK_FLAG,
+            </if>
+            <if test="categoryId != null">
+            	CATEGORY_ID,
+            </if>
+            <if test="paymentTime != null">
+            	PAYMENT_TIME,
+            </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{auditRaidId,jdbcType=DECIMAL},
+			<if test="auditId != null">
+				#{auditId,jdbcType=DECIMAL},
+			</if>
+			<if test="productId != null">
+				 #{productId,jdbcType=DECIMAL},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId,jdbcType=DECIMAL},
+			</if>
+			<if test="contactName != null">
+				#{contactName,jdbcType=VARCHAR},
+			</if>
+			<if test="contactMobile != null">
+				#{contactMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="ordTag != null">
+				#{ordTag,jdbcType=DECIMAL},
+			</if>
+			<if test="orderCreateTime != null">
+				#{orderCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderVisitTime != null">
+				#{orderVisitTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		    <if test="buCode != null">
+				#{buCode,jdbcType=VARCHAR},
+			</if>
+			<if test="distributorId != null">
+				#{distributorId,jdbcType=DECIMAL},
+			</if>
+			<if test="stockFlag != null">
+                #{stockFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="isReturnBack != null">
+                #{isReturnBack,jdbcType=VARCHAR},
+            </if>
+            <if test="travellerDelayFlag != null">
+            	#{travellerDelayFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="travellerLockFlag != null">
+            	#{travellerLockFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryId != null">
+            	#{categoryId,jdbcType=DECIMAL},
+            </if>
+            <if test="paymentTime != null">
+            	#{paymentTime,jdbcType=TIMESTAMP},
+            </if>
+		</trim>
+	</insert>	
+	
+	<select id="selectRaidId" resultType="java.lang.Long">
+	    select SEQ_COM_AUDIT_RAID_ID.currval from dual
+	</select>
+	
+    <!-- 动态查询 -->
+	<select id="queryAuditListByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+		<include refid="basic.pageSearchHead"/>
+		SELECT COM_AUDIT_RAID.*
+		FROM COM_AUDIT_RAID
+		WHERE 
+		<include refid="auditByCondition_SQL2"/>
+		<if test="descSort != null">
+		order by COM_AUDIT_RAID.CREATE_TIME desc
+		</if>
+		<if test="descSort == null or descSort==''">
+		order by COM_AUDIT_RAID.CREATE_TIME asc
+		</if>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+	<sql id="auditByCondition_SQL2">
+	 1=1
+	 <if test="auditRaidId != null">
+			AND COM_AUDIT_RAID.AUDIT_RAID_ID = #{auditRaidId,jdbcType=DECIMAL}
+	</if>
+	<if test="auditId != null">
+			AND COM_AUDIT_RAID.AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+	</if>
+	<if test="productId != null">
+			AND COM_AUDIT_RAID.PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+	</if>
+	<if test="supplierId != null">
+			AND COM_AUDIT_RAID.SUPPLIER_ID = #{supplierId,jdbcType=DECIMAL}
+	</if>
+		 <if test="contactName != null">
+			AND COM_AUDIT_RAID.CONTACT_NAME = #{contactName,jdbcType=VARCHAR}
+	</if>
+	<if test="contactMobile != null">
+			AND COM_AUDIT_RAID.CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR}
+	</if>
+		 <if test="ordTag != null">
+			AND COM_AUDIT_RAID.ORDER_TAG = #{ordTag,jdbcType=DECIMAL}
+	</if>
+	<if test="orderCreateTime != null">
+			AND COM_AUDIT_RAID.ORDER_CREATE_TIME = #{orderCreateTime,jdbcType=TIMESTAMP}
+	</if>
+	<if test="orderVisitTime != null">
+			AND COM_AUDIT_RAID.ORDER_VISIT_TIME = #{orderVisitTime,jdbcType=TIMESTAMP}
+	</if>
+	<if test="createTime != null">
+			AND COM_AUDIT_RAID.CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+	</if>
+	<if test="buCode != null">
+			AND COM_AUDIT_RAID.BU_CODE = #{buCode,jdbcType=VARCHAR}
+	</if>	
+	<if test="distributorId != null">
+			AND COM_AUDIT_RAID.DISTRIBUTOR_ID = #{distributorId,jdbcType=DECIMAL}
+	</if>
+	</sql>
+	
+	<update id="updateComAuditRaidByAuditlist"  parameterType="java.util.List">
+		update COM_AUDIT_RAID set is_return_back='Y' 
+		where audit_id in <foreach collection="list" item="item" open="("
+				separator="," close=")">
+					#{item}
+			</foreach>
+	</update>
+</mapper>

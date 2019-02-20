@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_LIMIT" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.supp.po.SuppGoodsLimit" >
+    <id column="LIMIT_ID" property="limitId" jdbcType="DECIMAL" />
+    <result column="GOOD_ID" property="goodId" jdbcType="DECIMAL" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="LIMIT_NUM" property="limitNum" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LIMIT_ID, GOOD_ID, START_TIME, END_TIME, LIMIT_NUM, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from SUPP_GOODS_LIMIT
+    where LIMIT_ID = #{limitId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByGoodKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from SUPP_GOODS_LIMIT
+    where GOOD_ID = #{goodId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from SUPP_GOODS_LIMIT
+    where LIMIT_ID = #{limitId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.supp.po.SuppGoodsLimit" >
+    <selectKey resultType="java.lang.Long" keyProperty="limitId" order="BEFORE" >
+      select SEQ_SUPP_GOODS_LIMIT_ID.nextval from dual
+    </selectKey>
+    insert into SUPP_GOODS_LIMIT (LIMIT_ID, GOOD_ID, START_TIME, 
+      END_TIME, LIMIT_NUM)
+    values (#{limitId,jdbcType=DECIMAL}, #{goodId,jdbcType=DECIMAL}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{limitNum,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.supp.po.SuppGoodsLimit" >
+    <selectKey resultType="java.lang.Long" keyProperty="limitId" order="BEFORE" >
+      select SEQ_SUPP_GOODS_LIMIT_ID.nextval from dual
+    </selectKey>
+    insert into SUPP_GOODS_LIMIT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      LIMIT_ID,
+      <if test="goodId != null" >
+        GOOD_ID,
+      </if>
+      <if test="startTime != null" >
+        START_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="limitNum != null" >
+        LIMIT_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{limitId,jdbcType=DECIMAL},
+      <if test="goodId != null" >
+        #{goodId,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitNum != null" >
+        #{limitNum,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectLimitId" resultType="java.lang.Long">
+    select SEQ_SUPP_GOODS_LIMIT_ID.currval from dual
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.supp.po.SuppGoodsLimit" >
+    update SUPP_GOODS_LIMIT
+    <set >
+      <if test="goodId != null" >
+        GOOD_ID = #{goodId,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null" >
+        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitNum != null" >
+        LIMIT_NUM = #{limitNum,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where LIMIT_ID = #{limitId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.supp.po.SuppGoodsLimit" >
+    update SUPP_GOODS_LIMIT
+    set GOOD_ID = #{goodId,jdbcType=DECIMAL},
+      START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      LIMIT_NUM = #{limitNum,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where LIMIT_ID = #{limitId,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<dubbo:service ref="orderPersonRelationServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderPersonRelationService"/>
+	
+	
+	<dubbo:service ref="orderServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderService"/>
+	
+	<dubbo:service ref="destOrderServiceRemote" interface="com.lvmama.vst.back.client.ord.service.DestOrderService"/>
+	
+		<!-- fangxiang -->
+	<dubbo:service ref="orderMintorServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderMintiorService"/>
+	
+	<dubbo:service ref="orderCancelServiceRemote" interface="com.lvmama.vst.neworder.order.cancel.IOrderCancelService"/>
+	   
+	<dubbo:service ref="orderAllocationServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderAllocationClientService"/>
+	
+	
+	<dubbo:service ref="orderSupplierNotifyServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderSupplierNotifyService"/>
+	
+	
+	<dubbo:service ref="orderWorkflowServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderWorkflowService"/>
+	 
+	
+	<dubbo:service ref="blackListServiceRemote" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsBlackListService"/>
+	
+	
+    <dubbo:service ref="orderSmsSendServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderSendSMSService"/>
+	
+	
+	<dubbo:service ref="flightOrderProcessServiceRemote" interface="com.lvmama.vst.flight.client.order.service.FlightOrderProcessService"/>
+	
+
+	<dubbo:service ref="ordAuditNodeServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdAuditNodeService"/>
+		
+	
+	<dubbo:service ref="flightOrderCallbackServiceRemote" interface="com.lvmama.vst.flight.client.order.service.FlightOrderCallbackService"/>
+	
+	<dubbo:service ref="ordOrderStatusServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdOrderStatusClientService"/>
+	
+	<!-- add by WuQing -->
+	<dubbo:service ref="supplierOrderServiceRemote" interface="com.lvmama.vst.order.service.ISupplierOrderService"/>
+	
+	<!-- Added by yangzhenzhong at 2015/9/2 begin -->
+	<dubbo:service ref="ordOrderItemPassCodeSMSServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdOrderItemPassCodeSMSService"/>
+	<!-- end -->
+	
+	<!-- 订单备注 -->
+	<dubbo:service ref="ordRemarkLogServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdRemarkLogClientService"/>
+	<!-- 电子合同 -->
+	<dubbo:service ref="OrdTravelContractRemote" interface="com.lvmama.vst.order.client.service.o2o.contract.IOrdTravelContractClientService"/>
+	<!-- 订单子项价格 -->
+	<dubbo:service ref="ordMulPriceRateServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdMulPriceRateClientService" />
+	<!-- 用户使用优惠券的订单信息-->
+	<dubbo:service ref="ordUserCouponOrderServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdUserCouponOrderClientService" />
+	<!-- 订单负责人 -->
+	<dubbo:service ref="orderResponsibleServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderResponsibleClientService" />
+	<!-- 订单促销明细 -->
+	<dubbo:service ref="orderPromotionServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderPromotionClientService" />
+	<!-- 订单打包接口 -->
+	<dubbo:service ref="ordOrderPackServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdOrderPackClientService" />
+	<!-- 订单修改接口 -->
+	<dubbo:service ref="orderAmountChangeServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderAmountChangeClientService" />
+	<!-- 订单子项游玩人接口 -->
+	<dubbo:service ref="ordItemPersonRelationServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdItemPersonRelationClientService" />
+	<!-- 订单用户接口 -->
+	<dubbo:service ref="ordPersonServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdPersonClientService" />
+	
+	<dubbo:service ref="ordFlightTicketStatusClientServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdFlightTicketStatusService"/>
+	<!--游玩人信息确认三条操作接口-->
+	<dubbo:service ref="orderTravellerConfirmClientServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderTravellerConfirmClientService"/>
+
+	<!--酒店酒店关房操作订单相关-->
+	<dubbo:service ref="orderHouseControlServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderHouseControlService"/>
+
+	<!-- add by xiaorui  -->
+	<dubbo:service ref="ordOrderDisneyInfoQueryService" interface="com.lvmama.vst.back.client.ord.service.OrdOrderDisneyInfoQueryService"/>
+	<dubbo:service ref="orderAuditServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderAuditClientService"/>
+    <dubbo:service ref="orderRescheduleClientServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderRescheduleClientService"/>
+	<dubbo:service ref="comMessageClientServiceRemote" interface="com.lvmama.vst.back.client.ord.service.ComMessageClientService"/>
+	
+	<dubbo:service ref="orderDistributionBusinessServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderDistributionBusinessClientService"/>
+	
+	<dubbo:service ref="ordFormInfoServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdFormInfoClientService"/>
+	
+	<dubbo:service ref="orderConnectsServicePropClientServiceRemote" interface="com.lvmama.vst.order.service.OrderConnectsServicePropClientService" />
+	
+	<dubbo:service ref="bizOrderConnectsServiceClientServiceRemote" interface="com.lvmama.vst.back.play.connects.client.BizOrderConnectsServiceClientService" />
+	
+	<!-- 门票订单提前退接口 -->
+	<dubbo:service ref="preRefundServiceRemote" interface="com.lvmama.vst.ticket.service.PreRefundClientService"/>
+	
+	<!-- 门票订单部分退接口 -->
+	<dubbo:service ref="partRefundServiceRemote" interface="com.lvmama.vst.ticket.service.PartRefundClientService"/>
+	
+	<dubbo:service ref="ordOrderTrackingClientService" interface="com.lvmama.vst.order.service.OrdOrderTrackingClientService"/>
+
+	<!--加载订单相关人员信息-->
+	<dubbo:service ref="orderRelatedPersonServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderRelatedPersonClientService"/>
+	
+
+	<dubbo:service ref="orderShowTicketInfoService" interface="com.lvmama.vst.back.client.ord.service.OrderShowTicketInfoService"/>
+	
+
+	<!-- 定金支付相关信息 -->
+	<dubbo:service ref="orderDownpayServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderDownpayClientService"/>
+	
+
+	<!-- 订单确认 -->
+    <dubbo:service ref="destOrderWorkflowServiceRemote" interface="com.lvmama.vst.back.client.ord.service.DestOrderWorkflowService" />
+    <dubbo:service ref="ordItemConfirmStatusService" interface="com.lvmama.vst.order.confirm.service.IOrdItemConfirmStatusService" />
+    
+	<!--门店订单发票接口-->
+	<dubbo:service ref="o2oOrdInvoiceRelationServiceRemote" interface="com.lvmama.vst.back.client.ord.service.O2oOrdInvoiceRelationClientService"/>
+
+
+	<!--资源预控对外提供的接口-->
+	<dubbo:service ref="remoteResPrecontrolBindGoodsService" interface="com.lvmama.precontrol.service.RemoteResPreControlBindGoodsService"/>
+	
+
+
+	<!--refund --> 
+	<dubbo:service ref="orderRefundClientServiceRemote" interface="com.lvmama.vst.pet.adapter.refund.IOrderRefundClientService"/>
+	<dubbo:service ref="OrdRefundSaleRecordServiceRemote" interface="com.lvmama.vst.pet.adapter.refund.OrdRefundSaleRecordClientService"/>
+	<dubbo:service ref="ordOrderHotelTimeRateClientServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdOrderHotelTimeRateClientService"/>
+	
+	<!--目的地发票接口-->
+	<dubbo:service ref="ordApplyInvoiceInfoService" interface=" com.lvmama.vst.order.service.OrdApplyInvoiceInfoService"/>
+
+	<!--酒店套餐订单服务-->
+	<dubbo:service ref="hotelCombTradeOrderService" interface="com.lvmama.dest.hotel.trade.hotelcomb.interfaces.IHotelCombTradeOrderService" timeout="30000"/>
+	
+    <dubbo:service ref="scenicComplexQuery" interface="com.lvmama.vst.order.service.ScenicComplexQueryService"/>
+    <dubbo:service ref="scenicOrdTrackingService" interface="com.lvmama.vst.order.service.ScenicOrdTrackingService"/>
+    <dubbo:service ref="scenicOrderQueryService" interface="com.lvmama.vst.order.service.ScenicOrderQueryService"/>
+    <dubbo:service ref="scenicOrderSaveService" interface="com.lvmama.vst.order.service.ScenicOrderSaveService"/>
+
+	<!-- 酒店预控订单接口 -->
+	<dubbo:service ref="hotelResPrecontrolBindGoodsService" interface="com.lvmama.precontrol.hotel.HotelResPrecontrolBindGoodsService"/>
+	
+	<!--把订单添加到分摊服务的接口-->
+	<dubbo:service ref="orderApportionDepotClientServiceRemote" interface="com.lvmama.vst.order.client.service.OrderApportionDepotClientService"/>
+
+
+	<!-- 订单通关信息接口 -->
+	<dubbo:service ref="ordEbkConnectsPassService" interface="com.lvmama.vst.order.client.service.ebk.OrdEbkConnectsPassService"/>
+	<dubbo:service ref="ordEbkFoodPassService" interface="com.lvmama.vst.order.client.service.ebk.OrdEbkFoodPassService"/>
+	<dubbo:service ref="ordEbkPassService" interface="com.lvmama.vst.order.client.service.ebk.OrdEbkPassService"/>
+	<dubbo:service ref="ordEbkShopPassService" interface="com.lvmama.vst.order.client.service.ebk.OrdEbkShopPassService"/>
+	<dubbo:service ref="ordEbkShowTicketPassService" interface="com.lvmama.vst.order.client.service.ebk.OrdEbkShowTicketPassService"/>
+	<dubbo:service ref="ordEbkSportPassService" interface="com.lvmama.vst.order.client.service.ebk.OrdEbkSportPassService"/>
+	<dubbo:service ref="ordEbkWifiPassService" interface="com.lvmama.vst.order.client.service.ebk.OrdEbkWifiPassService"/>
+
+	
+	<!--自动修改结算价-->
+	<dubbo:service ref="orderItemSettlementPriceChangeServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrderItemSettlementPriceChangeClientService"/>
+	
+	<dubbo:service ref="ordTicketRefundSerialService" interface="com.lvmama.vst.back.client.ord.service.OrdTicketRefundSerialService" />
+
+    <dubbo:service ref="settlementPushService" interface="com.lvmama.vst.order.service.SettlementPushService" />
+    
+    <!--酒套餐订单操作服务-->
+	<dubbo:service ref="hotelCombOrderOperateService" interface="com.lvmama.dest.hotel.trade.hotelcomb.interfaces.IHotelCombOrderOperateService"/>
+	<!-- 订单确认 -->
+	<dubbo:service ref="asynConfirmClientServiceRemote" interface="com.lvmama.vst.back.client.ord.service.AsynConfirmClientService"  />
+	<!-- 行程快照接口 -->
+	<dubbo:service ref="orderLinerouteSnapshotClientRemote" interface="com.lvmama.vst.back.client.ord.service.OrderLinerouteSnapshotClientService" />
+	
+	<dubbo:service ref="remoteOrderSettlementService" interface="com.lvmama.vst.order.service.IRemoteOrderSettlementService" />
+
+	<!-- 询单接口适配 -->
+	<dubbo:service ref="confirmAdapterServiceRemote" interface="com.lvmama.vst.order.client.service.ConfirmAdapterClientService" />
+
+	<!-- 工作流适配接口 -->
+	<dubbo:service ref="apiDestOrderWorkflowService" interface="com.lvmama.order.vst.api.common.service.IApiDestOrderWorkflowService" />
+	<dubbo:service ref="apiOrderService" interface="com.lvmama.order.vst.api.common.service.IApiOrderService" />
+	<dubbo:service ref="apiVstOrderWorkflowService" interface="com.lvmama.order.vst.api.common.service.IApiOrderWorkflowService" />
+	<dubbo:service ref="orderConfirmClientWorkflowService" interface="com.lvmama.order.vst.api.common.service.IOrderConfirmClientService"/>
+
+	<!--订单活动状态修改-->
+	<dubbo:service ref="orderComAuditService" interface="com.lvmama.vst.order.service.IOrderComAuditService" />
+
+	<!--员工工作状态查询-->
+	<dubbo:service ref="apiOrderAuditUserStatusService" interface="com.lvmama.order.vst.api.common.service.IApiOrderAuditUserStatusService" />
+	<dubbo:service ref="apiDistributorClientService" interface="com.lvmama.order.vst.api.common.service.IApiDistributorClientService"/>
+	<dubbo:service ref="apiOrdItemAdditionService" interface="com.lvmama.order.vst.api.common.service.IApiOrdItemAdditionService"/>
+	<dubbo:service ref="apiOrdItemConfirmStatusService" interface="com.lvmama.order.vst.api.common.service.IApiOrdItemConfirmStatusService"/>
+
+	<!--订单结算编码查询-->
+	<dubbo:service ref="orderItemSettlementService" interface="com.lvmama.vst.order.service.IOrderItemSettlementService" />
+	<dubbo:service ref="hotelOrderUnconfirmCertifRemote" interface="com.lvmama.vst.order.service.IHotelOrderUnconfirmCertifService"/>
+	<dubbo:service ref="ordOrderItemExtendServiceRemote" interface="com.lvmama.vst.back.client.ord.service.OrdOrderItemExtendService"/>
+	
+	
+</beans>

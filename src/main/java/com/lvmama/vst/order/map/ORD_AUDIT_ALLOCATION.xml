@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_AUDIT_ALLOCATION" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdAuditAllocation" >
+    <id column="ORD_ALLOCATION_ID" property="ordAllocationId" jdbcType="DECIMAL" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+    <result column="BUSINESS_RULE_ID" property="businessRuleId" jdbcType="DECIMAL" />
+    <result column="ORG_ID" property="orgId" jdbcType="DECIMAL" />
+    <result column="ORG_PROP" property="orgProp" jdbcType="VARCHAR" />
+    <result column="IS_ALL" property="isAll" jdbcType="CHAR" />
+    <result column="DISTRIBUTION_CHANNEL" property="distributionChannel" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORD_ALLOCATION_ID, CATEGORY_ID, ORG_ID, ORG_PROP, IS_ALL,DISTRIBUTION_CHANNEL,BUSINESS_RULE_ID,UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_AUDIT_ALLOCATION
+    where ORD_ALLOCATION_ID = #{ordAllocationId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_AUDIT_ALLOCATION
+    where ORD_ALLOCATION_ID = #{ordAllocationId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdAuditAllocation" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordAllocationId" order="BEFORE" >
+      select SEQ_ORD_AUDIT_ALLOCATION_ID.nextval from dual
+    </selectKey>
+    insert into ORD_AUDIT_ALLOCATION (ORD_ALLOCATION_ID, CATEGORY_ID, ORG_ID, 
+      ORG_PROP, IS_ALL, DISTRIBUTION_CHANNEL, BUSINESS_RULE_ID)
+    values (#{ordAllocationId,jdbcType=DECIMAL}, #{categoryId,jdbcType=DECIMAL}, #{orgId,jdbcType=DECIMAL}, 
+      #{orgProp,jdbcType=VARCHAR}, #{isAll,jdbcType=CHAR},#{distributionChannel,jdbcType=VARCHAR}, #{businessRuleId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdAuditAllocation" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordAllocationId" order="BEFORE" >
+      select SEQ_ORD_AUDIT_ALLOCATION_ID.nextval from dual
+    </selectKey>
+    insert into ORD_AUDIT_ALLOCATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORD_ALLOCATION_ID,
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="orgProp != null" >
+        ORG_PROP,
+      </if>
+      <if test="isAll != null" >
+        IS_ALL,
+      </if>
+      <if test="distributionChannel != null" >
+        DISTRIBUTION_CHANNEL,
+      </if> 
+      <if test="businessRuleId != null" >
+        BUSINESS_RULE_ID,
+      </if>             
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{ordAllocationId,jdbcType=DECIMAL},
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=DECIMAL},
+      </if>
+      <if test="orgProp != null" >
+        #{orgProp,jdbcType=VARCHAR},
+      </if>
+      <if test="isAll != null" >
+        #{isAll,jdbcType=CHAR},
+      </if>
+      <if test="distributionChannel != null" >
+        #{distributionChannel,jdbcType=VARCHAR},
+      </if> 
+      <if test="businessRuleId != null" >
+        #{businessRuleId,jdbcType=DECIMAL},
+      </if>            
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdAuditAllocation" >
+    update ORD_AUDIT_ALLOCATION
+    <set >
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=DECIMAL},
+      </if>
+      <if test="orgProp != null" >
+        ORG_PROP = #{orgProp,jdbcType=VARCHAR},
+      </if>
+      <if test="isAll != null" >
+        IS_ALL = #{isAll,jdbcType=CHAR},
+      </if>
+      <if test="distributionChannel != null" >
+        DISTRIBUTION_CHANNEL = #{distributionChannel,jdbcType=VARCHAR},
+      </if>  
+      <if test="businessRuleId != null" >
+        BUSINESS_RULE_ID = #{businessRuleId,jdbcType=DECIMAL},
+      </if>             
+      UPDATE_TIME = sysdate
+    </set>
+    where ORD_ALLOCATION_ID = #{ordAllocationId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdAuditAllocation" >
+    update ORD_AUDIT_ALLOCATION
+    set CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      ORG_ID = #{orgId,jdbcType=DECIMAL},
+      ORG_PROP = #{orgProp,jdbcType=VARCHAR},
+      IS_ALL = #{isAll,jdbcType=CHAR},
+      DISTRIBUTION_CHANNEL = #{distributionChannel,jdbcType=VARCHAR},
+      BUSINESS_RULE_ID = #{businessRuleId,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where ORD_ALLOCATION_ID = #{ordAllocationId,jdbcType=DECIMAL}
+  </update>
+  <sql id="sql_select_list">
+	  select oaa.* from ORD_AUDIT_ALLOCATION oaa,ORD_AUDIT_ALLOCATION_RELATION oaar,ORD_FUNCTION func
+	  	where oaa.ORD_ALLOCATION_ID = oaar.ORD_ALLOCATION_ID
+	  	and oaar.ORD_FUNCTION_ID = func.ORD_FUNCTION_ID
+	  	and func.FUNCTION_CODE = #{functionCode}
+	  	and oaa.CATEGORY_ID =#{categoryId}
+	  	<if test="businessRuleIds!=null">
+		  	<foreach collection="businessRuleIds" item="item" separator="," open="and oaa.Business_rule_id in (" close=")">
+		  		#{item}
+		  	</foreach>
+	  	</if>
+	  	<if test="distributionChannel!=null">
+	  		and oaa.DISTRIBUTION_CHANNEL =#{distributionChannel}
+	  	</if>
+	  	<if test="orgId!=null">
+	  		and oaa.ORG_ID = #{orgId}
+	  	</if>
+  </sql>
+  <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	<include refid="sql_select_list"/>
+  </select>
+  
+  <select id="selectListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(*) from(
+  		<include refid="sql_select_list"/>
+  	)
+  </select>
+  <sql id="Base_Query_Column_List" >
+  	  <if test="ordAllocationId != null" >
+        and ORD_ALLOCATION_ID = #{ordAllocationId,jdbcType=CHAR}
+      </if>
+	  <if test="categoryId != null" >
+        and CATEGORY_ID = #{categoryId,jdbcType=DECIMAL}
+      </if>
+      <if test="orgId != null" >
+        and ORG_ID = #{orgId,jdbcType=DECIMAL}
+      </if>
+      <if test="orgProp != null" >
+        and ORG_PROP = #{orgProp,jdbcType=VARCHAR}
+      </if>
+      <if test="isAll != null" >
+        and IS_ALL = #{isAll,jdbcType=CHAR}
+      </if>
+      <if test="distributionChannel != null" >
+        and DISTRIBUTION_CHANNEL = #{distributionChannel,jdbcType=CHAR}
+      </if>  
+      <if test="businessRuleId != null" >
+        and BUSINESS_RULE_ID = #{businessRuleId,jdbcType=DECIMAL}
+      </if>              
+      <if test="orgIdArray != null and orgIdArray!=''">
+		AND ORG_ID IN 
+		<foreach collection="orgIdArray" index="index" item="item"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	 </if>
+  </sql>
+  <sql id="select_by_param" >
+		select *	
+		from ORD_AUDIT_ALLOCATION  
+		where 1=1
+		<include refid="Base_Query_Column_List" />	
+  </sql>
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+  </select>
+   <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_AUDIT_ALLOCATION
+	    where 1=1
+		<include refid="Base_Query_Column_List" />
+  </select>
+</mapper>

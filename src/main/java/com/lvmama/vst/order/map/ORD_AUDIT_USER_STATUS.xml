@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_AUDIT_USER_STATUS" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdAuditUserStatus" >
+    <id column="OPERATOR_NAME" property="operatorName" jdbcType="VARCHAR" />
+    <result column="USER_STATUS" property="userStatus" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="ORG_ID" property="orgId" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OPERATOR_NAME, USER_STATUS, CREATE_TIME, ORG_ID, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_AUDIT_USER_STATUS
+    where OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ORD_AUDIT_USER_STATUS
+    where OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdAuditUserStatus" >
+    insert into ORD_AUDIT_USER_STATUS (OPERATOR_NAME, USER_STATUS, CREATE_TIME,
+    	ORG_ID
+      )
+    values (#{operatorName,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+    	#{orgId,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdAuditUserStatus" >
+    insert into ORD_AUDIT_USER_STATUS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="operatorName != null" >
+        OPERATOR_NAME,
+      </if>
+      <if test="userStatus != null" >
+        USER_STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="operatorName != null" >
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="userStatus != null" >
+        #{userStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdAuditUserStatus" >
+    update ORD_AUDIT_USER_STATUS
+    <set >
+      <if test="userStatus != null" >
+        USER_STATUS = #{userStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdAuditUserStatus" >
+    update ORD_AUDIT_USER_STATUS
+    set USER_STATUS = #{userStatus,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      ORG_ID = #{orgId,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  <sql id="Base_Query_Column_List" >
+      <if test="operatorName != null" >
+       and   OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+      </if>
+      <if test="userStatus != null" >
+       and   USER_STATUS =#{userStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+       and   CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      
+       <if test="operatorNameArray != null">
+			AND OPERATOR_NAME IN
+			<foreach collection="operatorNameArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	  </if>
+		
+  </sql>
+  <sql id="select_by_param" >
+		select *	
+		from ORD_AUDIT_USER_STATUS  
+		where 1=1 
+			<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+	<select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_AUDIT_USER_STATUS
+	     where 1=1 
+			<include refid="Base_Query_Column_List" />
+	</select>
+	
+	
+	<select id="getRandomUserByOrgIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from (
+		select * from (
+		select T.*,dense_rank() over(order by order_count) as num
+		  from (select us.*,
+		               nvl(uc.ORDER_COUNT, 0) order_count,
+		               nvl(uc.object_type, #{objectType}) object_type
+		          from ORD_AUDIT_USER_STATUS us, (select * 
+					from ORD_USER_COUNTER 
+					where object_type = #{objectType}) uc 
+		         where us.OPERATOR_NAME = uc.USER_NAME(+)) T
+		          where org_id in 
+		          <foreach collection="orgIds" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		         ) where num =1
+		         order by  dbms_random.value) where rownum=1
+		<!-- 
+		select * from (
+select * from (
+select T.*,dense_rank() over(order by order_count) as num
+  from (select us.*,
+               nvl(uc.ORDER_COUNT, 0) order_count,
+               nvl(uc.object_type, 'ORDER') object_type
+          from ORD_AUDIT_USER_STATUS us, ORD_USER_COUNTER uc
+         where us.OPERATOR_NAME = uc.USER_NAME(+)) T
+         ) where num =1
+         order by  dbms_random.value -->
+	</select>
+	<select id="getMinTaskCountRandomUserByOrgIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from(
+		select * from (
+			select T.*,dense_rank() over(order by task_count) as num from(
+			select us.*,(select count(*) from com_audit c where c.valid='Y' and c.operator_name = us.operator_name 
+			and c.audit_status = 'UNPROCESSED' 
+			<if test="auditType!=null">
+				and c.audit_type=#{auditType}
+			</if>
+			) as task_count
+	          from ORD_AUDIT_USER_STATUS us where us.org_id in 
+	          	<foreach collection="orgIds" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+          )T) where num=1 order by  dbms_random.value) where rownum=1
+	</select>
+	
+	<!-- <select id="getRandomUserByUsers" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from (
+		select * from (
+		select T.*,dense_rank() over(order by order_count) as num
+		  from (select us.*,
+		               nvl(uc.ORDER_COUNT, 0) order_count,
+		               nvl(uc.object_type, #{objectType}) object_type
+		          from ORD_AUDIT_USER_STATUS us, (select * 
+					from ORD_USER_COUNTER 
+					where object_type = #{objectType}) uc 
+		         where us.OPERATOR_NAME = uc.USER_NAME(+)) T
+		          where operator_name in 
+		          <foreach collection="userIds" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		         ) where num =1
+		         order by  dbms_random.value) where rownum=1
+	</select> -->
+	
+	<select id="getRandomUserByUsers" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from (
+		select * from (
+		  select T.*,dense_rank() over(order by order_count) as num
+		  from (select us.*,nvl(uc.order_count, 0) order_count
+		        from ORD_AUDIT_USER_STATUS us left join (
+                   select com_audit.OPERATOR_NAME,count(distinct com_audit.object_id) as order_count
+                   from com_audit
+                   where com_audit.VALID='Y'
+                   <if test="objectType!=null and objectType!=''">
+                      and com_audit.object_type = #{objectType,jdbcType=VARCHAR}
+                   </if>
+	               <![CDATA[ and com_audit.update_time >= trunc(sysdate)]]>
+	               <![CDATA[ and com_audit.update_time <trunc(sysdate) + 1 ]]>
+                   group by  com_audit.OPERATOR_NAME
+                  ) uc on  us.OPERATOR_NAME = uc.OPERATOR_NAME
+		        where us.OPERATOR_NAME in 
+		        <foreach collection="userIds" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+				) T ) where num =1
+		order by  dbms_random.value) where rownum=1
+	</select>
+	
+	<resultMap id="userOrderCountMap" type="com.lvmama.vst.back.order.vo.UserOrderCountVO" >
+	    <result column="OPERATOR_NAME" property="operatorName" jdbcType="VARCHAR" />
+	    <result column="USER_STATUS" property="userStatus" jdbcType="VARCHAR" />
+	    <result column="order_count" property="count" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<select id="getUserOrderCount" parameterType="java.util.Map" resultMap="userOrderCountMap">
+		select us.OPERATOR_NAME,us.USER_STATUS,nvl(uc.order_count, 0) order_count
+        from ORD_AUDIT_USER_STATUS us left join (
+                 select com_audit.OPERATOR_NAME,count(distinct com_audit.object_id) as order_count
+                 from com_audit
+                 where com_audit.VALID='Y'
+                 <if test="objectType!=null and objectType!=''">
+                    and com_audit.object_type = #{objectType,jdbcType=VARCHAR}
+                 </if>
+              <![CDATA[ and com_audit.update_time >= trunc(sysdate)]]>
+              <![CDATA[ and com_audit.update_time <trunc(sysdate) + 1 ]]>
+                 group by  com_audit.OPERATOR_NAME
+                ) uc on  us.OPERATOR_NAME = uc.OPERATOR_NAME
+        where us.OPERATOR_NAME in 
+        <foreach collection="userIds" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</select>
+	
+</mapper>

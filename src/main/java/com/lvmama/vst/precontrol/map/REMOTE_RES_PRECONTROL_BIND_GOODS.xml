@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="REMOTE_RES_PRECONTROL_BIND_GOODS">    
+    <resultMap id="OrderItemMap" type="com.lvmama.precontrol.vo.VstOrderItemVo" >
+        <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+        <result column="PRICE" property="price" jdbcType="DECIMAL" />
+        <result column="ACTUAL_SETTLEMENT_PRICE" property="actualSettlementPrice" jdbcType="DECIMAL" />
+        <result column="SETTLEMENT_PRICE" property="settlementPrice" jdbcType="DECIMAL" />
+        <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+        <result column="TOTAL_SETTLEMENT_PRICE" property="totalSettlementPrice" jdbcType="DECIMAL" />
+        <result column="SUPP_GOODS_ID" property="suppGoodsId" jdbcType="DECIMAL" />
+        <result column="SUPP_GOODS_NAME" property="suppGoodsName"/>
+        <result column="PRODUCT_ID" property="productId"/>
+        <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+        <result column="BUYOUT_PRICE" property="buyoutPrice" jdbcType="DECIMAL" />
+        <result column="BUYOUT_QUANTITY" property="buyoutQuantity" jdbcType="DECIMAL" />
+        <result column="BUYOUT_TOTAL_PRICE" property="buyoutTotalPrice" jdbcType="DECIMAL" />
+        <result column="BUYOUT_FLAG" property="buyoutFlag" jdbcType="VARCHAR"/>
+        <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
+        <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+        <result column="SETTLEMENT_STATUS" property="settlementStatus" jdbcType="VARCHAR" />
+        <result column="SUPPLIER_ID" property="supplierId" jdbcType="DECIMAL"/>
+        <result column="HOTEL_SUM_SETTLEMENT_PRICE" property="hotelSumSettlementPrice" jdbcType="DECIMAL"/>
+        <result column="HOTEL_SUM_QUANTITY" property="hotelSumQuantity" jdbcType="DECIMAL"/>
+        <result column="HOTEL_TOTAL_SETTLEMENT_PRICE" property="hotelTotalSettlementPrice" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <select id="getOrderItemNum" parameterType="java.util.Map" resultType="java.lang.Long">
+        select
+        count(1)
+        from ord_order oo , Ord_Order_Item ooi
+        where oo.order_id = ooi.order_id
+        and ooi.BUYOUT_FLAG = 'Y'
+        and oo.order_status = 'NORMAL'
+        and ooi.visit_time between    #{tradeEffectDate,jdbcType=DATE} and  #{tradeExpiryDate,jdbcType=DATE}
+        and ooi.supp_goods_id =#{goodId,jdbcType=DECIMAL}
+    </select>
+    
+	<select id="getHotelOrderItemNum" parameterType="java.util.Map" resultType="java.lang.Long">
+		select
+        count(distinct oo.order_id)
+        from ord_order oo , Ord_Order_Item ooi, ord_order_hotel_time_rate h
+        where oo.order_id = ooi.order_id and ooi.order_item_id = h.order_item_id 
+        and ooi.BUYOUT_FLAG = 'Y'
+        and oo.order_status = 'NORMAL'
+        and h.visit_time between  #{tradeEffectDate,jdbcType=DATE} and  #{tradeExpiryDate,jdbcType=DATE}
+        and ooi.supp_goods_id = #{goodId,jdbcType=DECIMAL}
+    </select>
+    
+    <!-- 设置为买断订单，非酒店 -->
+    <update id="updateVstBudgetFlagBylist" parameterType="java.util.Map">
+        update Ord_Order_Item item
+        set
+        item.buyout_price = item.settlement_price,
+        item.buyout_quantity = item.quantity,
+        item.buyout_total_price =  item.total_settlement_price,
+        item.buyout_flag='Y',
+		<if test="nebulaProjectId != null" >
+		  item.NEBULA_PROJECT_ID = #{nebulaProjectId,jdbcType=DECIMAL},
+		</if>                 
+        item.order_update_time =sysdate
+        where exists(
+        select 1
+        from ord_order oo
+        where  oo.order_id = item.order_id and oo.order_status = 'NORMAL'
+        and oo.payment_status='PAYED'
+        and item.visit_time between  #{startDate,jdbcType=DATE} and  #{endDate,jdbcType=DATE}
+        and item.supp_goods_id in
+        <foreach collection="goodIds" index="index" item="goodId" open="(" close=")" separator=",">
+            #{goodId,jdbcType=DECIMAL}
+        </foreach>
+        and nvl(item.buyout_flag,'N')='N'
+        <![CDATA[ and item.category_id<>'1']]>
+        )
+    </update>
+
+
+    <!-- 查询预控期内非买断的订单,非酒店 -->
+    <select id="getVstNotBuyoutOrder" parameterType="java.util.Map" resultMap="OrderItemMap">
+        select
+        ooi.order_item_id,
+        ooi.order_id,
+        ooi.category_id,
+        ooi.settlement_price,
+        ooi.quantity,
+        ooi.total_settlement_price,
+        ooi.visit_time,
+        ooi.settlement_status,
+        ooi.supp_goods_id,
+        ooi.supp_goods_name,
+        ooi.product_name,
+        ooi.product_id,
+        ooi.price,
+        ooi.buyout_flag,
+        ooi.buyout_quantity,
+        ooi.buyout_total_price,
+        ooi.buyout_price
+        from
+        Ord_Order_Item ooi
+        join ord_order oo
+        on oo.order_id = ooi.order_id and oo.order_status = 'NORMAL'
+        where
+        oo.payment_status='PAYED'
+        and ooi.visit_time between  #{startDate,jdbcType=DATE} and  #{endDate,jdbcType=DATE}
+        and ooi.supp_goods_id in
+        <foreach collection="goodIds" index="index" item="goodId" open="(" close=")" separator=",">
+            #{goodId,jdbcType=DECIMAL}
+        </foreach>
+        and nvl(ooi.buyout_flag,'N')='N'
+        <![CDATA[  and ooi.category_id<>'1' ]]>
+    </select>
+    
+    <select id="getPreControlPolicyHistoryOrder" parameterType="java.util.Map" resultType="java.lang.Long">
+    	SELECT T.order_item_id FROM   
+		(  
+		SELECT A.*, ROWNUM RN   
+		FROM (
+		
+		select
+        ooi.order_item_id
+        from 
+        Ord_Order_Item ooi 
+        join ord_order oo
+        on oo.order_id = ooi.order_id and oo.order_status = 'NORMAL'
+        where 
+        oo.resource_status='AMPLE'
+        and oo.info_status='INFOPASS'
+        and oo.payment_status='PAYED'
+       	and ooi.SETTLEMENT_STATUS='UNSETTLEMENTED'
+       	and oo.payment_time between #{from,jdbcType=VARCHAR} and #{to,jdbcType=VARCHAR}
+		and ooi.supp_goods_id=#{goodsID} 
+		and nvl(ooi.buyout_flag,'N')='N'
+		) A   
+		WHERE ROWNUM <![CDATA[ <= ]]> #{endIndex}
+		) T 
+		WHERE T.RN >#{statIndex}
+    </select>
+    
+    <update id="setVstOrderItemBudgetFlag" parameterType="java.util.Map">
+    	update Ord_Order_Item item
+    	set 
+      	item.buyout_price = item.settlement_price,
+      	item.buyout_quantity = item.quantity,
+      	item.buyout_total_price =  item.total_settlement_price,
+      	item.buyout_flag='Y' 
+      	where exists(
+      		select ooi.order_item_id from 
+          		Ord_Order_Item ooi
+          		join ord_order oo
+          		on oo.order_id = ooi.order_id and oo.order_status = 'NORMAL'
+          		where 
+          		oo.resource_status='AMPLE'
+          		and oo.info_status='INFOPASS'
+          		and oo.payment_time between #{from,jdbcType=VARCHAR} and #{to,jdbcType=VARCHAR}
+          		and oo.payment_status='PAYED'
+          		and ooi.SETTLEMENT_STATUS='UNSETTLEMENTED'
+          		and ooi.supp_goods_id=#{goodsID} 
+          		and ooi.order_item_id=item.order_item_id
+          		and nvl(ooi.buyout_flag,'N')='N'
+    	)
+    	and nvl(item.buyout_flag,'N')='N'
+    </update>
+    
+    <!-- 查询预控期内非买断的订单,酒店 -->
+	<select id="getVstNotBuyoutOrderHotel" parameterType="java.util.Map" resultMap="OrderItemMap">
+		select
+	        ooi.order_item_id,
+	        ooi.supp_goods_id,
+	        ooi.settlement_price,
+	        ooi.quantity,
+	        ooi.total_settlement_price,
+	        sum(r.quantity) HOTEL_SUM_QUANTITY,
+	        sum(r.settlement_price) HOTEL_SUM_SETTLEMENT_PRICE,
+	        sum(r.settlement_price)*sum(r.quantity) HOTEL_TOTAL_SETTLEMENT_PRICE,
+	        r.visit_time
+        from 
+        	Ord_Order_Item ooi ,ord_order oo,ord_order_hotel_time_rate r
+        where oo.order_id = ooi.order_id 
+	        and r.order_item_id = ooi.order_item_id
+	        and oo.order_status = 'NORMAL'
+	        and oo.payment_status='PAYED'
+	       	and r.visit_time between  #{startDate,jdbcType=DATE} and  #{endDate,jdbcType=DATE}
+			and ooi.supp_goods_id in
+	     	<foreach collection="goodIds" index="index" item="goodId" open="(" close=")" separator=",">
+		      #{goodId,jdbcType=DECIMAL}
+	     	</foreach>
+		 	and nvl(ooi.buyout_flag,'N')='N'
+        	and ooi.category_id='1'
+       group by ooi.order_item_id,ooi.supp_goods_id,ooi.settlement_price,ooi.quantity,ooi.total_settlement_price,r.visit_time
+    </select>
+    
+    <!-- 设置为买断订单，酒店 -->
+    <update id="updateVstBudgetFlagBylistHotel" parameterType="java.util.Map">
+    	update Ord_Order_Item item
+        set (item.buyout_price,item.buyout_quantity,item.buyout_total_price,item.buyout_flag,item.order_update_time
+			<if test="nebulaProjectId != null" >
+			  ,item.NEBULA_PROJECT_ID
+			</if>        	
+        	)
+          =(
+            select sum(r.settlement_price) HOTEL_SUM_SETTLEMENT_PRICE,
+            sum(r.quantity) HOTEL_SUM_QUANTITY,
+            sum(r.quantity)*sum(r.settlement_price) HOTEL_TOTAL_SETTLEMENT_PRICE,
+            'Y',
+            sysdate date1
+			<if test="nebulaProjectId != null" >
+			  ,#{nebulaProjectId,jdbcType=DECIMAL} NEBULA_PROJECT_ID
+			</if>            
+            from ord_order oo,ord_order_hotel_time_rate r
+            where oo.order_id = item.order_id 
+	        	and r.order_item_id = item.order_item_id
+                and oo.order_status = 'NORMAL'
+                and oo.payment_status='PAYED'
+                and r.visit_time between  #{startDate,jdbcType=DATE} and  #{endDate,jdbcType=DATE}
+            	and item.supp_goods_id in
+              <foreach collection="goodIds" index="index" item="goodId" open="(" close=")" separator=",">
+                #{goodId,jdbcType=DECIMAL}
+              </foreach>
+                and nvl(item.buyout_flag,'N')='N'
+                and item.category_id='1'
+             group by item.order_item_id
+         )
+         where exists(
+           select 1 from 
+                ord_order oo,ord_order_hotel_time_rate r
+           where oo.order_id = item.order_id 
+	        	and r.order_item_id = item.order_item_id
+                and oo.order_status = 'NORMAL'
+             	and oo.payment_status='PAYED'
+            	and r.visit_time between  #{startDate,jdbcType=DATE} and  #{endDate,jdbcType=DATE}
+        		and item.supp_goods_id in
+          <foreach collection="goodIds" index="index" item="goodId" open="(" close=")" separator=",">
+            	#{goodId,jdbcType=DECIMAL}
+          </foreach>
+                and nvl(item.buyout_flag,'N')='N'
+                and item.category_id='1'
+         )        
+    </update>
+    <!-- 批量更新 酒店订单-->
+     <update id="updateOrderBatchHotel" parameterType="java.util.List">
+	     <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update Ord_Order_Item item
+	        <set>
+	           	item.buyout_price = ${item.buyoutPrice},
+	      		item.buyout_quantity = ${item.buyoutQuantity},
+	      		item.buyout_total_price = ${item.buyoutTotalPrice},
+	      		item.buyout_flag='Y',
+	      		item.order_update_time =sysdate
+	        </set>
+	        where item.order_item_id = ${item.orderItemId}
+	    </foreach>   
+    </update>
+</mapper>

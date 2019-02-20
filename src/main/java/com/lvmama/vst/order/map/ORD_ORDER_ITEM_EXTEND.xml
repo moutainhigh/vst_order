@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_ITEM_EXTEND" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderItemExtend" >
+    <id column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+      <result column="CURRENCY_CODE" property="currencyCode" jdbcType="VARCHAR" />
+      <result column="CURRENCY_NAME" property="currencyName" jdbcType="VARCHAR" />
+      <result column="FOREIGN_TOTAL_SETTLEMENT_PRICE" property="foreignTotalSettlementPrice" jdbcType="DECIMAL" />
+      <result column="SETTLEMENT_PRICE_RATE" property="settlementPriceRate" jdbcType="DECIMAL" />
+      <result column="PRICE_RATE" property="priceRate" jdbcType="DECIMAL" />
+      <result column="FOREIGN_ACT_SETTLEMENT_PRICE" property="foreignActualSettlementPrice" jdbcType="DECIMAL" />
+      <result column="FOREIGN_ACT_TOTAL_SETTLE_PRICE" property="foreignActTotalSettlePrice" jdbcType="DECIMAL" />
+      <result column="FOREIGN_SETTLEMENT_PRICE" property="foreignSettlementPrice" jdbcType="DECIMAL" />
+      <result column="FOREIGN_MARKET_PRICE" property="foreignMarketPrice" jdbcType="DECIMAL" />
+      <result column="FOREIGN_PRICE" property="foreignPrice" jdbcType="DECIMAL" />
+      <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+      <result column="UPDATE_REASON" property="updateReason" jdbcType="VARCHAR" />
+	</resultMap>
+
+    <sql id="Base_Column_List" >
+        ORDER_ITEM_ID, CURRENCY_CODE,CURRENCY_NAME, FOREIGN_TOTAL_SETTLEMENT_PRICE,
+        SETTLEMENT_PRICE_RATE,PRICE_RATE,FOREIGN_SETTLEMENT_PRICE,
+        FOREIGN_MARKET_PRICE, FOREIGN_PRICE,UPDATE_REASON,UPDATE_TIME,CREATE_TIME,FOREIGN_ACT_SETTLEMENT_PRICE,FOREIGN_ACT_TOTAL_SETTLE_PRICE
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from ORD_ORDER_ITEM_EXTEND
+        where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+    </select>
+
+    <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderItemExtend" >
+
+        insert into ORD_ORDER_ITEM_EXTEND (ORDER_ITEM_ID, CURRENCY_CODE,CURRENCY_NAME, FOREIGN_TOTAL_SETTLEMENT_PRICE,
+        SETTLEMENT_PRICE_RATE,PRICE_RATE,FOREIGN_SETTLEMENT_PRICE,FOREIGN_MARKET_PRICE, FOREIGN_PRICE,UPDATE_REASON,
+        UPDATE_TIME,CREATE_TIME,FOREIGN_ACT_SETTLEMENT_PRICE,FOREIGN_ACT_TOTAL_SETTLE_PRICE)
+
+        values (#{orderItemId,jdbcType=DECIMAL}, #{currencyCode,jdbcType=VARCHAR},#{currencyName,jdbcType=VARCHAR}, #{foreignTotalSettlementPrice,jdbcType=DECIMAL},
+        #{settlementPriceRate,jdbcType=DECIMAL},#{priceRate,jdbcType=DECIMAL},#{foreignSettlementPrice,jdbcType=DECIMAL},#{foreignMarketPrice,jdbcType=DECIMAL},
+        #{foreignPrice,jdbcType=DECIMAL},#{updateReason,jdbcType=VARCHAR},#{updateTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP},
+        #{foreignActualSettlementPrice,jdbcType=DECIMAL},#{foreignActTotalSettlePrice,jdbcType=DECIMAL})
+
+    </insert>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from ORD_ORDER_ITEM_EXTEND
+        where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+    </delete>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderItemExtend" >
+        update ORD_ORDER_ITEM_EXTEND
+        <set >
+            <if test="currencyCode != null" >
+                CURRENCY_CODE = #{currencyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="currencyName != null" >
+                CURRENCY_NAME = #{currencyName,jdbcType=VARCHAR},
+            </if>
+            <if test="foreignTotalSettlementPrice != null" >
+                FOREIGN_TOTAL_SETTLEMENT_PRICE = #{foreignTotalSettlementPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="settlementPriceRate != null" >
+                SETTLEMENT_PRICE_RATE = #{settlementPriceRate,jdbcType=DECIMAL},
+            </if>
+            <if test="priceRate != null" >
+                PRICE_RATE = #{priceRate,jdbcType=DECIMAL},
+            </if>
+            <if test="foreignSettlementPrice != null" >
+                FOREIGN_SETTLEMENT_PRICE = #{foreignSettlementPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="foreignMarketPrice != null" >
+                FOREIGN_MARKET_PRICE=#{foreignMarketPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="foreignPrice != null" >
+                FOREIGN_PRICE=#{foreignPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="foreignMarketPrice != null" >
+                FOREIGN_MARKET_PRICE=#{foreignMarketPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="updateReason != null" >
+                UPDATE_REASON = #{updateReason,jdbcType=DECIMAL},
+            </if>
+            <if test="foreignActualSettlementPrice != null" >
+                FOREIGN_ACT_SETTLEMENT_PRICE = #{foreignActualSettlementPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="foreignActTotalSettlePrice != null" >
+                FOREIGN_ACT_TOTAL_SETTLE_PRICE = #{foreignActTotalSettlePrice,jdbcType=DECIMAL},
+            </if>
+
+            UPDATE_TIME = SYSDATE
+        </set>
+        where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+    </update>
+</mapper>

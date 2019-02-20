@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+.fk_ExpressAmount{display:none;}
+.fk_promotionAmount{display:none;}
+.fk_couponAmount{display:none;}
+.fk_bonusAmount{display:none;}
+.fk_cashAmount{display:none;}
+.fk_paidAmount{display:none;}
+.fk_giftCardAmount{display:none;}
+.BounsPayLi{display:none;}
+.CashsPayLi{display:none;}
+.counpName{
+	width:25%;
+	text-align:left;
+}
+.counpCode{
+	width:25%;
+	text-align:center;
+}
+.counpAmt{
+	width:25%;
+	text-align:center;
+}
+.counpExp{
+	width:25%;
+	text-align:center;
+}

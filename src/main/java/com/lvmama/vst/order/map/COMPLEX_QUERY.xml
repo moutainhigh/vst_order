@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="COMPLEX_QUERY" >
+  <!-- 订单总数 -->
+  <select id="queryOrderCount" resultType="java.lang.Long"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+  <!-- 订单集合 -->
+  <select id="queryOrderList" resultMap="ORD_ORDER.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+  <!-- 订单子项集合 -->
+  <select id="queryOrderItemListByOrderId" resultMap="ORD_ORDER_ITEM.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+  <!-- 订单人集合 -->
+  <select id="queryOrderPersonListByOrderId" resultMap="ORD_PERSON.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+   <!-- 订单快递地址ord_address集合 -->
+  <select id="queryOrderAddressListByPersonId" resultMap="ORD_ADDRESS.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+  <!-- 订单打包集合 -->
+  <select id="queryOrderPackListByOrderId" resultMap="ORD_ORDER_PACK.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+  <!-- 订单金额集合 -->
+  <select id="queryOrderAmountItemListByOrderId" resultMap="ORD_ORDER_AMOUNT_ITEM.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+  <!-- 订单担保集合 -->
+  <select id="queryOrderGuaranteeCreditCardListByOrderId" resultMap="ORD_GUARANTEE_CREDIT_CARD.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+  <!-- 订单酒店集合 -->
+  <select id="queryOrderHotelTimeRateListByOrderItemId" resultMap="ORD_ORDER_HOTEL_TIME_RATE.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+  <!-- 订单库存集合 -->
+  <select id="queryOrderStockListByOrderItemId" resultMap="ORD_ORDER_STOCK.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+   <!-- 订单状态集合 -->
+  <select id="queryOrdAdditionStatusListByOrderId" resultMap="ORD_ADDITION_STATUS.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+  <!-- 订单合同表集合 -->
+  <select id="queryOrdTravelContractListByOrderId" resultMap="ORD_TRAVEL_CONTRACT.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+  <select id="queryOrdItemPersonRelationListByOrderId" resultMap="ORD_ITEM_PERSON_RELATION.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			SELECT * FROM ORD_ITEM_PERSON_RELATION WHERE ORD_ITEM_PERSON_RELATION.ORDER_ITEM_ID IN(SELECT ORDER_ITEM_ID FROM(
+			${sqlStatement}
+			))
+		]]>
+  </select>
+  
+   <select id="queryOrdCourierListingListByOrderId" resultMap="ORD_COURIER_LISTING.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+  <select id="queryOrdFormInfoListByOrderId" resultMap="ORD_FORM_INFO.BaseResultMap"  parameterType="java.lang.String">
+		<![CDATA[
+			${sqlStatement}
+		]]>
+  </select>
+  
+  <select id="selectListBySql" parameterType="java.util.Map" resultType="java.util.Map">
+		${sql}
+  </select>
+
+    <select id="selectOrdOrderByOrderIds" parameterType="java.util.List" resultType="java.util.Map">
+        SELECT DISTINCT
+        oo.order_id                                               订单号,
+        decode(ooi.payment_status, 'UNPAY', '未付款', 'PAYED', '已支付') 支付状态,
+        to_char(oo.create_time, 'yyyy-mm-dd hh24:mi:ss')           下单时间,
+        to_char(ooi.VISIT_TIME, 'yyyy-mm-dd')                      游玩时间,
+        (SELECT s.distributor_name
+        FROM dist_distributor s
+        WHERE s.distributor_id = oo.distributor_id)               分销商,
+        distributor_code                                          下单渠道,
+        ooi.SUPP_GOODS_NAME   商品名称,
+        ooi.PRODUCT_NAME      产品名称
+        FROM ord_order_item ooi, ord_order oo
+        WHERE ooi.order_id = oo.order_id
+        AND ooi.supp_goods_id IN
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND  oo.order_status != 'CANCEL'
+        <if test="visitTimeEnd!=null">
+            AND ooi.visit_time &lt;= to_date(#{visitTimeEnd}, 'yyyy-mm-dd')
+        </if>
+        <if test="visitTimeStart!=null">
+            AND ooi.visit_time &gt;=to_date(#{visitTimeStart},'yyyy-mm-dd')
+        </if>
+        <if test="createTimeEnd!=null">
+            and oo.create_time &lt;= to_date(#{createTimeEnd}, 'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="createTimeStart!=null">
+            and oo.create_time &gt;= to_date(#{createTimeStart}, 'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        order by oo.ORDER_ID
+    </select>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_PAY_PROMOTION">
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.back.prom.po.OrdPayPromotion">
+		<id column="ORD_PAY_PROMOTION_ID" property="ordPayPromotionId"
+			jdbcType="DECIMAL" />
+		<result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+		<result column="PAY_PROMOTION_ID" property="payPromotionId"
+			jdbcType="DECIMAL" />
+		<result column="PROM_TITLE" property="promTitle" jdbcType="VARCHAR" />
+		<result column="FAVORABLE_AMOUNT" property="favorableAmount"
+			jdbcType="DECIMAL" />
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		ORD_PAY_PROMOTION_ID,ORDER_ID,PAY_PROMOTION_ID,PROM_TITLE,FAVORABLE_AMOUNT
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from ORD_PAY_PROMOTION
+		where ORD_PAY_PROMOTION_ID =
+		#{id,jdbcType=DECIMAL}
+	</select>
+
+
+	<select id="selectByOrderId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from ORD_PAY_PROMOTION
+		where ORDER_ID =
+		#{orderId,jdbcType=DECIMAL}
+	</select>
+	
+	
+
+	<insert id="insert" parameterType="com.lvmama.vst.back.prom.po.OrdPayPromotion">
+	<selectKey resultType="java.lang.Long" keyProperty="ordPayPromotionId"
+		order="BEFORE">
+		select SEQ_ORD_PAY_PROMOTION_ID.nextval from dual
+	</selectKey>
+		insert into ORD_PAY_PROMOTION
+		(ORD_PAY_PROMOTION_ID,ORDER_ID,PAY_PROMOTION_ID,PROM_TITLE,FAVORABLE_AMOUNT,CREATE_TIME)
+		values
+		(#{ordPayPromotionId,jdbcType=DECIMAL},#{orderId,jdbcType=DECIMAL},#{payPromotionId,jdbcType=DECIMAL},#{promTitle,jdbcType=VARCHAR},#{favorableAmount,jdbcType=DECIMAL},sysdate
+		)
+	</insert>
+
+</mapper>

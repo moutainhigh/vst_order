@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_SMS_RESEND" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdSmsReSend" >
+    <id column="SMS_ID" property="smsId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="OPERATE" property="operate" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="RETRYCOUNT" property="reTryCount" jdbcType="DECIMAL"/>
+    <result column="SEND_EMAIL" property="sendEmail" jdbcType="VARCHAR"/>
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SMS_ID, ORDER_ID, OPERATE, CONTENT, SEND_TIME, STATUS, MOBILE,RETRYCOUNT,UPDATE_TIME
+  </sql>
+  <sql id="Base_Query_Column_List" >
+    <if test="smsId != null" >
+        and SMS_ID = #{smsId,jdbcType=DECIMAL}
+      </if>
+    <if test="orderId != null" >
+        and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+      </if>
+      <if test="operate != null" >
+        and OPERATE = #{operate,jdbcType=VARCHAR}
+      </if>
+      <if test="content != null" >
+        and CONTENT = #{content,jdbcType=VARCHAR}
+      </if>
+      <if test="smsContent != null" >
+        and CONTENT like '%'||#{smsContent,jdbcType=VARCHAR}||'%'
+      </if>
+      <if test="sendTime != null" >
+        and SEND_TIME = #{sendTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="beginDate != null" >
+     	<![CDATA[ and SEND_TIME >= to_date(#{beginDate,jdbcType=VARCHAR}, 'yyyy-mm-dd') ]]>
+      </if>
+      <if test="endDate != null" >
+      	<![CDATA[ and SEND_TIME <= to_date(#{endDate,jdbcType=VARCHAR}, 'yyyy-mm-dd') ]]>
+      </if>
+      <if test="status != null" >
+       and  STATUS = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null" >
+        and MOBILE = #{mobile,jdbcType=VARCHAR}
+      </if>
+    <if test="reTryCount != null" >
+      and RETRYCOUNT &lt;= #{reTryCount,jdbcType=DECIMAL}
+    </if>
+    <if test="sendEmail != null ">
+      and (SEND_EMAIL != #{sendEmail,jdbcType=VARCHAR} or  SEND_EMAIL is null)
+    </if>
+  </sql>
+  
+   <sql id="select_by_param" >
+		select * from ORD_SMS_RESEND where 1=1
+		<include refid="Base_Query_Column_List" />	
+    </sql>
+   <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+	select  count(1)
+	from ORD_SMS_RESEND
+     where 1=1
+		<include refid="Base_Query_Column_List" />
+	</select>
+	
+	<select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_SMS_RESEND
+    where SMS_ID = #{smsId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_SMS_RESEND
+    where SMS_ID = #{smsId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdSmsReSend" >
+  
+  	<selectKey resultType="java.lang.Long" keyProperty="smsId" order="BEFORE" >
+      select SEQ_ORD_SMS_RESEND_ID.nextval from dual
+    </selectKey>
+    insert into ORD_SMS_RESEND (SMS_ID, ORDER_ID, OPERATE,
+      CONTENT, SEND_TIME, STATUS, 
+      MOBILE)
+    values (#{smsId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{operate,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdSmsReSend" >
+  
+  	<selectKey resultType="java.lang.Long" keyProperty="smsId" order="BEFORE" >
+      select SEQ_ORD_SMS_RESEND_ID.nextval from dual
+    </selectKey>
+    insert into ORD_SMS_RESEND
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="smsId != null" >
+        SMS_ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="operate != null" >
+        OPERATE,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="smsId != null" >
+        #{smsId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="operate != null" >
+        #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdSmsReSend" >
+    update ORD_SMS_RESEND
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="operate != null" >
+        OPERATE = #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+       UPDATE_TIME = SYSDATE
+    </set>
+    where SMS_ID = #{smsId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdSmsReSend" >
+    update ORD_SMS_RESEND
+    <set >
+      <!--<if test="orderId != null" >-->
+      <!--ORDER_ID = #{orderId,jdbcType=DECIMAL},-->
+      <!--</if>-->
+      <if test="operate != null" >
+        OPERATE = #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="reTryCount != null" >
+        RETRYCOUNT = #{reTryCount,jdbcType=DECIMAL},
+      </if>
+       UPDATE_TIME = SYSDATE
+    </set>
+    where SMS_ID = #{smsId,jdbcType=DECIMAL}
+  </update>
+
+
+
+<!--   <update id="updateByPrimaryKeyEmail" parameterType="list" >
+  
+    update ORD_SMS_RESEND
+    <set>
+        SEND_EMAIL = 'SEND'
+    </set>
+    where SMS_ID IN
+    <foreach item="item" index="index" collection="list"
+                              open="(" separator="," close=")">
+    #{item}
+  </foreach>
+  </update> -->
+  
+  
+  
+ <update id="updateByPrimaryKeyEmail" parameterType="list" >
+    update ORD_SMS_RESEND dd
+    <set>
+        SEND_EMAIL = 'SEND'
+    </set>
+    where exists(
+       select id from (
+	    <foreach item="item" index="index" collection="list" separator="UNION" >
+	      select #{item} as id from dual                        
+	  </foreach> ) bb where dd.SMS_ID = bb.id
+     )
+  </update>
+
+</mapper>

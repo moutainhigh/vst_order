@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_USER_COUNTER" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdUserCounter" >
+    <id column="USER_COUNTER_ID" property="userCounterId" jdbcType="DECIMAL" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="ORDER_COUNT" property="orderCount" jdbcType="DECIMAL" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USER_COUNTER_ID, USER_NAME, ORDER_COUNT, OBJECT_TYPE,UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_USER_COUNTER
+    where USER_COUNTER_ID = #{userCounterId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_USER_COUNTER
+    where USER_COUNTER_ID = #{userCounterId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdUserCounter" >
+    insert into ORD_USER_COUNTER (USER_COUNTER_ID, USER_NAME, ORDER_COUNT, 
+      OBJECT_TYPE)
+    values (SEQ_ORD_USER_COUNTER_ID.nextval, #{userName,jdbcType=VARCHAR}, #{orderCount,jdbcType=DECIMAL}, 
+      #{objectType,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdUserCounter" >
+    update ORD_USER_COUNTER
+    <set >
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCount != null" >
+        ORDER_COUNT = #{orderCount,jdbcType=DECIMAL},
+      </if>
+      <if test="objectType != null" >
+        OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = SYSDATE
+    </set>
+    where USER_COUNTER_ID = #{userCounterId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdUserCounter" >
+    update ORD_USER_COUNTER
+    set USER_NAME = #{userName,jdbcType=VARCHAR},
+      ORDER_COUNT = #{orderCount,jdbcType=DECIMAL},
+      OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      UPDATE_TIME = SYSDATE
+    where USER_COUNTER_ID = #{userCounterId,jdbcType=DECIMAL}
+  </update>
+  
+  <delete id="deleteAll">
+  	delete from ORD_USER_COUNTER
+  </delete>
+  
+  <update id="increase" parameterType="com.lvmama.vst.back.order.po.OrdUserCounter">
+  	update ORD_USER_COUNTER
+    	set  ORDER_COUNT = ORDER_COUNT+1,UPDATE_TIME = SYSDATE
+	where USER_NAME = #{userName,jdbcType=VARCHAR}
+     and OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(*) from ORD_USER_COUNTER
+  		<where>
+  			<if test="userName!=null">
+  				and USER_NAME = #{userName,jdbcType=VARCHAR}
+  			</if>
+  			<if test="objectType!=null">
+  				and OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+  			</if>
+  		</where>
+  </select>
+</mapper>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_WECHAT_TEMPLATE" >
+	<resultMap id="BaseResultMap"
+	type="com.lvmama.vst.back.order.po.OrdWechatTemplate">
+	    <id column="ID" property="id" jdbcType="DECIMAL" />
+	    <result column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
+	    <result column="NAME" property="name" jdbcType="VARCHAR" />
+	    <result column="STATE" property="state" jdbcType="VARCHAR" />
+	    <result column="MESSAGE_CODE" property="messageCode" jdbcType="VARCHAR" />
+	    <result column="MESSAGE_CONTENT" property="messageContent" jdbcType="VARCHAR" />
+	    <result column="SEND_NODE" property="sendNode" jdbcType="VARCHAR" />
+	    <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
+	    <result column="UPDATED_TIME" property="updatedTime" jdbcType="TIMESTAMP" />
+	    <result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" />
+	    <result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" />
+	    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		ID, TEMPLATE_ID, NAME, STATE, MESSAGE_CODE, MESSAGE_CONTENT, SEND_NODE,CREATED_TIME,UPDATED_TIME,CREATED_USER,UPDATED_USER,UPDATE_TIME
+	</sql>
+  
+	<sql id="Base_Query_Column_List" >
+		<if test="sendNode != null" >
+	    	and SEND_NODE = #{sendNode,jdbcType=VARCHAR}
+		</if>
+		<if test="messageCode != null" >
+	     	and MESSAGE_CODE = #{messageCode,jdbcType=VARCHAR}
+		</if>
+		<if test="state != null" >
+	    	and STATE = #{state,jdbcType=VARCHAR}
+		</if>
+	</sql>
+  
+	<sql id="select_by_param" >
+		select * from ord_wechat_template where 1=1
+		<include refid="Base_Query_Column_List" />	
+	</sql>  
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select 
+			<include refid="Base_Column_List" />
+		from ord_wechat_template 
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param" />			
+		<include refid="basic.pageSearchFoot"/>  
+	</select>  
+	
+	<select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select count(1) from ord_wechat_template where 1=1
+		<include refid="Base_Query_Column_List" />	
+	</select>
+	
+	<insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdWechatTemplate" >
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE">
+			select SEQ_ORD_WECHAT_TEMPLATE_ID.nextval from dual
+		</selectKey>
+		insert into ORD_WECHAT_TEMPLATE
+		  (ID,
+		   TEMPLATE_ID,
+		   NAME,
+		   STATE,
+		   MESSAGE_CODE,
+		   MESSAGE_CONTENT,
+		   SEND_NODE,
+		   CREATED_TIME,
+		   UPDATED_TIME,
+		   CREATED_USER,
+		   UPDATED_USER
+		  )
+		values (
+		        #{id,jdbcType=DECIMAL}, 
+		        #{templateId,jdbcType=VARCHAR},
+		        #{name,jdbcType=VARCHAR},
+		        #{state,jdbcType=VARCHAR},
+		        #{messageCode,jdbcType=VARCHAR}, 
+		        #{messageContent,jdbcType=DECIMAL},
+		        #{sendNode,jdbcType=VARCHAR}, 
+		        #{createdTime,jdbcType=TIMESTAMP},
+		        #{updatedTime,jdbcType=TIMESTAMP},
+		        #{createdUser,jdbcType=VARCHAR},
+		        #{updatedUser,jdbcType=VARCHAR}
+		       )			
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdWechatTemplate">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE">
+			select SEQ_ORD_WECHAT_TEMPLATE_ID.nextval from dual
+		</selectKey>	
+		insert into ORD_WECHAT_TEMPLATE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				ID,
+    			<if test="templateId != null">
+    				TEMPLATE_ID,
+    			</if>				
+    			<if test="name != null">
+    				NAME,
+    			</if>
+    			<if test="state != null">
+    				STATE,
+    			</if>
+    			<if test="messageCode != null">
+    				MESSAGE_CODE,
+    			</if>
+    			<if test="messageContent != null">
+    				MESSAGE_CONTENT,
+    			</if>
+    			<if test="sendNode != null">
+    				SEND_NODE,
+    			</if>
+    			<if test="createdTime != null">
+    				CREATED_TIME,
+    			</if>
+    			<if test="updatedTime != null">
+    				UPDATED_TIME,
+    			</if>
+    			<if test="createdUser != null">
+    				CREATED_USER,
+    			</if>
+    			<if test="updatedUser != null">
+    				UPDATED_USER,
+    			</if>    			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+				#{id,jdbcType=DECIMAL},
+    			<if test="templateId != null">
+    				 #{templateId,jdbcType=VARCHAR},
+    			</if>				
+    			<if test="name != null">
+    				 #{name,jdbcType=VARCHAR},
+    			</if>
+    			<if test="state != null">
+    				 #{state,jdbcType=VARCHAR},
+    			</if>
+    			<if test="messageCode != null">
+    				#{messageCode,jdbcType=VARCHAR},
+    			</if>
+    			<if test="messageContent != null">
+    				#{messageContent,jdbcType=DECIMAL},
+    			</if>
+    			<if test="sendNode != null">
+    				#{sendNode,jdbcType=VARCHAR},
+    			</if>
+    			<if test="createdTime != null">
+    				#{createdTime,jdbcType=TIMESTAMP},
+    			</if>
+    			<if test="updatedTime != null">
+    				#{updatedTime,jdbcType=TIMESTAMP},
+    			</if>
+    			<if test="createdUser != null">
+    				#{createdUser,jdbcType=VARCHAR},
+    			</if>
+    			<if test="updatedUser != null">
+    				#{updatedUser,jdbcType=VARCHAR},
+    			</if>			
+		</trim>
+	</insert>	
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    	delete from ord_wechat_template
+    		   where ID = #{id,jdbcType=DECIMAL}		
+	</delete>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdWechatTemplate" >
+    	update ord_wechat_template
+    		set TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
+    			NAME = #{name,jdbcType=VARCHAR},
+      			STATE = #{state,jdbcType=VARCHAR},
+      			MESSAGE_CODE = #{messageCode,jdbcType=VARCHAR},
+		      	MESSAGE_CONTENT = #{messageContent,jdbcType=VARCHAR},
+		      	SEND_NODE = #{sendNode,jdbcType=VARCHAR},
+		     	UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP},
+		      	UPDATED_USER = #{updatedUser,jdbcType=VARCHAR},
+		      	UPDATE_TIME = SYSDATE
+    	where ID = #{id,jdbcType=DECIMAL}	
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdWechatTemplate" >
+    	update ord_wechat_template
+    		<set>
+    			<if test="templateId != null">
+    				TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
+    			</if>    		
+    			<if test="name != null">
+    				NAME = #{name,jdbcType=VARCHAR},
+    			</if>
+    			<if test="state != null">
+    				STATE = #{state,jdbcType=VARCHAR},
+    			</if>
+    			<if test="messageCode != null">
+    				MESSAGE_CODE = #{messageCode,jdbcType=VARCHAR},
+    			</if>
+    			<if test="messageContent != null">
+    				MESSAGE_CONTENT = #{messageContent,jdbcType=VARCHAR},
+    			</if>
+    			<if test="sendNode != null">
+    				SEND_NODE = #{sendNode,jdbcType=VARCHAR},
+    			</if>
+    			<if test="updatedTime != null">
+    				UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP},
+    			</if>
+    			<if test="updatedUser != null">
+    				UPDATED_USER = #{updatedUser,jdbcType=VARCHAR},
+    			</if>
+    			UPDATE_TIME = SYSDATE
+    		</set>
+    		where ID = #{id,jdbcType=DECIMAL}		
+	</update>		 	    
+</mapper>

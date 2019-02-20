@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EBK_WIFI_PASS">
+	<resultMap id="EbkTicketStatisResult" type="com.lvmama.vst.comm.vo.pass.EbkTicketStatisVO">
+		<result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+		<result column="sum_quantity" property="sumQuantity" jdbcType="DECIMAL" />
+		<result column="sum_actual_quantity" property="sumActualQuantity" jdbcType="DECIMAL" />
+		<result column="sum_traveller" property="sumTraveller" jdbcType="DECIMAL" />
+		<result column="sum_actual_traveller" property="sumActualTraveller" jdbcType="DECIMAL" />
+		<result column="sum_price" property="sumPrice" jdbcType="DECIMAL" />
+		<result column="foreign_sum_price" property="foreignSumPrice" jdbcType="DECIMAL" />
+		<result column="currency_code" property="currencyCode" jdbcType="VARCHAR" />
+		<result column="currency_name" property="currencyName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="EbkTicketPassResult" type="com.lvmama.vst.comm.vo.pass.EbkTicketPassVO">
+		<result column="order_id" property="orderId" jdbcType="DECIMAL" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="full_name" property="fullName" jdbcType="VARCHAR" />
+		<result column="payment_status" property="paymentStatus" jdbcType="VARCHAR" />
+		<result column="payment_target" property="paymentTarget" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+		<result column="visit_time" property="visitTime" jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="order_item_id" property="orderItemId" jdbcType="DECIMAL" />
+		<result column="item_visit_time" property="itemVisitTime" jdbcType="TIMESTAMP" />
+		<result column="item_order_status" property="itemOrderStatus" jdbcType="VARCHAR" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="product_id" property="productId" jdbcType="DECIMAL" />
+		<result column="category_id" property="categoryId" jdbcType="DECIMAL" />
+		<result column="supp_goods_id" property="suppGoodsId" jdbcType="DECIMAL" />   
+		<result column="supp_goods_name" property="suppGoodsName" jdbcType="VARCHAR" />
+		<result column="quantity" property="quantity" jdbcType="DECIMAL" />
+		<result column="ticket_type" property="ticketType" jdbcType="VARCHAR" />
+		<result column="otp_visit_time" property="otpVisitTime" jdbcType="TIMESTAMP" />
+		<result column="adult_quantity" property="adultQuantity" jdbcType="DECIMAL" />
+		<result column="child_quantity" property="childQuantity" jdbcType="DECIMAL" />
+		<result column="actual_adult" property="actualAdult" jdbcType="DECIMAL" />
+		<result column="actual_child" property="actualChild" jdbcType="DECIMAL" />
+		<result column="perform_time" property="performTime" jdbcType="TIMESTAMP" />
+		<result column="passport_code" property="passportCode" jdbcType="VARCHAR" />
+		<result column="checking_id" property="checkingId" jdbcType="DECIMAL" />
+		<result column="traveller" property="traveller" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+		<result column="sale_price" property="salePrice" jdbcType="DECIMAL" />
+		<result column="actual_settlement_price" property="actualSettlementPrice" jdbcType="DECIMAL" />
+		<result column="certif_modif_notes" property="certifModifNotes" jdbcType="VARCHAR" />
+		<result column="total_price" property="totalPrice" jdbcType="DECIMAL" />
+		<result column="actual_quantity" property="actualQuantity" jdbcType="DECIMAL" />
+		<result column="transfer_flag" property="transferFlag" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="perform_status" property="performStatus" jdbcType="VARCHAR" />
+		
+		<result column="currency_code" property="currencyCode" jdbcType="VARCHAR" />
+		<result column="currency_name" property="currencyName" jdbcType="VARCHAR" />
+		<result column="foreign_price" property="foreignPrice" jdbcType="DECIMAL" />
+		<result column="foreign_market_price" property="foreignMarketPrice" jdbcType="DECIMAL" />
+		<result column="foreign_sale_price" property="foreignSalePrice" jdbcType="DECIMAL" /> 
+		<result column="foreign_act_settlement_price" property="foreignActualSettlementPrice" jdbcType="DECIMAL" />
+		<result column="foreign_total_settlement_price" property="foreignTotalSettlementPrice" jdbcType="DECIMAL" />
+		<result column="foreign_act_total_settle_price" property="foreignActTotalSettlePrice" jdbcType="DECIMAL" />
+		<result column="foreign_settlement_price" property="foreignSettlementPrice" jdbcType="DECIMAL" />
+		<result column="foreign_total_price" property="foreignTotalPrice" jdbcType="DECIMAL" />
+		<result column="settlement_price_rate" property="settlementPriceRate" jdbcType="DECIMAL" />
+		<result column="price_rate" property="priceRate" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<!-- 邮寄订单 -->
+	<resultMap id="EbkTicketPostResult" type="com.lvmama.vst.comm.vo.pass.EbkTicketPostVO">
+		<result column="order_id" property="orderId" jdbcType="DECIMAL" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="full_name" property="fullName" jdbcType="VARCHAR" />
+		<result column="payment_status" property="paymentStatus" jdbcType="VARCHAR" />
+		<result column="payment_target" property="paymentTarget" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+		<result column="visit_time" property="visitTime" jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="order_item_id" property="orderItemId" jdbcType="DECIMAL" />
+		<result column="item_visit_time" property="itemVisitTime" jdbcType="TIMESTAMP" />
+		<result column="item_order_status" property="itemOrderStatus" jdbcType="VARCHAR" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="product_id" property="productId" jdbcType="DECIMAL" />
+		<result column="category_id" property="categoryId" jdbcType="DECIMAL" />
+		<result column="supp_goods_id" property="suppGoodsId" jdbcType="DECIMAL" />   
+		<result column="supp_goods_name" property="suppGoodsName" jdbcType="VARCHAR" />
+		<result column="quantity" property="quantity" jdbcType="DECIMAL" />
+		<result column="ticket_type" property="ticketType" jdbcType="VARCHAR" />
+		<result column="otp_visit_time" property="otpVisitTime" jdbcType="TIMESTAMP" />
+		<result column="adult_quantity" property="adultQuantity" jdbcType="DECIMAL" />
+		<result column="child_quantity" property="childQuantity" jdbcType="DECIMAL" />
+		<result column="actual_adult" property="actualAdult" jdbcType="DECIMAL" />
+		<result column="actual_child" property="actualChild" jdbcType="DECIMAL" />
+		<result column="perform_time" property="performTime" jdbcType="TIMESTAMP" />
+		<result column="passport_code" property="passportCode" jdbcType="VARCHAR" />
+		<result column="checking_id" property="checkingId" jdbcType="DECIMAL" />
+		<result column="traveller" property="traveller" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+		<result column="sale_price" property="salePrice" jdbcType="DECIMAL" />
+		<result column="actual_settlement_price" property="actualSettlementPrice" jdbcType="DECIMAL" />
+		<result column="certif_modif_notes" property="certifModifNotes" jdbcType="VARCHAR" />
+		<result column="total_price" property="totalPrice" jdbcType="DECIMAL" />
+		<result column="actual_quantity" property="actualQuantity" jdbcType="DECIMAL" />
+		<result column="transfer_flag" property="transferFlag" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="perform_status" property="performStatus" jdbcType="VARCHAR" /> 
+		
+		<result column="address_name" property="addressName" jdbcType="VARCHAR" />
+        <result column="address_mobile" property="addressMobile" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" /> 
+		<result column="POSTAL_CODE" property="postalCode" jdbcType="VARCHAR" /> 
+		<result column="POST_FLAG" property="postFlag" jdbcType="VARCHAR" /> 
+		<result column="post_company" property="postCompany" jdbcType="VARCHAR" /> 
+		<result column="POST_NUM" property="postNum" jdbcType="VARCHAR" /> 
+		
+		<result column="currency_code" property="currencyCode" jdbcType="VARCHAR" />
+		<result column="currency_name" property="currencyName" jdbcType="VARCHAR" />
+		<result column="foreign_price" property="foreignPrice" jdbcType="DECIMAL" />
+		<result column="foreign_market_price" property="foreignMarketPrice" jdbcType="DECIMAL" />
+		<result column="foreign_sale_price" property="foreignSalePrice" jdbcType="DECIMAL" /> 
+		<result column="foreign_act_settlement_price" property="foreignActualSettlementPrice" jdbcType="DECIMAL" />
+		<result column="foreign_total_settlement_price" property="foreignTotalSettlementPrice" jdbcType="DECIMAL" />
+		<result column="foreign_act_total_settle_price" property="foreignActTotalSettlePrice" jdbcType="DECIMAL" />
+		<result column="foreign_settlement_price" property="foreignSettlementPrice" jdbcType="DECIMAL" />
+		<result column="foreign_total_price" property="foreignTotalPrice" jdbcType="DECIMAL" />
+		<result column="settlement_price_rate" property="settlementPriceRate" jdbcType="DECIMAL" />
+		<result column="price_rate" property="priceRate" jdbcType="DECIMAL" />
+		
+	</resultMap>
+
+	<!-- 统计通关数据 -->
+    <select id="selectEbkPassStatisListByPrams"  resultMap="EbkTicketStatisResult" parameterType="java.util.Map">
+    	 <include refid="basic.pageSearchHead"/>
+			<include refid="selectEbkPassStatis"/>
+		<include refid="basic.pageSearchFoot"/>
+    </select>
+
+	<sql id="selectEbkPassStatis">
+		select
+			<if test="statDayFlag != null and statDayFlag != '' ">
+				ooi.visit_time,
+			</if>
+	       sum(ooi.quantity) sum_quantity,
+	       sum(nvl(otp.adult_quantity*ooi.quantity, 0) + nvl(otp.child_quantity*ooi.quantity, 0)) sum_traveller,
+	       sum(case
+             when otp.perform_time is not null then
+              case
+                when (nvl(otp.actual_adult, 0) + nvl(otp.actual_child, 0)) &lt;= 0 or
+                     (nvl(otp.adult_quantity, 0) + nvl(otp.child_quantity, 0)) &lt;= 0 then
+                 ooi.quantity
+                else
+                 ceil((nvl(otp.actual_adult, 0) + nvl(otp.actual_child, 0)) /
+                      (nvl(otp.adult_quantity, 0) + nvl(otp.child_quantity, 0)))
+              end
+             else
+              0
+           end) sum_actual_quantity,
+	       sum(nvl(otp.actual_adult, 0) + nvl(otp.actual_child, 0)) sum_actual_traveller,
+	       sum(case
+		         when oo.payment_target = 'PAY' then
+		          ooi.price * ooi.quantity 
+		         else
+		          ooi.total_settlement_price 
+		       end) sum_price,
+		       
+		    sum(case
+		         when oo.payment_target = 'PAY' then
+		          oie.foreign_price * ooi.quantity 
+		         else
+		          oie.foreign_act_total_settle_price 
+		       end) foreign_sum_price,
+		    max(oie.currency_code) currency_code,
+		    max(oie.currency_name) currency_name
+		       
+		  from ord_ticket_perform otp,
+		       ord_order_item     ooi,
+		       ord_order          oo,
+		       ord_person         op,
+		       ord_order_item_extend      oie
+		  where otp.order_item_id = ooi.order_item_id
+		   and oie.order_item_id(+) = ooi.order_item_id
+		   and ooi.order_id = oo.order_id
+		   and oo.order_id = op.object_id 
+		   and op.object_type = 'ORDER'
+		   and op.person_type = 'CONTACT'		   
+		   and oo.order_status != 'CANCEL'
+		   and ooi.order_status != 'CANCEL'
+		   and ((oo.payment_status = 'PAYED' and oo.resource_status = 'AMPLE' and oo.info_status = 'INFOPASS') or
+		       (oo.payment_target = 'PAY' and oo.resource_status = 'AMPLE' and oo.info_status = 'INFOPASS'))
+		   and ooi.category_id = 28
+		 <if test="startVisitTime != null">
+		 	and ooi.visit_time &gt;= #{startVisitTime}
+		 </if>
+		 <if test="endVisitTime != null">
+		 	and ooi.visit_time &lt;= #{endVisitTime}
+		 </if>
+		 <if test="startCheckingTime != null">
+		 	and otp.perform_time &gt;= #{startCheckingTime}
+		 </if>
+		 <if test="endCheckingTime != null">
+		 	and otp.perform_time &lt;= #{endCheckingTime}
+		 </if>
+		 <if test="suppGoodsIds != null">
+		   and ooi.supp_goods_id in
+			<foreach collection="suppGoodsIds" index="index" item="item" open="(" separator="," close=")">  
+		        #{item}  
+		    </foreach>  
+	 	</if>
+		<if test="suppGoodsIdStr != null and suppGoodsIdStr !='' ">
+	  	 	${suppGoodsIdStr}
+	     	</if>
+	     <if test="supplierId != null and supplierId !='' ">
+			and ooi.supplier_id = #{supplierId}
+		 </if>
+		 <if test="ebkSupplierGroupIds != null and ebkSupplierGroupIds != ''">
+   		   	and ooi.EBK_SUPPLIER_GROUP_ID in
+			<foreach item="ebkSupplierGroupId" collection="ebkSupplierGroupIds" open="(" separator="," close=")"> 
+			#{ebkSupplierGroupId} 
+			</foreach>
+	     </if>
+		 <if test="productName != null">
+		 	and (ooi.product_name like '%'||#{productName}||'%' or ooi.supp_goods_name like '%'||#{productName}||'%')
+		 </if>
+		 <if test="paymentTarget != null">
+		 	 and oo.payment_target = #{paymentTarget}
+		 </if>
+			 <if test="currencyCode != null">
+			 	<if test="currencyCode == 'CNY'">
+			 	 and (oie.currency_code = #{currencyCode} or oie.currency_code is null) 
+			 	</if>
+			 	<if test="currencyCode != 'CNY'">
+			 	 and oie.currency_code = #{currencyCode}
+			 	</if>
+			 </if>
+		 <if test="statDayFlag != null and statDayFlag != '' ">
+		 	group by ooi.visit_time
+		 </if>
+	</sql>
+	
+	<select id="selectEbkPassStatisCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*) from (
+			select count(1)
+			  from ord_ticket_perform otp,
+			       ord_order_item     ooi,
+			       ord_order          oo,
+			       ord_person         op,
+		           ord_order_item_extend      oie
+			  where otp.order_item_id = ooi.order_item_id
+			   and oie.order_item_id(+) = ooi.order_item_id
+			   and ooi.order_id = oo.order_id
+			   and oo.order_id = op.object_id
+			   and op.object_type = 'ORDER'
+			   and op.person_type = 'CONTACT'			   
+			   and oo.order_status != 'CANCEL'
+			   and ooi.order_status != 'CANCEL'
+			   and ((oo.payment_status = 'PAYED' and ooi.resource_status = 'AMPLE') or
+			       oo.payment_target = 'PAY')
+			   and ooi.category_id = 28
+			 <if test="startVisitTime != null">
+			 	and ooi.visit_time &gt;= #{startVisitTime}
+			 </if>
+			 <if test="endVisitTime != null">
+			 	and ooi.visit_time &lt;= #{endVisitTime}
+			 </if>
+			 <if test="startCheckingTime != null">
+			 	and otp.perform_time &gt;= #{startCheckingTime}
+			 </if>
+			 <if test="endCheckingTime != null">
+			 	and otp.perform_time &lt;= #{endCheckingTime}
+			 </if>
+			 <if test="suppGoodsIds != null">
+			   and ooi.supp_goods_id in
+				<foreach collection="suppGoodsIds" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    </foreach>  
+		 	</if>
+		 	<if test="suppGoodsIdStr != null and suppGoodsIdStr !='' ">
+	  	 	${suppGoodsIdStr}
+	     	</if>
+	     	<if test="supplierId != null and supplierId !='' ">
+			    and ooi.supplier_id = #{supplierId}
+		    </if>
+		    <if test="ebkSupplierGroupIds != null and ebkSupplierGroupIds != ''">
+	   		   	and ooi.EBK_SUPPLIER_GROUP_ID in
+				<foreach item="ebkSupplierGroupId" collection="ebkSupplierGroupIds" open="(" separator="," close=")"> 
+				#{ebkSupplierGroupId} 
+				</foreach>
+	        </if>
+			 <if test="productName != null">
+			 	and (ooi.product_name like '%'||#{productName}||'%' or ooi.supp_goods_name like '%'||#{productName}||'%')
+			 </if>
+			 <if test="paymentTarget != null">
+			 	 and oo.payment_target = #{paymentTarget}
+			 </if>
+			 <if test="currencyCode != null">
+			 	<if test="currencyCode == 'CNY'">
+			 	 and (oie.currency_code = #{currencyCode} or oie.currency_code is null) 
+			 	</if>
+			 	<if test="currencyCode != 'CNY'">
+			 	 and oie.currency_code = #{currencyCode}
+			 	</if>
+			 </if>
+			 <if test="statDayFlag != null and statDayFlag != '' ">
+			 	group by ooi.visit_time
+			 </if>
+		)
+	</select>
+	
+	<!-- 单笔验证-->
+    <select id="selectEbkPassListByPrams"  resultMap="EbkTicketPassResult" parameterType="java.util.Map">
+   	    <include refid="basic.pageSearchHead"/>
+			<include refid="selectEbkPassList"/>
+		<include refid="basic.pageSearchFoot"/>
+    </select>
+    
+    <select id="selectEbkPassListCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*) from (
+			<include refid="selectEbkPassList" />
+		)
+	</select>
+	
+	<!-- 多笔验证 全部订单查询(包含订单转移信息)-->
+    <select id="selectEbkMiddleListByPrams"  resultMap="EbkTicketPassResult" parameterType="java.util.Map">
+   	    <include refid="basic.pageSearchHead"/>
+			<include refid="selectEbkMiddleList"/>
+		<include refid="basic.pageSearchFoot"/>
+    </select>
+    
+    <select id="selectEbkMiddleListCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*) from (
+			<include refid="selectEbkMiddleList" />
+		)
+	</select>
+	
+	<!-- 查询邮寄订单数据 -->
+    <select id="selectEbkPostListByPrams"  resultMap="EbkTicketPostResult" parameterType="java.util.Map">
+   	    <include refid="basic.pageSearchHead"/>
+			<include refid="selectEbkPostList"/>
+		<include refid="basic.pageSearchFoot"/>
+    </select>
+    
+    <select id="selectEbkPostListCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*) from (
+			<include refid="selectEbkPostList" />
+		)
+	</select>
+	
+	<sql id="selectColumnField">
+			  , op.mobile as mobile,
+		       op.full_name,
+		 
+		          (select v.full_name || ',' || v.mobile || ',' || v.ID_NO from ord_person v where v.ord_person_id in 
+				<include refid="selectMinOrdPersonId" /> ) as traveller,
+		       
+		       oo.payment_status,
+		       oo.payment_target,
+		       oo.order_status,
+		       oo.visit_time,
+		       oo.create_time,
+		       ooi.order_item_id,
+		       ooi.visit_time item_visit_time,
+		       ooi.order_status item_order_status,
+		       ooi.product_name,
+		       ooi.product_id,
+		       ooi.category_id,
+		       ooi.supp_goods_id,
+		       ooi.supp_goods_name,
+		       ooi.quantity,
+		       ooi.ticket_type,
+		       otp.visit_time otp_visit_time,
+		       otp.adult_quantity,
+		       otp.child_quantity,
+		       otp.actual_adult,
+		       otp.actual_child,
+		       otp.perform_time,
+		       opc.ADD_CODE passport_code,
+		       opc.checking_id,
+		       ooi.price sale_price,
+       		   ooi.actual_settlement_price,
+		      
+		       (case
+		         when oo.payment_target = 'PAY' then
+		          ooi.price
+		         else
+		          ooi.actual_settlement_price
+		       end) price,
+		       (case
+		         when oo.payment_target = 'PAY' then
+		          ooi.price * ooi.quantity 
+		         else
+		          ooi.total_settlement_price 
+		       end) total_price,
+		       ceil(case
+		              when otp.perform_time is not null and
+		                   (nvl(otp.adult_quantity, 0) + nvl(otp.child_quantity, 0)) != 0 then
+		               (nvl(otp.actual_adult, 0) + nvl(otp.actual_child, 0)) /
+		               (nvl(otp.adult_quantity, 0) + nvl(otp.child_quantity, 0))
+		              else
+		               null
+		            end) actual_quantity,
+		       ooi.perform_status,
+		       
+		       oie.currency_code,
+		       oie.currency_name,
+		       oie.foreign_price foreign_sale_price,
+		       oie.foreign_total_settlement_price,
+		       oie.foreign_act_total_settle_price,
+		       oie.foreign_act_settlement_price,
+		       oie.foreign_settlement_price,
+		       oie.foreign_market_price,
+		       oie.settlement_price_rate,
+		       oie.price_rate,
+		       (case
+		         when oo.payment_target = 'PAY' then
+		          oie.foreign_price
+		         else
+		          oie.foreign_act_settlement_price
+		       end) foreign_price,
+		       (case
+		         when oo.payment_target = 'PAY' then
+		          oie.foreign_price * ooi.quantity 
+		         else
+		          oie.foreign_act_total_settle_price 
+		       end) foreign_total_price
+	</sql>
+	
+	<sql id="selectColumnField2" >
+			   , op.mobile as mobile,
+		       op.full_name as full_name,
+		 
+		        (select v.full_name || ',' || v.mobile || ',' || v.ID_NO || ',' || v.ID_TYPE || ',' || v.EMAIL || ',' || v.FIRST_NAME || ',' || v.LAST_NAME ||  ',' || v.OUTBOUND_PHONE  from ord_person v where v.ord_person_id in
+				<include refid="selectMinOrdPersonId" /> ) as traveller,
+				
+		       oo.payment_status,
+		       oo.payment_target,
+		       oo.order_status,
+		       oo.visit_time,
+		       oo.create_time,
+		       ooi.order_item_id,
+		       ooi.visit_time item_visit_time,
+		       ooi.order_status item_order_status,
+		       ooi.product_name,
+		       ooi.product_id,
+		       ooi.category_id,
+		       ooi.supp_goods_id,
+		       ooi.supp_goods_name,
+		       ooi.quantity,
+		       ooi.ticket_type,
+		       otp.visit_time otp_visit_time,
+		       otp.adult_quantity,
+		       otp.child_quantity,
+		       otp.actual_adult,
+		       otp.actual_child,
+		       otp.perform_time,
+		       opc.ADD_CODE passport_code,
+		       opc.checking_id,
+		       ooi.price sale_price,
+       		   ooi.actual_settlement_price,
+		     
+		       (case
+		         when oo.payment_target = 'PAY' then
+		          ooi.price
+		         else
+		          ooi.actual_settlement_price
+		       end) price,
+		       (case
+		         when oo.payment_target = 'PAY' then
+		          ooi.price * ooi.quantity 
+		         else
+		          ooi.total_settlement_price 
+		       end) total_price,
+		       ceil(case
+		              when otp.perform_time is not null and
+		                   (nvl(otp.adult_quantity, 0) + nvl(otp.child_quantity, 0)) != 0 then
+		               (nvl(otp.actual_adult, 0) + nvl(otp.actual_child, 0)) /
+		               (nvl(otp.adult_quantity, 0) + nvl(otp.child_quantity, 0))
+		              else
+		               null
+		            end) actual_quantity,
+		       nvl(transfer.transfer_flag,'N') as transfer_flag,
+		       ooi.perform_status,
+		       
+		       oie.currency_code,
+		       oie.currency_name,
+		       oie.foreign_price foreign_sale_price,
+		       oie.foreign_total_settlement_price,
+		       oie.foreign_act_total_settle_price,
+		       oie.foreign_act_settlement_price,
+		       oie.foreign_settlement_price,
+		       oie.foreign_market_price,
+		       oie.settlement_price_rate,
+		       oie.price_rate,
+		       (case
+		         when oo.payment_target = 'PAY' then
+		          oie.foreign_price
+		         else
+		          oie.foreign_act_settlement_price
+		       end) foreign_price,
+		       (case
+		         when oo.payment_target = 'PAY' then
+		          oie.foreign_price * ooi.quantity 
+		         else
+		          oie.foreign_act_total_settle_price 
+		       end) foreign_total_price
+	</sql>
+	
+	
+	<!-- 邮寄订单 -->
+	<sql id="selectColumnFieldPost">
+			   ooi.mobile as mobile,
+		       ooi.full_name as full_name,
+		       oo.payment_status,
+		       oo.payment_target,
+		       oo.order_status,
+		       oo.visit_time,
+		       oo.create_time,
+		       ooi.order_item_id,
+		       ooi.visit_time item_visit_time,
+		       ooi.product_name,
+		       ooi.product_id,
+		       ooi.category_id,
+		       ooi.supp_goods_id,
+		       ooi.supp_goods_name,
+		       ooi.quantity,
+		       ooi.ticket_type,
+		       ooi.visit_time otp_visit_time,
+		       ooi.price sale_price,
+       		   ooi.actual_settlement_price,
+		       (case
+		         when oo.payment_target = 'PAY' then
+		          ooi.price
+		         else
+		          ooi.actual_settlement_price
+		       end) price,
+		       (case
+		         when oo.payment_target = 'PAY' then
+		          ooi.price * ooi.quantity 
+		         else
+		          ooi.total_settlement_price 
+		       end) total_price,
+		       ooi.content,
+		       ooi.address_name,
+		       ooi.address_mobile,
+		       ooi.address,
+		       
+		       oie.currency_code,
+		       oie.currency_name,
+		       oie.foreign_price foreign_sale_price,
+		       oie.foreign_total_settlement_price,
+		       oie.foreign_act_total_settle_price,
+		       oie.foreign_act_settlement_price,
+		       oie.foreign_settlement_price,
+		       oie.foreign_market_price,
+		       oie.settlement_price_rate,
+		       oie.price_rate,
+		       (case
+		         when oo.payment_target = 'PAY' then
+		          oie.foreign_price
+		         else
+		          oie.foreign_act_settlement_price
+		       end) foreign_price,
+		       (case
+		         when oo.payment_target = 'PAY' then
+		          oie.foreign_price * ooi.quantity 
+		         else
+		          oie.foreign_act_total_settle_price 
+		       end) foreign_total_price	      
+	</sql>
+	
+	<!-- 1.只查询distinct order_id时 ，
+	                        如果联系人不为空 ，则Distinct=Y ordOrderFlag=Y
+	                        如果联系人为空 ，则   Distinct=null ordOrderFlag=null             
+	     2.查询全部信息时  
+	       Distinct=null ordOrderFlag=Y-->
+	<sql id="selectEbkPassList">
+		<if test="mobile != null or fullName != null">
+		 select 
+			 <choose>
+			 <when test='Distinct =="Y"'>
+			 	distinct order_id
+			 </when>
+			 <otherwise>
+			   *
+			 </otherwise>
+			 </choose>
+		 from (
+		</if>
+		select distinct oo.order_id
+			<if test="ordOrderFlag != null ">
+				<include refid="selectColumnField" />
+			</if>
+			<if test="exportFlag != null">
+			    ,ooi.content,otp.operator
+			</if>
+		  from ord_order          oo,
+		       ord_order_item     ooi,
+		       ord_person         op,
+		       ord_ticket_perform otp, 
+		       ord_pass_code      opc,
+		       ord_order_item_extend      oie
+		 where oo.order_id = ooi.order_id
+		   and oo.order_id = op.object_id
+		   and op.object_type = 'ORDER'
+		   and op.person_type = 'CONTACT'
+		   and ooi.order_item_id = otp.order_item_id(+)
+		   and ooi.order_item_id = opc.order_item_id(+)
+		   and ooi.order_item_id = oie.order_item_id(+)
+		  <!-- 订单明细标识 -->
+		  <if test="orderDetailFlag != null">
+			   and ((oo.payment_status = 'PAYED' and oo.resource_status = 'AMPLE' and oo.info_status = 'INFOPASS') or
+			       (oo.payment_target = 'PAY' and oo.resource_status = 'AMPLE' and oo.info_status = 'INFOPASS'))
+		   </if>
+		   <if test="resourceStatus != null">
+			   	and ooi.resource_status = #{resourceStatus}
+		   </if>
+		   <if test="startCheckingTime != null">
+		   		and otp.perform_time &gt;= #{startCheckingTime}
+		   </if>
+		    <if test="endCheckingTime != null">
+		   		and otp.perform_time &lt;= #{endCheckingTime}
+		   </if>
+		   
+		   <!-- 游玩状态:未游玩、部分游玩、已游玩   -->
+		   <if test="performStatus != null and performStatus !='' ">
+		   		and ooi.perform_status = #{performStatus}
+		   </if>
+		   <!-- 通关列表查询,支持多次通关 ：未游玩和部分游玩 -->
+		   <if test="passMTFlag != null and passMTFlag !='' ">
+		   		and (ooi.perform_status = 'UNPERFORM' or ooi.perform_status = 'PART_PERFORM') 
+		   </if>
+		   
+		   <if test="suppGoodsIds != null">
+			    and ooi.supp_goods_id in
+				<foreach collection="suppGoodsIds" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    </foreach>  
+		   </if>
+		 	<if test="suppGoodsIdStr != null and suppGoodsIdStr !='' ">
+	  	 		${suppGoodsIdStr}
+	     	</if>
+	     	<if test="supplierId != null and supplierId !='' ">
+			    and ooi.supplier_id = #{supplierId}
+		    </if>
+		    <if test="ebkSupplierGroupIds != null and ebkSupplierGroupIds != ''">
+    		   	and ooi.EBK_SUPPLIER_GROUP_ID in
+				<foreach item="ebkSupplierGroupId" collection="ebkSupplierGroupIds" open="(" separator="," close=")"> 
+				#{ebkSupplierGroupId} 
+				</foreach>
+	        </if> 
+		   <if test="passportCode != null">
+		   		and opc.ADD_CODE = #{passportCode}
+		   </if>
+		   <if test="orderId != null">
+		   		 and oo.order_id = #{orderId}
+		   </if>
+		   <if test="orderItemId != null">
+		   		 and ooi.order_item_id = #{orderItemId}
+		   </if>
+		   <if test="orderItemIds != null">
+			    and ooi.order_item_id in
+				<foreach collection="orderItemIds" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    </foreach>  
+		   </if>
+		   
+		    <if test="startItemVisitTime != null">
+			 	and ooi.visit_time &gt;= #{startItemVisitTime}
+			 </if>
+			 <if test="endItemVisitTime != null">
+			 	and ooi.visit_time &lt;= #{endItemVisitTime}
+			 </if>
+			 <if test="startCreateTime != null">
+			 	and oo.create_time &gt;= #{startCreateTime}
+			 </if>
+			 <if test="endCreateTime != null">
+			 	and oo.create_time &lt;= #{endCreateTime}
+			 </if>
+			 <if test="passportCode != null">
+			 	and opc.ADD_CODE  = #{passportCode}
+			 </if>
+			 <if test="startPerformTime != null">
+			 	and otp.perform_time &gt;= #{startPerformTime}
+			 </if>
+			 <if test="endPerformTime != null">
+			 	and otp.perform_time &lt;= #{endPerformTime}
+			 </if>
+			 <if test="paymentTarget != null">
+			 	and  oo.payment_target = #{paymentTarget}
+			 </if>
+			 <if test="orderStatus != null">
+			 	and  oo.order_status = #{orderStatus}
+			 </if>
+			  <if test="productName != null">
+			 	and (ooi.product_name like '%'||#{productName}||'%' or ooi.supp_goods_name like '%'||#{productName}||'%')
+			 </if>
+			 <if test="currencyCode != null">
+			 	<if test="currencyCode == 'CNY'">
+			 	 and (oie.currency_code = #{currencyCode} or oie.currency_code is null) 
+			 	</if>
+			 	<if test="currencyCode != 'CNY'">
+			 	 and oie.currency_code = #{currencyCode}
+			 	</if>
+			 </if>
+		     and ooi.category_id = 28 <!--WIFI/电话卡品类  -->
+		     
+		     <if test="mobile != null or fullName !=null">
+		   		 ) where 1=1 
+		     </if>
+	 	     <if test="mobile != null">
+		   		and ( mobile = #{mobile} or traveller like '%'||#{mobile}||'%' )
+		     </if>
+		     <if test="fullName != null">
+		   		and ( full_name like '%'||#{fullName}||'%' or traveller like '%'||#{fullName}||'%' )
+		     </if>
+	</sql>
+	
+	<sql id="selectEbkMiddleList">
+		<if test="mobile != null or fullName != null">
+		 select * from (
+		</if>
+		
+		select distinct oo.order_id
+			<if test="ordOrderFlag != null ">
+				<include refid="selectColumnField2" />
+			</if>
+			<if test="exportFlag != null">
+			    ,ooi.content,otp.operator
+			</if>
+		  from ord_order          oo,
+		       ord_order_item     ooi,
+		       ord_person         op,
+		       ord_ticket_perform otp, 
+		       ord_pass_code      opc,
+		       ebk_ord_transfer transfer,
+		       ord_order_item_extend      oie
+		 where oo.order_id = ooi.order_id
+		   and oo.order_id = op.object_id
+		   and op.object_type = 'ORDER'
+		   and op.person_type = 'CONTACT'
+		   and ooi.order_item_id = otp.order_item_id(+)
+		   and ooi.order_item_id = opc.order_item_id(+)
+		   and ooi.order_item_id = transfer.ord_item_id(+)
+		   and ooi.order_item_id = oie.order_item_id(+)
+		  <!-- 订单明细标识 -->
+		  <if test="orderDetailFlag != null">
+			   and ((oo.payment_status = 'PAYED' and oo.resource_status = 'AMPLE' and oo.info_status = 'INFOPASS') or
+			       (oo.payment_target = 'PAY' and oo.resource_status = 'AMPLE' and oo.info_status = 'INFOPASS'))
+		   </if>
+		   <if test="resourceStatus != null">
+			   	and ooi.resource_status = #{resourceStatus}
+		   </if>
+		   <if test="startCheckingTime != null">
+		   		and otp.perform_time &gt;= #{startCheckingTime}
+		   </if>
+		    <if test="endCheckingTime != null">
+		   		and otp.perform_time &lt;= #{endCheckingTime}
+		   </if>
+		   <!-- 游玩状态:未游玩、部分游玩、已游玩   -->
+		   <if test="performStatus != null and performStatus !='' ">
+		   		and ooi.perform_status = #{performStatus}
+		   </if>
+		   <!-- 通关列表查询,支持多次通关 ：未游玩和部分游玩 -->
+		   <if test="passMTFlag != null and passMTFlag !='' ">
+		   		and (ooi.perform_status = 'UNPERFORM' or ooi.perform_status = 'PART_PERFORM') 
+		   </if>
+		   
+		   <if test="suppGoodsIds != null">
+			    and ooi.supp_goods_id in
+				<foreach collection="suppGoodsIds" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    </foreach>  
+		   </if>
+		 	<if test="suppGoodsIdStr != null and suppGoodsIdStr !='' ">
+	  	 		${suppGoodsIdStr}
+	     	</if>
+	     	<if test="supplierId != null and supplierId !='' ">
+			    and ooi.supplier_id = #{supplierId}
+		    </if>
+		    <if test="ebkSupplierGroupIds != null and ebkSupplierGroupIds != ''">
+    		   	and ooi.EBK_SUPPLIER_GROUP_ID in
+				<foreach item="ebkSupplierGroupId" collection="ebkSupplierGroupIds" open="(" separator="," close=")"> 
+				#{ebkSupplierGroupId} 
+				</foreach>
+	        </if>
+		   <if test="passportCode != null">
+		   		and opc.ADD_CODE = #{passportCode}
+		   </if>
+		   <if test="orderId != null">
+		   		 and oo.order_id = #{orderId}
+		   </if>
+		   <if test="orderItemId != null">
+		   		 and ooi.order_item_id = #{orderItemId}
+		   </if>
+		  
+		    <if test="startItemVisitTime != null">
+			 	and ooi.visit_time &gt;= #{startItemVisitTime}
+			 </if>
+			 <if test="endItemVisitTime != null">
+			 	and ooi.visit_time &lt;= #{endItemVisitTime}
+			 </if>
+			 <if test="startCreateTime != null">
+			 	and oo.create_time &gt;= #{startCreateTime}
+			 </if>
+			 <if test="endCreateTime != null">
+			 	and oo.create_time &lt;= #{endCreateTime}
+			 </if>
+			 <if test="passportCode != null">
+			 	and opc.ADD_CODE  = #{passportCode}
+			 </if>
+			 <if test="startPerformTime != null">
+			 	and otp.perform_time &gt;= #{startPerformTime}
+			 </if>
+			 <if test="endPerformTime != null">
+			 	and otp.perform_time &lt;= #{endPerformTime}
+			 </if>
+			 <if test="paymentTarget != null">
+			 	and  oo.payment_target = #{paymentTarget}
+			 </if>
+			 <if test="orderStatus != null">
+			 	and  oo.order_status = #{orderStatus}
+			 </if>
+			  <if test="productName != null">
+			 	and (ooi.product_name like '%'||#{productName}||'%' or ooi.supp_goods_name like '%'||#{productName}||'%')
+			 </if>
+			<if test='productId != null'>
+				and ooi.product_id = #{productId}
+			</if>
+			<if test="ticketType != null and ticketType != ''">
+				and ooi.ticket_type = #{ticketType}
+			</if>
+			<if test='transferFlag == "Y"'>
+			 	and transfer.transfer_flag = 'Y'
+			 </if>
+			 <if test='transferFlag == "N"'>
+				 and (transfer.transfer_flag='N' OR transfer.transfer_flag is null)
+			 </if>
+			 <if test="currencyCode != null">
+			 	<if test="currencyCode == 'CNY'">
+			 	 and (oie.currency_code = #{currencyCode} or oie.currency_code is null) 
+			 	</if>
+			 	<if test="currencyCode != 'CNY'">
+			 	 and oie.currency_code = #{currencyCode}
+			 	</if>
+			 </if>
+			 and ooi.category_id = 28 <!--WIFI/电话卡品类  -->
+		     
+		     <if test="_firstOrderby != null"  >
+				ORDER BY ${_firstOrderby} ${_firstOrder}, oo.order_id desc
+	 	     </if>
+	 	     
+	 	     <if test="mobile != null or fullName !=null">
+		   		 ) where 1=1 
+		     </if>
+	 	     <if test="mobile != null">
+		   		and ( mobile = #{mobile} or traveller like '%'||#{mobile}||'%' )
+		     </if>
+		     <if test="fullName != null">
+		   		and ( full_name like '%'||#{fullName}||'%' or traveller like '%'||#{fullName}||'%' )
+		     </if>
+	</sql>
+		
+    <sql id="selectMinOrdPersonId" >
+	     (select  min(t.ord_person_id) as person_id
+	  		from ord_person t
+	 		where t.person_type = 'TRAVELLER'
+	 		and t.object_type = 'ORDER'
+			and t.object_id = oo.order_id )
+    </sql>
+
+	
+	<!-- 邮寄订单查询 -->
+    <sql id="selectEbkPostList">
+    select 
+		 <choose>
+		 <when test="ordOrderFlag != null ">
+		 	*
+		 </when>
+		 <otherwise>
+		   distinct order_id
+		 </otherwise>
+		 </choose>
+	 from (
+		select oo.order_id,
+			<include refid="selectColumnFieldPost" />
+		  from ord_order          oo,
+		       ord_ticket_post    ooi,
+		       ord_order_item ooim,
+		       ord_order_item_extend      oie
+		 where oo.order_id = ooi.order_id
+		   and ooi.order_item_id = ooim.order_item_id
+		   and ooim.order_item_id = oie.order_item_id(+)
+		  <!-- 订单明细标识 -->
+		  <if test="orderDetailFlag != null">
+			   and ((oo.payment_status = 'PAYED' and oo.resource_status = 'AMPLE' and oo.info_status = 'INFOPASS') or
+			       (oo.payment_target = 'PAY' and oo.resource_status = 'AMPLE' and oo.info_status = 'INFOPASS'))
+		   </if>
+		   <if test="resourceStatus != null">
+			   	and ooi.resource_status = #{resourceStatus}
+		   </if>
+		   <if test="suppGoodsIds != null">
+			    and ooi.supp_goods_id in
+				<foreach collection="suppGoodsIds" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    </foreach>  
+		   </if>
+		 	<if test="suppGoodsIdStr != null and suppGoodsIdStr !='' ">
+	  	 		${suppGoodsIdStr}
+	     	</if>
+	       <if test="supplierId != null and supplierId !='' ">
+			    and ooi.supplier_id = #{supplierId}
+		    </if>
+		    <if test="ebkSupplierGroupIds != null and ebkSupplierGroupIds != ''">
+		        and ooim.EBK_SUPPLIER_GROUP_ID in
+				<foreach item="ebkSupplierGroupId" collection="ebkSupplierGroupIds" open="(" separator="," close=")"> 
+				#{ebkSupplierGroupId} 
+				</foreach>
+	        </if>
+		   <if test="orderId != null">
+		   		 and oo.order_id = #{orderId}
+		   </if>
+		   <if test="orderItemId != null">
+		   		 and ooi.order_item_id = #{orderItemId}
+		   </if>
+		   
+		    <if test="startItemVisitTime != null">
+			 	and ooi.visit_time &gt;= #{startItemVisitTime}
+			 </if>
+			 <if test="endItemVisitTime != null">
+			 	and ooi.visit_time &lt;= #{endItemVisitTime}
+			 </if>
+			 <if test="startCreateTime != null">
+			 	and oo.create_time &gt;= #{startCreateTime}
+			 </if>
+			 <if test="endCreateTime != null">
+			 	and oo.create_time &lt;= #{endCreateTime}
+			 </if>
+			 <if test="paymentTarget != null">
+			 	and  oo.payment_target = #{paymentTarget}
+			 </if>
+			 <if test="orderStatus != null">
+			 	and  oo.order_status = #{orderStatus}
+			 </if>
+			  <if test="productName != null">
+			 	and (ooi.product_name like '%'||#{productName}||'%' or ooi.supp_goods_name like '%'||#{productName}||'%')
+			 </if>
+			 <if test='postFlag != null and postFlag == "Y"'>
+			 	<choose>
+				 	<when test="orderItemIds != null and orderItemIds.size() > 0">
+					 	and ooi.order_item_id IN 
+						<foreach collection="orderItemIds" index="index" item="item"
+							open="(" separator="," close=")">
+							#{item}
+						</foreach>
+					</when>
+					<otherwise>
+						and 1 = 0
+					</otherwise>
+				</choose>
+			 </if>
+			 <if test='postFlag != null and postFlag == "N"'>
+			 	<if test="orderItemIds != null and orderItemIds.size() > 0">
+					and ooi.order_item_id NOT IN 
+					<foreach collection="orderItemIds" index="index" item="item"
+						open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</if>
+			 </if>
+			 <if test="currencyCode != null">
+			 	<if test="currencyCode == 'CNY'">
+			 	 and (oie.currency_code = #{currencyCode} or oie.currency_code is null) 
+			 	</if>
+			 	<if test="currencyCode != 'CNY'">
+			 	 and oie.currency_code = #{currencyCode}
+			 	</if>
+			 </if>
+			 and ooi.category_id = 28 <!--WIFI/电话卡品类  -->
+		     <if test="mobile != null">
+		   		and ( mobile = #{mobile} )
+		     </if>
+		     <if test="fullName != null">
+		   		and ( full_name like '%'||#{fullName}||'%')
+		     </if>
+		     <if test="addressMobile != null">
+		   		and ( address_mobile = #{addressMobile})
+		     </if>
+		     <if test="addressName != null">
+		   		and ( address_name like '%'||#{addressName}||'%' )
+		     </if>
+		     <!-- order by post_flag , ooi.visit_time desc -->
+    )
+	</sql>
+	<insert id="insertTransferOrder" parameterType="java.util.Map" >    
+   	    insert into EBK_ORD_TRANSFER (ORD_ITEM_ID,TRANSFER_FLAG) 
+    	<foreach collection="orderItemIds" item= "item" index ="index" separator=" union ">
+       	select #{item}, 'Y' from dual 
+    	</foreach >  
+    </insert>
+
+	<select id="queryEbkOrdTransferList" resultType="com.lvmama.vst.ebooking.ebk.po.EbkOrdTransfer" parameterType="java.util.Map">
+		select e.ord_item_id ordItemId,e.transfer_flag transferFlag from EBK_ORD_TRANSFER e
+		where
+		e.ord_item_id in
+		<foreach collection="orderItemIds" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<update id="updateTransferOrder" parameterType="java.util.Map">
+		update EBK_ORD_TRANSFER
+		set transfer_flag = #{transferFlag,jdbcType=VARCHAR}
+		where ord_item_id IN
+		<foreach collection="orderItemIds" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+</mapper>

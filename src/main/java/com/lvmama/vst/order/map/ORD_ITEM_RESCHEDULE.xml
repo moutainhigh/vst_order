@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ITEM_RESCHEDULE">
+    <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdItemReschedule">
+        <id column="ORD_ITEM_RESCHEDULE_ID" property="ordItemRescheduleId" jdbcType="DECIMAL"/>
+        <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL"/>
+        <result column="RESCHEDULE_RULES" property="rescheduleRules" jdbcType="VARCHAR"/>
+        <result column="EXCHANGE_COUNT" property="exchangeCount" jdbcType="DECIMAL"/>
+        <result column="MEMO" property="memo" jdbcType="VARCHAR"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    ORD_ITEM_RESCHEDULE_ID, ORDER_ITEM_ID, RESCHEDULE_RULES, EXCHANGE_COUNT, MEMO,
+    UPDATE_TIME
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from ORD_ITEM_RESCHEDULE
+        where ORD_ITEM_RESCHEDULE_ID = #{ordItemRescheduleId,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ORD_ITEM_RESCHEDULE
+    where ORD_ITEM_RESCHEDULE_ID = #{ordItemRescheduleId,jdbcType=DECIMAL}
+  </delete>
+  <select id="selectSchedId" resultType="java.lang.Long">
+	    select SEQ_ORD_ITEM_RESCHEDULE.currval from dual
+	</select>
+    <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdItemReschedule">
+        <selectKey resultType="java.lang.Long" keyProperty="ordItemRescheduleId" order="BEFORE">
+            select SEQ_ORD_ITEM_RESCHEDULE.nextval from dual
+        </selectKey>
+        insert into ORD_ITEM_RESCHEDULE (ORD_ITEM_RESCHEDULE_ID, ORDER_ITEM_ID,
+        RESCHEDULE_RULES, EXCHANGE_COUNT, MEMO
+        )
+        values (#{ordItemRescheduleId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL},
+        #{rescheduleRules,jdbcType=VARCHAR}, #{exchangeCount,jdbcType=DECIMAL}, #{memo,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdItemReschedule">
+        <selectKey resultType="java.lang.Long" keyProperty="ordItemRescheduleId" order="BEFORE">
+            select SEQ_ORD_ITEM_RESCHEDULE.nextval from dual
+        </selectKey>
+        insert into ORD_ITEM_RESCHEDULE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ordItemRescheduleId != null">
+                ORD_ITEM_RESCHEDULE_ID,
+            </if>
+            <if test="orderItemId != null">
+                ORDER_ITEM_ID,
+            </if>
+            <if test="rescheduleRules != null">
+                RESCHEDULE_RULES,
+            </if>
+            <if test="exchangeCount != null">
+                EXCHANGE_COUNT,
+            </if>
+            <if test="memo != null">
+                MEMO,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ordItemRescheduleId != null">
+                #{ordItemRescheduleId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderItemId != null">
+                #{orderItemId,jdbcType=DECIMAL},
+            </if>
+            <if test="rescheduleRules != null">
+                #{rescheduleRules,jdbcType=VARCHAR},
+            </if>
+            <if test="exchangeCount != null">
+                #{exchangeCount,jdbcType=DECIMAL},
+            </if>
+            <if test="memo != null">
+                #{memo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdItemReschedule">
+        update ORD_ITEM_RESCHEDULE
+        <set>
+            <if test="orderItemId != null">
+                ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+            </if>
+            <if test="rescheduleRules != null">
+                RESCHEDULE_RULES = #{rescheduleRules,jdbcType=VARCHAR},
+            </if>
+            <if test="exchangeCount != null">
+                EXCHANGE_COUNT = #{exchangeCount,jdbcType=DECIMAL},
+            </if>
+            <if test="memo != null">
+                MEMO = #{memo,jdbcType=VARCHAR},
+            </if>
+            UPDATE_TIME = sysdate
+        </set>
+        where ORD_ITEM_RESCHEDULE_ID = #{ordItemRescheduleId,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdItemReschedule">
+    update ORD_ITEM_RESCHEDULE
+    set ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      RESCHEDULE_RULES = #{rescheduleRules,jdbcType=VARCHAR},
+      EXCHANGE_COUNT = #{exchangeCount,jdbcType=DECIMAL},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate
+    where ORD_ITEM_RESCHEDULE_ID = #{ordItemRescheduleId,jdbcType=DECIMAL}
+  </update>
+    <select id="selectByOrderItemId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from ORD_ITEM_RESCHEDULE
+        where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+    </select>
+    <update id="updateExchangeCountByOrdItemId" parameterType="java.lang.Long">
+        update ORD_ITEM_RESCHEDULE
+        set EXCHANGE_COUNT = EXCHANGE_COUNT + 1,
+        UPDATE_TIME = sysdate
+        where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+    </update>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_AUDIT_PROCESS_TASK">
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.order.po.OrdAuditProcessTask">
+		<id column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="TIMES" property="times" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ORDER_ID,STATUS,TIMES,CREATE_TIME,UPDATE_TIME
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from ORD_AUDIT_PROCESS_TASK
+		where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+	</select>
+	
+	<select id="selectValidOrderIdList" resultType="java.lang.Long" parameterType="java.util.Map">
+		select * from 
+		(
+			select ORDER_ID
+			from ORD_AUDIT_PROCESS_TASK
+			where  
+			<![CDATA[STATUS='N' and TIMES < 5 and create_time < sysdate - 3/60/24]]>
+			order by TIMES,CREATE_TIME
+		)
+		where rownum <![CDATA[<=]]> 150
+	</select>
+	
+	<insert id="insert" parameterType="com.lvmama.vst.order.po.OrdAuditProcessTask">
+		insert into ORD_AUDIT_PROCESS_TASK (ORDER_ID,STATUS,TIMES,CREATE_TIME,UPDATE_TIME)
+		values (#{orderId,jdbcType=DECIMAL},#{status,jdbcType=TIMESTAMP},#{times,jdbcType=DECIMAL},sysdate,sysdate)
+	</insert>
+	
+	<update id="addTimes" parameterType="java.lang.Long">
+		update ORD_AUDIT_PROCESS_TASK
+		set TIMES = TIMES + 1,UPDATE_TIME = SYSDATE
+		where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="makeSuccess" parameterType="java.lang.Long">
+		update ORD_AUDIT_PROCESS_TASK
+		set STATUS='Y',UPDATE_TIME = SYSDATE
+		where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="makeValid" parameterType="java.lang.Long">
+		update ORD_AUDIT_PROCESS_TASK
+		set TIMES = 6,UPDATE_TIME = SYSDATE
+		where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+	</update>
+	
+</mapper>

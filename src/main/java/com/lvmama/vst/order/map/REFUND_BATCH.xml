@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="REFUND_BATCH">
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrderRefundBatch" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="REFUND_QUANTITY" property="refundQuantity" jdbcType="DECIMAL" />
+    <result column="AUDIT_STATUS" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="ITEM_AUDIT_STATUS" property="itemAuditStatus" jdbcType="VARCHAR" />
+    <result column="REFUND_APPLY_ID" property="refundApplyId" jdbcType="DECIMAL" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="RefundBatchAndSuppGoodsResultMap" type="com.lvmama.vst.back.order.po.OrderRefundBatch" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="REFUND_QUANTITY" property="refundQuantity" jdbcType="DECIMAL" />
+    <result column="AUDIT_STATUS" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="ITEM_AUDIT_STATUS" property="itemAuditStatus" jdbcType="VARCHAR" />
+    <result column="REFUND_APPLY_ID" property="refundApplyId" jdbcType="DECIMAL" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="SUPP_GOODS_ID" property="suppGoodsId" jdbcType="DECIMAL" />
+    <result column="GOODS_NAME" property="goodsName" jdbcType="VARCHAR" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID,ORDER_ID,ORDER_ITEM_ID,REFUND_QUANTITY,AUDIT_STATUS,ITEM_AUDIT_STATUS,REFUND_APPLY_ID,MEMO,OPERATOR,CREATE_TIME,UPDATE_TIME
+  </sql>
+  <select id="getOrderRefundBatch" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from REFUND_BATCH
+    where 1=1
+    <if test="orderItemId != null">
+    	and ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+    </if>
+    <if test="refundApplyId != null">
+    	and REFUND_APPLY_ID = #{refundApplyId,jdbcType=DECIMAL}
+    </if>
+    
+    ORDER BY　CREATE_TIME 
+  </select>
+
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrderRefundBatch" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_REFUND_BATCH_ID.nextval from dual
+    </selectKey>
+    insert into REFUND_BATCH (ID,
+        ORDER_ID,
+        ORDER_ITEM_ID,
+        REFUND_QUANTITY,
+        AUDIT_STATUS,
+        ITEM_AUDIT_STATUS,
+        REFUND_APPLY_ID,
+        MEMO,
+        OPERATOR,
+        CREATE_TIME)
+    values (
+         #{id,jdbcType=DECIMAL}, 
+         #{orderId,jdbcType=DECIMAL}, 
+         #{orderItemId,jdbcType=DECIMAL}, 
+         #{refundQuantity,jdbcType=DECIMAL}, 
+         #{auditStatus,jdbcType=VARCHAR},
+         #{itemAuditStatus,jdbcType=VARCHAR},
+         #{refundApplyId,jdbcType=DECIMAL},
+         #{memo,jdbcType=VARCHAR},
+         #{operator,jdbcType=VARCHAR},
+         SYSDATE)
+  </insert>
+  <update id="updateSelective" parameterType="com.lvmama.vst.back.order.po.OrderRefundBatch" >
+    update REFUND_BATCH
+    <set >
+      <if test="refundQuantity != null" >
+        REFUND_QUANTITY = #{refundQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="auditStatus != null" >
+        AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="itemAuditStatus != null" >
+        ITEM_AUDIT_STATUS = #{itemAuditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = SYSDATE
+    </set>
+    where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+     and  REFUND_APPLY_ID = #{refundApplyId,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateStatus" parameterType="java.util.Map" >
+    update REFUND_BATCH
+    <set >
+      <if test="auditStatus != null" >
+        AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="itemAuditStatus != null" >
+        ITEM_AUDIT_STATUS = #{itemAuditStatus,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = SYSDATE
+    </set>
+    where REFUND_APPLY_ID = #{refundApplyId,jdbcType=DECIMAL}
+  </update>
+  
+   <select id="getRefundBatchAndSuppGoods" resultMap="RefundBatchAndSuppGoodsResultMap" parameterType="java.lang.Long" >
+    select 
+     r.ID,
+     r.ORDER_ID,
+     r.ORDER_ITEM_ID,
+     r.REFUND_QUANTITY,
+     r.AUDIT_STATUS,
+     r.ITEM_AUDIT_STATUS,
+     r.REFUND_APPLY_ID,
+     r.MEMO,
+     r.OPERATOR,
+     r.CREATE_TIME,
+     s.SUPP_GOODS_ID,
+	 s.GOODS_NAME,
+	 o.QUANTITY
+    from refund_batch r, SUPP_GOODS s, ord_order_item o
+     where r.order_id =  #{orderId,jdbcType=DECIMAL}
+	   and r.order_id = o.order_id
+	   and r.order_item_id=o.order_item_id
+	   and o.supp_goods_id = s.supp_goods_id
+        ORDER BY　r.CREATE_TIME 
+  </select>
+</mapper>

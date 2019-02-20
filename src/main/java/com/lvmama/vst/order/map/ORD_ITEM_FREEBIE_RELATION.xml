@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ITEM_FREEBIE_RELATION" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdItemFreebiesRelation" >
+    <id column="IF_ID" property="ifId" jdbcType="DECIMAL" />
+    <id column="FREEBIE_ID" property="freebieId" jdbcType="DECIMAL" />
+    <result column="ORD_ORDER_ITEM_ID" property="ordItemId" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="FREEBIE_NAME" property="freebieName" jdbcType="VARCHAR" />
+    <result column="CONSUME_NUM" property="consumeNum" jdbcType="DECIMAL" />
+    <result column="CANCEL" property="cancel" jdbcType="DECIMAL" />
+    <result column="CANCEL_TIME" property="cancelTime" jdbcType="TIMESTAMP" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+     <result column="USE_NOTICE" property="useNotice" jdbcType="VARCHAR" />
+    <result column="FREEBIE_DESC" property="freebieDesc" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    IF_ID,FREEBIE_ID,ORD_ORDER_ITEM_ID,CREATE_TIME,FREEBIE_NAME,CONSUME_NUM,CANCEL,CANCEL_TIME,ORDER_ID,USE_NOTICE,FREEBIE_DESC, UPDATE_TIME
+  </sql>
+  
+  <select id="queryHotelFreebieByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    FROM ORD_ITEM_FREEBIE_RELATION
+    WHERE 1=1
+    <include refid="Base_Query_Column_List" />
+  </select>
+  
+  <sql id="Base_Query_Column_List" >  	  	
+	  <if test="orderItemId != null" >
+        AND ORD_ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+      </if>
+      <if test="freebieId != null" >
+        AND  FREEBIE_ID= #{freebieId,jdbcType=DECIMAL}
+      </if>
+      <if test="createTime != null" >
+          AND CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="freebieName != null" >
+         AND FREEBIE_NAME = #{freebieName,jdbcType=TIMESTAMP}
+      </if>
+      <if test="consumeNum != null" >
+         AND CONSUME_NUM = #{consumeNum,jdbcType=TIMESTAMP}
+      </if>     
+      <if test="orderId != null" >
+        AND ORDER_ID = #{orderId,jdbcType=DECIMAL}
+      </if>  
+  </sql>
+ 
+  
+  <!-- 批量插入 -->
+    <insert id="batchInsert" parameterType="java.util.List">  
+         <selectKey resultType="java.lang.Long" keyProperty="ifId" order="BEFORE" >
+	     select SEQ_ORD_ITEM_FREEBIE_REL_ID.nextval from dual
+	    </selectKey>
+       insert into ORD_ITEM_FREEBIE_RELATION (IF_ID,FREEBIE_ID, ORD_ORDER_ITEM_ID, CREATE_TIME, 
+	   FREEBIE_NAME, CONSUME_NUM,ORDER_ID,USE_NOTICE,FREEBIE_DESC)
+        select SEQ_ORD_ITEM_FREEBIE_REL_ID.NEXTVAL,A.* from(
+        <foreach collection="list" item="item" index="index"
+            separator="UNION">
+            SELECT
+ 		    #{item.freebieId},
+	 		#{item.ordItemId}, 
+	      	#{item.createTime},
+	      	#{item.freebieName},
+	      	#{item.consumeNum},
+	      	#{item.orderId},
+	      	#{item.useNotice},
+	      	#{item.freebieDesc}
+            from dual 
+             </foreach>
+        ) A
+    </insert>
+  
+   
+ 
+	<!-- 新增关联数据-->
+	<insert id="insertFreebieRelation" parameterType="com.lvmama.vst.back.order.po.OrdItemFreebiesRelation">
+		<selectKey resultType="java.lang.Long" keyProperty="ifId"
+			order="BEFORE">
+			select SEQ_ORD_ITEM_FREEBIE_REL_ID.nextval from dual
+		</selectKey>
+    insert into ORD_ITEM_FREEBIE_RELATION (IF_ID,FREEBIE_ID, ORD_ORDER_ITEM_ID, CREATE_TIME, 
+	 FREEBIE_NAME, CONSUME_NUM,ORDER_ID,USE_NOTICE,FREEBIE_DESC)
+		values(
+		#{ifId,jdbcType=DECIMAL},
+	 		#{freebieId,jdbcType=DECIMAL},
+	 		#{ordItemId,jdbcType=DECIMAL}, 
+	      	#{createTime,jdbcType=TIMESTAMP},
+	      	#{freebieName,jdbcType=VARCHAR},
+	      	#{consumeNum,jdbcType=VARCHAR},
+	      	#{orderId,jdbcType=DECIMAL},
+	      	#{useNotice,jdbcType=VARCHAR},
+	      	#{freebieDesc,jdbcType=VARCHAR}
+	      	
+		)
+	</insert>
+ 
+
+<update id="batchUpdate" parameterType="java.util.List">
+            update ORD_ITEM_FREEBIE_RELATION
+            <trim prefix="set" suffixOverrides=",">
+             <trim prefix="cancel =case" suffix="end,">
+                 <foreach collection="list" item="i" index="index">
+                         <if test="cancel">
+                          when id=#{i.ifId} then #{i.cancel}
+                         </if>
+                 </foreach>
+              </trim>
+<!--               <trim prefix=" roadgridid =case" suffix="end,">
+                 <foreach collection="list" item="i" index="index">
+                         <if test="i.roadgridid!=null">
+                          when id=#{i.id} then #{i.roadgridid}
+                         </if>
+                 </foreach>
+              </trim> -->
+             </trim>
+            where
+            <foreach collection="list" separator="or" item="i" index="index" >
+              id=#{i.ifId}
+          </foreach>
+</update>
+
+
+
+<update id="updateItemFreebie"  parameterType="com.lvmama.vst.back.order.po.OrdItemFreebiesRelation">  
+    
+        UPDATE  ORD_ITEM_FREEBIE_RELATION 
+        <set>
+            CANCEL= ${cancel},
+            UPDATE_TIME = sysdate      
+        </set>
+        where IF_ID = ${ifId}  
+</update>
+ 
+ 
+ 
+</mapper>

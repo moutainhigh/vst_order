@@ -1,0 +1,2234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="COM_AUDIT">
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.back.pub.po.ComAudit">
+		<id column="AUDIT_ID" property="auditId" jdbcType="DECIMAL" />
+		<result column="AUDIT_TYPE" property="auditType" jdbcType="VARCHAR" />
+		<result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+		<result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+		<result column="OPERATOR_NAME" property="operatorName" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="AUDIT_STATUS" property="auditStatus" jdbcType="VARCHAR" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="AUDIT_SUBTYPE" property="auditSubtype" jdbcType="VARCHAR" />
+		<result column="AUDIT_FLAG" property="auditFlag" jdbcType="VARCHAR" />
+		<result column="REMIND_TIME" property="remindTime" jdbcType="TIMESTAMP" />
+		<result column="SEQ" property="seq" jdbcType="DECIMAL" />
+		<result column="DEFER_FLAG" property="deferFlag" jdbcType="VARCHAR" />
+		<result column="STOCK_FLAG" property="stockFlag" jdbcType="VARCHAR" />
+		<result column="IS_RETURN_BACK" jdbcType="VARCHAR" property="isReturnBack" />
+	</resultMap>
+	<resultMap id="myOrderMap" type="java.util.Map" >
+    	<result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />   
+    	<result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+  	</resultMap>
+	<resultMap id="CountActivityBaseResultMap" type="com.lvmama.vst.back.pub.po.ComAuditActiviNum" >
+    	<result column="OPERATOR_NAME" property="operatorName" jdbcType="VARCHAR" />
+    	<result column="AUDIT_TYPE" property="auditType" jdbcType="VARCHAR" />
+    	<result column="ACTIVI_NUM" property="activiNum" jdbcType="DECIMAL" />
+    	<result column="STOCK_FLAG" property="stockFlag" jdbcType="VARCHAR" />
+   		<result column="AUDIT_STATUS" property="auditStatus" jdbcType="VARCHAR" />
+  	</resultMap>
+	<sql id="Base_Column_List">
+		AUDIT_ID, AUDIT_TYPE, OBJECT_ID, OBJECT_TYPE, OPERATOR_NAME,
+		CREATE_TIME,AUDIT_STATUS,UPDATE_TIME,AUDIT_SUBTYPE,AUDIT_FLAG,REMIND_TIME,SEQ,DEFER_FLAG,STOCK_FLAG
+	</sql>
+	<sql id="Base_Column_List_Inconfirm">
+		AUDIT_ID, AUDIT_TYPE, OBJECT_ID, OBJECT_TYPE, OPERATOR_NAME,
+		CREATE_TIME,AUDIT_STATUS,UPDATE_TIME,AUDIT_SUBTYPE,AUDIT_FLAG,REMIND_TIME,DEFER_FLAG,STOCK_FLAG,
+		case when stock_flag='N' 
+            and create_time+30/(24*60) &lt;=sysdate and COM_AUDIT.seq &lt; 85000
+            then 85000
+        else COM_AUDIT.seq
+        end SEQ
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from COM_AUDIT
+		where AUDIT_ID = #{auditId,jdbcType=DECIMAL} AND VALID='Y'
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from COM_AUDIT
+		where AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lvmama.vst.back.pub.po.ComAudit">
+		<selectKey resultType="java.lang.Long" keyProperty="auditId"
+			order="BEFORE">
+			select SEQ_AUDIT_ID.nextval from dual
+		</selectKey>
+		insert into COM_AUDIT (AUDIT_ID, AUDIT_TYPE, OBJECT_ID,
+		OBJECT_TYPE, OPERATOR_NAME, CREATE_TIME,AUDIT_STATUS,UPDATE_TIME,AUDIT_SUBTYPE,AUDIT_FLAG,VALID,REMIND_TIME,SEQ,DEFER_FLAG,STOCK_FLAG
+		)
+		values (#{auditId,jdbcType=DECIMAL}, #{auditType,jdbcType=VARCHAR},
+		#{objectId,jdbcType=DECIMAL},
+		#{objectType,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{auditStatus,jdbcType=VARCHAR}, 
+		<if test="updateTime != null">
+			#{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateTime == null">
+			SYSDATE,
+		</if>
+		#{auditSubtype,jdbcType=VARCHAR},#{auditFlag,jdbcType=VARCHAR},'Y',#{remindTime,jdbcType=TIMESTAMP},#{seq,jdbcType=DECIMAL},'N',#{stockFlag,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lvmama.vst.back.pub.po.ComAudit">
+		<selectKey resultType="java.lang.Long" keyProperty="auditId"
+			order="BEFORE">
+			select SEQ_AUDIT_ID.nextval from dual
+		</selectKey>
+		insert into COM_AUDIT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			AUDIT_ID,
+			<if test="auditType != null">
+				AUDIT_TYPE,
+			</if>
+			<if test="objectId != null">
+				OBJECT_ID,
+			</if>
+			<if test="objectType != null">
+				OBJECT_TYPE,
+			</if>
+			<if test="operatorName != null">
+				OPERATOR_NAME,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="auditStatus != null">
+				AUDIT_STATUS,
+			</if>
+				UPDATE_TIME,
+			<if test="auditSubtype != null">
+				AUDIT_SUBTYPE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{auditId,jdbcType=DECIMAL},
+			<if test="auditType != null">
+				#{auditType,jdbcType=VARCHAR},
+			</if>
+			<if test="objectId != null">
+				#{objectId,jdbcType=DECIMAL},
+			</if>
+			<if test="objectType != null">
+				#{objectType,jdbcType=VARCHAR},
+			</if>
+			<if test="operatorName != null">
+				#{operatorName,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="auditStatus != null">
+				#{auditStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="completeTime != null">
+				#{completeTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime == null">
+				SYSDATE,
+			</if>
+			<if test="auditSubtype != null">
+				#{auditSubtype,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.pub.po.ComAudit">
+		update COM_AUDIT
+		<set>
+			<if test="auditType != null">
+				AUDIT_TYPE = #{auditType,jdbcType=VARCHAR},
+			</if>
+			<if test="objectId != null">
+				OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+			</if>
+			<if test="objectType != null">
+				OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+			</if>
+			<if test="operatorName != null">
+				OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="auditStatus != null">
+				AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime == null">
+				UPDATE_TIME = SYSDATE,
+			</if>
+			<if test="auditSubtype != null">
+				AUDIT_SUBTYPE = #{auditSubtype,jdbcType=VARCHAR}
+			</if>
+		</set>
+		where VALID = 'Y' 
+			AND COM_AUDIT.AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.pub.po.ComAudit">
+		update COM_AUDIT
+		set 
+		AUDIT_TYPE = #{auditType,jdbcType=VARCHAR},
+		OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+		OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+		OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+		<if test="updateTime != null">
+			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateTime == null">
+			UPDATE_TIME = SYSDATE,
+		</if>
+		AUDIT_SUBTYPE = #{auditSubtype,jdbcType=VARCHAR},
+		AUDIT_FLAG = #{auditFlag,jdbcType=VARCHAR}
+		where AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+		AND VALID = 'Y'
+	</update>
+	
+	<!-- 分单用 -->
+	<update id="updateByPrimaryKeyNew" parameterType="com.lvmama.vst.back.pub.po.ComAudit">
+		update COM_AUDIT
+		set 
+		<if test="auditStatus != null">
+		AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+		</if>
+		AUDIT_TYPE = #{auditType,jdbcType=VARCHAR},
+		OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+		OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+		OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		<if test="updateTime != null">
+			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateTime == null">
+			UPDATE_TIME = SYSDATE,
+		</if>
+		AUDIT_SUBTYPE = #{auditSubtype,jdbcType=VARCHAR},
+		AUDIT_FLAG = #{auditFlag,jdbcType=VARCHAR}
+		where AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+		AND VALID = 'Y' 
+		AND (AUDIT_STATUS!='PROCESSED' OR (com_audit.audit_status='PROCESSED' AND com_audit.OPERATOR_NAME='SYSTEM'))
+	</update>
+	
+	<!-- 根据自定义的特殊条件搜索订单审核集合 -->
+	<select id="queryAuditListByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+		<include refid="basic.pageSearchHead"/>
+		SELECT COM_AUDIT.*
+		FROM COM_AUDIT
+		WHERE 
+		<include refid="auditByCondition_SQL2"/>
+		<if test="descSort != null">
+		order by COM_AUDIT.CREATE_TIME desc
+		</if>
+		<if test="descSort == null or descSort==''">
+		order by COM_AUDIT.CREATE_TIME asc
+		</if>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+	<sql id="auditByCondition_SQL2">
+	VALID='Y'
+		<if test="auditId != null">
+			AND COM_AUDIT.AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+		</if>
+		<if test="auditType != null and auditType != ''">
+			AND COM_AUDIT.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+		</if>
+		<if test="objectId != null">
+			AND COM_AUDIT.OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectIds != null and objectIds != ''">
+			AND COM_AUDIT.OBJECT_ID IN
+			<foreach collection="objectIds" item="item" open="("
+				separator="," close=")">
+					#{item}
+			</foreach>
+		</if>
+		<if test="objectType != null and objectType != ''">
+			AND COM_AUDIT.OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+		<if test="operatorName != null and operatorName != ''">
+			AND COM_AUDIT.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+		</if>
+		<if test="excludeOperator != null and excludeOperator != ''">
+			AND COM_AUDIT.OPERATOR_NAME != #{excludeOperator,jdbcType=VARCHAR}
+		</if>
+		<if test="createTime != null">
+			AND COM_AUDIT.CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="stockInStartTime != null and stockInEndTime != null">
+			<![CDATA[	AND COM_AUDIT.CREATE_TIME >=#{stockInStartTime,jdbcType=TIMESTAMP} ]]>
+			<![CDATA[	AND COM_AUDIT.CREATE_TIME <=#{stockInEndTime,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="stockInStartTime == null and stockInEndTime != null">
+			<![CDATA[	AND COM_AUDIT.CREATE_TIME <=#{stockInEndTime,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="auditStatus != null and auditStatus != ''">
+			AND COM_AUDIT.AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="auditStatusArray != null and auditStatusArray != ''">
+			AND COM_AUDIT.AUDIT_STATUS IN
+			<foreach collection="auditStatusArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		 <if test="operatorNameArray != null and operatorNameArray!=''">
+			AND COM_AUDIT.OPERATOR_NAME IN
+			<foreach collection="operatorNameArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="distributionTimeBegin != null">
+		<![CDATA[	AND COM_AUDIT.UPDATE_TIME >=#{distributionTimeBegin,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="distributionTimeEnd != null">
+		<![CDATA[	AND COM_AUDIT.UPDATE_TIME <=#{distributionTimeEnd,jdbcType=TIMESTAMP}  ]]>
+		</if>
+		<if test="auditSubtype != null and auditSubtype != ''">
+			AND COM_AUDIT.AUDIT_SUBTYPE = #{auditSubtype,jdbcType=VARCHAR}
+		</if>
+		<if test="createTimeBegin != null||createTimeEnd != null || visitTimeBegin != null || visitTimeEnd != null">
+			AND EXISTS(SELECT 1 FROM ORD_ORDER WHERE
+			ORDER_ID=COM_AUDIT.OBJECT_ID AND COM_AUDIT.OBJECT_TYPE='ORDER'
+			<if test="createTimeBegin != null">
+			<![CDATA[	AND ORD_ORDER.create_time >=#{createTimeBegin,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="createTimeEnd != null">
+			<![CDATA[	AND ORD_ORDER.create_time <=#{createTimeEnd,jdbcType=TIMESTAMP}  ]]>
+			</if>
+			<if test="visitTimeBegin != null">
+			<![CDATA[	AND ORD_ORDER.visit_time >=#{visitTimeBegin,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="visitTimeEnd != null">
+			<![CDATA[	AND ORD_ORDER.visit_time <=#{visitTimeEnd,jdbcType=TIMESTAMP}  ]]>
+			</if>
+			<if test="distributorIds != null">
+				AND ORD_ORDER.DISTRIBUTOR_ID IN
+				<foreach collection="distributorIds" item="distributorId" open="(" separator="," close=")">
+					#{distributorId}
+				</foreach>
+			</if>
+				UNION ALL
+				SELECT 1 FROM ORD_ORDER_ITEM
+			<if test="distributorIds != null">,ORD_ORDER</if>
+				WHERE COM_AUDIT.OBJECT_ID=ORD_ORDER_ITEM.ORDER_ITEM_ID
+			<if test="distributorIds != null">AND ORD_ORDER.ORDER_ID = ORD_ORDER_ITEM.ORDER_ID</if>
+				AND COM_AUDIT.Object_Type = 'ORDER_ITEM' 
+				<if test="visitTimeBegin != null">
+				<![CDATA[AND ORD_ORDER_ITEM.visit_time >=#{visitTimeBegin,jdbcType=TIMESTAMP} ]]>
+				</if>
+				<if test="visitTimeEnd != null">
+				<![CDATA[	AND ORD_ORDER_ITEM.visit_time <=#{visitTimeEnd,jdbcType=TIMESTAMP} ]]>
+				</if>
+				<if test="createTimeBegin != null">
+				<![CDATA[	AND ORD_ORDER_ITEM.create_time >=#{createTimeBegin,jdbcType=TIMESTAMP} ]]>
+				</if>
+				<if test="createTimeEnd != null">
+				<![CDATA[	AND ORD_ORDER_ITEM.create_time <=#{createTimeEnd,jdbcType=TIMESTAMP} ]]>
+				</if>
+			<if test="distributorIds != null">
+				AND ORD_ORDER.DISTRIBUTOR_ID IN
+				<foreach collection="distributorIds" item="distributorId" open="(" separator="," close=")">
+					#{distributorId}
+				</foreach>
+			</if>
+			)
+		</if>
+		<if test="productId != null || supplierId != null">
+			AND (
+				EXISTS (
+					SELECT ORDER_ITEM_ID FROM ORD_ORDER_ITEM WHERE 
+					COM_AUDIT.OBJECT_TYPE='ORDER_ITEM'
+					AND ORDER_ITEM_ID=COM_AUDIT.OBJECT_ID 
+					<if test="productId != null">
+					 	AND ORD_ORDER_ITEM.PRODUCT_ID=#{productId,jdbcType=DECIMAL}
+					</if>
+					<if test="supplierId != null">
+					 	AND ORD_ORDER_ITEM.SUPPLIER_ID=#{supplierId,jdbcType=DECIMAL}
+					</if>
+					UNION ALL 
+					 SELECT ORDER_ITEM_ID FROM ORD_ORDER_ITEM WHERE  
+					 COM_AUDIT.OBJECT_TYPE = 'ORDER'
+					 AND ORDER_ID = COM_AUDIT.OBJECT_ID
+					<if test="productId != null">
+					 	AND ORD_ORDER_ITEM.PRODUCT_ID=#{productId,jdbcType=DECIMAL}
+					</if>
+					<if test="supplierId != null">
+					 	AND ORD_ORDER_ITEM.SUPPLIER_ID=#{supplierId,jdbcType=DECIMAL}
+					</if>
+				)
+			)
+		</if>
+		<if test="contactName!=null || contactMobile!=null">
+  			and exists(select 1 from ord_person op where op.object_id=ORD_ORDER.order_id and op.person_type='CONTACT'
+  			<if test="contactName!=null">
+  			and op.full_name = #{contactName}
+  			</if>
+  			<if test="contactMobile!=null">
+  			and op.mobile = #{contactMobile}
+  			</if>
+  			)
+  		</if>
+  		<if test="noticeRegimentStatus != null and noticeRegimentStatus != ''">
+         	AND ((COM_AUDIT.OBJECT_TYPE='ORDER' AND EXISTS
+         	(SELECT 1
+                  FROM ORD_ADDITION_STATUS OAS
+                 WHERE OAS.ORDER_ID = COM_AUDIT.OBJECT_ID
+                   AND OAS.STATUS = #{noticeRegimentStatus}
+                   AND OAS.STATUS_TYPE = 'NOTICE_REGIMENT_STATUS'))
+                   OR
+             (OBJECT_TYPE='ORDER_ITEM' AND EXISTS (
+             	SELECT 1 FROM ORD_ORDER_ITEM OOI WHERE OOI.ORDER_ITEM_ID=COM_AUDIT.OBJECT_ID AND EXISTS (
+             		SELECT 1 FROM ORD_ADDITION_STATUS OAS WHERE OAS.ORDER_ID=OOI.ORDER_ID AND OAS.STATUS = #{noticeRegimentStatus}
+                   AND OAS.STATUS_TYPE = 'NOTICE_REGIMENT_STATUS'
+             	)))
+             )
+        </if>
+        <if test="auditFlag != null and auditFlag != ''">
+			AND nvl(COM_AUDIT.AUDIT_FLAG,'NO_SYSTEM') != #{auditFlag,jdbcType=VARCHAR}
+		</if>
+		<if test="auditStatus != null and auditStatus != '' and auditStatus == 'UNPROCESSED' and auditFlag == null">
+			AND nvl(COM_AUDIT.AUDIT_FLAG,'NO_SYSTEM') != 'SYSTEM'
+		</if>
+	</sql>
+			
+	<!-- 根据自定义的特殊条件搜索订单审核记录数 -->
+	<select id="countAuditByCondition" resultType="Integer" parameterType="java.util.Map">
+		SELECT COUNT(COM_AUDIT.AUDIT_ID)
+		FROM COM_AUDIT
+		WHERE
+		<include refid="auditByCondition_SQL2"/>
+	</select>
+	
+	<sql id="auditByRaid_SQL">
+	VALID='Y'
+		<if test="auditId != null">
+			AND CA.AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+		</if>
+		<if test="auditType != null and auditType != ''">
+			AND CA.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+		</if>
+		<if test="objectId != null">
+			AND CA.OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectIds != null and objectIds != ''">
+			AND CA.OBJECT_ID IN
+			<foreach collection="objectIds" item="item" open="("
+				separator="," close=")">
+					#{item}
+			</foreach>
+		</if>
+		<if test="objectType != null and objectType != ''">
+			AND CA.OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+		<if test="operatorName != null and operatorName != ''">
+			AND CA.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+		</if>
+		<if test="excludeOperator != null and excludeOperator != ''">
+			AND CA.OPERATOR_NAME != #{excludeOperator,jdbcType=VARCHAR}
+		</if>
+		<if test="createTime != null">
+			AND CA.CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="auditStatus != null and auditStatus != ''">
+			AND CA.AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="auditStatusArray != null and auditStatusArray != ''">
+			AND CA.AUDIT_STATUS IN
+			<foreach collection="auditStatusArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		 <if test="operatorNameArray != null and operatorNameArray!=''">
+			AND CA.OPERATOR_NAME IN
+			<foreach collection="operatorNameArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="distributionTimeBegin != null">
+		<![CDATA[	AND CA.UPDATE_TIME >=#{distributionTimeBegin,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="distributionTimeEnd != null">
+		<![CDATA[	AND CA.UPDATE_TIME <=#{distributionTimeEnd,jdbcType=TIMESTAMP}  ]]>
+		</if>
+		<if test="auditSubtype != null and auditSubtype != ''">
+			AND CA.AUDIT_SUBTYPE = #{auditSubtype,jdbcType=VARCHAR}
+		</if>
+		<if test="createTimeBegin != null || createTimeEnd != null || visitTimeBegin != null || visitTimeEnd != null || productId != null || supplierId != null || contactName!=null || contactMobile!=null || (disneyOrder != null and disneyOrder != '')">
+			AND EXISTS(SELECT 1 FROM COM_AUDIT_RAID CAR WHERE CAR.audit_id=CA.audit_id 
+			<if test="createTimeBegin != null">
+			<![CDATA[	AND CAR.order_create_time >=#{createTimeBegin,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="createTimeEnd != null">
+			<![CDATA[	AND CAR.order_create_time <=#{createTimeEnd,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="visitTimeBegin != null">
+			<![CDATA[	AND CAR.order_visit_time >=#{visitTimeBegin,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="visitTimeEnd != null">
+			<![CDATA[	AND CAR.order_visit_time <=#{visitTimeEnd,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="productId != null">
+			<![CDATA[	AND CAR.PRODUCT_ID=#{productId,jdbcType=DECIMAL} ]]>
+			</if>
+			<if test="supplierId != null">
+			<![CDATA[	AND CAR.SUPPLIER_ID=#{supplierId,jdbcType=DECIMAL} ]]>
+			</if>
+			<if test="contactName!=null">
+  			<![CDATA[   AND CAR.contact_name = #{contactName} ]]>
+  			</if>
+  			<if test="contactMobile!=null">
+  			<![CDATA[   AND CAR.contact_mobile = #{contactMobile} ]]>
+  			</if>
+  			<if test="disneyOrder != null and disneyOrder != ''">
+  				AND CAR.order_tag = 1
+  			</if>
+  			<if test="allDistributorIds != null">
+				AND CAR.DISTRIBUTOR_ID IN
+				<foreach collection="allDistributorIds" item="item" open="("
+					separator="," close=")">
+						#{item}
+				</foreach>
+			</if>
+			)
+		</if>
+        <if test="auditFlag != null and auditFlag != ''">
+			AND nvl(CA.AUDIT_FLAG,'NO_SYSTEM') != #{auditFlag,jdbcType=VARCHAR}
+		</if>
+		<if test="auditStatus != null and auditStatus != '' and auditStatus == 'UNPROCESSED' and auditFlag == null">
+			AND nvl(CA.AUDIT_FLAG,'NO_SYSTEM') != 'SYSTEM'
+		</if>
+	</sql>
+	
+	<!-- 根据自定义的特殊条件搜索订单审核记录数 new -->
+	<select id="countAuditByRaid" resultType="Integer" parameterType="java.util.Map">
+		SELECT COUNT(CA.AUDIT_ID)
+		FROM COM_AUDIT CA
+		WHERE
+		<include refid="auditByRaid_SQL"/>
+	</select>
+
+ 	<sql id="Base_Query_Column_List" >
+		<if test="auditId != null">
+			AND COM_AUDIT.AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+		</if>
+		<if test="auditType != null and auditType != ''">
+			AND COM_AUDIT.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+		</if>
+		<if test="objectId != null">
+			AND COM_AUDIT.OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectIdArray != null and objectIds != ''">
+			AND COM_AUDIT.OBJECT_ID IN
+			<foreach collection="objectIdArray" item="item" open="("
+				separator="," close=")">
+					#{item}
+			</foreach>
+		</if>
+		<if test="objectType != null and objectType != ''">
+			AND COM_AUDIT.OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+		<if test="operatorName != null and operatorName != ''">
+			AND COM_AUDIT.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+		</if>
+		<if test="excludeOperator != null and excludeOperator != ''">
+			AND COM_AUDIT.OPERATOR_NAME != #{excludeOperator,jdbcType=VARCHAR}
+		</if>
+		<if test="createTime != null">
+			AND COM_AUDIT.CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="auditStatus != null and auditStatus != ''">
+			AND COM_AUDIT.AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="auditStatusArray != null and auditStatusArray != ''">
+			AND COM_AUDIT.AUDIT_STATUS IN
+			<foreach collection="auditStatusArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		 <if test="operatorNameArray != null and operatorNameArray!=''">
+			AND COM_AUDIT.OPERATOR_NAME IN
+			<foreach collection="operatorNameArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="distributionTimeBegin != null">
+		<![CDATA[	AND COM_AUDIT.UPDATE_TIME >=#{distributionTimeBegin,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="distributionTimeEnd != null">
+		<![CDATA[	AND COM_AUDIT.UPDATE_TIME <=#{distributionTimeEnd,jdbcType=TIMESTAMP}  ]]>
+		</if>
+		<if test="auditSubtype != null and auditSubtype != ''">
+			AND COM_AUDIT.AUDIT_SUBTYPE = #{auditSubtype,jdbcType=VARCHAR}
+		</if>
+   	 
+   	    <if test="auditIdArray != null and auditIdArray!=''">
+			AND COM_AUDIT.AUDIT_ID IN 
+			<foreach collection="auditIdArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+  </sql>
+  
+   <sql id="select_by_param" >
+		select *	
+		from COM_AUDIT  
+		where VALID='Y' 
+		<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+	<select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+    <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from COM_AUDIT
+	    where VALID='Y'
+		<include refid="Base_Query_Column_List" />
+	</select>
+	
+	<!-- 查找待分配的任务,采用常量的形式传递参数-->
+	<select id="queryComAuditListByPool" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select * from 
+		(
+		select com_audit.* from com_audit
+		where 
+		com_audit.audit_status = 'POOL'
+		and com_audit.VALID='Y'
+		<if test="auditType != null and auditType != ''">
+			AND COM_AUDIT.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+		</if>
+		<![CDATA[ and COM_AUDIT.create_time < sysdate - 2/60/24]]>
+		<![CDATA[ and COM_AUDIT.create_time > sysdate - 30]]>
+		<![CDATA[and nvl(COM_AUDIT.Next_Assign_Time,sysdate -1) < sysdate]]>
+		order by com_audit.update_time asc
+		)
+		where rownum <![CDATA[<=]]> 25
+	</select>
+	
+	<!-- 查找自动过未分配到人的任务,采用常量的形式传递参数-->
+	<select id="queryComAuditListByProcessed" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select * from 
+		(
+		select com_audit.* from com_audit
+		where com_audit.audit_status='PROCESSED' and com_audit.OPERATOR_NAME='SYSTEM' 
+    	and com_audit.audit_flag='SYSTEM' and nvl(com_audit.CAN_REAUDIT,'CAN')='CAN'
+		and com_audit.VALID='Y'
+		<if test="auditType != null and auditType != ''">
+			AND COM_AUDIT.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+		</if>
+		<![CDATA[ and COM_AUDIT.create_time < sysdate - 2/60/24]]>
+		<![CDATA[ and COM_AUDIT.create_time > sysdate - 30]]>
+		<![CDATA[and nvl(COM_AUDIT.Next_Assign_Time,sysdate -1) < sysdate]]>
+		order by com_audit.create_time asc
+		)
+		where rownum <![CDATA[<=]]> (30-#{poolCount,jdbcType=DECIMAL})
+	</select>
+	
+	<!-- 根据条件统计活动数量 -->
+	<select id="countActivityNum" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select count(distinct com_audit.audit_id) as num from com_audit
+		where 
+		com_audit.VALID='Y'
+		and com_audit.audit_status = #{auditStatus,jdbcType=VARCHAR}
+		and com_audit.operator_name = #{operatorName,jdbcType=VARCHAR}
+		<if test="startDateTime != null">
+		<![CDATA[	and com_audit.create_time >=#{startDateTime,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="endDateTime != null">
+		<![CDATA[	and com_audit.create_time <=#{endDateTime,jdbcType=TIMESTAMP}  ]]>
+		</if>
+		<if test="auditFlag != null and auditFlag != ''">
+			AND nvl(COM_AUDIT.AUDIT_FLAG,'NO_SYSTEM') = #{auditFlag,jdbcType=VARCHAR}
+		</if>
+		<!-- <if test="startDateTime != null">
+		<![CDATA[	and to_char(com_audit.update_time,'yyyy-MM-dd HH:mm') >=#{startDateTime,jdbcType=VARCHAR} ]]>
+		</if>
+		<if test="endDateTime != null">
+		<![CDATA[	and to_char(com_audit.update_time,'yyyy-MM-dd HH:mm') <=#{endDateTime,jdbcType=VARCHAR}  ]]>
+		</if> -->
+	</select>
+	
+	<select id="countGroupActivityNum" resultType="java.util.Map" parameterType="java.util.Map">
+		select com_audit.operator_name operatorName, com_audit.audit_status auditStatus, count(distinct com_audit.audit_id) actCount from com_audit
+		where 
+		com_audit.VALID='Y'
+		and com_audit.audit_status in ('PROCESSED', 'UNPROCESSED')
+		<if test="operatorNameArray != null">
+				and com_audit.operator_name in
+				<foreach collection="operatorNameArray" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+	  		</if>
+		<if test="startDateTime != null">
+		<![CDATA[	and com_audit.create_time >=#{startDateTime,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="endDateTime != null">
+		<![CDATA[	and com_audit.create_time <=#{endDateTime,jdbcType=TIMESTAMP}  ]]>
+		</if>
+		<if test="auditFlag != null and auditFlag != ''">
+			AND nvl(COM_AUDIT.AUDIT_FLAG,'NO_SYSTEM') = #{auditFlag,jdbcType=VARCHAR}
+		</if>
+		 group by com_audit.operator_name, com_audit.audit_status
+		<!-- <if test="startDateTime != null">
+		<![CDATA[	and to_char(com_audit.update_time,'yyyy-MM-dd HH:mm') >=#{startDateTime,jdbcType=VARCHAR} ]]>
+		</if>
+		<if test="endDateTime != null">
+		<![CDATA[	and to_char(com_audit.update_time,'yyyy-MM-dd HH:mm') <=#{endDateTime,jdbcType=VARCHAR}  ]]>
+		</if> -->
+	</select>
+	
+	<sql id="queryOrderCount_sql">
+		and com_audit.audit_status = #{auditStatus,jdbcType=VARCHAR}
+		and com_audit.operator_name = #{operatorName,jdbcType=VARCHAR}
+		<if test="startDateTime != null">
+		<![CDATA[	and com_audit.create_time >=#{startDateTime,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="endDateTime != null">
+		<![CDATA[	and com_audit.create_time <=#{endDateTime,jdbcType=TIMESTAMP}  ]]>
+		</if>
+		<if test="auditFlag != null and auditFlag != ''">
+			<![CDATA[ AND nvl(COM_AUDIT.AUDIT_FLAG,'NO_SYSTEM') = #{auditFlag,jdbcType=VARCHAR}  ]]>
+		</if>
+	</sql>
+	
+	<!-- 根据条件统计订单数量 -->
+	<select id="countOrderNum" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select count(*) from(
+			select ord_order_item.order_id  from com_audit,ord_order_item 
+			where  com_audit.VALID='Y'
+			and com_audit.object_id = ord_order_item.order_item_id
+			and com_audit.object_type = 'ORDER_ITEM'
+			<include refid="queryOrderCount_sql"/>
+			<if test="startDateTime != null">
+			<![CDATA[	and ord_order_item.create_time >=#{startDateTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="endDateTime != null">
+			<![CDATA[	and ord_order_item.create_time <=#{endDateTime,jdbcType=TIMESTAMP}  ]]>
+			</if>
+			union
+			select com_audit.object_id  from com_audit 
+			where  com_audit.VALID='Y'
+			and com_audit.object_type = 'ORDER'
+			<include refid="queryOrderCount_sql"/>
+		)
+	</select>
+	
+	<!-- 根据条件统计订单数量 -->
+	<select id="countGroupOrderNum" resultType="java.util.Map" parameterType="java.util.Map">
+		select operator_name operatorName, audit_status auditStatus, count(*) orderCount from (
+			select ord_order_item.order_id, com_audit.operator_name, com_audit.audit_status  from com_audit,ord_order_item 
+			where  com_audit.VALID='Y'
+			and com_audit.object_id = ord_order_item.order_item_id
+			and com_audit.object_type = 'ORDER_ITEM'
+			and com_audit.audit_status in ('PROCESSED', 'UNPROCESSED')
+			<if test="operatorNameArray != null">
+				and com_audit.operator_name in
+				<foreach collection="operatorNameArray" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+	  		</if>
+			<if test="startDateTime != null">
+			<![CDATA[	and com_audit.create_time >=#{startDateTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="endDateTime != null">
+			<![CDATA[	and com_audit.create_time <=#{endDateTime,jdbcType=TIMESTAMP}  ]]>
+			</if>
+			<if test="auditFlag != null and auditFlag != ''">
+				<![CDATA[ AND nvl(COM_AUDIT.AUDIT_FLAG,'NO_SYSTEM') = #{auditFlag,jdbcType=VARCHAR}  ]]>
+			</if>
+			<if test="startDateTime != null">
+			<![CDATA[	and ord_order_item.create_time >=#{startDateTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="endDateTime != null">
+			<![CDATA[	and ord_order_item.create_time <=#{endDateTime,jdbcType=TIMESTAMP}  ]]>
+			</if>
+			union
+			select com_audit.object_id, com_audit.operator_name, com_audit.audit_status  from com_audit 
+			where  com_audit.VALID='Y'
+			and com_audit.object_type = 'ORDER'
+			and com_audit.audit_status in ('PROCESSED', 'UNPROCESSED')
+			<if test="operatorNameArray != null">
+				and com_audit.operator_name in
+				<foreach collection="operatorNameArray" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+	  		</if>
+			<if test="startDateTime != null">
+			<![CDATA[	and com_audit.create_time >=#{startDateTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="endDateTime != null">
+			<![CDATA[	and com_audit.create_time <=#{endDateTime,jdbcType=TIMESTAMP}  ]]>
+			</if>
+			<if test="auditFlag != null and auditFlag != ''">
+				<![CDATA[ AND nvl(COM_AUDIT.AUDIT_FLAG,'NO_SYSTEM') = #{auditFlag,jdbcType=VARCHAR}  ]]>
+			</if>
+		) group by operator_name, audit_status
+	</select>
+	
+	<!-- 根据POOL状态更新 -->
+	<update id="updateComAuditByPool" parameterType="java.util.Map">
+		update COM_AUDIT
+		<set>
+			<if test="operatorName != null">
+				OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+			</if>
+			<if test="auditStatus != null">
+				AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+			</if>
+			UPDATE_TIME = SYSDATE
+		</set>
+		where AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+		and AUDIT_STATUS = 'POOL'
+		AND VALID = 'Y'
+	</update>
+	
+	<!-- 根据UNPROCESSED状态更新 -->
+	<update id="updateComAuditByUnProcessed" parameterType="java.util.Map">
+		update COM_AUDIT
+		<set>
+			<if test="operatorName != null">
+				OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+			</if>
+			UPDATE_TIME = SYSDATE
+		</set>
+		where AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+		and AUDIT_STATUS = 'UNPROCESSED'
+		AND VALID = 'Y'
+	</update>
+	
+	<!-- 根据UNPROCESSED状态更新 -->
+	<update id="updateComAuditByProcessed" parameterType="java.util.Map">
+		update COM_AUDIT
+		<set>
+			<if test="operatorName != null">
+				OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+			</if>
+			UPDATE_TIME = SYSDATE
+		</set>
+		where AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+		and AUDIT_STATUS = 'PROCESSED'
+		AND VALID = 'Y'
+	</update>	
+	
+	<update id="markValid" parameterType="java.lang.Long">
+		update COM_AUDIT set VALID='N',UPDATE_TIME = SYSDATE where AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="markCanNotReaudit" parameterType="java.lang.Long">
+		update COM_AUDIT set CAN_REAUDIT='CAN_NOT',UPDATE_TIME = SYSDATE where AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="updateComAuditValid" parameterType="java.lang.Long">
+		update COM_AUDIT set VALID='Y',UPDATE_TIME = SYSDATE where 
+			AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+			and VALID='N'
+	</update>
+	
+		
+	<!-- 完成订单审核,前提是该活动必须处于未处理状态 -->
+	<update id="updateComAuditToProcessed" parameterType="java.util.Map">
+		UPDATE COM_AUDIT
+		SET 
+		OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+		AUDIT_STATUS = 'PROCESSED',
+		UPDATE_TIME = SYSDATE
+		WHERE AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+		AND OBJECT_TYPE = 'ORDER'
+		AND OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		AND AUDIT_STATUS in('UNPROCESSED','POOL')
+		AND VALID = 'Y'
+	</update>
+	
+	
+	<!-- 完成子订单审核,前提是该活动必须处于未处理状态 -->
+	<update id="updateChildOrderAuditToProcessed" parameterType="java.util.Map">
+		UPDATE COM_AUDIT
+		SET 
+		OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+		AUDIT_STATUS = 'PROCESSED',
+		UPDATE_TIME = SYSDATE
+		WHERE AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+		AND OBJECT_TYPE = 'ORDER_ITEM'
+		AND OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		AND AUDIT_STATUS in('UNPROCESSED','POOL')
+		AND VALID = 'Y'
+	</update>
+	
+	<!-- 根据objectid进行查询 -->
+	<select id="queryComAuditByObjectId" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT *
+		FROM COM_AUDIT T WHERE T.OBJECT_ID = #{objectId,jdbcType=DECIMAL} 
+		ORDER BY T.AUDIT_ID ASC
+	</select>
+	
+	<!-- 更改status为processed -->
+	<update id="updateComAuditStatusByAuditId" parameterType="java.lang.Long">
+		UPDATE COM_AUDIT SET AUDIT_STATUS ='PROCESSED',UPDATE_TIME=sysdate WHERE 
+			AUDIT_ID = #{auditId,jdbcType=DECIMAL} AND  AUDIT_STATUS!='PROCESSED'
+	</update>
+
+	<!-- 我的工作台条件搜索订单审核记录数 -->
+	<select id="countAuditForMyWork" resultType="Integer" parameterType="java.util.Map">
+		SELECT COUNT(COM_AUDIT.AUDIT_ID)
+		FROM COM_AUDIT
+		WHERE
+		<include refid="auditForMyWork_SQL"/>
+	</select>
+	<!-- 我的工作台查询订单审核集合 -->
+	<select id="queryAuditListForMyWork" resultMap="BaseResultMap" parameterType="java.util.Map">
+		<include refid="basic.pageSearchHead"/>
+		SELECT DISTINCT COM_AUDIT.*
+		FROM COM_AUDIT
+		WHERE 
+		<include refid="auditForMyWork_SQL"/>
+		order by COM_AUDIT.CREATE_TIME asc
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	<!-- 我的工作台订单查询条件复合条件 -->
+	<sql id="auditForMyWork_SQL">
+	VALID='Y'
+	    <if test="auditId != null">
+			AND COM_AUDIT.AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+		</if>
+		<if test="auditType != null and auditType != ''">
+			AND COM_AUDIT.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+		</if>		
+		<if test="objectIds != null and objectIds != ''">
+			AND COM_AUDIT.OBJECT_ID IN
+			<foreach collection="objectIds" item="item" open="("
+				separator="," close=")">
+					#{item}
+			</foreach>
+		</if>		
+		<if test="operatorName != null and operatorName != ''">
+			AND COM_AUDIT.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+		</if>
+		<if test="createTime != null">
+			AND COM_AUDIT.CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="auditStatus != null and auditStatus != ''">
+			AND COM_AUDIT.AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="auditSubtype != null and auditSubtype != ''">
+			AND COM_AUDIT.AUDIT_SUBTYPE = #{auditSubtype,jdbcType=VARCHAR}
+		</if>
+		<if test="newRule == null">
+			<if test="createTimeBegin != null||createTimeEnd != null || visitTimeBegin != null || visitTimeEnd != null">
+				AND EXISTS(SELECT 1 FROM ORD_ORDER WHERE 1=1			
+				<if test="createTimeBegin != null">
+				<![CDATA[	AND ORD_ORDER.create_time >=to_date(#{createTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+				</if>
+				<if test="createTimeEnd != null">
+				<![CDATA[	AND ORD_ORDER.create_time <=to_date(#{createTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss')  ]]>
+				</if>
+				<if test="visitTimeBegin != null">
+				<![CDATA[	AND ORD_ORDER.visit_time >=to_date(#{visitTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+				</if>
+				<if test="visitTimeEnd != null">
+				<![CDATA[	AND ORD_ORDER.visit_time <=to_date(#{visitTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss')  ]]>
+				</if>
+				AND COM_AUDIT.OBJECT_TYPE='ORDER' AND ORDER_ID=COM_AUDIT.OBJECT_ID
+				UNION ALL
+				SELECT 1 FROM ORD_ORDER_ITEM 
+				WHERE COM_AUDIT.OBJECT_ID=ORD_ORDER_ITEM.ORDER_ITEM_ID 
+				AND COM_AUDIT.Object_Type = 'ORDER_ITEM' 
+				<if test="visitTimeBegin != null">
+				<![CDATA[AND ORD_ORDER_ITEM.visit_time >=to_date(#{visitTimeBegin,jdbcType==VARCHAR}, 'yyyy-mm-dd hh24:mi:ss')  ]]>
+				</if>
+				<if test="visitTimeEnd != null">
+				<![CDATA[	AND ORD_ORDER_ITEM.visit_time <=to_date(#{visitTimeEnd,jdbcType==VARCHAR}, 'yyyy-mm-dd hh24:mi:ss')   ]]>
+				</if>
+				<if test="createTimeBegin != null">
+				<![CDATA[	AND ORD_ORDER_ITEM.create_time >=to_date(#{createTimeBegin,jdbcType==VARCHAR}, 'yyyy-mm-dd hh24:mi:ss')  ]]>
+				</if>
+				<if test="createTimeEnd != null">
+				<![CDATA[	AND ORD_ORDER_ITEM.create_time <=to_date(#{createTimeEnd,jdbcType==VARCHAR}, 'yyyy-mm-dd hh24:mi:ss')   ]]>
+				</if>
+				)
+			</if>
+			<if test="productId != null || supplierId != null">
+				AND (
+					EXISTS (
+						SELECT ORDER_ITEM_ID FROM ORD_ORDER_ITEM WHERE 
+						COM_AUDIT.OBJECT_TYPE='ORDER_ITEM'
+						AND ORDER_ITEM_ID=COM_AUDIT.OBJECT_ID 
+						<if test="productId != null">
+						 	AND ORD_ORDER_ITEM.PRODUCT_ID=#{productId,jdbcType=DECIMAL}
+						</if>
+						<if test="supplierId != null">
+						 	AND ORD_ORDER_ITEM.SUPPLIER_ID=#{supplierId,jdbcType=DECIMAL}
+						</if>
+						UNION ALL 
+						 SELECT ORDER_ITEM_ID FROM ORD_ORDER_ITEM WHERE  
+						 COM_AUDIT.OBJECT_TYPE = 'ORDER'
+						 AND ORDER_ID = COM_AUDIT.OBJECT_ID
+						<if test="productId != null">
+						 	AND ORD_ORDER_ITEM.PRODUCT_ID=#{productId,jdbcType=DECIMAL}
+						</if>
+						<if test="supplierId != null">
+						 	AND ORD_ORDER_ITEM.SUPPLIER_ID=#{supplierId,jdbcType=DECIMAL}
+						</if>
+					)
+				)
+			</if>
+			<if test="contactName!=null || contactMobile!=null">
+	  			AND (EXISTS(SELECT 1 FROM ORD_PERSON OP WHERE OP.OBJECT_ID=COM_AUDIT.OBJECT_ID   			
+	  			AND OP.PERSON_TYPE='CONTACT'
+	  			AND COM_AUDIT.OBJECT_TYPE='ORDER' 
+	  			<if test="contactName!=null">
+	  			AND op.full_name = #{contactName}
+	  			</if>
+	  			<if test="contactMobile!=null">
+	  			AND OP.MOBILE = #{contactMobile}
+	  			</if>
+	  			) OR EXISTS (
+	  			SELECT 1 FROM ORD_ORDER_ITEM ORI 
+	  			WHERE  EXISTS (SELECT 1 FROM ORD_PERSON OP WHERE  OP.PERSON_TYPE='CONTACT'
+	  			<if test="contactName!=null">
+	  			AND OP.FULL_NAME = #{contactName}
+	  			</if>
+	  			<if test="contactMobile!=null">
+	  			AND OP.MOBILE = #{contactMobile}
+	  			</if>
+	  			 AND OP.OBJECT_ID=ORI.ORDER_ID 	
+	  			)  			    			
+	  			AND ORI.ORDER_ITEM_ID=COM_AUDIT.OBJECT_ID	
+	  			AND COM_AUDIT.OBJECT_TYPE='ORDER_ITEM'		
+	  			))
+	  		</if>
+	  		<if test="disneyOrder != null and disneyOrder != ''">
+				AND ((EXISTS (SELECT 1
+	                  FROM ORD_ORDER ORD
+	                 WHERE ORD.ORDER_ID = COM_AUDIT.OBJECT_ID
+	                   AND ORD.TAG = 1
+	                   AND COM_AUDIT.VALID = 'Y'
+	                   AND COM_AUDIT.OBJECT_TYPE = 'ORDER'))
+				    OR EXISTS (SELECT 1
+				          FROM ORD_ORDER_ITEM ORI
+				         WHERE EXISTS (SELECT 1
+				                  FROM ORD_ORDER ORDR
+				                 WHERE ORDR.TAG = 1
+				                   AND ORDR.ORDER_ID = ORI.ORDER_ID)
+				           AND ORI.ORDER_ITEM_ID = COM_AUDIT.OBJECT_ID
+				           AND COM_AUDIT.VALID = 'Y'
+				           AND COM_AUDIT.OBJECT_TYPE = 'ORDER_ITEM'))
+			</if>
+  		</if>
+  		<if test="newRule != null">
+  			<if test="createTimeBegin != null || createTimeEnd != null || visitTimeBegin != null || visitTimeEnd != null || productId != null 
+		           || supplierId != null || contactName!=null || contactMobile!=null || (disneyOrder != null and disneyOrder != '') 
+		           || (stockFlag != null and stockFlag != '') || (BuCode != null and BuCode != '') || (BuCodes != null and BuCodes.size()>0)">
+				AND EXISTS(SELECT 1 FROM COM_AUDIT_RAID WHERE COM_AUDIT_RAID.audit_id=COM_AUDIT.audit_id 
+				<if test="createTimeBegin != null">
+				<![CDATA[	AND COM_AUDIT_RAID.order_create_time >=to_date(#{createTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+				</if>
+				<if test="createTimeEnd != null">
+				<![CDATA[	AND COM_AUDIT_RAID.order_create_time <=to_date(#{createTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss')  ]]>
+				</if>
+				<if test="visitTimeBegin != null">
+				<![CDATA[	AND COM_AUDIT_RAID.order_visit_time >=to_date(#{visitTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+				</if>
+				<if test="visitTimeEnd != null">
+				<![CDATA[	AND COM_AUDIT_RAID.order_visit_time <=to_date(#{visitTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss')  ]]>
+				</if>
+				<if test="productId != null">
+				<![CDATA[	AND COM_AUDIT_RAID.PRODUCT_ID=#{productId,jdbcType=DECIMAL} ]]>
+				</if>
+				<if test="supplierId != null">
+				<![CDATA[	AND COM_AUDIT_RAID.SUPPLIER_ID=#{supplierId,jdbcType=DECIMAL} ]]>
+				</if>
+				<if test="contactName!=null">
+	  			<![CDATA[   AND COM_AUDIT_RAID.contact_name = #{contactName} ]]>
+	  			</if>
+	  			<if test="contactMobile!=null">
+	  			<![CDATA[   AND COM_AUDIT_RAID.contact_mobile = #{contactMobile} ]]>
+	  			</if>
+	  			<if test="disneyOrder != null and disneyOrder != ''">
+	  				AND COM_AUDIT_RAID.order_tag = 1
+	  			</if>
+	  			<if test="allDistributorIds != null">
+					AND COM_AUDIT_RAID.DISTRIBUTOR_ID IN
+					<foreach collection="allDistributorIds" item="item" open="("
+						separator="," close=")">
+							#{item}
+					</foreach>
+				</if>
+				<if test="stockFlag != null and stockFlag != ''">
+                <![CDATA[   AND COM_AUDIT_RAID.STOCK_FLAG = #{stockFlag} ]]>
+                </if>
+                <if test="BuCode != null and BuCode != ''">
+                <![CDATA[   AND COM_AUDIT_RAID.BU_CODE = #{BuCode} ]]>
+                </if>
+                <if test="BuCodes != null">
+                	AND COM_AUDIT_RAID.BU_CODE IN
+	                <foreach collection="BuCodes" item="_item" open="(" separator="," close=")">
+						#{_item}
+					</foreach>
+                </if>
+				)
+			</if>
+  		</if>
+		<if test="objectType != null and objectType != ''">
+			AND COM_AUDIT.OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+		<if test="objectId != null">
+			AND COM_AUDIT.OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		</if>
+		<if test="auditFlag != null and auditFlag != ''">
+			AND nvl(COM_AUDIT.AUDIT_FLAG,'NO_SYSTEM') != #{auditFlag,jdbcType=VARCHAR}
+		</if>
+		<if test=" (orderPost != null and orderPost != '') || (orderLock != null and orderLock != '') ">
+		and ((COM_AUDIT.OBJECT_TYPE = 'ORDER_ITEM'
+			<if test="orderPost != null and orderPost != ''">
+  				<choose>
+  					<when test="orderPost=='-1'">
+  						and exists(
+					      select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= COM_AUDIT.object_id 
+					      and o.order_id=t.order_id 
+					      and o.traveller_delay_flag='Y')
+  					</when>
+  					<when test="orderPost=='-2'">
+  						and exists(
+					      select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= COM_AUDIT.object_id 
+					      and o.order_id=t.order_id 
+					      and (o.traveller_delay_flag='N' or o.traveller_delay_flag is null))
+  					</when>
+  				</choose>		
+		</if>
+		<if test="orderLock != null and orderLock != ''">
+  				<choose>
+  					<when test="orderLock=='-1'">
+  						and exists( select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= COM_AUDIT.object_id 
+					      and o.order_id=t.order_id 
+					      and o.traveller_lock_flag='Y')
+  					</when>
+  					<when test="orderLock=='-2'">
+  						and exists( select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= COM_AUDIT.object_id 
+					      and o.order_id=t.order_id 
+					      and (o.traveller_lock_flag='N' or o.traveller_lock_flag is null)) 
+  					</when>
+  				</choose>		
+		</if>
+	      )
+		 or  (COM_AUDIT.OBJECT_TYPE = 'ORDER'
+			<if test="orderPost != null and orderPost != ''">
+	  				<choose>
+	  					<when test="orderPost=='-1'">
+	  						and exists(select * from ord_order o where o.order_id=COM_AUDIT.object_id and o.traveller_delay_flag='Y')
+	  					</when>
+	  					<when test="orderPost=='-2'">
+	  						and exists(select * from ord_order o where o.order_id=COM_AUDIT.object_id and (o.traveller_delay_flag='N' or o.traveller_delay_flag is null))
+	  					</when>
+	  				</choose>		
+			</if>
+			<if test="orderLock != null and orderLock != ''">
+	  				<choose>
+	  					<when test="orderLock=='-1'">
+	  						and exists(select * from ord_order o where o.order_id=COM_AUDIT.object_id and o.traveller_lock_flag='Y')
+	  					</when>
+	  					<when test="orderLock=='-2'">
+	  						AND exists(select * from ord_order o where o.order_id=COM_AUDIT.object_id and (o.traveller_lock_flag='N' or o.traveller_lock_flag is null)) 
+	  					</when>
+	  				</choose>		
+			</if>
+			))
+		</if>
+		<if test="isPayed !=null">
+			and exists(select * from ord_order o where o.order_id=COM_AUDIT.object_id and o.payment_status='PAYED' and o.traveller_delay_flag='Y' and o.traveller_lock_flag !='Y')
+		</if>
+		<choose>
+			<when test="bespokeOrder != null and bespokeOrder != ''">
+				<![CDATA[	AND COM_AUDIT.REMIND_TIME >= sysdate ]]>
+			</when>
+			<otherwise>
+				<![CDATA[   AND (COM_AUDIT.REMIND_TIME IS NULL OR COM_AUDIT.REMIND_TIME < sysdate) ]]>
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<sql id="myOrderByCondition_SQL">
+		1=1 AND CA.AUDIT_STATUS = 'PROCESSED'
+		<if test="operatorName != null and operatorName != ''">
+			AND CA.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+		</if>
+		<if test="handlingMode != null and handlingMode != ''">
+  				<choose>
+  					<when test="handlingMode=='-1'">
+  						AND  ((CA.AUDIT_FLAG != 'SYSTEM') or (CA.AUDIT_FLAG is null) or (CA.AUDIT_FLAG = ''))
+  					</when>
+  					<when test="handlingMode=='-2'">
+  						AND CA.AUDIT_FLAG = 'SYSTEM' 
+  					</when>
+  				</choose>		
+		</if>
+		<if test=" (orderPost != null and orderPost != '') || (orderLock != null and orderLock != '') ">
+		and ((CA.OBJECT_TYPE = 'ORDER_ITEM'
+			<if test="orderPost != null and orderPost != ''">
+  				<choose>
+  					<when test="orderPost=='-1'">
+  						and exists(
+					      select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= ca.object_id 
+					      and o.order_id=t.order_id 
+					      and o.traveller_delay_flag='Y')
+  					</when>
+  					<when test="orderPost=='-2'">
+  						and exists(
+					      select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= ca.object_id 
+					      and o.order_id=t.order_id 
+					      and (o.traveller_delay_flag='N' or o.traveller_delay_flag is null))
+  					</when>
+  				</choose>		
+		</if>
+		<if test="orderLock != null and orderLock != ''">
+  				<choose>
+  					<when test="orderLock=='-1'">
+  						and exists( select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= ca.object_id 
+					      and o.order_id=t.order_id 
+					      and o.traveller_lock_flag='Y')
+  					</when>
+  					<when test="orderLock=='-2'">
+  						and exists( select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= ca.object_id 
+					      and o.order_id=t.order_id 
+					      and (o.traveller_lock_flag='N' or o.traveller_lock_flag is null)) 
+  					</when>
+  				</choose>		
+		</if>
+	      )
+		 or  (CA.OBJECT_TYPE = 'ORDER'
+			<if test="orderPost != null and orderPost != ''">
+	  				<choose>
+	  					<when test="orderPost=='-1'">
+	  						and exists(select * from ord_order o where o.order_id=ca.object_id and o.traveller_delay_flag='Y')
+	  					</when>
+	  					<when test="orderPost=='-2'">
+	  						and exists(select * from ord_order o where o.order_id=ca.object_id and (o.traveller_delay_flag='N' or o.traveller_delay_flag is null))
+	  					</when>
+	  				</choose>		
+			</if>
+			<if test="orderLock != null and orderLock != ''">
+	  				<choose>
+	  					<when test="orderLock=='-1'">
+	  						and exists(select * from ord_order o where o.order_id=ca.object_id and o.traveller_lock_flag='Y')
+	  					</when>
+	  					<when test="orderLock=='-2'">
+	  						AND exists(select * from ord_order o where o.order_id=ca.object_id and (o.traveller_lock_flag='N' or o.traveller_lock_flag is null)) 
+	  					</when>
+	  				</choose>		
+			</if>
+			))
+		</if>
+		<if test="auditTypes != null and auditTypes != ''">
+			AND CA.audit_type IN
+			<foreach collection="auditTypes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="auditSubtypes != null and auditSubtypes != ''">
+			AND CA.AUDIT_SUBTYPE IN
+			<foreach collection="auditSubtypes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>			
+		<if test="createTimeBegin != null || createTimeEnd != null || visitTimeBegin != null || visitTimeEnd != null || supplierId != null || (noticeRegimentStatus != null and noticeRegimentStatus != '') || (orderStatus != null and orderStatus != '')">
+		 	AND ((CA.OBJECT_TYPE = 'ORDER' AND EXISTS
+                (SELECT 1
+                    FROM ORD_ORDER OO
+                   WHERE OO.ORDER_ID = CA.OBJECT_ID
+                   <if test="createTimeBegin != null">
+                   		<![CDATA[ AND OO.CREATE_TIME >=to_date(#{createTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="createTimeEnd != null">
+                   		<![CDATA[ AND OO.CREATE_TIME <=to_date(#{createTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="visitTimeBegin != null">
+                   		<![CDATA[ AND OO.VISIT_TIME >=to_date(#{visitTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="visitTimeEnd != null">
+                   		<![CDATA[ AND OO.VISIT_TIME <=to_date(#{visitTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="supplierId != null">
+                   		AND EXISTS (SELECT 1
+                            FROM ORD_ORDER_ITEM OOI
+                           WHERE OOI.ORDER_ID = OO.ORDER_ID
+                             AND OOI.SUPPLIER_ID = #{supplierId,jdbcType=DECIMAL})
+                   </if>
+                   <if test="noticeRegimentStatus != null and noticeRegimentStatus != ''">
+	                   AND EXISTS
+	                   (SELECT 1
+	                            FROM ORD_ADDITION_STATUS OAS
+	                           WHERE OAS.ORDER_ID = OO.ORDER_ID
+	                             AND OAS.STATUS = #{noticeRegimentStatus}
+	                             AND OAS.STATUS_TYPE = 'NOTICE_REGIMENT_STATUS')
+                   </if>
+                   <if test="orderStatus != null and orderStatus != ''">
+                   		AND OO.ORDER_STATUS = #{orderStatus}
+                   </if>
+                   )) OR 
+                   (CA.OBJECT_TYPE = 'ORDER_ITEM' AND EXISTS
+                (SELECT 1
+                    FROM ORD_ORDER_ITEM OOI
+                   WHERE OOI.ORDER_ITEM_ID = CA.OBJECT_ID
+                   <if test="supplierId != null">
+                   		AND OOI.SUPPLIER_ID = #{supplierId,jdbcType=DECIMAL}
+                   </if>
+                   <if test="visitTimeBegin != null">
+                   		<![CDATA[ AND OOI.VISIT_TIME >=to_date(#{visitTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="visitTimeEnd != null">
+                   		<![CDATA[ AND OOI.VISIT_TIME <=to_date(#{visitTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="createTimeBegin != null">
+                   		<![CDATA[ AND OOI.CREATE_TIME >=to_date(#{createTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="createTimeEnd != null">
+                   		<![CDATA[ AND OOI.CREATE_TIME <=to_date(#{createTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="createTimeBegin != null || createTimeEnd != null || (noticeRegimentStatus != null and noticeRegimentStatus != '') || (orderStatus != null and orderStatus != '')">
+	                   AND EXISTS
+                   (SELECT 1
+                            FROM ORD_ORDER OO
+                           WHERE OO.ORDER_ID = OOI.ORDER_ID
+	                   <if test="createTimeBegin != null">
+	                   		<![CDATA[ AND OO.CREATE_TIME >=to_date(#{createTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+	                   </if>
+	                   <if test="createTimeEnd != null">
+	                   		<![CDATA[ AND OO.CREATE_TIME <=to_date(#{createTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+	                   </if>
+	                   <if test="noticeRegimentStatus != null and noticeRegimentStatus != ''">
+		                   AND EXISTS
+		                   (SELECT 1
+		                            FROM ORD_ADDITION_STATUS OAS
+		                           WHERE OAS.ORDER_ID = OO.ORDER_ID
+		                             AND OAS.STATUS = #{noticeRegimentStatus}
+		                             AND OAS.STATUS_TYPE = 'NOTICE_REGIMENT_STATUS')
+	                   </if>
+	                   <if test="orderStatus != null and orderStatus != ''">
+	                   		AND OO.ORDER_STATUS = #{orderStatus}
+	                   </if>
+	            	)
+	        	</if>
+        	)))
+    	</if>
+	</sql>
+	<sql id="myOrderByCondition_SQL1">
+		1=1 AND CA.AUDIT_STATUS = 'PROCESSED' AND CA.OBJECT_TYPE = 'ORDER' 
+		<if test="operatorName != null and operatorName != ''">
+			AND CA.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+		</if>
+		<if test="handlingMode != null and handlingMode != ''">
+  				<choose>
+  					<when test="handlingMode=='-1'">
+  						AND  ((CA.AUDIT_FLAG != 'SYSTEM') or (CA.AUDIT_FLAG is null) or (CA.AUDIT_FLAG = ''))
+  					</when>
+  					<when test="handlingMode=='-2'">
+  						AND CA.AUDIT_FLAG = 'SYSTEM' 
+  					</when>
+  				</choose>		
+		</if>
+		<if test="orderPost != null and orderPost != ''">
+  				<choose>
+  					<when test="orderPost=='-1'">
+  						and exists(select * from ord_order o where o.order_id=ca.object_id and o.traveller_delay_flag='Y')
+  					</when>
+  					<when test="orderPost=='-2'">
+  						and exists(select * from ord_order o where o.order_id=ca.object_id and (o.traveller_delay_flag='N' or o.traveller_delay_flag is null))
+  					</when>
+  				</choose>		
+		</if>
+		<if test="orderLock != null and orderLock != ''">
+  				<choose>
+  					<when test="orderLock=='-1'">
+  						and exists(select * from ord_order o where o.order_id=ca.object_id and o.traveller_lock_flag='Y')
+  					</when>
+  					<when test="orderLock=='-2'">
+  						AND exists(select * from ord_order o where o.order_id=ca.object_id and (o.traveller_lock_flag='N' or o.traveller_lock_flag is null)) 
+  					</when>
+  				</choose>		
+		</if>
+		<if test="auditTypes != null and auditTypes != ''">
+			AND CA.audit_type IN
+			<foreach collection="auditTypes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="auditSubtypes != null and auditSubtypes != ''">
+			AND CA.AUDIT_SUBTYPE IN
+			<foreach collection="auditSubtypes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>			
+		<if test="createTimeBegin != null || createTimeEnd != null || visitTimeBegin != null || visitTimeEnd != null || supplierId != null || (noticeRegimentStatus != null and noticeRegimentStatus != '') || (orderStatus != null and orderStatus != '')">
+		 	 AND EXISTS
+                (SELECT 1
+                    FROM ORD_ORDER OO
+                   WHERE OO.ORDER_ID = CA.OBJECT_ID
+                   <if test="createTimeBegin != null">
+                   		<![CDATA[ AND OO.CREATE_TIME >=to_date(#{createTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="createTimeEnd != null">
+                   		<![CDATA[ AND OO.CREATE_TIME <=to_date(#{createTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="visitTimeBegin != null">
+                   		<![CDATA[ AND OO.VISIT_TIME >=to_date(#{visitTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="visitTimeEnd != null">
+                   		<![CDATA[ AND OO.VISIT_TIME <=to_date(#{visitTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="supplierId != null">
+                   		AND EXISTS (SELECT 1
+                            FROM ORD_ORDER_ITEM OOI
+                           WHERE OOI.ORDER_ID = OO.ORDER_ID
+                             AND OOI.SUPPLIER_ID = #{supplierId,jdbcType=DECIMAL})
+                   </if>
+                   <if test="noticeRegimentStatus != null and noticeRegimentStatus != ''">
+	                   AND EXISTS
+	                   (SELECT 1
+	                            FROM ORD_ADDITION_STATUS OAS
+	                           WHERE OAS.ORDER_ID = OO.ORDER_ID
+	                             AND OAS.STATUS = #{noticeRegimentStatus}
+	                             AND OAS.STATUS_TYPE = 'NOTICE_REGIMENT_STATUS')
+                   </if>
+                   <if test="orderStatus != null and orderStatus != ''">
+                   		AND OO.ORDER_STATUS = #{orderStatus}
+                   </if>
+              )
+    	</if>
+	</sql>
+	<sql id="myOrderByCondition_SQL2">
+		1=1 AND CA.OBJECT_ID=OOIM.ORDER_ITEM_ID AND CA.AUDIT_STATUS = 'PROCESSED' 
+		AND CA.OBJECT_TYPE = 'ORDER_ITEM' 
+		<if test="operatorName != null and operatorName != ''">
+			AND CA.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+		</if>
+		<if test="handlingMode != null and handlingMode != ''">
+  				<choose>
+  					<when test="handlingMode=='-1'">
+  						AND  ((CA.AUDIT_FLAG != 'SYSTEM') or (CA.AUDIT_FLAG is null) or (CA.AUDIT_FLAG = ''))
+  					</when>
+  					<when test="handlingMode=='-2'">
+  						AND CA.AUDIT_FLAG = 'SYSTEM' 
+  					</when>
+  				</choose>		
+		</if>
+		<if test="orderPost != null and orderPost != ''">
+  				<choose>
+  					<when test="orderPost=='-1'">
+  						and exists(
+					      select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= ca.object_id 
+					      and o.order_id=t.order_id 
+					      and o.traveller_delay_flag='Y')
+  					</when>
+  					<when test="orderPost=='-2'">
+  						and exists(
+					      select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= ca.object_id 
+					      and o.order_id=t.order_id 
+					      and (o.traveller_delay_flag='N' or o.traveller_delay_flag is null))
+  					</when>
+  				</choose>		
+		</if>
+		<if test="orderLock != null and orderLock != ''">
+  				<choose>
+  					<when test="orderLock=='-1'">
+  						and exists( select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= ca.object_id 
+					      and o.order_id=t.order_id 
+					      and o.traveller_lock_flag='Y')
+  					</when>
+  					<when test="orderLock=='-2'">
+  						and exists( select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= ca.object_id 
+					      and o.order_id=t.order_id 
+					      and (o.traveller_lock_flag='N' or o.traveller_lock_flag is null)) 
+  					</when>
+  				</choose>		
+		</if>
+		<if test="auditTypes != null and auditTypes != ''">
+			AND CA.audit_type IN
+			<foreach collection="auditTypes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="auditSubtypes != null and auditSubtypes != ''">
+			AND CA.AUDIT_SUBTYPE IN
+			<foreach collection="auditSubtypes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>			
+		<if test="createTimeBegin != null || createTimeEnd != null || visitTimeBegin != null || visitTimeEnd != null || supplierId != null || (noticeRegimentStatus != null and noticeRegimentStatus != '') || (orderStatus != null and orderStatus != '')">		 	
+                   <if test="supplierId != null">
+                   		AND OOIM.SUPPLIER_ID = #{supplierId,jdbcType=DECIMAL}
+                   </if>
+                   <if test="visitTimeBegin != null">
+                   		<![CDATA[ AND OOIM.VISIT_TIME >= to_date(#{visitTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="visitTimeEnd != null">
+                   		<![CDATA[ AND OOIM.VISIT_TIME <= to_date(#{visitTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="createTimeBegin != null">
+                   		<![CDATA[ AND OOIM.CREATE_TIME >= to_date(#{createTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="createTimeEnd != null">
+                   		<![CDATA[ AND OOIM.CREATE_TIME <= to_date(#{createTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+                   </if>
+                   <if test="createTimeBegin != null || createTimeEnd != null || (noticeRegimentStatus != null and noticeRegimentStatus != '') || (orderStatus != null and orderStatus != '')">
+	                   AND EXISTS
+                   (SELECT 1
+                            FROM ORD_ORDER OO
+                           WHERE OO.ORDER_ID = OOIM.ORDER_ID
+                       <if test="createTimeBegin != null">
+	                   		<![CDATA[ AND OO.CREATE_TIME >= to_date(#{createTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+	                   </if>
+	                   <if test="createTimeEnd != null">
+	                   		<![CDATA[ AND OO.CREATE_TIME <= to_date(#{createTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+	                   </if>
+	                   <if test="noticeRegimentStatus != null and noticeRegimentStatus != ''">
+		                   AND EXISTS
+		                   (SELECT 1
+		                            FROM ORD_ADDITION_STATUS OAS
+		                           WHERE OAS.ORDER_ID = OO.ORDER_ID
+		                             AND OAS.STATUS = #{noticeRegimentStatus}
+		                             AND OAS.STATUS_TYPE = 'NOTICE_REGIMENT_STATUS')
+	                   </if>
+	                   <if test="orderStatus != null and orderStatus != ''">
+	                   		AND OO.ORDER_STATUS = #{orderStatus}
+	                   </if>
+	            	)
+	        	</if>
+    	</if>
+	</sql>
+	<!-- 根据自定义的条件搜索主订单/子订单记录数 -->
+	<select id="countMyOrderByCondition" resultType="Integer" parameterType="java.util.Map">
+		SELECT COUNT(1)
+  FROM (SELECT DISTINCT CA.OBJECT_TYPE, CA.OBJECT_ID
+          FROM COM_AUDIT CA
+         WHERE <include refid="myOrderByCondition_SQL"/>)
+		
+	</select>
+	<!-- 根据自定义的条件搜索主订单/子订单记录数-->
+	<select id="queryMyOrderListByCondition" resultMap="myOrderMap" parameterType="java.util.Map">
+		<include refid="basic.pageSearchHead"/>
+		SELECT DISTINCT TBL.OBJECT_TYPE,
+                TBL.OBJECT_ID,
+                TBL.ORDER_ID
+  FROM (SELECT CA.OBJECT_TYPE, CA.OBJECT_ID, CA.OBJECT_ID ORDER_ID
+          FROM COM_AUDIT CA
+         WHERE <include refid="myOrderByCondition_SQL1"/>
+		UNION ALL 
+        SELECT CA.OBJECT_TYPE, CA.OBJECT_ID, OOIM.ORDER_ID ORDER_ID
+          FROM COM_AUDIT CA, ORD_ORDER_ITEM OOIM
+         WHERE <include refid="myOrderByCondition_SQL2"/>
+		) TBL
+ ORDER BY ORDER_ID DESC, OBJECT_TYPE, OBJECT_ID DESC
+         <include refid="basic.pageSearchFoot"/>
+	</select>
+	
+	<sql id="myOrderByRaid_SQL">
+		1=1 AND CA.AUDIT_STATUS = 'PROCESSED'
+		<if test="operatorName != null and operatorName != ''">
+			AND CA.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+		</if>
+		<if test="handlingMode != null and handlingMode != ''">
+  				<choose>
+  					<when test="handlingMode=='-1'">
+  						AND  ((CA.AUDIT_FLAG != 'SYSTEM') or (CA.AUDIT_FLAG is null) or (CA.AUDIT_FLAG = ''))
+  					</when>
+  					<when test="handlingMode=='-2'">
+  						AND CA.AUDIT_FLAG = 'SYSTEM' 
+  					</when>
+  				</choose>		
+		</if>
+		<if test=" (orderPost != null and orderPost != '') || (orderLock != null and orderLock != '') ">
+		and ((CA.OBJECT_TYPE = 'ORDER_ITEM'
+			<if test="orderPost != null and orderPost != ''">
+  				<choose>
+  					<when test="orderPost=='-1'">
+  						and exists(
+					      select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= ca.object_id 
+					      and o.order_id=t.order_id 
+					      and o.traveller_delay_flag='Y')
+  					</when>
+  					<when test="orderPost=='-2'">
+  						and exists(
+					      select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= ca.object_id 
+					      and o.order_id=t.order_id 
+					      and (o.traveller_delay_flag='N' or o.traveller_delay_flag is null))
+  					</when>
+  				</choose>		
+		</if>
+		<if test="orderLock != null and orderLock != ''">
+  				<choose>
+  					<when test="orderLock=='-1'">
+  						and exists( select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= ca.object_id 
+					      and o.order_id=t.order_id 
+					      and o.traveller_lock_flag='Y')
+  					</when>
+  					<when test="orderLock=='-2'">
+  						and exists( select * from ord_order_item t,ord_order o 
+					      where t.order_item_id= ca.object_id 
+					      and o.order_id=t.order_id 
+					      and (o.traveller_lock_flag='N' or o.traveller_lock_flag is null)) 
+  					</when>
+  				</choose>		
+		</if>
+	      )
+		 or  (CA.OBJECT_TYPE = 'ORDER'
+			<if test="orderPost != null and orderPost != ''">
+	  				<choose>
+	  					<when test="orderPost=='-1'">
+	  						and exists(select * from ord_order o where o.order_id=ca.object_id and o.traveller_delay_flag='Y')
+	  					</when>
+	  					<when test="orderPost=='-2'">
+	  						and exists(select * from ord_order o where o.order_id=ca.object_id and (o.traveller_delay_flag='N' or o.traveller_delay_flag is null))
+	  					</when>
+	  				</choose>		
+			</if>
+			<if test="orderLock != null and orderLock != ''">
+	  				<choose>
+	  					<when test="orderLock=='-1'">
+	  						and exists(select * from ord_order o where o.order_id=ca.object_id and o.traveller_lock_flag='Y')
+	  					</when>
+	  					<when test="orderLock=='-2'">
+	  						AND exists(select * from ord_order o where o.order_id=ca.object_id and (o.traveller_lock_flag='N' or o.traveller_lock_flag is null)) 
+	  					</when>
+	  				</choose>		
+			</if>
+			))
+		</if>
+		<if test="auditTypes != null and auditTypes != ''">
+			AND CA.audit_type IN
+			<foreach collection="auditTypes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="auditSubtypes != null and auditSubtypes != ''">
+			AND CA.AUDIT_SUBTYPE IN
+			<foreach collection="auditSubtypes" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="createTimeBegin != null || createTimeEnd != null || visitTimeBegin != null || visitTimeEnd != null || supplierId != null">
+			AND EXISTS(SELECT 1 FROM COM_AUDIT_RAID CAR WHERE CAR.audit_id=CA.audit_id 
+			<if test="createTimeBegin != null">
+			<![CDATA[	AND CAR.order_create_time >=to_date(#{createTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+			</if>
+			<if test="createTimeEnd != null">
+			<![CDATA[	AND CAR.order_create_time <=to_date(#{createTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss')  ]]>
+			</if>
+			<if test="visitTimeBegin != null">
+			<![CDATA[	AND CAR.order_visit_time >=to_date(#{visitTimeBegin,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+			</if>
+			<if test="visitTimeEnd != null">
+			<![CDATA[	AND CAR.order_visit_time <=to_date(#{visitTimeEnd,jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi:ss')  ]]>
+			</if>
+			<if test="supplierId != null">
+			<![CDATA[	AND CAR.SUPPLIER_ID=#{supplierId,jdbcType=DECIMAL} ]]>
+			</if>
+			)
+		</if>
+		<if test="(noticeRegimentStatus != null and noticeRegimentStatus != '') || (orderStatus != null and orderStatus != '')">
+		 	AND ((CA.OBJECT_TYPE = 'ORDER' AND EXISTS
+                (SELECT 1
+                    FROM ORD_ORDER OO
+                   WHERE OO.ORDER_ID = CA.OBJECT_ID
+                   <if test="noticeRegimentStatus != null and noticeRegimentStatus != ''">
+	                   AND EXISTS
+	                   (SELECT 1
+	                            FROM ORD_ADDITION_STATUS OAS
+	                           WHERE OAS.ORDER_ID = OO.ORDER_ID
+	                             AND OAS.STATUS = #{noticeRegimentStatus}
+	                             AND OAS.STATUS_TYPE = 'NOTICE_REGIMENT_STATUS')
+                   </if>
+                   <if test="orderStatus != null and orderStatus != ''">
+                   		AND OO.ORDER_STATUS = #{orderStatus}
+                   </if>
+                   )) OR 
+                   (CA.OBJECT_TYPE = 'ORDER_ITEM' AND EXISTS
+                (SELECT 1
+                    FROM ORD_ORDER_ITEM OOI
+                   WHERE OOI.ORDER_ITEM_ID = CA.OBJECT_ID
+	                 AND EXISTS
+                   (SELECT 1
+                            FROM ORD_ORDER OO
+                           WHERE OO.ORDER_ID = OOI.ORDER_ID
+	                   <if test="noticeRegimentStatus != null and noticeRegimentStatus != ''">
+		                   AND EXISTS
+		                   (SELECT 1
+		                            FROM ORD_ADDITION_STATUS OAS
+		                           WHERE OAS.ORDER_ID = OO.ORDER_ID
+		                             AND OAS.STATUS = #{noticeRegimentStatus}
+		                             AND OAS.STATUS_TYPE = 'NOTICE_REGIMENT_STATUS')
+	                   </if>
+	                   <if test="orderStatus != null and orderStatus != ''">
+	                   		AND OO.ORDER_STATUS = #{orderStatus}
+	                   </if>
+	        	)))
+	        )
+    	</if>
+	</sql>
+	<!-- 根据自定义的条件搜索主订单/子订单记录数 new -->
+	<select id="countMyOrderByRaid" resultType="Integer" parameterType="java.util.Map">
+		SELECT COUNT(1)
+  FROM (SELECT DISTINCT CA.OBJECT_TYPE, CA.OBJECT_ID
+          FROM COM_AUDIT CA
+         WHERE <include refid="myOrderByRaid_SQL"/>)
+	</select>
+	<!-- 根据自定义的条件搜索主订单/子订单记录数 new-->
+	<select id="queryMyOrderListByRaid" resultMap="myOrderMap" parameterType="java.util.Map">
+		<include refid="basic.pageSearchHead"/>
+		SELECT DISTINCT TBL.OBJECT_TYPE,
+                TBL.OBJECT_ID,
+                TBL.ORDER_ID
+  FROM (SELECT CA.OBJECT_TYPE, CA.OBJECT_ID, CA.OBJECT_ID ORDER_ID
+          FROM COM_AUDIT CA
+         WHERE <include refid="myOrderByRaid_SQL"/>
+		) TBL
+ ORDER BY ORDER_ID DESC, OBJECT_TYPE, OBJECT_ID DESC
+         <include refid="basic.pageSearchFoot"/>
+	</select>
+	
+	<update id="updateRemindTimeByAuditId" parameterType="java.util.Map">
+		UPDATE COM_AUDIT SET REMIND_TIME = #{remindTime,jdbcType=TIMESTAMP}
+		<if test="updateTime != null">
+		 , COM_AUDIT.UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="updateTime == null">
+		 , COM_AUDIT.UPDATE_TIME = SYSDATE
+		</if>
+		<if test="deferFlag != null">
+		 , COM_AUDIT.DEFER_FLAG = #{deferFlag,jdbcType=VARCHAR}
+		</if>
+		WHERE AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateComAuditStatus" parameterType="java.util.Map">
+		UPDATE COM_AUDIT SET AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},UPDATE_TIME = SYSDATE
+		WHERE AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+	</update>
+
+
+
+	<!-- 目的地员工库条件搜索订单审核记录数 -->
+	<select id="countAuditForDestWork" resultType="Integer" parameterType="java.util.Map">
+		SELECT COUNT(COM_AUDIT.AUDIT_ID)
+		FROM COM_AUDIT
+		WHERE
+		<include refid="auditForDestWork_SQL"/>
+	</select>
+	<!-- 目的地员工库查询订单审核集合 -->
+	<select id="queryAuditListForDestWork" resultMap="BaseResultMap" parameterType="java.util.Map">
+		<include refid="basic.pageSearchHead"/>
+		SELECT 
+		<if test="auditType =='INCONFIRM_AUDIT'">
+			DISTINCT <include refid="Base_Column_List_Inconfirm"/>
+		</if>
+		<if test="auditType !='INCONFIRM_AUDIT'">
+			DISTINCT COM_AUDIT.*
+		</if>
+		FROM COM_AUDIT
+		WHERE 
+		<include refid="auditForDestWork_SQL"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	<!-- 目的地员工库订单查询条件复合条件 -->
+	<sql id="auditForDestWork_SQL">
+		VALID='Y'
+	    <if test="auditId != null">
+			AND COM_AUDIT.AUDIT_ID = #{auditId,jdbcType=DECIMAL}
+		</if>
+		<if test="auditType != null and auditType != ''">
+			AND COM_AUDIT.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+		</if>
+		<if test="operatorName != null and operatorName != ''">
+			AND COM_AUDIT.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+		</if>
+		<if test="createTime != null">
+			AND COM_AUDIT.CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="auditStatus != null and auditStatus != ''">
+			AND COM_AUDIT.AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="objectId != null">
+			AND COM_AUDIT.OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectIds != null and objectIds != ''">
+			AND COM_AUDIT.OBJECT_ID IN
+			<foreach collection="objectIds" item="item" open="("
+				separator="," close=")">
+					#{item}
+			</foreach>
+		</if>
+		<if test="auditSubtype != null and auditSubtype != ''">
+			AND COM_AUDIT.AUDIT_SUBTYPE = #{auditSubtype,jdbcType=VARCHAR}
+		</if>
+        <if test="auditSubTypes != null and auditSubTypes != ''">
+            AND COM_AUDIT.AUDIT_SUBTYPE = #{auditSubTypes,jdbcType=VARCHAR}
+        </if>
+		<if test="mainAudittype != null and mainAudittype != ''">
+			AND COM_AUDIT.AUDIT_TYPE = #{mainAudittype,jdbcType=VARCHAR}
+		</if>
+		<if test="objectType != null and objectType != ''">
+			AND COM_AUDIT.OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+		<if test="auditFlag != null and auditFlag != ''">
+			AND nvl(COM_AUDIT.AUDIT_FLAG,'NO_SYSTEM') != #{auditFlag,jdbcType=VARCHAR}
+		</if>
+		<if test="isReturnBack != null and isReturnBack == true">
+			AND COM_AUDIT.IS_RETURN_BACK='Y'
+		</if>
+		<if test="isReturnBack != null and isReturnBack == false">
+			AND COM_AUDIT.IS_RETURN_BACK is null
+		</if>
+		<if test="(mainAudittype == null || mainAudittype == '') and (categoryId != null || (categoryIds != null and categoryIds != '') || orderItemId != null || auditType != null || (visitTimeBegin != null and visitTimeEnd != null))">
+				and exists(select * from ord_order oo, ord_order_item ooi where ooi.order_item_id=COM_AUDIT.object_id 
+				and COM_AUDIT.object_type='ORDER_ITEM' and oo.order_id = ooi.order_id
+			<if test="orderItemId != null">
+				and ooi.order_item_id=#{orderItemId}
+			</if>
+			<if test="supplierId != null">
+				AND ooi.supplier_id=#{supplierId,jdbcType=DECIMAL}
+			</if>
+			<if test="auditType != null">
+				<choose>
+					<when test='auditType == "CANCEL_AUDIT"'>
+						and ooi.confirm_status is not null
+					</when>
+					<when test='auditType == "NEW_ORDER_AUDIT"'>
+						<![CDATA[	and ROUND(TO_NUMBER(sysdate - oo.payment_time) * 24 * 60) >5 ]]>
+					</when>
+				</choose>
+			</if>
+	       	<if test="categoryId != null">
+	       	 	and ooi.category_id = #{categoryId}
+	        </if>
+	        <if test="categoryIds != null and categoryIds != ''">
+				and ooi.category_id in
+				<foreach collection="categoryIds" item="item" open="("
+					separator="," close=")">
+						#{item}
+				</foreach>
+			</if>
+			<if test="visitTimeBegin != null">
+				<![CDATA[ AND ooi.VISIT_TIME >= #{visitTimeBegin,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="visitTimeEnd != null">
+				<![CDATA[ AND ooi.VISIT_TIME <= #{visitTimeEnd,jdbcType=TIMESTAMP} ]]>
+			</if>
+		 	)	
+		</if>
+		<if test="stockFlag != null and stockFlag != ''">
+			AND EXISTS(SELECT 1 FROM COM_AUDIT_RAID WHERE COM_AUDIT_RAID.audit_id=COM_AUDIT.audit_id 
+				<choose>
+					<when test="stockFlag=='-1'">
+						AND COM_AUDIT_RAID.STOCK_FLAG = 'Y'
+					</when>
+					<when test="stockFlag=='-2'">
+						AND (COM_AUDIT_RAID.STOCK_FLAG = 'N' OR COM_AUDIT_RAID.STOCK_FLAG IS NULL)
+					</when>
+				</choose>	
+			)
+		</if>
+		<choose>
+			<when test="bespokeOrder == ''">
+				<![CDATA[   AND (COM_AUDIT.REMIND_TIME IS NULL OR COM_AUDIT.REMIND_TIME < sysdate) ]]>
+			</when>
+			<when test="bespokeOrder != null and bespokeOrder != ''">
+				<![CDATA[	AND COM_AUDIT.REMIND_TIME >= sysdate  AND COM_AUDIT.DEFER_FLAG ='Y']]>
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<update id="updateNextAssignTime" parameterType="java.util.Map">
+		UPDATE COM_AUDIT SET NEXT_ASSIGN_TIME = #{nextAssignTime,jdbcType=TIMESTAMP},UPDATE_TIME = SYSDATE WHERE AUDIT_ID =  #{auditId,jdbcType=DECIMAL}
+	</update>
+	
+	 <select id="getOrderItemIdsByFlightTicketFail"  resultType="java.lang.Long" >
+			select OBJECT_ID from COM_AUDIT where audit_type='BOOKING_AUDIT' AND AUDIT_SUBTYPE='FLIGHT_TICKET_FAIL' and object_id  in
+		   <foreach item="item" index="index" collection="list" 
+                    open="(" separator="," close=")">
+                  #{item}
+           </foreach>
+                
+	   </select>
+	   
+	  <select id="queryOrderListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+	  		select count(1) from com_audit c,ord_order o,ord_order_item t 
+				where t.order_id=o.order_id 
+				and t.order_item_id=c.object_id
+				<if test="orderItemId != null">
+					and t.order_item_id=#{orderItemId}
+				</if>
+				<if test="resourceStatus != null">
+					and o.resource_status=#{resourceStatus}
+				</if>
+				<if test="orderId !=null">
+					and o.order_id=#{orderId}
+				</if>
+				<if test="VSTAndTNT != null">
+					and o.distributor_id in (
+						<foreach collection="distributorlist" item="distributorId" separator=",">
+							#{distributorId}
+						</foreach>
+					)
+					and nvl(o.distributor_code,0) not in (#{channeltaobao})
+				</if>
+				<if test="VSTAndTaobao != null">
+					and ((o.distributor_id in (
+						<foreach collection="distributorlist" item="distributorId" separator=",">
+							#{distributorId}
+						</foreach>
+					)
+					or (o.distributor_id=#{distributionIdFour} and nvl(o.distribution_channel,0) in (
+						<foreach collection="distributionChannel" item="channelId" separator=",">
+							#{channelId}
+						</foreach>
+						)
+					))
+					or o.distributor_code = #{channeltaobao}) 
+				</if>
+				<if test="TNTAndTaobao != null">
+					and ((o.distributor_id in (
+						<foreach collection="distributorlist" item="distributorId" separator=",">
+							#{distributorId}
+						</foreach>
+					) 
+					and nvl(o.distribution_channel,0) not in (
+						<foreach collection="distributionChannel" item="channelId" separator=",">
+							#{channelId}
+						</foreach>
+					))
+					or o.distributor_code = #{channeltaobao})
+				</if>
+				<if test="isvst !=null">
+					and (o.distributor_id in (
+						<foreach collection="distributorlist" item="distributorId" separator=",">
+							#{distributorId}
+						</foreach>
+					)
+					or (o.distributor_id=#{distributionIdFour} and nvl(o.distribution_channel,0) in (
+						<foreach collection="distributionChannel" item="channelId" separator=",">
+							#{channelId}
+						</foreach>
+					)))
+					and nvl(o.distributor_code,0) not in ('DISTRIBUTOR_TAOBAO')
+				</if>
+				<if test="istnt !=null">
+					and o.distributor_id in (
+						<foreach collection="distributorlist" item="distributorId" separator=",">
+							#{distributorId}
+						</foreach>
+					) and nvl(o.distribution_channel,0) not in (
+						<foreach collection="distributionChannel" item="channelId" separator=",">
+							#{channelId}
+						</foreach>
+					)
+					and nvl(o.distributor_code,0) not in (#{channeltaobao})
+				</if>
+				<if test="istaobao !=null">
+					 and o.distributor_code = #{channeltaobao}
+				</if>
+				<if test="supplierId != null">
+					and t.supplier_id = #{supplierId}
+				</if>
+				<if test="visitTime != null">
+					and t.visit_time=#{visitTime}
+				</if>
+				and c.valid='Y'
+				and c.audit_status='UNPROCESSED'
+				and c.audit_type='INCONFIRM_AUDIT'
+	  </select>
+	  
+	  <select id="queryOrderAuditList" parameterType="java.util.Map" resultMap="BaseResultMap">
+	  	<include refid="basic.pageSearchHead"/>
+	  		select c.* from com_audit c,ord_order o,ord_order_item t 
+				where t.order_id=o.order_id 
+				and t.order_item_id=c.object_id
+				<if test="orderItemId != null">
+					and t.order_item_id=#{orderItemId}
+				</if>
+				<if test="resourceStatus !=null">
+					and o.resource_status=#{resourceStatus}
+				</if>
+				<if test="orderId !=null">
+					and o.order_id=#{orderId}
+				</if>
+				<if test="VSTAndTNT != null">
+					and o.distributor_id in (
+						<foreach collection="distributorlist" item="distributorId" separator=",">
+							#{distributorId}
+						</foreach>
+					)
+					and nvl(o.distributor_code,0) not in (#{channeltaobao})
+				</if>
+				<if test="VSTAndTaobao != null">
+					and (o.distributor_id in (
+						<foreach collection="distributorlist" item="distributorId" separator=",">
+							#{distributorId}
+						</foreach>
+					)
+					or (o.distributor_id=#{distributionIdFour} and nvl(o.distribution_channel,0) in (
+						<foreach collection="distributionChannel" item="channelId" separator=",">
+							#{channelId}
+						</foreach>
+					)) or o.distributor_code = #{channeltaobao})
+				</if>
+				<if test="TNTAndTaobao != null">
+					and ((o.distributor_id in (
+						<foreach collection="distributorlist" item="distributorId" separator=",">
+							#{distributorId}
+						</foreach>
+					) and nvl(o.distribution_channel,0) not in (
+						<foreach collection="distributionChannel" item="channelId" separator=",">
+							#{channelId}
+						</foreach>
+					))
+					or o.distributor_code = #{channeltaobao})
+				</if>
+				<if test="isvst !=null">
+					and (o.distributor_id in (
+						<foreach collection="distributorlist" item="distributorId" separator=",">
+							#{distributorId}
+						</foreach>
+					)
+					or (o.distributor_id=#{distributionIdFour} and nvl(o.distribution_channel,0) in (
+						<foreach collection="distributionChannel" item="channelId" separator=",">
+							#{channelId}
+						</foreach>
+					)))
+					and nvl(o.distributor_code,0) not in ('DISTRIBUTOR_TAOBAO')
+				</if>
+				<if test="istnt !=null">
+					and o.distributor_id in (
+						<foreach collection="distributorlist" item="distributorId" separator=",">
+							#{distributorId}
+						</foreach>
+					) and nvl(o.distribution_channel,0) not in (
+						<foreach collection="distributionChannel" item="channelId" separator=",">
+							#{channelId}
+						</foreach>
+					)
+					and nvl(o.distributor_code,0) not in (#{channeltaobao})
+				</if>
+				<if test="istaobao !=null">
+					 and o.distributor_code = #{channeltaobao}
+				</if>
+				<if test="supplierId != null">
+					and t.supplier_id = #{supplierId}
+				</if>
+				<if test="visitTime != null">
+					and t.visit_time=#{visitTime}
+				</if>
+				and c.valid='Y'
+				and c.audit_status='UNPROCESSED'
+				and c.audit_type='INCONFIRM_AUDIT'
+			<include refid="basic.pageSearchFoot"/>  
+	  </select>
+	  <select id="countActivityUnprocessedNum" parameterType="java.util.Map" resultMap="CountActivityBaseResultMap">
+	  	select operator_name,audit_type,count(*) activi_num,stock_flag,audit_status
+	  		from lvmama_ord.com_audit c 
+	  		where c.operator_name in (
+	  		<foreach collection="operatorNameList" item="item" separator=",">
+					#{item}
+			</foreach>
+	  		) 
+			and c.audit_type in ('INCONFIRM_AUDIT','FULL_AUDIT','PECULIAR_FULL_AUDIT','CHANGE_PRICE_AUDIT','CANCEL_CONFIRM_AUDIT','NEW_ORDER_AUDIT','INQUIRY_AUDIT')
+			and c.create_time >=trunc(sysdate - interval '7' day) 
+			and c.audit_status='UNPROCESSED'
+			and c.valid='Y'
+			group by c.operator_name,c.audit_type,c.stock_flag,audit_status
+			order by operator_name
+	  </select>
+	  
+	  <!-- 目的地员工库查询订单审核集合 -->
+	<select id="queryAuditListByNewConsoleCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT 
+			count(*)
+		FROM COM_AUDIT
+		WHERE 
+		<include refid="auditForDestWork_SQL3"/>
+	</select>
+	<select id="queryAuditListByNewConsole" resultMap="BaseResultMap" parameterType="java.util.Map">
+		<include refid="basic.pageSearchHead"/>
+		SELECT 
+			DISTINCT COM_AUDIT.*
+		FROM COM_AUDIT
+		WHERE 
+		<include refid="auditForDestWork_SQL3"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	<!-- 目的地员工库订单查询条件复合条件 -->
+	<sql id="auditForDestWork_SQL3">
+		VALID='Y'
+		<if test="auditType != null and auditType != ''">
+			AND COM_AUDIT.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+		</if>
+		<if test="operatorName != null and operatorName != ''">
+			AND COM_AUDIT.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+		</if>
+		<if test="createTimeBegin != null">
+			AND COM_AUDIT.CREATE_TIME  &gt; #{createTimeBegin,jdbcType=TIMESTAMP}
+		</if>
+		<if test="createTimeEnd != null">
+			AND COM_AUDIT.CREATE_TIME  &lt; #{createTimeEnd,jdbcType=TIMESTAMP}
+		</if>
+		<if test="auditStatus != null and auditStatus != ''">
+			AND COM_AUDIT.AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="objectId != null">
+			AND COM_AUDIT.OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+		</if>
+		<if test="objectIds != null and objectIds != ''">
+			AND COM_AUDIT.OBJECT_ID IN
+			<foreach collection="objectIds" item="item" open="("
+				separator="," close=")">
+					#{item}
+			</foreach>
+		</if>
+		<if test="auditSubtype != null and auditSubtype != ''">
+			AND COM_AUDIT.AUDIT_SUBTYPE = #{auditSubtype,jdbcType=VARCHAR}
+		</if>
+        <if test="auditSubTypes != null and auditSubTypes != ''">
+            AND COM_AUDIT.AUDIT_SUBTYPE = #{auditSubTypes,jdbcType=VARCHAR}
+        </if>
+		<if test="mainAudittype != null and mainAudittype != ''">
+			AND COM_AUDIT.AUDIT_TYPE = #{mainAudittype,jdbcType=VARCHAR}
+		</if>
+		<if test="objectType != null and objectType != ''">
+			AND COM_AUDIT.OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+		<if test="auditFlag != null and auditFlag != ''">
+			AND nvl(COM_AUDIT.AUDIT_FLAG,'NO_SYSTEM') != #{auditFlag,jdbcType=VARCHAR}
+		</if>
+		<if test="distributionTimeBegin != null">
+		<![CDATA[	AND COM_AUDIT.UPDATE_TIME >=#{distributionTimeBegin,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="distributionTimeEnd != null">
+		<![CDATA[	AND COM_AUDIT.UPDATE_TIME <=#{distributionTimeEnd,jdbcType=TIMESTAMP}  ]]>
+		</if>
+		<if test="isReturnBack != null and isReturnBack == true">
+			and COM_AUDIT.IS_RETURN_BACK='Y'
+		</if>
+		<if test="isReturnBack != null and isReturnBack == false">
+			and COM_AUDIT.IS_RETURN_BACK is null
+		</if>
+		<if test="categoryId != null || visitTimeBegin != null || visitTimeEnd != null || subCategoryId != null">
+				and exists(select * from ord_order oo, ord_order_item ooi where ooi.order_item_id=COM_AUDIT.object_id 
+				and COM_AUDIT.object_type='ORDER_ITEM' and oo.order_id = ooi.order_id
+				and ooi.order_item_id=COM_AUDIT.object_id
+			<if test="subCategoryId !=null">
+				and oo.sub_category_id = #{subCategoryId}
+			</if>
+	       	<if test="categoryId != null">
+	       	 	and oo.category_id = #{categoryId}
+	        </if>
+	        <if test="categoryIds != null and categoryIds != ''">
+				and oo.category_id in
+				<foreach collection="categoryIds" item="item" open="("
+					separator="," close=")">
+						#{item}
+				</foreach>
+			</if>
+			<if test="visitTimeBegin != null">
+           		<![CDATA[ AND ooi.VISIT_TIME >= #{visitTimeBegin,jdbcType=TIMESTAMP} ]]>
+            </if>
+            <if test="visitTimeEnd != null">
+           		<![CDATA[ AND ooi.VISIT_TIME <= #{visitTimeEnd,jdbcType=TIMESTAMP} ]]>
+            </if>
+		 	)	
+		</if>
+		<if test="stockFlag != null and stockFlag != ''">
+			AND EXISTS(SELECT 1 FROM COM_AUDIT_RAID WHERE COM_AUDIT_RAID.audit_id=COM_AUDIT.audit_id 
+				<choose>
+					<when test="stockFlag=='-1'">
+						AND COM_AUDIT_RAID.STOCK_FLAG = 'Y'
+					</when>
+					<when test="stockFlag=='-2'">
+						AND (COM_AUDIT_RAID.STOCK_FLAG = 'N' OR COM_AUDIT_RAID.STOCK_FLAG IS NULL)
+					</when>
+				</choose>	
+			)
+		</if>
+		 <if test="operatorNameArray != null and operatorNameArray!=''">
+			AND COM_AUDIT.OPERATOR_NAME IN
+			<foreach collection="operatorNameArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<choose>
+			<when test="bespokeOrder == ''">
+				<![CDATA[   AND (COM_AUDIT.REMIND_TIME IS NULL OR COM_AUDIT.REMIND_TIME < sysdate) ]]>
+			</when>
+			<when test="bespokeOrder != null and bespokeOrder != ''">
+				<![CDATA[	AND COM_AUDIT.REMIND_TIME >= sysdate  AND COM_AUDIT.DEFER_FLAG ='Y']]>
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</sql>
+	<update id="updateComAuditByAuditlist"  parameterType="java.util.List">
+		update COM_AUDIT set is_return_back='Y' 
+		where audit_id in <foreach collection="list" item="item" open="("
+				separator="," close=")">
+					#{item}
+			</foreach>
+	</update>
+
+	<update id="updateComAuditSeqByJob"  parameterType="com.lvmama.vst.back.pub.po.ComAudit">
+		update COM_AUDIT set seq=#{seq,jdbcType=DECIMAL},UPDATE_TIME = SYSDATE
+		where audit_id = #{auditId,jdbcType=DECIMAL}
+	</update>
+</mapper>

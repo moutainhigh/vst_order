@@ -1,0 +1,122 @@
+@charset "utf-8";
+/* CSS RESET */
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, select, textarea, p, blockquote, th, td, hr, button, figure, menu { margin: 0; padding: 0; }
+body { font: 12px/22px Tahoma, Arial, \5b8b\4f53, sans-serif; }
+body { min-width: 1096px;}
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+table { border-collapse: collapse; border-spacing: 0; }
+ol, ul { list-style: none; }
+a img { border: none; vertical-align: top; }
+input, button { font-family: Tahoma, Verdana, Geneva, sans-serif }
+a { text-decoration: none; }
+a:hover { text-decoration: none; }
+i { font-style: normal; }
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+
+.yin-print {
+    width: 1000px;
+    margin: 20px auto 0;
+	color: #666;
+}
+.yin-print-btn {
+	font-size: 14px;
+	font-weight: bold;
+	float: right;
+}
+.yin-print-btn:hover {
+	text-decoration: underline;
+}
+.yin-print-title {
+	height: 50px;
+	padding-left: 20px;
+	font-size: 16px;
+	line-height: 50px;
+	border: 1px solid #ccc;
+}
+.yin-print-kxlx {
+	height: 50px;
+	padding-left: 20px;
+	font-size: 12px;	
+	line-height: 50px;
+	border-width: 0 1px;
+	border-style: solid;
+	border-color: #ccc; 
+}
+
+.yin-print-kxlx a {
+	float: right;
+	padding-right: 10px;
+	color: #666;
+}
+
+.yin-print-kxlx a:hover {
+	text-decoration: underline;
+}
+
+.yin-print-kxlx span {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.yin-print-kxlx em {
+	font-style: normal;
+	background: #333;
+	color: #fff;
+	padding: 0 2px;
+	margin-right: 5px;
+	vertical-align: -1px;
+}
+
+.ysi-title {
+	padding-left: 10px;
+	height: 40px;
+	font-size: 14px;
+	line-height: 40px;
+	background: #E51785;
+	color: #fff;
+}
+
+.ysi-intro {
+	padding: 0 10px;
+	border: 1px solid #ccc;
+	border-bottom: none;
+}
+
+.ysc-tip {
+    padding-left: 10px;
+    height: 40px;
+    font-size: 12px;
+    line-height: 40px;
+	border-width: 0 1px;
+	border-style: solid;
+	border-color: #ccc; 
+}
+
+.yin-fee .ysi-intro {
+	padding-top: 10px;
+}
+
+.yin-fee .ysi-intro p {
+	border-bottom: 1px dashed #ccc;
+	padding-bottom: 10px;
+}
+
+.yin-fee .ysc-tip {
+	border-bottom: 1px solid #ccc;
+}
+
+.yin-qr-code {
+	margin-top: 20px;
+}
+
+.yin-qr-code img {
+	width: 80px;
+	height: 80px;
+	float: left;
+}
+
+.yin-qr-code p {
+	float: left;
+	height: 20px;
+	margin: 60px 0 0 10px;
+}

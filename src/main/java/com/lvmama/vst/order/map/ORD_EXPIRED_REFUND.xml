@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ORD_EXPIRED_REFUND">
+
+    <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdExpiredRefund">
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+        <result column="SUPPLIER_ID" property="supplierId" jdbcType="DECIMAL" />
+        <result column="PROCESS_STATUS" property="processStatus" jdbcType="INTEGER" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="PROCESS_DESC" property="processDesc" jdbcType="VARCHAR" />
+        <result column="PROCESS_NUM" property="processNum" jdbcType="INTEGER" />
+    </resultMap>
+    
+    <resultMap id="PageResultMap" type="com.lvmama.vst.comm.vo.order.OrdExpiredRefundRst">
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+        <result column="SUPPLIER_ID" property="supplierId" jdbcType="DECIMAL" />
+        <result column="PROCESS_STATUS" property="processStatus" jdbcType="INTEGER" />
+        <result column="PROCESS_STATUS_VIEW" property="processStatusView" jdbcType="VARCHAR" />
+        <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+        <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+        <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+        <result column="ORDER_ITEM_STATUS" property="orderItemStatus" jdbcType="VARCHAR" />
+        <result column="ORDER_ITEM_STATUS_VIEW" property="orderItemStatusView" jdbcType="VARCHAR" />
+        <result column="SUPP_GOODS_NAME" property="suppGoodsName" jdbcType="VARCHAR" />
+        <result column="SUPP_GOODS_ID" property="suppGoodsId" jdbcType="DECIMAL" />
+        <result column="VISIT_TIME" property="visitTime" jdbcType="VARCHAR" />
+        <result column="DISTRIBUTOR_ID" property="distChnlId" jdbcType="DECIMAL" />
+        <result column="DIST_CHNL_NAME" property="distChnlView" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        ID, ORDER_ID, ORDER_ITEM_ID, SUPPLIER_ID, PROCESS_STATUS, CREATE_TIME, UPDATE_TIME, PROCESS_DESC, PROCESS_NUM
+    </sql>
+    
+    <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdExpiredRefund">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE">
+            SELECT SEQ_ORD_EXPIRED_REFUND.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO ORD_EXPIRED_REFUND (
+            ID, 
+            ORDER_ID, 
+            ORDER_ITEM_ID, 
+            SUPPLIER_ID, 
+            PROCESS_STATUS, 
+            CREATE_TIME, 
+            UPDATE_TIME, 
+            PROCESS_DESC, 
+            PROCESS_NUM,
+            SUPPLIER_NAME,
+            EFFECTIVE_TIME,
+            PRODUCT_NAME,
+	        DISTRIBUTOR_ID
+        ) VALUES (
+            #{id, jdbcType=DECIMAL},
+            #{orderId, jdbcType=DECIMAL},
+            #{orderItemId, jdbcType=DECIMAL},
+            #{supplierId, jdbcType=DECIMAL},
+            #{processStatus, jdbcType=INTEGER},
+            SYSDATE, 
+            #{updateTime, jdbcType=TIMESTAMP},
+            #{processDesc, jdbcType=VARCHAR},  
+            #{processNum, jdbcType=INTEGER},
+            #{supplierName, jdbcType=VARCHAR},
+            #{effectiveTime, jdbcType=DATE},
+            #{productName, jdbcType=VARCHAR},
+			#{distributorId, jdbcType=DECIMAL}
+        )
+    </insert>
+    
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO ORD_EXPIRED_REFUND 
+	        (
+	            ID, 
+	            ORDER_ID, 
+	            ORDER_ITEM_ID, 
+	            SUPPLIER_ID, 
+	            PROCESS_STATUS, 
+	            CREATE_TIME, 
+	            UPDATE_TIME, 
+	            PROCESS_DESC, 
+	            PROCESS_NUM,
+	            SUPPLIER_NAME,
+	            EFFECTIVE_TIME,
+	            PRODUCT_NAME,
+	            DISTRIBUTOR_ID
+	        )
+        SELECT SEQ_ORD_EXPIRED_REFUND.NEXTVAL, T.* FROM ( 
+	        <foreach collection="list" item="item" index="index" separator="union all"> 
+		        (
+			        SELECT
+			            #{item.orderId, jdbcType=DECIMAL},
+			            #{item.orderItemId, jdbcType=DECIMAL},
+			            #{item.supplierId, jdbcType=DECIMAL},
+			            #{item.processStatus, jdbcType=INTEGER},
+			            SYSDATE, 
+			            #{item.updateTime, jdbcType=TIMESTAMP},
+			            #{item.processDesc, jdbcType=VARCHAR},  
+			            #{item.processNum, jdbcType=INTEGER},
+			            #{item.supplierName, jdbcType=VARCHAR},
+			            #{item.effectiveTime, jdbcType=DATE},
+			            #{item.productName, jdbcType=VARCHAR},
+			            #{item.distributorId, jdbcType=DECIMAL}
+			        FROM 
+			            DUAL
+		        )
+	        </foreach> 
+        ) T
+    </insert>
+  
+    <update id="update" parameterType="com.lvmama.vst.back.order.po.OrdExpiredRefund">
+        UPDATE ORD_EXPIRED_REFUND
+        <set>
+            <if test="processStatus != null">
+                PROCESS_STATUS = #{processStatus, jdbcType=INTEGER},
+            </if>
+            <if test="processDesc != null">
+                PROCESS_DESC = #{processDesc, jdbcType=VARCHAR},
+            </if>
+            <if test="processNum != null">
+                PROCESS_NUM = #{processNum, jdbcType=INTEGER},
+            </if>
+            UPDATE_TIME = SYSDATE
+        </set>
+        WHERE 1=1
+        <if test="id != null">
+            AND ID = #{id, jdbcType=DECIMAL}
+        </if>
+        <if test="orderId != null">
+            AND ORDER_ID = #{orderId, jdbcType=DECIMAL}
+        </if>
+        <if test="orderItemId != null">
+            AND ORDER_ITEM_ID = #{orderItemId, jdbcType=DECIMAL}
+        </if>
+    </update>
+  
+    <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT 
+            <include refid="Base_Column_List" />
+        FROM 
+            ORD_EXPIRED_REFUND
+        WHERE 
+            ORDER_ID = #{orderId, jdbcType=DECIMAL}
+    </select>
+  
+    <select id="selectByOrderItemId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT 
+            <include refid="Base_Column_List" />
+        FROM 
+            ORD_EXPIRED_REFUND
+        WHERE 
+            ORDER_ITEM_ID = #{orderItemId, jdbcType=DECIMAL}
+    </select>
+  
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM ORD_EXPIRED_REFUND WHERE ID = #{id, jdbcType=DECIMAL}
+    </delete>
+    
+    <delete id="deleteByOrderId" parameterType="java.lang.Long">
+        DELETE FROM ORD_EXPIRED_REFUND WHERE ORDER_ID = #{orderId, jdbcType=DECIMAL}
+    </delete>
+  
+    <delete id="deleteByOrderItemId" parameterType="java.lang.Long">
+        DELETE FROM ORD_EXPIRED_REFUND WHERE ORDER_ITEM_ID = #{orderItemId, jdbcType=DECIMAL}
+    </delete>
+
+	<select id="getSupplierIdList" resultType="java.lang.Integer">
+		select distinct supplier_id from ORD_EXPIRED_REFUND
+	</select>
+	
+	<select id="queryAuditingByMinId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT 
+             *
+        FROM
+	        (SELECT 
+	            e.*
+	        FROM 
+	            ORD_EXPIRED_REFUND e JOIN ORD_ORDER o ON e.ORDER_ID=o.ORDER_ID
+	        WHERE e.ID &gt; #{id} AND (o.ORDER_STATUS IS NULL OR o.ORDER_STATUS!='CANCEL')
+	        <if test="processStatus != null">
+	    		AND e.PROCESS_STATUS = #{processStatus}
+	    	</if>
+	    	<if test="updateTime != null">
+	            AND e.UPDATE_TIME &gt;= #{updateTime}
+	        </if>
+	        <if test="list != null">
+	        	AND e.PROCESS_STATUS IN 
+		         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+			  		#{item, jdbcType=INTEGER} 
+			 	</foreach>
+	        </if>
+	        ORDER BY e.ID)
+        WHERE ROWNUM &lt;= #{maxPage}
+    </select>
+    
+    <update id="updateStatusInBatch" parameterType="com.lvmama.vst.order.po.OverdueTicketSubOrderStatusPack">
+    	update ORD_EXPIRED_REFUND set process_status = #{status}, process_desc = #{desc}, update_time = sysdate
+    	<if test="idList != null">
+    		where
+    		<foreach collection="idList" separator=" or " item="item" index="index">
+    			ORDER_ITEM_ID = #{item}
+    		</foreach>
+    	</if>
+		<if test="idList == null">
+			where 1 != 1
+		</if>    	
+    </update>
+    
+    <select id="queryListForPage" parameterType="java.util.Map" resultMap="PageResultMap">
+        <include refid="basic.pageSearchHead" />
+        <include refid="base_query_for_page_list" />
+        <include refid="basic.pageSearchFoot" />
+    </select>
+    
+    <sql id="base_query_for_page_list">
+        SELECT 
+		    T1.ORDER_ID, T1.ORDER_ITEM_ID, T1.SUPPLIER_NAME, T1.PROCESS_STATUS,
+		    DECODE(T1.PROCESS_STATUS, '0', '未处理', '1', '处理中', '2', '废码审核中', '3', '处理成功', '4', '废码失败', '5', '处理次数超限', '6', '不需要处理', '7', '废码成功-子订单未结算', '8', '子订单已结算-财务未结算') AS PROCESS_STATUS_VIEW,
+		    T2.PRODUCT_ID, T1.PRODUCT_NAME, T2.ORDER_STATUS AS ORDER_ITEM_STATUS, DECODE(T2.ORDER_STATUS, 'NORMAL', '正常', 'CANCEL', '已取消') AS ORDER_ITEM_STATUS_VIEW, T2.SUPP_GOODS_NAME, T2.SUPP_GOODS_ID,
+		    TO_CHAR(T2.VISIT_TIME, 'YYYY-MM-DD') VISIT_TIME, T1.DISTRIBUTOR_ID, DECODE(T1.DISTRIBUTOR_ID, '2', '驴妈妈后台', '3', '驴妈妈前台', '4', '分销商', '10', '门店', '20', '门店APP', '21', '自助购票', '5', '兴旅同业中心', '99', '无线订单(App、Wap)') AS DIST_CHNL_NAME
+		FROM 
+		    ORD_EXPIRED_REFUND T1 
+		    LEFT JOIN ORD_ORDER_ITEM T2 ON T1.ORDER_ITEM_ID = T2.ORDER_ITEM_ID		    
+		WHERE 1=1
+		<if test="orderId != null">
+		    AND T1.ORDER_ID = #{orderId, jdbcType=DECIMAL}
+		</if>
+		<if test="processStatus != null and processStatus != -1">
+		    AND T1.PROCESS_STATUS = #{processStatus, jdbcType=INTEGER} 
+		</if>
+		<if test="orderItemStatus != null and orderItemStatus != ''">
+		    AND T2.ORDER_STATUS = #{orderItemStatus, jdbcType=VARCHAR}
+		</if>
+		<if test="supplierName != null and supplierName != ''">
+	        AND T1.SUPPLIER_NAME LIKE '%' || #{supplierName, jdbcType=VARCHAR} || '%' 
+	    </if>
+	    <if test="productId != null">
+		    AND T2.PRODUCT_ID = #{productId, jdbcType=DECIMAL} 
+		</if>
+		<if test="productName != null and productName != ''">
+		    AND T1.PRODUCT_NAME LIKE '%' || #{productName, jdbcType=VARCHAR} || '%' 
+		</if>
+		<if test="suppGoodsId != null">
+		    AND T2.SUPP_GOODS_ID = #{suppGoodsId, jdbcType=DECIMAL}
+		</if> 
+		<if test="distChnlId != null">
+		    AND T1.DISTRIBUTOR_ID = #{distChnlId, jdbcType=DECIMAL}
+		</if>
+		<if test="_ROWNUM != null">
+		    <![CDATA[ AND ROWNUM <= #{_ROWNUM} ]]>
+		</if>
+		ORDER BY T1.CREATE_TIME DESC
+    </sql>
+    
+    <select id="queryTotalCountForPage" parameterType="java.util.Map" resultType="java.lang.Long">
+        SELECT
+            COUNT(1)
+		FROM 
+		    ORD_EXPIRED_REFUND T1 
+		    LEFT JOIN ORD_ORDER_ITEM T2 ON T1.ORDER_ITEM_ID = T2.ORDER_ITEM_ID		    
+		WHERE 1=1
+		<if test="orderId != null">
+		    AND T1.ORDER_ID = #{orderId, jdbcType=DECIMAL}
+		</if>
+		<if test="processStatus != null and processStatus != -1">
+		    AND T1.PROCESS_STATUS = #{processStatus, jdbcType=INTEGER} 
+		</if>
+		<if test="orderItemStatus != null and orderItemStatus != ''">
+		    AND T2.ORDER_STATUS = #{orderItemStatus, jdbcType=VARCHAR}
+		</if>
+		<if test="supplierName != null and supplierName != ''">
+	        AND T1.SUPPLIER_NAME LIKE '%' || #{supplierName, jdbcType=VARCHAR} || '%' 
+	    </if>
+	    <if test="productId != null">
+		    AND T2.PRODUCT_ID = #{productId, jdbcType=DECIMAL} 
+		</if>
+		<if test="productName != null and productName != ''">
+		    AND T1.PRODUCT_NAME LIKE '%' || #{productName, jdbcType=VARCHAR} || '%' 
+		</if>
+		<if test="suppGoodsId != null">
+		    AND T2.SUPP_GOODS_ID = #{suppGoodsId, jdbcType=DECIMAL}
+		</if> 
+		<if test="distChnlId != null">
+		    AND T1.DISTRIBUTOR_ID = #{distChnlId, jdbcType=DECIMAL}
+		</if>
+		<if test="_ROWNUM != null">
+		    <![CDATA[ AND ROWNUM <= #{_ROWNUM} ]]>
+		</if>
+    </select>
+    
+    <select id="getIdAndStatusOfNotFullyProcessed" resultMap="BaseResultMap">
+    	select order_item_id, process_status from ord_expired_refund 
+    	where (process_status = 0 or process_status = 7 or process_status = 8) 
+    	and effective_time + 1 <![CDATA[<]]> sysdate
+    	<choose>
+	    	<when test="idList != null">
+	    		and
+	    		<foreach collection="idList" item="item" index="index" open="(" close=")" separator=" or ">
+	    			order_item_id = #{item}
+	    		</foreach>
+	    	</when>
+	    	<otherwise>
+		    	and rownum <![CDATA[<=]]>
+		    	<choose>
+			    	<when test="rowNum != null">
+			    		#{rowNum}
+			    	</when>
+			    	<otherwise>
+			    		50
+			    	</otherwise>
+		    	</choose>
+		    </otherwise>
+    	</choose>	
+    </select>
+    
+</mapper>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_MUL_PRICE_RATE" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdMulPriceRate" >
+    <id column="ORD_MUL_PRICE_RATE_ID" property="ordMulPriceRateId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="PRICE_TYPE" property="priceType" jdbcType="VARCHAR" />
+    <result column="AMOUNT_TYPE" property="amountType" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ORD_MUL_PRICE_RATE_ID, ORDER_ITEM_ID, PRICE, QUANTITY, PRICE_TYPE, AMOUNT_TYPE, UPDATE_TIME
+  </sql>
+ 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_MUL_PRICE_RATE
+    where ORD_MUL_PRICE_RATE_ID = #{ordMulPriceRateId,jdbcType=DECIMAL}
+  </select>
+  
+  
+  
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select 
+	    <include refid="Base_Column_List" />
+	    from ORD_MUL_PRICE_RATE where 1=1
+		<include refid="Base_Query_Column_List" />	
+   </select>
+   
+   <sql id="Base_Query_Column_List" >
+      <if test="ordMulPriceRateId != null" >
+       and ORD_MUL_PRICE_RATE_ID = #{ordMulPriceRateId}
+      </if>
+      <if test="orderItemId != null" >
+       and ORDER_ITEM_ID = #{orderItemId}
+      </if>
+      <if test="price != null" >
+       and PRICE = #{price}
+      </if>
+      <if test="quantity != null" >
+       and QUANTITY = #{quantity}
+      </if>
+      <if test="priceType != null" >
+       and PRICE_TYPE = #{priceType}
+      </if>
+      
+      
+      <if test="priceTypeArray != null">
+			AND PRICE_TYPE IN
+			<foreach collection="priceTypeArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	  </if>
+	  <if test="orderItemIdArray != null">
+			AND ORDER_ITEM_ID IN
+			<foreach collection="orderItemIdArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	  </if>
+  </sql>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_MUL_PRICE_RATE
+    where ORD_MUL_PRICE_RATE_ID = #{ordMulPriceRateId,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdMulPriceRate" >
+  	<selectKey resultType="java.lang.Long" keyProperty="ordMulPriceRateId" order="BEFORE" >
+      select SEQ_ORD_MUL_PRICE_RATE_ID.nextval from dual
+    </selectKey>
+    insert into ORD_MUL_PRICE_RATE (ORD_MUL_PRICE_RATE_ID, ORDER_ITEM_ID, PRICE, 
+      QUANTITY, PRICE_TYPE, AMOUNT_TYPE, UPDATE_TIME)
+    values (#{ordMulPriceRateId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, 
+      #{quantity,jdbcType=DECIMAL}, #{priceType,jdbcType=VARCHAR}, #{amountType,jdbcType=VARCHAR},#{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdMulPriceRate" >
+  	<selectKey resultType="java.lang.Long" keyProperty="ordMulPriceRateId" order="BEFORE" >
+      select SEQ_ORD_MUL_PRICE_RATE_ID.nextval from dual
+    </selectKey>
+    insert into ORD_MUL_PRICE_RATE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ordMulPriceRateId != null" >
+        ORD_MUL_PRICE_RATE_ID,
+      </if>
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="quantity != null" >
+        QUANTITY,
+      </if>
+      <if test="priceType != null" >
+        PRICE_TYPE,
+      </if>
+      <if test="amountType != null" >
+        AMOUNT_TYPE,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ordMulPriceRateId != null" >
+        #{ordMulPriceRateId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="priceType != null" >
+        #{priceType,jdbcType=VARCHAR},
+      </if>
+      <if test="amountType != null" >
+        #{amountType,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdMulPriceRate" >
+    update ORD_MUL_PRICE_RATE
+    <set >
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="priceType != null" >
+        PRICE_TYPE = #{priceType,jdbcType=VARCHAR},
+      </if>
+      <if test="amountType != null" >
+        AMOUNT_TYPE = #{amountType,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ORD_MUL_PRICE_RATE_ID = #{ordMulPriceRateId,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdMulPriceRate" >
+    update ORD_MUL_PRICE_RATE
+    set ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      PRICE = #{price,jdbcType=DECIMAL},
+      QUANTITY = #{quantity,jdbcType=DECIMAL},
+      PRICE_TYPE = #{priceType,jdbcType=VARCHAR},
+      AMOUNT_TYPE = #{amountType,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ORD_MUL_PRICE_RATE_ID = #{ordMulPriceRateId,jdbcType=DECIMAL}
+  </update>
+</mapper>

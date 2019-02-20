@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_PREM_USER_REL">
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdPremUserRel">
+		<id column="PREM_USER_REL_ID" property="premUserRelId" jdbcType="DECIMAL" />
+		<result column="USER_USER_ID" property="userUserId" jdbcType="DECIMAL" />
+		<result column="PREM_USER_ID" property="premUserId" jdbcType="DECIMAL" />
+		<result column="MOBILE_NUMBER" property="mobileNumber" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+	<insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdPremUserRel">
+		<selectKey resultType="java.lang.Long" keyProperty="premUserRelId"
+			order="BEFORE">
+			select SEQ_PREM_USER_REL_ID.nextval from dual
+		</selectKey>
+		insert into ORD_PREM_USER_REL (PREM_USER_REL_ID, USER_USER_ID, PREM_USER_ID,
+		MOBILE_NUMBER, CREATE_TIME)
+		values (#{premUserRelId,jdbcType=DECIMAL},#{userUserId,jdbcType=DECIMAL},
+		#{premUserId,jdbcType=DECIMAL}, #{mobileNumber,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+	</insert>
+</mapper>

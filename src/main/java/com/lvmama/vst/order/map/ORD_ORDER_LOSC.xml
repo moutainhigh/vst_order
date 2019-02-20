@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_LOSC">
+	<resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderLosc">
+		<id column="ORDER_LOSC_ID" property="orderLoscId" jdbcType="DECIMAL" />
+		<result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+		<result column="LOSC_ID" property="loscId" jdbcType="VARCHAR" />
+		<result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ORDER_LOSC_ID, ORDER_ID, LOSC_ID, UPDATE_TIME
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from ORD_ORDER_LOSC
+		where ORDER_LOSC_ID = #{orderLoscId,jdbcType=DECIMAL}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from ORD_ORDER_LOSC
+		where ORDER_LOSC_ID = #{orderLoscId,jdbcType=DECIMAL}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lvmama.vst.back.pub.po.ComAudit">
+		<selectKey resultType="java.lang.Long" keyProperty="orderLoscId"
+			order="BEFORE">
+			select SEQ_ORDER_LOSC_ID.nextval from dual
+		</selectKey>
+		insert into ORD_ORDER_LOSC (ORDER_LOSC_ID, ORDER_ID, LOSC_ID)
+		values (#{orderLoscId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL},#{loscId,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lvmama.vst.back.pub.po.ComAudit">
+		<selectKey resultType="java.lang.Long" keyProperty="orderLoscId"
+			order="BEFORE">
+			select SEQ_ORDER_LOSC_ID.nextval from dual
+		</selectKey>
+		insert into ORD_ORDER_LOSC
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			ORDER_LOSC_ID,
+			<if test="orderId != null">
+				ORDER_ID,
+			</if>
+			<if test="loscId != null">
+				LOSC_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{orderLoscId,jdbcType=DECIMAL},
+			<if test="orderId != null">
+				#{orderId,jdbcType=DECIMAL},
+			</if>
+			<if test="loscId != null">
+				#{loscId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.pub.po.ComAudit">
+		update ORD_ORDER_LOSC
+		<set>
+			<if test="orderId != null">
+				ORDER_ID = #{orderId,jdbcType=DECIMAL},
+			</if>
+			<if test="loscId != null">
+				LOSC_ID = #{loscId,jdbcType=VARCHAR},
+			</if>
+			UPDATE_TIME = sysdate
+		</set>
+		where 1=1
+		<if test="orderLoscId != null">
+			AND ORDER_LOSC_ID = #{orderLoscId,jdbcType=DECIMAL}
+		</if>
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.pub.po.ComAudit">
+		update ORD_ORDER_LOSC
+		set
+		ORDER_ID = #{objectId,jdbcType=DECIMAL},
+		LOSC_ID = #{objectType,jdbcType=VARCHAR},
+		UPDATE_TIME = sysdate
+		where ORDER_LOSC_ID = #{orderLoscId,jdbcType=DECIMAL}
+	</update>
+	
+	<select id="queryLoscListByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+		<include refid="basic.pageSearchHead"/>
+		SELECT *
+		FROM ORD_ORDER_LOSC
+		WHERE 
+		 <if test="orderId != null">
+			ORDER_ID = #{orderId,jdbcType=DECIMAL},
+		 </if>
+		 <if test="loscId != null">
+			LOSC_ID = #{loscId,jdbcType=VARCHAR},
+		 </if>
+		order by ORDER_LOSC_ID asc
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+</mapper>

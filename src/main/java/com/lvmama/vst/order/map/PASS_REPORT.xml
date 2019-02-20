@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="PASS_REPORT" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.passport.po.PassReport" >
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="BRANCH_ID" property="branchId" jdbcType="DECIMAL" />
+    <result column="SUPP_GOODS_NAME" property="suppGoodsName" jdbcType="VARCHAR" />
+    <result column="PAY_TARGET" property="payTarget" jdbcType="VARCHAR" />
+    <result column="TOTAL_PRICE" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="ADULT_QUANTITY" property="adultQuantity" jdbcType="DECIMAL" />
+    <result column="CHILD_QUANTITY" property="childQuantity" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  
+  
+ 
+  <select id="selectListByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+(select item.product_name,item.branch_id,item.supp_goods_name,'PAY' as pay_target,
+       sum(perform.actual_adult) as adult_quantity,sum(perform.actual_child) as child_quantity,
+       sum((perform.actual_adult+perform.actual_child)/(perform.adult_quantity+perform.child_quantity)) as quantity,
+       sum((perform.actual_adult+perform.actual_child)/(perform.adult_quantity+perform.child_quantity)*item.settlement_price) as total_price
+ from ord_pass_code t,
+      ord_order_item item,
+      ord_ticket_perform perform,
+      ord_order ord
+ where item.order_item_id = t.order_item_id
+      and item.order_item_id = perform.order_item_id
+      and item.order_id = ord.order_id
+      and ord.payment_target = 'PAY' 
+      and t.checking_id = #{passPointId}
+      <!--  
+      and t.add_code in
+      <foreach item="item" index="index" collection="addCodes" open="(" separator="," close=")">
+		    #{item}
+	  </foreach>
+	  -->
+	  <if test="date != null">
+      and perform.perform_time <![CDATA[ >= ]]> to_date(#{date}, 'yyyy-mm-dd') and perform.perform_time <![CDATA[ < ]]> to_date(#{date}, 'yyyy-mm-dd')+1
+      </if>
+   group by item.product_name,item.branch_id,item.supp_goods_name)
+
+union
+
+(select item.product_name,item.branch_id,item.supp_goods_name,'PREPAID' as pay_target,
+       sum(perform.actual_adult) as adult,sum(perform.actual_child) as child,
+       sum((perform.actual_adult+perform.actual_child)/(perform.adult_quantity+perform.child_quantity)) as quantity,
+       sum((perform.actual_adult+perform.actual_child)/(perform.adult_quantity+perform.child_quantity)*item.price) as price
+ from ord_pass_code t,
+      ord_order_item item,
+      ord_ticket_perform perform,
+      ord_order ord
+ where item.order_item_id = t.order_item_id
+      and item.order_item_id = perform.order_item_id
+      and item.order_id = ord.order_id
+   	  and ord.payment_target = 'PREPAID'
+      and t.checking_id = #{passPointId}
+      <!-- 
+      and t.add_code in
+      <foreach item="item" index="index" collection="addCodes" open="(" separator="," close=")">
+		    #{item}
+	  </foreach> 
+	  -->
+	  <if test="date != null">
+      and perform.perform_time <![CDATA[ >= ]]> to_date(#{date}, 'yyyy-mm-dd') and perform.perform_time <![CDATA[ < ]]> to_date(#{date}, 'yyyy-mm-dd')+1
+      </if>
+   group by item.product_name,item.branch_id,item.supp_goods_name)
+   
+  </select>
+	
+   
+  
+</mapper>

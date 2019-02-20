@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_TRACKING" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderTracking" >
+      <id column="TRACKING_ID" property="trackingId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="CHANGE_STATUS_TIME" property="changeStatusTime" jdbcType="TIMESTAMP" />
+	<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+	<result column="ADDITIONAL_CONTENT" property="additionalContent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+   TRACKING_ID ,ORDER_ID,ORDER_STATUS,CATEGORY_ID ,ADDITIONAL_CONTENT,CHANGE_STATUS_TIME,CREATE_TIME ,UPDATE_TIME   
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_TRACKING
+    where TRACKING_ID = #{trackingId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_ORDER_TRACKING
+    where TRACKING_ID = #{trackingId,jdbcType=DECIMAL}
+  </delete>
+  
+    <delete id="deleteByParam" parameterType="java.lang.Long" >
+    delete from ORD_ORDER_TRACKING
+   	where  1=1 
+	    <if test="orderId != null" >
+	       AND  ORDER_ID = #{orderId,jdbcType=DECIMAL}
+	      </if>
+	      <if test="orderStatus != null" >
+	       AND  ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR}
+	      </if>
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderTracking" >
+    <selectKey resultType="java.lang.Long" keyProperty="trackingId" order="BEFORE" >
+      select SEQ_ORDER_TRACKING_ID.nextval from dual
+    </selectKey>
+      insert into ORD_ORDER_TRACKING (TRACKING_ID, ORDER_ID, ORDER_STATUS, CATEGORY_ID,ADDITIONAL_CONTENT,CHANGE_STATUS_TIME,CREATE_TIME, UPDATE_TIME)
+      values (#{trackingId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL},#{orderStatus,jdbcType=VARCHAR},#{categoryId,jdbcType=DECIMAL},#{additionalContent,jdbcType=VARCHAR},#{changeStatusTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <select id="selectByOrderIdAndStatus" resultMap="BaseResultMap" parameterType="java.util.Map" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from ORD_ORDER_TRACKING
+	    where  1=1 
+	    <if test="orderId != null" >
+	       AND  ORDER_ID = #{orderId,jdbcType=DECIMAL}
+	      </if>
+	      <if test="orderStatus != null" >
+	       AND  ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR}
+	      </if>
+  </select>
+  
+  
+    <select id="selectNowOrderStatusByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+	    select <include refid="Base_Column_List" />
+	     from ORD_ORDER_TRACKING
+	    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+	     order by TRACKING_ID  desc
+  </select>
+  	 <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderTracking" >
+	    update ORD_ORDER_TRACKING
+	    <set >
+	       <if test="orderId != null" >
+	        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+	      </if>
+	      <if test="orderStatus != null" >
+	        ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+	      </if>
+	      <if test="changeStatusTime != null" >
+	        CHANGE_STATUS_TIME = #{changeStatusTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="categoryId != null" >
+	        CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+	      </if>
+	      <if test="additionalContent != null" >
+	        ADDITIONAL_CONTENT = #{additionalContent,jdbcType=VARCHAR},
+	      </if>
+	       <if test="createTime != null" >
+	        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+	      </if>
+	       <if test="updateTime != null" >
+	        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+	      </if>
+    </set>
+    where TRACKING_ID = #{trackingId,jdbcType=DECIMAL}
+  </update>
+  
+   <update id="updateOrderStatusByOrderIdAndStatus" parameterType="java.util.Map" >
+			update ORD_ORDER_TRACKING
+		<set >
+	       <if test="orderId != null" >
+	        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+	      </if>
+	      <if test="changeStatusTime != null" >
+	        CHANGE_STATUS_TIME = #{changeStatusTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="orderStatus != null" >
+	        ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+	      </if>
+	      <if test="additionalContent != null" >
+	        ADDITIONAL_CONTENT = #{additionalContent,jdbcType=VARCHAR},
+	      </if>
+	       <if test="updateTime != null" >
+	        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+	      </if>
+    	</set>
+    	where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    	         AND ORDER_STATUS = #{oldOrderStatus,jdbcType=VARCHAR}
+  </update>
+</mapper>

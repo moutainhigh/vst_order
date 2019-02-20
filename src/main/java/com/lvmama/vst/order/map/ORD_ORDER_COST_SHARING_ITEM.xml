@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_COST_SHARING_ITEM" >
+    <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderCostSharingItem" >
+        <id column="ID" property="ordOrderCostSharingItemId" jdbcType="DECIMAL" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+        <result column="COST_CATEGORY" property="costCategory" jdbcType="VARCHAR" />
+        <result column="COST_TYPE" property="costType" jdbcType="VARCHAR" />
+        <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+        <result column="PURPOSE" property="purpose" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        *
+    </sql>
+
+    <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderCostSharingItem">
+        <selectKey resultType="java.lang.Long" keyProperty="ordOrderCostSharingItemId" order="BEFORE">
+            select SEQ_ORDER_COST_SHARING_ITEM.nextval from dual
+        </selectKey>
+        INSERT INTO ORD_ORDER_COST_SHARING_ITEM (ID, ORDER_ID, ORDER_ITEM_ID, COST_CATEGORY, COST_TYPE, AMOUNT, PURPOSE, STATUS, CREATE_DATE, UPDATE_DATE)
+        VALUES (#{ordOrderCostSharingItemId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL}, #{costCategory,jdbcType=VARCHAR},
+        #{costType,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, #{purpose,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+        #{updateDate,jdbcType=TIMESTAMP})
+    </insert>
+
+    <!--作废记录-->
+    <update id="invalidOrderCostSharingRecords" parameterType="com.lvmama.vst.back.order.vo.OrderCostSharingItemQueryVO">
+        UPDATE ORD_ORDER_COST_SHARING_ITEM
+        SET STATUS = 'N', UPDATE_DATE = sysdate
+        WHERE STATUS = 'Y'
+        <include refid="queryParameters" />
+    </update>
+
+    <!--查询记录-->
+    <select id="queryResultListByParam" parameterType="com.lvmama.vst.back.order.vo.OrderCostSharingItemQueryVO" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        from ORD_ORDER_COST_SHARING_ITEM
+        where STATUS = 'Y'
+        <include refid="queryParameters" />
+    </select>
+
+    <update id="updateAmountByParam" parameterType="com.lvmama.vst.back.order.po.OrdOrderCostSharingItem">
+        UPDATE ORD_ORDER_COST_SHARING_ITEM
+        SET AMOUNT = #{amount,jdbcType=DECIMAL},
+            UPDATE_DATE = sysdate
+        WHERE STATUS = 'Y'
+        AND ORDER_ID = #{orderId}
+        AND ORDER_ITEM_ID = #{orderItemId}
+        AND COST_CATEGORY = #{costCategory}
+    </update>
+
+    <sql id="queryParameters">
+        <if test="orderId != null">
+            AND ORDER_ID = #{orderId}
+        </if>
+        <if test="orderItemId != null">
+            AND ORDER_ITEM_ID = #{orderItemId}
+        </if>
+        <if test="costCategory != null">
+            AND COST_CATEGORY = #{costCategory}
+        </if>
+        <if test="orderIdList != null">
+            AND ORDER_ID IN
+            <foreach collection="orderIdList" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="orderItemIdList != null">
+            AND ORDER_ITEM_ID IN
+            <foreach collection="orderItemIdList" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="costCategoryList != null">
+            AND COST_CATEGORY IN
+            <foreach collection="costCategoryList" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="costTypeList != null">
+            AND COST_TYPE IN
+            <foreach collection="costTypeList" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+</mapper>

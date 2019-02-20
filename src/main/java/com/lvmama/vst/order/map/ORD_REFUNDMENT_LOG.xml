@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_REFUNDMENT_LOG">
+
+	<resultMap id="BaseResultMap" type="com.lvmama.comm.bee.po.ord.OrdRefundmentLog" >
+		<result column="ID" property="refundLogId" />
+	    <result column="REFUNDMENT_ID" property="refundmentId" />
+	    <result column="ORDER_ID" property="orderId" />
+	    <result column="REFUND_TYPE" property="refundType" />
+	    <result column="AMOUNT" property="amount" />	   
+	    <result column="SPLIT" property="split" />
+	    <result column="VST_REFUND_STATUS" property="vstRefundStatus" />
+	    <result column="CREATE_TIME" property="createTime" />
+	    <result column="CREATE_TIME_LOG" property="createTimeLog" />
+	    <result column="UPDATE_TIME" property="updateTime" />
+  </resultMap>
+  
+  
+   <insert id="insertSelective" parameterType="com.lvmama.comm.bee.po.ord.OrdRefundment" >
+        <selectKey resultType="java.lang.Long" keyProperty="refundLogId" order="BEFORE" >
+        select SEQ_ORD_REFUNDMENT_LOG.nextval from dual
+       </selectKey>
+       INSERT INTO ORD_REFUNDMENT_LOG
+       <trim prefix="(" suffix=")" suffixOverrides="," >
+           ID,
+         <if test="refundmentId != null" >
+          REFUNDMENT_ID,
+         </if>
+        <if test="orderId != null" >
+          ORDER_ID,
+         </if>
+        <if test="refundType != null" >
+          REFUND_TYPE,
+         </if>
+         <if test="amount != null" >
+          AMOUNT,
+         </if>
+          <if test="vstRefundStatus != null" >
+          VST_REFUND_STATUS,
+         </if>   
+          <if test="split != null" >
+          SPLIT,
+         </if>
+         <if test="createTime != null" >
+          CREATE_TIME,
+         </if> 
+         <if test="createTimeLog != null" >
+          CREATE_TIME_LOG,
+         </if>
+        <if test="updateTime != null" >
+          UPDATE_TIME,
+         </if> 
+       </trim>
+       <trim prefix="values (" suffix=")" suffixOverrides="," >
+            #{refundLogId,jdbcType=DECIMAL},
+	      <if test="refundmentId != null" >
+	        #{refundmentId,jdbcType=DECIMAL},
+	      </if> 
+	       <if test="orderId != null" >
+	        #{orderId,jdbcType=DECIMAL},
+	      </if>
+	      <if test="refundType != null" >
+	        #{refundType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="amount != null" >
+	        #{amount,jdbcType=DECIMAL},
+	      </if>
+	      <if test="vstRefundStatus != null" >
+	        #{vstRefundStatus,jdbcType=VARCHAR},
+	      </if>
+	       <if test="split != null" >
+	        #{split,jdbcType=VARCHAR},
+	      </if>
+	     <if test="createTime != null" >
+	        #{createTime,jdbcType=TIMESTAMP},
+	      </if> 
+	       <if test="createTimeLog != null" >
+	        #{createTimeLog,jdbcType=TIMESTAMP},
+	      </if> 
+          <if test="updateTime != null" >
+	        #{updateTime,jdbcType=TIMESTAMP},
+	      </if>                  
+       </trim>
+  </insert>
+  
+ 
+</mapper>

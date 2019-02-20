@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+	<property name="logback.appname" value="vst_order" />
+	<property name="logging.path" value="/opt/apache-tomcat-vst-order/logs" />
+	<contextName>${logback.appname}</contextName>
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="com.lvmama.flume.clients.logback.encoder.LvmamaLogeyeLayoutEncoder">
+			<!-- 格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${logback.appname}] [%thread] %-5level %replace(%caller{1}){'\t|Caller.{1}0|\r\n|\n', ''} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- <appender name="file" class="ch.qos.logback.core.FileAppender">
+		<file>${logging.path}/catalina.out</file>
+		<append>true</append>
+		<encoder class="com.lvmama.flume.clients.logback.encoder.LvmamaLogeyeLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${logback.appname}] [%thread] %-5level %replace(%caller{1}){'\t|Caller.{1}0|\r\n|\n', ''} - %msg%n</pattern>
+		</encoder>
+	</appender> -->
+	
+	<appender name="bizFile" class="ch.qos.logback.core.FileAppender">    
+	    <file>${logging.path}/bizEvent.log</file>
+	    <!-- append: true,日志被追加到文件结尾; false,清空现存文件;默认是true -->
+	    <append>true</append>
+	    <!-- <filter class="ch.qos.logback.core.filter.EvaluatorFilter"> -->
+	    <filter class="com.lvmama.vst.logback.OrderEvalFilter">	
+	        <evaluator>
+	        <!-- 默认为 ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
+	        <expression>return message.contains("LVMM_EVENT_LOG");</expression>
+	        </evaluator>
+	        <onMatch>ACCEPT</onMatch>
+	        <onMismatch>DENY</onMismatch>
+	    </filter>
+	    <encoder class="com.lvmama.flume.clients.logback.encoder.LvmamaLogeyeLayoutEncoder">
+	        <Pattern>%msg%n</Pattern>
+	        <charset>UTF-8</charset>
+	    </encoder>
+	</appender>
+	
+	<logger name="com.apache.ibatis" level="INFO" />
+	<logger name="java.sql.Connection" level="INFO" />
+	<logger name="java.sql.Statement" level="INFO" />
+	<logger name="java.sql.PreparedStatement" level="INFO" />
+	
+	<logger name="com.alibaba.dubbo.monitor" level="ERROR" />
+	<logger name="com.alibaba.dubbo.registry" level="ERROR" />
+	<logger name="com.alibaba.dubbo.config" level="ERROR" />
+	<logger name="com.alibaba.dubbo.rpc.protocol.dubbo.DubboInvoker" level="ERROR" />
+	<logger name="com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol" level="ERROR" />
+
+	<root level="INFO">
+		<appender-ref ref="stdout" />
+		<!-- <appender-ref ref="file" /> -->
+		<appender-ref ref="bizFile" />
+	</root>
+</configuration>

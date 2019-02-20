@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SEND_FAILED_MESSAGE_INFO" >
+    <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.SendFailedMessaeInfo" >
+        <id column="FAILED_MESSAGE_ID" property="failedMessageId" jdbcType="DECIMAL" />
+        <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="MESSAGE_TYPE" property="messageType" jdbcType="VARCHAR" />
+        <result column="MESSAGE_STATUS" property="messageStatus" jdbcType="VARCHAR" />
+        <result column="EXCEPTION_CONTENT" property="exceptionContent" jdbcType="VARBINARY" />
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"  />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        FAILED_MESSAGE_ID,
+        ORDER_ITEM_ID,
+        ORDER_ID,
+        MESSAGE_TYPE,
+        MESSAGE_STATUS,
+        EXCEPTION_CONTENT,
+        CREATE_DATE,
+        UPDATE_DATE
+    </sql>
+
+    <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+        <include refid="basic.pageSearchHead"/>
+        <include refid="select_by_param"/>
+        <include refid="basic.pageSearchFoot"/>
+    </select>
+
+    <!-- 插入数据 -->
+    <insert id="insert" parameterType="com.lvmama.vst.back.order.po.SendFailedMessaeInfo" >
+        <selectKey resultType="java.lang.Long" keyProperty="failedMessageId" order="BEFORE" >
+            select SEQ_FAILED_MESSAGE_INFO_ID.nextval from dual
+        </selectKey>
+        insert into SEND_FAILED_MESSAGE_INFO (
+            FAILED_MESSAGE_ID,
+            ORDER_ITEM_ID,
+            ORDER_ID,
+            MESSAGE_TYPE,
+            MESSAGE_STATUS,
+            EXCEPTION_CONTENT,
+            CREATE_DATE,
+            UPDATE_DATE
+        )
+        values (
+            #{failedMessageId,jdbcType=DECIMAL},
+            #{orderItemId,jdbcType=DECIMAL},
+            #{orderId,jdbcType=DECIMAL},
+            #{messageType,jdbcType=VARCHAR},
+            #{messageStatus,jdbcType=VARCHAR},
+            #{exceptionContent,jdbcType=VARBINARY},
+            sysdate,
+            sysdate
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.SendFailedMessaeInfo" >
+        <selectKey resultType="java.lang.Long" keyProperty="failedMessageId" order="BEFORE" >
+            select SEQ_FAILED_MESSAGE_INFO_ID.nextval from dual
+        </selectKey>
+        insert into SEND_FAILED_MESSAGE_INFO
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            FAILED_MESSAGE_ID,
+            <if test="orderItemId != null" >
+                ORDER_ITEM_ID,
+            </if>
+            <if test="orderId != null" >
+                ORDER_ID,
+            </if>
+            <if test="massageType != null" >
+                MESSAGE_TYPE,
+            </if>
+            <if test="messageStatus != null" >
+                MESSAGE_STATUS,
+            </if>
+            <if test="exceptionContent != null" >
+                EXCEPTION_CONTENT,
+            </if>
+            CREATE_DATE,
+            UPDATE_DATE
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            #{failedMessageId,jdbcType=DECIMAL},
+            <if test="orderItemId != null" >
+                #{orderItemId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderId != null" >
+                #{orderId,jdbcType=DECIMAL},
+            </if>
+            <if test="massageType != null" >
+                #{massageType,jdbcType=VARCHAR},
+            </if>
+            <if test="messageStatus != null" >
+                #{messageStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="exceptionContent != null" >
+                #{exceptionContent,jdbcType=VARBINARY},
+            </if>
+            sysdate,
+            sysdate
+        </trim>
+    </insert>
+
+
+    <sql id="select_by_param" >
+        select *
+        from SEND_FAILED_MESSAGE_INFO
+        where 1=1
+        <include refid="Base_Query_Column_List" />
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from SEND_FAILED_MESSAGE_INFO
+        where FAILED_MESSAGE_ID = #{failedMessageId,jdbcType=DECIMAL}
+    </select>
+
+    <sql id="Base_Query_Column_List" >
+        <if test="failedMessageId != null" >
+            and FAILED_MESSAGE_ID = #{failedMessageId,jdbcType=DECIMAL}
+        </if>
+        <if test="orderId != null" >
+            and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+        </if>
+        <if test="orderItemId!=null">
+            and ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+        </if>
+        <if test="massageType != null" >
+            and MESSAGE_TYPE = #{massageType,jdbcType=VARCHAR}
+        </if>
+        <if test="messageStatus != null" >
+            and MESSAGE_STATUS = #{messageStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="exceptionContent != null" >
+            and EXCEPTION_CONTENT = #{exceptionContent,jdbcType=VARBINARY}
+        </if>
+    </sql>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.SendFailedMessaeInfo" >
+        update SEND_FAILED_MESSAGE_INFO
+        <set >
+            <if test="orderId != null" >
+                ORDER_ID = #{orderId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderItemId!=null">
+                ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+            </if>
+            <if test="massageType != null" >
+                MESSAGE_TYPE = #{massageType,jdbcType=VARCHAR},
+            </if>
+            <if test="messageStatus != null" >
+                MESSAGE_STATUS = #{messageStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="exceptionContent != null" >
+                EXCEPTION_CONTENT = #{exceptionContent,jdbcType=VARBINARY},
+            </if>
+            CREATE_DATE = sysdate,
+            UPDATE_DATE = sysdate
+        </set>
+        where FAILED_MESSAGE_ID = #{failedMessageId,jdbcType=DECIMAL}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.SendFailedMessaeInfo" >
+        update SEND_FAILED_MESSAGE_INFO
+        set
+          ORDER_ID = #{orderId,jdbcType=DECIMAL},
+          ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+          MESSAGE_TYPE = #{massageType,jdbcType=VARCHAR},
+          MESSAGE_STATUS = #{messageStatus,jdbcType=VARCHAR},
+          EXCEPTION_CONTENT = #{exceptionContent,jdbcType=VARBINARY},
+          CREATE_DATE = sysdate,
+          UPDATE_DATE = sysdate
+        where FAILED_MESSAGE_ID = #{failedMessageId,jdbcType=DECIMAL}
+    </update>
+
+    <update id="updateMessageStatusByOrderId" parameterType="java.lang.Long" >
+        update SEND_FAILED_MESSAGE_INFO
+        set MESSAGE_STATUS = 'SUCCESS', UPDATE_DATE = sysdate
+        where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </update>
+
+    <!-- 根据订单ID查询消息列表 -->
+    <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from SEND_FAILED_MESSAGE_INFO
+        where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </select>
+
+    <!-- 根据子订单ID查询消息列表 -->
+    <select id="selectByOrderItemId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from SEND_FAILED_MESSAGE_INFO
+        where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from SEND_FAILED_MESSAGE_INFO
+        where FAILED_MESSAGE_ID = #{failedMessageId,jdbcType=DECIMAL}
+    </delete>
+
+    <delete id="deleteByOrderId" parameterType="java.lang.Long" >
+        delete from SEND_FAILED_MESSAGE_INFO
+        where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </delete>
+
+    <delete id="deleteByOrderItemId" parameterType="java.lang.Long" >
+        delete from SEND_FAILED_MESSAGE_INFO
+        where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+    </delete>
+
+    <select id="getFailedMessageCount" parameterType="java.util.Map" resultType="Long">
+        SELECT COUNT(*) FROM SEND_FAILED_MESSAGE_INFO SF
+        WHERE 1=1 AND SF.MESSAGE_STATUS = 'FAILED'
+    </select>
+
+    <select id="getFailedMessageInfoList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from SEND_FAILED_MESSAGE_INFO
+        where MESSAGE_STATUS = 'FAILED'
+        <![CDATA[
+         and rownum < 10000
+       ]]>
+
+    </select>
+
+    <delete id="clearTwoMonthAgoFailedMessageInfo" parameterType="java.util.Map">
+        DELETE FROM LVMAMA_ORD.SEND_FAILED_MESSAGE_INFO SF
+        WHERE TRUNC(SF.CREATE_DATE) <![CDATA[<=]]> TRUNC(ADD_MONTHS(SYSDATE,-2))
+        AND SF.MESSAGE_STATUS = 'SUCCESS'
+    </delete>
+
+</mapper>

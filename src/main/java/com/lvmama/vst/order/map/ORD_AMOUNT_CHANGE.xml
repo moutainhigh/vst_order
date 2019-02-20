@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_AMOUNT_CHANGE" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdAmountChange" >
+    <id column="AMOUNT_CHANGE_ID" property="amountChangeId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="DISTRIBUTOR_ID" property="distributorId" jdbcType="DECIMAL" />
+    <result column="DISTRIBUTOR_CODE" property="distributorCode" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="APPROVE_STATUS" property="approveStatus" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="APPROVE_TIME" property="approveTime" jdbcType="TIMESTAMP" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="AMOUNT_TYPE" property="amountType" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="DECIMAL" />
+    <result column="OPERATOR_NAME" property="operatorName" jdbcType="VARCHAR" />
+    <result column="APPROVE_OPERATOR" property="approveOperator" jdbcType="VARCHAR" />
+    <result column="FORMULAS" property="formulas" jdbcType="VARCHAR" />
+    <result column="PRICE_DETAIL" property="priceDetail" jdbcType="VARCHAR" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+    <result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    AMOUNT_CHANGE_ID, ORDER_ID, AMOUNT, APPROVE_STATUS, CREATE_TIME, APPROVE_TIME, REASON, AMOUNT_TYPE, MEMO, ORG_ID, OPERATOR_NAME,APPROVE_OPERATOR,
+    FORMULAS,PRICE_DETAIL,OBJECT_TYPE,OBJECT_ID, UPDATE_TIME
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_AMOUNT_CHANGE
+    where AMOUNT_CHANGE_ID = #{amountChangeId,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- 公用语句块 -->
+	<sql id="Base_Query_Column_List" >
+   	  	<if test="orderId != null">
+			AND oac.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+		</if>
+        <if test="orderIdList != null">
+            AND oac.ORDER_ID IN
+            <foreach collection="orderIdList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+		<if test="approveStatus != null and approveStatus != ''">
+			AND oac.APPROVE_STATUS = #{approveStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="createTime != null">
+			AND oac.CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="approveTime != null">
+			AND oac.APPROVE_TIME = #{approveTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="amountType != null">
+			AND oac.AMOUNT_TYPE = #{amountType,jdbcType=VARCHAR}
+		</if>
+		<if test="orgId != null">
+			AND oac.ORG_ID = #{orgId,jdbcType=DECIMAL}
+		</if>
+		<if test="operatorName != null and operatorName != ''">
+			AND oac.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="formulas != null and formulas != ''">
+			AND oac.FORMULAS = #{formulas,jdbcType=VARCHAR}
+		</if>
+		<if test="priceDetail != null and priceDetail != ''">
+			AND oac.PRICE_DETAIL = #{priceDetail,jdbcType=VARCHAR}
+		</if>
+		<if test="objectType != null and objectType != ''">
+			AND oac.OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+		</if>
+		<if test="objectId != null and objectId != ''">
+			AND oac.OBJECT_ID = #{objectId,jdbcType=VARCHAR}
+		</if>
+		<if test="prodManagerId != null and prodManagerId != ''">
+			<choose>
+				<when test="objectType == null or objectType == ''">
+					and (exists (select 1 from ord_order ord where ord.order_id = oac.object_id and oac.object_type = 'ORDER' and ord.manager_id = #{prodManagerId, jdbcType=VARCHAR}) or exists (select 1 from ord_order_item ooi where ooi.order_item_id = oac.object_id and oac.object_type = 'ORDER_ITEM' and ooi.manager_id = #{prodManagerId, jdbcType=VARCHAR}))
+				</when>
+				<otherwise>
+				and (exists (select 1 from ord_order ord where ord.order_id = oac.object_id and oac.object_type = #{objectType,jdbcType=VARCHAR} and ord.manager_id = #{prodManagerId, jdbcType=VARCHAR}) or exists (select 1 from ord_order_item ooi where ooi.order_item_id = oac.object_id and oac.object_type = #{objectType,jdbcType=VARCHAR} and ooi.manager_id = #{prodManagerId,jdbcType=VARCHAR}))
+				</otherwise>
+			</choose>
+		</if>
+  	</sql>
+  
+    <sql id="select_by_param" >
+		select *	
+		from ORD_AMOUNT_CHANGE oac 
+		where 1=1
+		<include refid="Base_Query_Column_List" />	
+		order by oac.CREATE_TIME desc
+    </sql>
+    
+    <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+    <select id="isApproving" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		select count(1)
+		from ORD_AMOUNT_CHANGE oac where oac.order_id = #{orderId,jdbcType=DECIMAL}
+        and oac.approve_status = 'TOAPPROVE'
+	</select>
+	
+	<select id="queryApprovingRecords" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		SELECT count(1)
+  FROM ORD_AMOUNT_CHANGE OAC
+ WHERE OAC.APPROVE_STATUS = 'TOAPPROVE'
+   AND ((OAC.OBJECT_TYPE = 'ORDER' AND OAC.OBJECT_ID = #{orderId})
+    OR (OAC.OBJECT_TYPE = 'ORDER_ITEM' AND EXISTS
+        (SELECT 1
+           FROM ORD_ORDER_ITEM OOI
+          WHERE OOI.ORDER_ITEM_ID = OAC.OBJECT_ID
+            AND OOI.ORDER_ID = #{orderId})))
+	</select>
+	
+    <select id="selectByParamsCounts" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select  count(1)
+		from ORD_AMOUNT_CHANGE oac
+	    where 1=1
+		<include refid="Base_Query_Column_List" />
+	</select>
+  
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdAmountChange" >
+    <selectKey resultType="java.lang.Long" keyProperty="amountChangeId" order="BEFORE" >
+      select SEQ_ORD_AMOUNT_CHANGE_ID.nextval from dual
+    </selectKey>
+    insert into ORD_AMOUNT_CHANGE (AMOUNT_CHANGE_ID, ORDER_ID, AMOUNT, 
+      APPROVE_STATUS, CREATE_TIME, APPROVE_TIME, REASON, AMOUNT_TYPE, MEMO, ORG_ID, OPERATOR_NAME,APPROVE_OPERATOR
+      ,FORMULAS,PRICE_DETAIL,OBJECT_TYPE,OBJECT_ID,DISTRIBUTOR_ID,DISTRIBUTOR_CODE
+      )
+    values (#{amountChangeId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, 
+      #{approveStatus,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{approveTime,jdbcType=TIMESTAMP}
+      , #{reason,jdbcType=VARCHAR}, #{amountType,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{orgId,jdbcType=DECIMAL}
+      , #{operatorName,jdbcType=VARCHAR}, #{approveOperator,jdbcType=VARCHAR}
+      , #{formulas,jdbcType=VARCHAR},#{priceDetail,jdbcType=VARCHAR}, #{objectType,jdbcType=VARCHAR}
+      , #{objectId,jdbcType=VARCHAR}, #{distributorId,jdbcType=DECIMAL}, #{distributorCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdAmountChange" >
+    update ORD_AMOUNT_CHANGE
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="approveStatus != null" >
+        APPROVE_STATUS = #{approveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveTime != null" >
+        APPROVE_TIME = #{approveTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="reason != null" >
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+       <if test="amountType != null" >
+        AMOUNT_TYPE = #{amountType,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=DECIMAL},
+      </if>
+      <if test="operatorName != null" >
+        OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="approveOperator != null" >
+        APPROVE_OPERATOR = #{approveOperator,jdbcType=VARCHAR},
+      </if>
+      
+        <if test="formulas != null and formulas != ''">
+			 FORMULAS = #{formulas,jdbcType=VARCHAR},
+		</if>
+		<if test="priceDetail != null and priceDetail != ''">
+			PRICE_DETAIL = #{priceDetail,jdbcType=VARCHAR},
+		</if>
+		<if test="objectType != null and objectType != ''">
+			OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+		</if>
+		<if test="objectId != null and objectId != ''">
+			OBJECT_ID = #{objectId,jdbcType=VARCHAR},
+		</if>
+		UPDATE_TIME = sysdate
+      
+    </set>
+    where AMOUNT_CHANGE_ID = #{amountChangeId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdAmountChange" >
+    update ORD_AMOUNT_CHANGE
+    set
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+        APPROVE_STATUS = #{approveStatus,jdbcType=VARCHAR},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        APPROVE_TIME = #{approveTime,jdbcType=TIMESTAMP},
+        REASON = #{reason,jdbcType=VARCHAR},
+        AMOUNT_TYPE = #{amountType,jdbcType=VARCHAR},
+        ORG_ID = #{orgId,jdbcType=DECIMAL},
+        MEMO = #{memo,jdbcType=VARCHAR},
+        APPROVE_OPERATOR = #{approveOperator,jdbcType=VARCHAR},
+        OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+        
+        FORMULAS = #{formulas,jdbcType=VARCHAR},
+        PRICE_DETAIL = #{priceDetail,jdbcType=VARCHAR},
+        OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+        OBJECT_ID = #{objectId,jdbcType=VARCHAR},
+        UPDATE_TIME = sysdate
+    where AMOUNT_CHANGE_ID = #{amountChangeId,jdbcType=DECIMAL}
+  </update>
+</mapper>

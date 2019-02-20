@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="COM_JOB_CONFIG" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.pub.po.ComJobConfig" >
+  	<id column="COM_JOB_CONFIG_ID" property="comJobConfigId" jdbcType="DECIMAL" />
+    <result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+    <result column="JOB_TYPE" property="jobType" jdbcType="VARCHAR" />
+    <result column="PLAN_TIME" property="planTime" jdbcType="TIMESTAMP" />
+    <result column="RETRY_COUNT" property="retryCount" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	COM_JOB_CONFIG_ID, OBJECT_ID, OBJECT_TYPE, JOB_TYPE, PLAN_TIME, RETRY_COUNT, CREATE_TIME,
+  	UPDATE_TIME
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from COM_JOB_CONFIG
+    where COM_JOB_CONFIG_ID = #{comJobConfigId,jdbcType=DECIMAL}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from COM_JOB_CONFIG
+    where COM_JOB_CONFIG_ID = #{comJobConfigId,jdbcType=DECIMAL}
+  </delete>
+  
+  <select id="selectList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select 
+    <include refid="Base_Column_List" />
+    from COM_JOB_CONFIG
+    <where>
+    	<if test="jobType != null">
+    		and JOB_TYPE = #{jobType,jdbcType=VARCHAR}
+    	</if>
+    	<if test="planTime != null">
+    		  <![CDATA[
+    		  and PLAN_TIME <= #{planTime,jdbcType=TIMESTAMP}
+    		  ]]>
+    	</if>
+    	<![CDATA[
+  		and ROWNUM < 50
+  		]]>
+  	</where>
+  </select>
+  
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select 
+    <include refid="Base_Column_List" />
+    from COM_JOB_CONFIG
+    <where>
+    	<if test="jobType != null">
+    		and JOB_TYPE = #{jobType,jdbcType=VARCHAR}
+    	</if>
+    	<if test="beginDate != null">
+    		<![CDATA[
+    		and PLAN_TIME >= #{beginDate,jdbcType=TIMESTAMP}
+    		]]>
+    	</if>
+    	<if test="endDate != null">
+    		<![CDATA[
+    		and PLAN_TIME <= #{endDate,jdbcType=TIMESTAMP}
+    		]]>
+    	</if>
+    	<![CDATA[
+  		and ROWNUM < 50
+  		]]>
+  	</where>
+  </select>
+  
+  <insert id="insert" parameterType="com.lvmama.vst.back.pub.po.ComJobConfig" >
+    <selectKey resultType="java.lang.Long" keyProperty="comJobConfigId" order="BEFORE" >
+      select SEQ_COM_JOB_CONFIG_ID.nextval from dual
+    </selectKey>
+    insert into COM_JOB_CONFIG (COM_JOB_CONFIG_ID, OBJECT_ID, OBJECT_TYPE, 
+      JOB_TYPE, PLAN_TIME, RETRY_COUNT, CREATE_TIME
+      )
+    values (#{comJobConfigId,jdbcType=DECIMAL}, #{objectId,jdbcType=DECIMAL}, #{objectType,jdbcType=VARCHAR}, 
+      #{jobType,jdbcType=VARCHAR}, #{planTime,jdbcType=TIMESTAMP}, #{retryCount,jdbcType=DECIMAL},
+      #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.pub.po.ComJobConfig" >
+    <selectKey resultType="java.lang.Long" keyProperty="comJobConfigId" order="BEFORE" >
+      select SEQ_COM_JOB_CONFIG_ID.nextval from dual
+    </selectKey>
+    insert into COM_JOB_CONFIG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      COM_JOB_CONFIG_ID,
+      <if test="objectId != null" >
+        OBJECT_ID,
+      </if>
+      <if test="objectType != null" >
+        OBJECT_TYPE,
+      </if>
+      <if test="jobType != null" >
+        JOB_TYPE,
+      </if>
+      <if test="planTime != null" >
+        PLAN_TIME,
+      </if>
+      <if test="retryCount != null" >
+        RETRY_COUNT,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{comJobConfigId,jdbcType=DECIMAL},
+      <if test="objectId != null" >
+        #{objectId,jdbcType=DECIMAL},
+      </if>
+      <if test="objectType != null" >
+        #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="jobType != null" >
+        #{jobType,jdbcType=VARCHAR},
+      </if>
+      <if test="planTime != null" >
+        #{planTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retryCount != null" >
+        #{retryCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectConfigId" resultType="java.lang.Long">
+    	select SEQ_COM_JOB_CONFIG_ID.currval from dual
+  </select>
+	
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.pub.po.ComJobConfig" >
+    update COM_JOB_CONFIG
+    <set >
+      <if test="objectId != null" >
+        OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+      </if>
+      <if test="objectType != null" >
+        OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="jobType != null" >
+        JOB_TYPE = #{jobType,jdbcType=VARCHAR},
+      </if>
+      <if test="planTime != null" >
+        PLAN_TIME = #{planTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retryCount != null" >
+        RETRY_COUNT = #{retryCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where COM_JOB_CONFIG_ID = #{comJobConfigId,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.pub.po.ComJobConfig" >
+    update COM_JOB_CONFIG
+    set OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+      OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      JOB_TYPE = #{jobType,jdbcType=VARCHAR},
+      PLAN_TIME = #{planTime,jdbcType=TIMESTAMP},
+      RETRY_COUNT = #{retryCount,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = sysdate
+    where COM_JOB_CONFIG_ID = #{comJobConfigId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectByObjectId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select <include refid="Base_Column_List" />
+    from COM_JOB_CONFIG
+    <where>
+    	<if test="jobType != null">
+    		and JOB_TYPE = #{jobType,jdbcType=VARCHAR}
+    	</if>
+    	<if test="objectId != null">
+    		<![CDATA[
+    		and OBJECT_ID = #{objectId,jdbcType=VARCHAR}
+    		]]>
+    	</if>
+  	</where>
+  </select>
+  
+  <delete id="deleteComJobConfigByCondition" parameterType="com.lvmama.vst.back.pub.po.ComJobConfig">
+     delete from COM_JOB_CONFIG
+    where OBJECT_ID = #{objectId,jdbcType=DECIMAL} and  OBJECT_TYPE = #{objectType,jdbcType=VARCHAR} and JOB_TYPE = #{jobType,jdbcType=VARCHAR}
+  </delete>
+
+</mapper>

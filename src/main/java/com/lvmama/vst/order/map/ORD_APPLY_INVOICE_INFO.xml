@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_APPLY_INVOICE_INFO" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdApplyInvoiceInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="MOBILE_NUMBER" property="mobileNumber" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="DELIVERY_TYPE" property="deliveryType" jdbcType="VARCHAR" />
+    <result column="PURCHASE_WAY" property="purchaseWay" jdbcType="VARCHAR"/>
+    <result column="TAX_NUMBER" property="taxNumber" jdbcType="VARCHAR"/>
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    
+    
+    <result column="BUYER_ADDRESS" property="buyerAddress" jdbcType="VARCHAR" />
+    <result column="BUYER_TELEPHONE" property="buyerTelephone" jdbcType="VARCHAR" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_BANKA_CCOUNT" property="accountBankAccount" jdbcType="VARCHAR" />
+    
+    <result column="ELEC_INVOICE" property="elecInvoice" jdbcType="INTEGER" />
+    <result column="RECEIVER_EMAIL" property="receiverEmail" jdbcType="VARCHAR" />
+    
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="APPLY_TIMES" property="applyTimes" jdbcType="INTEGER" />
+    <result column="ERROR_MSG" property="errormsg" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="EXPRESS_ORDER_ID" property="expressOrderId" jdbcType="DECIMAL" />
+  </resultMap>
+  
+   <resultMap id="BaseResultMapVst" type="com.lvmama.vst.comm.vo.order.OrderInvoiceInfoVst" >
+   	<id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="FULL_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="contactMobile" jdbcType="VARCHAR" />
+    <result column="POSTAL_CODE" property="postcode" jdbcType="VARCHAR" />
+    <result column="DELIVERY_TYPE" property="deliveryType" jdbcType="VARCHAR" />
+    <result column="PURCHASE_WAY" property="purchaseWay" jdbcType="VARCHAR"/>
+    <result column="TAX_NUMBER" property="taxNumber" jdbcType="VARCHAR"/>
+    
+    <result column="BUYER_ADDRESS" property="buyerAddress" jdbcType="VARCHAR" />
+    <result column="BUYER_TELEPHONE" property="buyerTelephone" jdbcType="VARCHAR" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_BANKA_CCOUNT" property="accountBankAccount" jdbcType="VARCHAR" />
+    
+    <result column="ELEC_INVOICE" property="elecInvoice" jdbcType="INTEGER" />
+    <result column="RECEIVER_EMAIL" property="receiverEmail" jdbcType="VARCHAR" />
+    
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="STREET" property="street" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ApplyInvoiceInfoResult" type="com.lvmama.vst.comm.vo.order.ApplyInvoiceInfoResult" >
+  	<id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="FULL_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="contactMobile" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="bookerName" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="PURCHASE_WAY" property="purchaseWay" jdbcType="VARCHAR"/>
+    <result column="TAX_NUMBER" property="taxNumber" jdbcType="VARCHAR"/>
+    
+    <result column="BUYER_ADDRESS" property="buyerAddress" jdbcType="VARCHAR" />
+    <result column="BUYER_TELEPHONE" property="buyerTelephone" jdbcType="VARCHAR" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_BANKA_CCOUNT" property="accountBankAccount" jdbcType="VARCHAR" />
+    
+    <result column="ELEC_INVOICE" property="elecInvoice" jdbcType="INTEGER" />
+    <result column="RECEIVER_EMAIL" property="receiverEmail" jdbcType="VARCHAR" />
+    
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ERROR_MSG" property="errormsg" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, ORDER_ID, USER_ID,USER_NAME,MOBILE_NUMBER, TITLE, CONTENT, AMOUNT, DELIVERY_TYPE, 
+    PURCHASE_WAY, TAX_NUMBER, BUYER_ADDRESS, BUYER_TELEPHONE, BANK_ACCOUNT, ACCOUNT_BANKA_CCOUNT, 
+    ELEC_INVOICE, RECEIVER_EMAIL, STATUS, UPDATE_TIME, APPLY_TIMES,ERROR_MSG, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_APPLY_INVOICE_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="getOrdApplyInvoiceInfoByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_APPLY_INVOICE_INFO
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    order by update_time desc   
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_APPLY_INVOICE_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdApplyInvoiceInfo" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_ORD_APPLY_INVOICE_INFO_ID.nextval from dual
+    </selectKey>
+    insert into ORD_APPLY_INVOICE_INFO (ID, ORDER_ID, USER_ID, USER_NAME,MOBILE_NUMBER,TITLE, CONTENT, AMOUNT, DELIVERY_TYPE, 
+            PURCHASE_WAY, TAX_NUMBER,  BUYER_ADDRESS, BUYER_TELEPHONE, BANK_ACCOUNT, ACCOUNT_BANKA_CCOUNT, 
+            ELEC_INVOICE, RECEIVER_EMAIL, STATUS, UPDATE_TIME, APPLY_TIMES,ERROR_MSG, CREATE_TIME
+      )
+    values (#{id,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{userId,jdbcType=VARCHAR},
+      #{userName,jdbcType=VARCHAR}, #{mobileNumber,jdbcType=VARCHAR},  
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},#{amount,jdbcType=DECIMAL}, 
+      #{deliveryType,jdbcType=VARCHAR},
+      #{purchaseWay,jdbcType=VARCHAR},
+      #{taxNumber,jdbcType=VARCHAR},
+      
+      #{buyerAddress,jdbcType=VARCHAR},
+      #{buyerTelephone,jdbcType=VARCHAR},
+      #{bankAccount,jdbcType=VARCHAR},
+      #{accountBankAccount,jdbcType=VARCHAR},
+      
+      #{elecInvoice,jdbcType=INTEGER},
+      #{receiverEmail,jdbcType=VARCHAR},
+      
+      #{status,jdbcType=VARCHAR},
+      #{updateTime,jdbcType=TIMESTAMP}, 
+      #{applyTimes,jdbcType=INTEGER},
+      #{errormsg,jdbcType=VARCHAR},
+      sysdate
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdApplyInvoiceInfo" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_ORD_APPLY_INVOICE_INFO_ID.nextval from dual
+    </selectKey>
+    insert into ORD_APPLY_INVOICE_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+       <if test="userName != null" >
+        USER_NAME,
+      </if>
+       <if test="mobileNumber != null" >
+        MOBILE_NUMBER,
+       </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="deliveryType != null" >
+        DELIVERY_TYPE,
+      </if>
+      <if test="purchaseWay != null" >
+        PURCHASE_WAY,
+      </if>
+      <if test="taxNumber != null" >
+        TAX_NUMBER,
+      </if>
+      
+      <if test="buyerAddress != null" >
+        BUYER_ADDRESS,
+      </if>
+      <if test="buyerTelephone != null" >
+        BUYER_TELEPHONE,
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT,
+      </if>
+      <if test="accountBankAccount != null" >
+        ACCOUNT_BANKA_CCOUNT,
+      </if>
+      
+      <if test="elecInvoice != null" >
+        ELEC_INVOICE,
+      </if>
+       <if test="receiverEmail != null" >
+        RECEIVER_EMAIL,
+      </if>
+      
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="applyTimes != null" >
+        APPLY_TIMES,
+      </if>
+       <if test="errormsg != null" >
+        ERROR_MSG,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="expressOrderId != null" >
+          EXPRESS_ORDER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+       </if>
+        <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+        <if test="mobileNumber != null" >
+        #{mobileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveryType != null" >
+        #{deliveryType,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseWay != null" >
+        #{purchaseWay,jdbcType=VARCHAR},
+      </if>
+      <if test="taxNumber != null" >
+        #{taxNumber,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="buyerAddress != null" >
+        #{buyerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerTelephone != null" >
+        #{buyerTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null" >
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="accountBankAccount != null" >
+        #{accountBankAccount,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="elecInvoice != null" >
+        #{elecInvoice,jdbcType=INTEGER},
+      </if>
+      <if test="receiverEmail != null" >
+        #{receiverEmail,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyTimes != null" >
+        #{applyTimes,jdbcType=INTEGER},
+      </if>
+      <if test="errormsg != null" >
+        #{errormsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expressOrderId != null" >
+        #{expressOrderId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdApplyInvoiceInfo" >
+    update ORD_APPLY_INVOICE_INFO
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+       <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+       <if test="mobileNumber != null" >
+        MOBILE_NUMBER = #{mobileNumber,jdbcType=VARCHAR},
+       </if>
+      
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveryType != null" >
+        DELIVERY_TYPE = #{deliveryType,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseWay != null" >
+        PURCHASE_WAY = #{purchaseWay,jdbcType=VARCHAR},
+      </if>
+      <if test="taxNumber != null" >
+        TAX_NUMBER = #{taxNumber,jdbcType=VARCHAR},
+      </if>
+      
+      
+      <if test="buyerAddress != null" >
+        BUYER_ADDRESS = #{buyerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerTelephone != null" >
+        BUYER_TELEPHONE = #{buyerTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="accountBankAccount != null" >
+        ACCOUNT_BANKA_CCOUNT = #{accountBankAccount,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="elecInvoice != null" >
+        ELEC_INVOICE = #{elecInvoice,jdbcType=INTEGER},
+      </if>
+       <if test="receiverEmail != null" >
+        RECEIVER_EMAIL = #{receiverEmail,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyTimes != null" >
+        APPLY_TIMES = #{applyTimes,jdbcType=INTEGER},
+      </if>
+       <if test="errormsg != null" >
+        ERROR_MSG = #{errormsg,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+    <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdApplyInvoiceInfo" >
+    update ORD_APPLY_INVOICE_INFO
+       set USER_NAME = #{userName,jdbcType=VARCHAR},
+        MOBILE_NUMBER = #{mobileNumber,jdbcType=VARCHAR},
+        TITLE = #{title,jdbcType=VARCHAR},
+        CONTENT = #{content,jdbcType=VARCHAR},
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+        DELIVERY_TYPE = #{deliveryType,jdbcType=VARCHAR},
+        PURCHASE_WAY = #{purchaseWay,jdbcType=VARCHAR},
+        TAX_NUMBER = #{taxNumber,jdbcType=VARCHAR},
+        BUYER_ADDRESS = #{buyerAddress,jdbcType=VARCHAR},
+        BUYER_TELEPHONE = #{buyerTelephone,jdbcType=VARCHAR},
+        BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+        ACCOUNT_BANKA_CCOUNT = #{accountBankAccount,jdbcType=VARCHAR},
+        ELEC_INVOICE = #{elecInvoice,jdbcType=INTEGER},
+        RECEIVER_EMAIL = #{receiverEmail,jdbcType=VARCHAR},
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+        ERROR_MSG = #{errormsg,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+    
+    
+  </update>
+  
+  
+  <update id="updateStatusByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdApplyInvoiceInfo">
+    update ORD_APPLY_INVOICE_INFO
+       set STATUS = #{status,jdbcType=VARCHAR},
+       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByOrderIdSelective" parameterType="com.lvmama.vst.back.order.po.OrdApplyInvoiceInfo" >
+    update ORD_APPLY_INVOICE_INFO
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+       <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+       <if test="mobileNumber != null" >
+        MOBILE_NUMBER = #{mobileNumber,jdbcType=VARCHAR},
+       </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveryType != null" >
+        DELIVERY_TYPE = #{deliveryType,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseWay != null" >
+        PURCHASE_WAY = #{purchaseWay,jdbcType=VARCHAR},
+      </if>
+      <if test="taxNumber != null" >
+        TAX_NUMBER = #{taxNumber,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="elecInvoice != null" >
+        ELEC_INVOICE = #{elecInvoice,jdbcType=INTEGER},
+      </if>
+       <if test="receiverEmail != null" >
+        RECEIVER_EMAIL = #{receiverEmail,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyTimes != null" >
+        APPLY_TIMES = #{applyTimes,jdbcType=INTEGER},
+      </if>
+       <if test="errormsg != null" >
+        ERROR_MSG = #{errormsg,jdbcType=INTEGER}
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="getPendingApplyInfoListByParam" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select oaii.* from ORD_APPLY_INVOICE_INFO oaii, ord_order ord
+        where oaii.order_id = ord.order_id
+        and sysdate-ord.visit_time > 1  
+        and oaii.status = 'PENDING' 
+        and oaii.APPLY_TIMES = #{applyTimes,jdbcType=INTEGER}
+        <![CDATA[
+             and rownum < 101
+           ]]>
+  </select>
+  
+<select id="getPreparyApplyInvoiceInfo" resultMap="ApplyInvoiceInfoResult" parameterType="java.util.Map" >
+   <include refid="basic.pageSearchHead"/>
+	    select oaii.id id,oaii.order_id order_id,op.full_name full_name, op.mobile mobile,oaii.user_name user_name,
+        oaii.title title,
+        oaii.PURCHASE_WAY PURCHASE_WAY,
+        oaii.TAX_NUMBER TAX_NUMBER,
+        oaii.BUYER_ADDRESS BUYER_ADDRESS, 
+        oaii.BUYER_TELEPHONE BUYER_TELEPHONE, 
+        oaii.BANK_ACCOUNT BANK_ACCOUNT, 
+        oaii.ACCOUNT_BANKA_CCOUNT ACCOUNT_BANKA_CCOUNT,
+        oaii.ELEC_INVOICE ELEC_INVOICE,
+        oaii.RECEIVER_EMAIL RECEIVER_EMAIL,
+        oaii.status status,
+        oaii.error_msg error_msg,oaii.update_time update_time
+       from  ord_apply_invoice_info oaii, ord_person op,ORD_ORDER oo 
+	     where oaii.Order_Id = op.object_id and oaii.Order_Id = oo.order_id and op.object_type = 'ORD_APPLY_INVOICE_INFO' 
+	    
+		  <if test="contactName != null" >
+		     and op.full_name = #{contactName,jdbcType=VARCHAR}
+		  </if>
+		  <if test="contactMobile != null" >
+		       and op.mobile = #{contactMobile,jdbcType=VARCHAR}
+		  </if>
+		  <if test="purchaseWay != null" >
+               and oaii.PURCHASE_WAY = #{purchaseWay,jdbcType=VARCHAR}
+          </if>
+          <if test="taxNumber != null" >
+               and oaii.TAX_NUMBER = #{taxNumber,jdbcType=VARCHAR}
+          </if>
+          
+          <if test="buyerAddress != null" >
+               and oaii.BUYER_ADDRESS = #{buyerAddress,jdbcType=VARCHAR},
+          </if>
+          <if test="buyerTelephone != null" >
+               and oaii.BUYER_TELEPHONE = #{buyerTelephone,jdbcType=VARCHAR},
+          </if>
+          <if test="bankAccount != null" >
+               and oaii.BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+          </if>
+          <if test="accountBankAccount != null" >
+               and oaii.ACCOUNT_BANKA_CCOUNT = #{accountBankAccount,jdbcType=VARCHAR},
+          </if>
+          
+          <if test="elecInvoice != null" >
+               and oaii.ELEC_INVOICE = #{elecInvoice,jdbcType=INTEGER},
+          </if>
+          <if test="receiverEmail != null" >
+               and oaii.RECEIVER_EMAIL = #{receiverEmail,jdbcType=VARCHAR},
+          </if>
+          
+		  <if test="status != null" >
+			  <if test="status == 'INVALID'" >
+			       and (oaii.status = 'INVALID' or oaii.status = 'CANCEL')
+			  </if>
+			  <if test="status != 'INVALID'" >
+			       and oaii.status = #{status,jdbcType=VARCHAR}
+			  </if>
+		       
+		  </if>
+		  <if test="orderId != null" >
+		       and oaii.Order_Id = #{orderId,jdbcType=DECIMAL}
+		  </if> 
+		   <if test="bookName != null" >
+		       and oaii.user_name = #{bookName,jdbcType=VARCHAR}
+		  </if>
+		  <if test="bookMobile != null" >
+		       and oaii.Mobile_Number = #{bookMobile,jdbcType=VARCHAR}
+		  </if>
+		  <if test="categoryId != null" >
+		       and oo.CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+		  </if>
+		  <if test="subCategoryId != null" >
+		       and oo.SUB_CATEGORY_ID = #{subCategoryId,jdbcType=VARCHAR}
+		  </if>
+		  <!--   兼容同步订单状态和查询已申请记录 -->
+		  <if test="unApplied != null" >
+		       and oo.need_invoice != 'true'
+		  </if>
+		  order by oaii.update_time desc
+   <include refid="basic.pageSearchFoot"/>  
+</select>
+
+<select id="selectVstOrderInvoiceInfo" resultMap="BaseResultMapVst"  parameterType="java.util.Map">
+    select  t.*
+    from ( 
+       select oaii.id,oaii.title,oaii.content,oaii.amount,op.Full_Name,op.Mobile,oa.Postal_Code,oaii.Delivery_Type,
+       oaii.PURCHASE_WAY,oaii.TAX_NUMBER, oaii.BUYER_ADDRESS, oaii.BUYER_TELEPHONE, oaii.BANK_ACCOUNT, oaii.ACCOUNT_BANKA_CCOUNT,
+       oaii.ELEC_INVOICE,oaii.RECEIVER_EMAIL,oaii.status,oa.Province,oa.City,oa.Street, oaii.CREATE_TIME                 
+		 from  ord_apply_invoice_info oaii ,ord_person op,ord_address oa
+		 where  oaii.order_id = op.object_id and op.ord_person_id = oa.ord_person_id and op.OBJECT_TYPE = 'ORD_APPLY_INVOICE_INFO'
+		 <if test="orderId != null" >
+           and oaii.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+         </if>
+       order by oaii.update_time desc
+	     ) t
+    where rownum = 1
+</select>
+
+<select id="selectAppliedInvoiceByParams" resultMap="BaseResultMap"  parameterType="java.util.Map">
+       select 
+       <include refid="Base_Column_List" />                     
+		 from  ord_apply_invoice_info  
+		 where rownum=1
+		 <if test="userId != null" >
+           and USER_ID = #{userId,jdbcType=VARCHAR}
+         </if>
+	       order by update_time desc   
+</select>
+
+<select id="selectLatestApplyInvoiceByUserId" resultMap="BaseResultMap"  parameterType="java.lang.String">
+    select  t.*
+    from (    
+        select  oaii.* 
+        from  ORD_APPLY_INVOICE_INFO oaii
+        where oaii.STATUS not in ('CANCEL', 'FAILURE')
+        and oaii.USER_ID = #{userId,jdbcType=VARCHAR} 
+        order by oaii.update_time desc
+          ) t
+    where rownum = 1
+</select>
+
+<select id="findSpecAppInvFullInfoListByUserIdCount" parameterType="java.lang.String" resultType="java.lang.Long">
+    select  count(oaii.id) totalCount
+    from ORD_APPLY_INVOICE_INFO oaii
+    where oaii.STATUS in ('CANCEL', 'PENDING', 'REVOKE')
+       and oaii.USER_ID = #{userId,jdbcType=VARCHAR}
+       order by update_time desc   
+</select>
+
+<select id="findSpecPageAppInvFullInfoListByUserId" resultMap="BaseResultMap"  parameterType="java.util.Map">
+    <include refid="basic.pageSearchHead"/>
+        select  oaii.*
+        from ORD_APPLY_INVOICE_INFO oaii
+        where oaii.STATUS in ('CANCEL', 'PENDING', 'REVOKE')
+         <if test="userId != null" >
+           and oaii.USER_ID = #{userId,jdbcType=VARCHAR}
+         </if>
+           order by update_time desc   
+   <include refid="basic.pageSearchFoot"/>  
+</select>
+
+<select id="findSpecStatusApplyInvoiceByOrderId" resultMap="BaseResultMap"  parameterType="java.lang.Long">
+    select  oaii.*
+        from ORD_APPLY_INVOICE_INFO oaii
+        where oaii.STATUS in ('PENDING', 'APPLIED', 'MANUAL')
+        and oaii.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+</select>
+
+
+<select id="listAppInvFullInfoByConditionCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    select  count(oaii.id) totalCount
+    from ORD_APPLY_INVOICE_INFO oaii
+    where oaii.STATUS in ('CANCEL', 'PENDING', 'REVOKE', 'UNPAY')
+        <if test="userId != null" >
+            and oaii.USER_ID = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="orderId != null" >
+            and oaii.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+        </if>
+        order by update_time desc   
+</select>
+
+<select id="listAppInvFullInfoByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    <include refid="basic.pageSearchHead"/>
+        select  oaii.*
+        from ORD_APPLY_INVOICE_INFO oaii
+        where oaii.STATUS in ('CANCEL', 'PENDING', 'REVOKE', 'UNPAY')
+            <if test="userId != null" >
+                and oaii.USER_ID = #{userId,jdbcType=VARCHAR}
+            </if>
+            <if test="orderId != null" >
+                and oaii.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+            </if>
+            order by update_time desc   
+   <include refid="basic.pageSearchFoot"/>   
+</select>
+
+</mapper>

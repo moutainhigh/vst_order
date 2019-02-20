@@ -1,0 +1,2014 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_ITEM" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderItem" >
+    <id column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+    <result column="BRANCH_ID" property="branchId" jdbcType="DECIMAL" />
+    <result column="CONTRACT_ID" property="contractId" jdbcType="DECIMAL" />
+    <result column="ORDER_PACK_ID" property="orderPackId" jdbcType="DECIMAL" />
+    <result column="SUPP_GOODS_ID" property="suppGoodsId" jdbcType="DECIMAL" />
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="SUPP_PRODUCT_NAME" property="suppProductName" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="ACTUAL_SETTLEMENT_PRICE" property="actualSettlementPrice" jdbcType="DECIMAL" />
+    <result column="SETTLEMENT_PRICE" property="settlementPrice" jdbcType="DECIMAL" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
+    <result column="TOTAL_SETTLEMENT_PRICE" property="totalSettlementPrice" jdbcType="DECIMAL" />
+    <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+    <result column="NEED_RESOURCE_CONFIRM" property="needResourceConfirm" jdbcType="VARCHAR" />
+    <result column="RESOURCE_STATUS" property="resourceStatus" jdbcType="VARCHAR" />
+    <result column="INFO_STATUS" property="infoStatus" jdbcType="VARCHAR" />
+    <result column="MARKET_PRICE" property="marketPrice" jdbcType="DECIMAL" />
+    <result column="PERFORM_STATUS" property="performStatus" jdbcType="VARCHAR" />
+    <result column="PERFORM_STATUS_CODE" property="performStatusCode" jdbcType="VARCHAR" />
+    <result column="CANCEL_STRATEGY" property="cancelStrategy" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="SETTLEMENT_STATUS" property="settlementStatus" jdbcType="VARCHAR" />
+    <result column="MAIN_ITEM" property="mainItem" jdbcType="VARCHAR" />
+    <result column="PRODUCT_ID" property="productId"/>
+    <result column="SUPP_GOODS_NAME" property="suppGoodsName"/>
+    <result column="SUPPLIER_ID" property="supplierId"/>
+    <result column="DEDUCT_TYPE" property="deductType" jdbcType="VARCHAR" />
+    <result column="CERT_CONFIRM_STATUS" property="certConfirmStatus" jdbcType="VARCHAR" />
+    <result column="CANCEL_CERT_CONFIRM_STATUS" property="cancelCertConfirmStatus" jdbcType="VARCHAR" />
+    <result column="DEDUCT_AMOUNT" property="deductAmount" jdbcType="DECIMAL" />
+    <result column="BOOK_LIMIT_TYPE" property="bookLimitType" jdbcType="VARCHAR" />
+    <result column="LAST_CANCEL_TIME" property="lastCancelTime" jdbcType="TIMESTAMP" />
+    <result column="ORDER_MEMO" property="orderMemo" jdbcType="VARCHAR" />
+     <result column="TICKET_TYPE" property="ticketType" jdbcType="VARCHAR" />
+     <result column="PAYMENT_STATUS" property="paymentStatus" jdbcType="VARCHAR" />
+     <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+     <result column="MANAGER_ID" property="managerId" jdbcType="DECIMAL" />
+     <result column="BU_CODE" property="buCode" jdbcType="VARCHAR" />
+     <result column="ATTRIBUTION_ID" property="attributionId" jdbcType="DECIMAL" />
+     <result column="REAL_BU_TYPE" property="realBuType" jdbcType="VARCHAR" />
+     <result column="REFUND_RULES" property="refundRules" jdbcType="VARCHAR" />
+     <result column="INVOKE_INTERFACE_PF_STATUS" property="invokeInterfacePfStatus" jdbcType="VARCHAR" />
+     <result column="RESOURCE_AMPLE_TIME" property="resourceAmpleTime" jdbcType="TIMESTAMP" />
+     <result column="INFO_PASS_TIME" property="infoPassTime" jdbcType="TIMESTAMP" />
+     <result column="COURIER_STATUS" property="courierStatus" jdbcType="VARCHAR" />
+     <result column="COMPANY_TYPE" property="companyType" jdbcType="VARCHAR" />
+     <result column="NOTINTIME_FLAG" property="notInTimeFlag" jdbcType="VARCHAR"/>
+     <result column="BUYOUT_PRICE" property="buyoutPrice" jdbcType="DECIMAL" />
+     <result column="BUYOUT_QUANTITY" property="buyoutQuantity" jdbcType="DECIMAL" />
+     <result column="BUYOUT_TOTAL_PRICE" property="buyoutTotalPrice" jdbcType="DECIMAL" />
+     <result column="BUYOUT_FLAG" property="buyoutFlag" jdbcType="VARCHAR"/>
+     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+     <result column="STOCK_FLAG" property="stockFlag" jdbcType="VARCHAR"/>
+     <result column="ORDER_UPDATE_TIME" property="orderUpdateTime" jdbcType="TIMESTAMP"/>
+     <result column="ORDER_SUBTYPE" property="orderSubType" jdbcType="VARCHAR"/>
+     <result column="GOODS_ENGLISH_NAME" property="goodsEnglishName" jdbcType="VARCHAR"/>
+     <result column="NOTIFY_TYPE" property="notifyType" jdbcType="VARCHAR"/>
+     <result column="REFUND_QUANTITY" property="refundQuantity" jdbcType="DECIMAL" />
+     <result column="REFUND_PRICE" property="refundPrice" jdbcType="DECIMAL" />
+     <result column="LAST_AHEAD_TIME" property="lastAheadTime" jdbcType="TIMESTAMP"/>
+     <result column="EBK_SUPPLIER_GROUP_ID" property="ebkSupplierGroupId" jdbcType="DECIMAL" />
+     <result column="REFUND_LOCK_QUANTITY" property="refundLockQuantity" jdbcType="DECIMAL" />
+     <result column="CONFIRM_STATUS" property="confirmStatus" jdbcType="VARCHAR" />
+      <result column="PRODUCT_TYPE" property="productType" jdbcType="VARCHAR" />
+      <result column="DEST_NAME" property="destName" jdbcType="VARCHAR" />
+      <result column="EBK_EMAIL_FLAG" property="ebkEmailFlag" jdbcType="VARCHAR" />
+      <result column="EXPIRED_REFUND_FLAG" property="expiredRefundFlag" jdbcType="VARCHAR" />
+      <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="PRICE_CONFIRM_STATUS" property="priceConfirmStatus" jdbcType="VARCHAR" />
+      <result column="PACKAGE_TYPE" property="packageType" jdbcType="VARCHAR" />
+      <result column="SUPP_SETTLEMENT_ENTITY_CODE" property="settlementEntityCode" jdbcType="VARCHAR"/>
+      <result column="NEBULA_PROJECT_ID" property="nebulaProjectId" jdbcType="DECIMAL" />
+  </resultMap>
+     <resultMap id="userTicketResultMap" type="com.lvmama.vst.back.order.po.OrdETicketOrderItem" extends="BaseResultMap">  
+        <result property="paymentTarget" column="payment_target"/>  
+    </resultMap>  
+
+    <resultMap id="listOrderByConditionsResultMap" type="com.lvmama.vst.back.order.po.OrdOrderItem" >
+      <id column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+      <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+      <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+      <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+      <result column="SUPP_PRODUCT_NAME" property="suppProductName" jdbcType="VARCHAR" />
+      <result column="PRICE" property="price" jdbcType="DECIMAL" />
+      <result column="ACTUAL_SETTLEMENT_PRICE" property="actualSettlementPrice" jdbcType="DECIMAL" />
+      <result column="SETTLEMENT_PRICE" property="settlementPrice" jdbcType="DECIMAL" />
+      <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+      <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
+      <result column="TOTAL_SETTLEMENT_PRICE" property="totalSettlementPrice" jdbcType="DECIMAL" />
+      <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+      <result column="NEED_RESOURCE_CONFIRM" property="needResourceConfirm" jdbcType="VARCHAR" />
+      <result column="RESOURCE_STATUS" property="resourceStatus" jdbcType="VARCHAR" />
+      <result column="INFO_STATUS" property="infoStatus" jdbcType="VARCHAR" />
+      <result column="MARKET_PRICE" property="marketPrice" jdbcType="DECIMAL" />
+      <result column="PERFORM_STATUS" property="performStatus" jdbcType="VARCHAR" />
+      <result column="PERFORM_STATUS_CODE" property="performStatusCode" jdbcType="VARCHAR" />
+      <result column="CANCEL_STRATEGY" property="cancelStrategy" jdbcType="VARCHAR" />
+      <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+      <result column="SETTLEMENT_STATUS" property="settlementStatus" jdbcType="VARCHAR" />
+      <result column="MAIN_ITEM" property="mainItem" jdbcType="VARCHAR" />
+      <result column="PRODUCT_ID" property="productId"/>
+      <result column="SUPP_GOODS_NAME" property="suppGoodsName"/>
+      <result column="SUPPLIER_ID" property="supplierId"/>
+      <result column="CERT_CONFIRM_STATUS" property="certConfirmStatus" jdbcType="VARCHAR" />
+      <result column="CANCEL_CERT_CONFIRM_STATUS" property="cancelCertConfirmStatus" jdbcType="VARCHAR" />
+      <result column="DEDUCT_AMOUNT" property="deductAmount" jdbcType="DECIMAL" />
+      <result column="BOOK_LIMIT_TYPE" property="bookLimitType" jdbcType="VARCHAR" />
+      <result column="LAST_CANCEL_TIME" property="lastCancelTime" jdbcType="TIMESTAMP" />
+      <result column="ORDER_MEMO" property="orderMemo" jdbcType="VARCHAR" />
+       <result column="TICKET_TYPE" property="ticketType" jdbcType="VARCHAR" />
+       <result column="PAYMENT_STATUS" property="paymentStatus" jdbcType="VARCHAR" />
+       <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+       <result column="MANAGER_ID" property="managerId" jdbcType="DECIMAL" />
+       <result column="BU_CODE" property="buCode" jdbcType="VARCHAR" />
+       <result column="SUPPLIER_NAME" property="supplierName" jdbcType="VARCHAR" />
+       <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+       <result column="ORDER_UPDATE_TIME" property="orderUpdateTime" jdbcType="TIMESTAMP"/>
+       <result column="OUGHT_AMOUNT" property="oughtAmount" />
+       <result column="COMPANY_TYPE" property="companyType" jdbcType="VARCHAR" />
+        <result column="ACTUAL_AMOUNT" property="actualAmount" />
+        <result column="PACKAGE_TYPE" property="packageType" jdbcType="VARCHAR" />
+         <result column="EXPIRED_REFUND_FLAG" property="expiredRefundFlag" jdbcType="VARCHAR" />
+        <result column="SUPP_SETTLEMENT_ENTITY_CODE" property="settlementEntityCode" jdbcType="VARCHAR"/>
+        <result column="EBK_SUPPLIER_GROUP_ID" property="ebkSupplierGroupId" jdbcType="DECIMAL" />
+        <result column="NEBULA_PROJECT_ID" property="nebulaProjectId" jdbcType="DECIMAL" />
+    </resultMap>
+
+     <resultMap id="listOrderByDateResultMap" type="com.lvmama.vst.back.order.po.VstOrdOrderItemDateVo" >
+              <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+          <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+          <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
+          <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+          <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+          <result column="VISIT_TIME" property="visitDate" jdbcType="TIMESTAMP" />
+          <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+          <result column="TICKET_TYPE" property="ticketType" jdbcType="VARCHAR" />
+          <result column="PASS_CODE_ID" property="passCodeId" jdbcType="VARCHAR" />  
+    </resultMap>
+    
+    <resultMap type="com.lvmama.vst.back.order.po.OverdueTicketSubOrder" id="overdueTicketSubOrderMap">
+    	<id column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    	<result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    	<result column="MAIN_ORDER_STATUS" property="mainOrderStatus" jdbcType="VARCHAR" />
+    	<result column="MAIN_ORDER_RESOURCE_STATUS" property="mainOrderResourceStatus" jdbcType="VARCHAR" />
+    	<result column="SUBORDER_STATUS" property="subOrderStatus" jdbcType="VARCHAR" />
+    	<result column="SUBORDER_RESOURCE_STATUS" property="subOrderResourceStatus" jdbcType="VARCHAR" />
+    	<result column="PERFORM_STATUS" property="performStatus" jdbcType="VARCHAR" />
+    	<result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+    	<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    	<result column="ORDER_MEMO" property="orderMemo" jdbcType="VARCHAR" />
+    	<result column="SUPPLIER_ID" property="supplierId" jdbcType="DECIMAL" />
+    	<result column="NOTINTIME_FLAG" property="notInTimeFlag" jdbcType="VARCHAR" />
+    	<result column="buyout_flag" property="buyoutFlag" jdbcType="DECIMAL" />
+    	<result column="buyout_total_price" property="buyoutTotalPrice" jdbcType="DECIMAL" />
+    	<result column="buyout_price" property="buyoutPrice" jdbcType="DECIMAL" />
+    	<result column="buyout_quantity" property="buyoutQuantity" jdbcType="DECIMAL" />
+    	<result column="total_settlement_price" property="totalSettlementPrice" jdbcType="DECIMAL" />
+    	<result column="actual_settlement_price" property="actualSettlementPrice" jdbcType="DECIMAL" />
+    	<result column="quantity" property="quantity" jdbcType="DECIMAL" />
+    	<result column="supp_goods_id" property="suppGoodsId" jdbcType="DECIMAL" />
+    	<result column="MAIN_ORDER_INFO_STATUS" property="mainOrderInfoStatus" jdbcType="VARCHAR" />
+    	<result column="SUBORDER_INFO_STATUS" property="subOrderInfoStatus" jdbcType="VARCHAR" />    	    	
+    </resultMap>
+    
+    <resultMap id="SimpleResultMap" type="com.lvmama.vst.back.order.po.OrdOrderItemView">
+        <id column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+        <result column="BRANCH_ID" property="branchId" jdbcType="DECIMAL" />
+        <result column="CONTRACT_ID" property="contractId" jdbcType="DECIMAL" />
+        <result column="ORDER_PACK_ID" property="orderPackId" jdbcType="DECIMAL" />
+        <result column="SUPP_GOODS_ID" property="suppGoodsId" jdbcType="DECIMAL" />
+        <result column="RESOURCE_STATUS" property="resourceStatus" jdbcType="VARCHAR" />
+        <result column="CANCEL_STRATEGY" property="cancelStrategy" jdbcType="VARCHAR" />
+        <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+        <result column="SUPPLIER_ID" property="supplierId" jdbcType="DECIMAL" />
+        <result column="PAYMENT_STATUS" property="paymentStatus" jdbcType="VARCHAR" />
+        <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+        <result column="BU_CODE" property="buCode" jdbcType="VARCHAR" />
+        <result column="EXPIRED_REFUND_FLAG" property="expiredRefundFlag" jdbcType="VARCHAR" />
+        <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+        <result column="DISTRIBUTOR_ID" property="distributorId" jdbcType="DECIMAL" />
+        <result column="DISTRIBUTOR_CODE" property="distributorCode" jdbcType="VARCHAR" />
+        <result column="DISTRIBUTION_CHANNEL" property="distributionChannel" jdbcType="DECIMAL" />
+        <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+        <result column="NOTIFY_TYPE" property="notifyType" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    ORDER_ITEM_ID, ORDER_ID, CATEGORY_ID, BRANCH_ID, CONTRACT_ID, ORDER_PACK_ID, SUPP_GOODS_ID, 
+    PRODUCT_NAME, SUPP_PRODUCT_NAME, PRICE, ACTUAL_SETTLEMENT_PRICE, SETTLEMENT_PRICE, QUANTITY, TOTAL_AMOUNT, TOTAL_SETTLEMENT_PRICE, 
+    VISIT_TIME, NEED_RESOURCE_CONFIRM, RESOURCE_STATUS, INFO_STATUS, MARKET_PRICE, PERFORM_STATUS, 
+    PERFORM_STATUS_CODE, CANCEL_STRATEGY, CONTENT, SETTLEMENT_STATUS, MAIN_ITEM,PRODUCT_ID,SUPP_GOODS_NAME,
+    SUPPLIER_ID, DEDUCT_TYPE,CERT_CONFIRM_STATUS,CANCEL_CERT_CONFIRM_STATUS,DEDUCT_AMOUNT,BOOK_LIMIT_TYPE,CREATE_TIME, ORDER_UPDATE_TIME,
+    LAST_CANCEL_TIME,ORDER_MEMO,TICKET_TYPE,PAYMENT_STATUS,ORDER_STATUS,MANAGER_ID,BU_CODE,ATTRIBUTION_ID,REAL_BU_TYPE,REFUND_RULES,INVOKE_INTERFACE_PF_STATUS,RESOURCE_AMPLE_TIME,INFO_PASS_TIME,COURIER_STATUS,COMPANY_TYPE,
+    BUYOUT_PRICE,BUYOUT_QUANTITY,BUYOUT_TOTAL_PRICE,BUYOUT_FLAG,STOCK_FLAG,ORDER_SUBTYPE,GOODS_ENGLISH_NAME,NOTIFY_TYPE,REFUND_QUANTITY,REFUND_PRICE,LAST_AHEAD_TIME,EBK_SUPPLIER_GROUP_ID,REFUND_LOCK_QUANTITY,CONFIRM_STATUS,PRODUCT_TYPE,DEST_NAME,EBK_EMAIL_FLAG,
+    UPDATE_TIME,PRICE_CONFIRM_STATUS,PACKAGE_TYPE,EXPIRED_REFUND_FLAG,SUPP_SETTLEMENT_ENTITY_CODE,NEBULA_PROJECT_ID
+
+  </sql>
+
+
+  <sql id="Base_Column_List_Union" >
+        T.ORDER_ITEM_ID, T.ORDER_ID, T.CATEGORY_ID, T.BRANCH_ID, T.CONTRACT_ID, T.ORDER_PACK_ID, T.SUPP_GOODS_ID,
+        T.PRODUCT_NAME, T.SUPP_PRODUCT_NAME, T.PRICE, T.ACTUAL_SETTLEMENT_PRICE, T.SETTLEMENT_PRICE, T.QUANTITY, T.TOTAL_AMOUNT, T.TOTAL_SETTLEMENT_PRICE,
+        T.VISIT_TIME, T.NEED_RESOURCE_CONFIRM, T.RESOURCE_STATUS, T.INFO_STATUS, T.MARKET_PRICE, T.PERFORM_STATUS,
+        T.PERFORM_STATUS_CODE, T.CANCEL_STRATEGY, T.CONTENT, T.SETTLEMENT_STATUS, T.MAIN_ITEM,T.PRODUCT_ID,T.SUPP_GOODS_NAME,
+        T.SUPPLIER_ID, T.DEDUCT_TYPE,T.CERT_CONFIRM_STATUS,T.CANCEL_CERT_CONFIRM_STATUS,T.DEDUCT_AMOUNT,T.BOOK_LIMIT_TYPE,T.CREATE_TIME, T.ORDER_UPDATE_TIME,
+        T.LAST_CANCEL_TIME,T.ORDER_MEMO,T.TICKET_TYPE,T.PAYMENT_STATUS,T.ORDER_STATUS,T.MANAGER_ID,T.BU_CODE,T.ATTRIBUTION_ID,T.REAL_BU_TYPE,T.REFUND_RULES,T.INVOKE_INTERFACE_PF_STATUS,T.RESOURCE_AMPLE_TIME,T.INFO_PASS_TIME,T.COURIER_STATUS,T.COMPANY_TYPE,
+        T.BUYOUT_PRICE,T.BUYOUT_QUANTITY,T.BUYOUT_TOTAL_PRICE,T.BUYOUT_FLAG,T.STOCK_FLAG,T.ORDER_SUBTYPE,T.GOODS_ENGLISH_NAME,T.NOTIFY_TYPE,T.REFUND_QUANTITY,T.REFUND_PRICE,T.LAST_AHEAD_TIME,T.EBK_SUPPLIER_GROUP_ID,T.REFUND_LOCK_QUANTITY,T.CONFIRM_STATUS,T.PRODUCT_TYPE,T.DEST_NAME,T.PRICE_CONFIRM_STATUS,
+        T.PACKAGE_TYPE,T.EXPIRED_REFUND_FLAG,T.SUPP_SETTLEMENT_ENTITY_CODE,NEBULA_PROJECT_ID
+  </sql>
+  
+   
+   <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	<sql id="select_by_param" >
+		select *	
+		from ORD_ORDER_ITEM  
+		where 1=1
+            <include refid="Base_Query_Column_List" /> 
+    </sql>
+
+    <select id="selectByParamsForOrdSettlement" parameterType="java.util.Map" resultMap="BaseResultMap">
+        <include refid="basic.pageSearchHead"/>
+        select
+             <include refid="Base_Column_List_Union" />
+             from ORD_ORDER_ITEM T
+        where 1=1
+        <include refid="Base_Query_Column_List_ForSettlement" />
+        <include refid="basic.pageSearchFoot"/>
+    </select>
+    
+	
+   <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_ORDER_ITEM 
+	     where 1=1  
+			<include refid="Base_Query_Column_List" />
+	</select>
+
+    <select id="getToalCountForOrdSettlement" parameterType="java.util.Map" resultType="Integer">
+        select  count(1)
+        from ORD_ORDER_ITEM T
+        where 1=1
+         <include refid="Base_Query_Column_List_ForSettlement" />
+    </select>
+
+
+	
+<select id="getOrderOrderItemSuppGoodsTotalCount" parameterType="java.util.Map" resultType="Integer">
+	select count(1) from ord_order ord,ord_order_item item
+           where ord.order_id = item.order_id 
+           and item.create_time > sysdate - 7 and item.create_time > to_date('2015-10-17 00:00:00','yyyy-mm-dd hh24:mi:ss')
+	<if test="refundedAmount != null" >
+       and  ord.refunded_amount &gt; #{refundedAmount}
+    </if>
+    <if test="totalSettlementPrice != null">
+       and item.total_settlement_price = #{totalSettlementPrice}
+    </if>
+    <if test="managerId != null">
+       and item.manager_id = #{managerId}
+    </if>
+</select>
+
+ <select id="getOrderOrderItemSuppGoodsByParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		select item.* from ord_order ord,ord_order_item item
+           where ord.order_id = item.order_id 
+           and item.create_time > sysdate - 7 and item.create_time > to_date('2015-10-17 00:00:00','yyyy-mm-dd hh24:mi:ss')
+	   <if test="refundedAmount != null" >
+            and  ord.refunded_amount > #{refundedAmount}
+       </if>
+       <if test="totalSettlementPrice != null">
+           and item.total_settlement_price = #{totalSettlementPrice}
+       </if>
+       <if test="managerId != null">
+           and item.manager_id = #{managerId}
+       </if>
+		<include refid="basic.pageSearchFoot"/>  
+</select>
+	
+	
+	<select id="selectByParamsForSettlement" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param_settlement"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	<sql id="select_by_param_settlement" >
+		select *	
+		from ORD_ORDER_ITEM 
+		where 1=1 
+			<include refid="Settlement_Query_Column_List" />
+    </sql>
+	
+   <select id="getTotalCountForSettlement" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_ORDER_ITEM  
+	     where 1=1  
+			<include refid="Settlement_Query_Column_List" />
+	</select>
+	
+	 <sql id="Settlement_Query_Column_List" >
+	 	<if test="settlementStatusNotEQ != null" >
+            and  ORD_ORDER_ITEM.SETTLEMENT_STATUS!= #{settlementStatusNotEQ}
+        </if>
+        and exists(
+       	 	select oo.order_id from ORD_ORDER oo 
+        	where oo.order_id=ORD_ORDER_ITEM.order_id 
+			<if test="paymentTimeBegin != null" >
+     			<![CDATA[ and oo.create_time >= #{paymentTimeBegin,jdbcType=DATE}]]>
+      		</if>
+	      	<if test="paymentTimeEnd != null" >
+	      		<![CDATA[ and oo.create_time <= #{paymentTimeEnd,jdbcType=DATE}]]>
+	      	</if>
+	      	<if test="paymentStatus != null" >
+		       and oo.PAYMENT_STATUS = #{paymentStatus,jdbcType=VARCHAR}
+		    </if>
+		    <if test="resourceStatus != null" >
+		       and oo.RESOURCE_STATUS = #{resourceStatus,jdbcType=VARCHAR}
+		    </if>
+		    <if test="infoStatus != null" >
+		       and oo.INFO_STATUS = #{infoStatus,jdbcType=VARCHAR}
+		    </if>
+			)
+	 </sql>
+	
+   <sql id="Base_Query_Column_List" >
+      
+	  
+	  <if test="orderId != null" >
+            and  
+          ORDER_ID = #{orderId}
+      </if>
+      <if test="orderItemId!=null">
+           and ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+      </if>
+      <if test="categoryId != null" >
+            and  
+        CATEGORY_ID = #{categoryId}
+      </if>
+      <if test="branchId != null" >
+            and  
+             BRANCH_ID = #{branchId}
+      </if>
+      <if test="contractId != null" >
+            and  
+        CONTRACT_ID = #{contractId}
+      </if>
+      <if test="orderPackId != null" >
+            and  
+        ORDER_PACK_ID = #{orderPackId}
+      </if>
+      <if test="suppGoodsId != null" >
+	  
+            and  
+        SUPP_GOODS_ID = #{suppGoodsId}
+      </if>
+      <if test="productName != null" >
+	  
+            and  
+        PRODUCT_NAME = #{productName}
+      </if>
+      <if test="price != null" >
+	  
+            and  
+        PRICE = #{price}
+      </if>
+      <if test="actualSettlementPrice != null" >
+	  
+            and  
+        ACTUAL_SETTLEMENT_PRICE = #{actualSettlementPrice}
+      </if>
+      <if test="settlementPrice != null" >
+	  
+            and  
+        SETTLEMENT_PRICE = #{settlementPrice}
+      </if>
+      <if test="quantity != null" >
+	  
+            and  
+        QUANTITY = #{quantity}
+      </if>
+      <if test="totalSettlementPrice != null" >
+	  
+            and  
+        TOTAL_SETTLEMENT_PRICE = #{totalSettlementPrice}
+      </if>
+      <if test="visitTime != null" >
+	  
+            and  
+        VISIT_TIME = #{visitTime}
+      </if>
+      <if test="needResourceConfirm != null" >
+	  
+            and  
+        NEED_RESOURCE_CONFIRM = #{needResourceConfirm}
+      </if>
+      <if test="resourceStatus != null" >
+	  
+            and  
+        RESOURCE_STATUS = #{resourceStatus}
+      </if>
+      <if test="infoStatus != null" >
+	  
+            and  
+        INFO_STATUS = #{infoStatus}
+      </if>
+      <if test="marketPrice != null" >
+	  
+            and  
+        MARKET_PRICE = #{marketPrice}
+      </if>
+      <if test="performStatus != null" >
+	  
+            and  
+        PERFORM_STATUS = #{performStatus}
+      </if>
+      <if test="performStatusCode != null" >
+	  
+            and  
+        PERFORM_STATUS_CODE = #{performStatusCode}
+      </if>
+      <if test="cancelStrategy != null" >
+	  
+            and  
+        CANCEL_STRATEGY = #{cancelStrategy}
+      </if>
+      <if test="content != null" >
+	  
+            and  
+        CONTENT = #{content}
+      </if>
+      <if test="settlementStatus != null" >
+	  
+            and  
+        SETTLEMENT_STATUS = #{settlementStatus}
+      </if>
+      <if test="mainItem != null" >
+	  
+            and  
+        MAIN_ITEM = #{mainItem}
+      </if>
+      <if test="productId != null" >
+	  
+            and  
+        PRODUCT_ID = #{productId}
+      </if>
+      <if test="suppGoodsName != null" >
+	  
+            and  
+        SUPP_GOODS_NAME = #{suppGoodsName}
+      </if>
+      <if test="supplierId != null" >
+	  
+            and  
+        SUPPLIER_ID = #{supplierId}
+      </if>
+      <if test="deductType != null" >
+	  
+            and  
+        DEDUCT_TYPE = #{deductType}
+      </if>
+      <if test="certConfirmStatus!=null">
+         and  
+      	CERT_CONFIRM_STATUS = #{certConfirmStatus}
+      </if>
+      <if test="cancelCertConfirmStatus!=null">
+         and  
+      	CANCEL_CERT_CONFIRM_STATUS = #{cancelCertConfirmStatus}
+      </if>
+      <if test="deductAmount!=null">
+        and  
+      	DEDUCT_AMOUNT = #{deductAmount}
+      </if>
+      <if test="bookLimitType!=null">
+        and  
+      	BOOK_LIMIT_TYPE = #{bookLimitType}
+      </if>
+      <if test="lastCancelTime!=null">
+        and  
+      	LAST_CANCEL_TIME = #{lastCancelTime}
+      </if>
+       <if test="orderMemo != null" >
+	  
+            and  
+        ORDER_MEMO = #{orderMemo}
+      </if>
+      
+     <if test="ticketType != null" >
+	  
+            and  
+        TICKET_TYPE = #{ticketType}
+      </if>
+      <if test="paymentStatus != null" >
+	  
+            and  
+        PAYMENT_STATUS = #{paymentStatus}
+      </if>
+      <if test="orderStatus != null" >
+	  
+            and  
+        ORDER_STATUS = #{orderStatus}
+      </if>
+     
+    
+    <if test="packIdIsNull!= null" >
+            and  
+        ORDER_PACK_ID  is null
+      </if>
+      
+      
+      <if test="settlementStatusNotEQ != null" >
+	  
+            and  
+        SETTLEMENT_STATUS!= #{settlementStatusNotEQ}
+      </if>
+      
+      <if test="isBuyout != null" >
+	  
+            and  
+        IS_BUYOUT = #{isBuyout}
+      </if>
+      <if test="ebkSupplierGroupId != null" >
+          and EBK_SUPPLIER_GROUP_ID = #{ebkSupplierGroupId}
+      </if>
+      <if test="refundLockQuantity != null" >
+          and REFUND_LOCK_QUANTITY = #{refundLockQuantity}
+      </if>
+      <if test="refundQuantity != null" >
+          and REFUND_QUANTITY = #{refundQuantity}
+      </if>
+      <if test="bizCategoryIdArray != null">
+			AND CATEGORY_ID IN
+			<foreach collection="bizCategoryIdArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	  </if>
+       <if test="priceConfirmStatus!=null and priceConfirmStatus!=''">
+          and  PRICE_CONFIRM_STATUS=#{priceConfirmStatus,jdbcType=VARCHAR}
+       </if>
+      <if test="packageType != null" >
+          AND PACKAGE_TYPE = #{packageType}
+      </if>
+       <if test="settlementEntityCode != null" >
+           AND SUPP_SETTLEMENT_ENTITY_CODE = #{settlementEntityCode,jdbcType=VARCHAR}
+       </if>
+      <if test="nebulaProjectId!=null">
+           and NEBULA_PROJECT_ID = #{nebulaProjectId,jdbcType=DECIMAL}
+      </if>       
+  </sql>
+
+  <sql id="Base_Query_Column_List_ForSettlement">
+      <if test="orderId != null" >
+          and T.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+      </if>
+      <if test="orderItemId!=null">
+          and T.ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+      </if>
+      <if test="orderIdList !=null">
+          and T.ORDER_ID in
+          <foreach collection="orderIdList" close=")" open="(" separator="," item="orderId">#{orderId,jdbcType=DECIMAL}</foreach>
+      </if>
+      <if test="priceConfirmStatus!=null and priceConfirmStatus!=''">
+      	  <if test="priceConfirmStatusIsNull==true">
+      	   and (T.PRICE_CONFIRM_STATUS=#{priceConfirmStatus,jdbcType=VARCHAR}  or T.PRICE_CONFIRM_STATUS is null)
+      	  </if>
+      	  <if test="priceConfirmStatusIsNull!=true">
+           and  T.PRICE_CONFIRM_STATUS=#{priceConfirmStatus,jdbcType=VARCHAR}
+          </if>
+      </if>
+      <if test="suppGoodsId != null" >
+          and  T.SUPP_GOODS_ID = #{suppGoodsId,jdbcType=DECIMAL}
+      </if>
+      <if test="supplierId !=null">
+          and  T.SUPPLIER_ID =#{supplierId,jdbcType=DECIMAL}
+      </if>
+
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_ITEM
+    where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_ORDER_ITEM
+    where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderItem" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderItemId" order="BEFORE" >
+      select SEQ_ORDER_ITEM_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_ITEM (ORDER_ITEM_ID, ORDER_ID, CATEGORY_ID, 
+      BRANCH_ID, CONTRACT_ID, ORDER_PACK_ID, 
+      SUPP_GOODS_ID, PRODUCT_NAME, SUPP_PRODUCT_NAME, PRICE, 
+      ACTUAL_SETTLEMENT_PRICE, SETTLEMENT_PRICE, 
+      QUANTITY, TOTAL_AMOUNT, TOTAL_SETTLEMENT_PRICE, VISIT_TIME, 
+      NEED_RESOURCE_CONFIRM, RESOURCE_STATUS, INFO_STATUS, 
+      MARKET_PRICE, PERFORM_STATUS, PERFORM_STATUS_CODE, 
+      CANCEL_STRATEGY, CONTENT, SETTLEMENT_STATUS,
+      MAIN_ITEM,PRODUCT_ID,SUPP_GOODS_NAME,SUPPLIER_ID,
+      DEDUCT_TYPE,CERT_CONFIRM_STATUS,CANCEL_CERT_CONFIRM_STATUS,DEDUCT_AMOUNT,BOOK_LIMIT_TYPE,
+      LAST_CANCEL_TIME,ORDER_MEMO,TICKET_TYPE,PAYMENT_STATUS,ORDER_STATUS,MANAGER_ID,BU_CODE,ATTRIBUTION_ID,REAL_BU_TYPE,REFUND_RULES,INVOKE_INTERFACE_PF_STATUS,COMPANY_TYPE,CREATE_TIME,ORDER_UPDATE_TIME,
+      BUYOUT_PRICE,BUYOUT_QUANTITY,BUYOUT_FLAG,BUYOUT_TOTAL_PRICE,STOCK_FLAG,ORDER_SUBTYPE,GOODS_ENGLISH_NAME,NOTIFY_TYPE,LAST_AHEAD_TIME,EBK_SUPPLIER_GROUP_ID,REFUND_QUANTITY,REFUND_LOCK_QUANTITY,CONFIRM_STATUS,PRODUCT_TYPE,DEST_NAME,EBK_EMAIL_FLAG,PRICE_CONFIRM_STATUS,PACKAGE_TYPE,SUPP_SETTLEMENT_ENTITY_CODE,NEBULA_PROJECT_ID
+      )
+    values (#{orderItemId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{categoryId,jdbcType=DECIMAL}, 
+      #{branchId,jdbcType=DECIMAL}, #{contractId,jdbcType=DECIMAL}, #{orderPackId,jdbcType=DECIMAL}, 
+      #{suppGoodsId,jdbcType=DECIMAL}, #{productName,jdbcType=VARCHAR}, #{suppProductName,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{actualSettlementPrice,jdbcType=DECIMAL}, #{settlementPrice,jdbcType=DECIMAL}, 
+      #{quantity,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{totalSettlementPrice,jdbcType=DECIMAL}, #{visitTime,jdbcType=TIMESTAMP}, 
+      #{needResourceConfirm,jdbcType=VARCHAR}, #{resourceStatus,jdbcType=VARCHAR}, #{infoStatus,jdbcType=VARCHAR}, 
+      #{marketPrice,jdbcType=DECIMAL}, #{performStatus,jdbcType=VARCHAR}, #{performStatusCode,jdbcType=VARCHAR}, 
+      #{cancelStrategy,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{settlementStatus,jdbcType=VARCHAR},
+      #{mainItem,jdbcType=VARCHAR},#{productId},#{suppGoodsName},#{supplierId}, #{deductType,jdbcType=VARCHAR},
+      #{certConfirmStatus,jdbcType=VARCHAR},#{cancelCertConfirmStatus,jdbcType=VARCHAR},
+      #{deductAmount,jdbcType=DECIMAL},#{bookLimitType,jdbcType=VARCHAR},#{lastCancelTime,jdbcType=TIMESTAMP},#{orderMemo,jdbcType=VARCHAR},
+      #{ticketType,jdbcType=VARCHAR},#{paymentStatus,jdbcType=VARCHAR},#{orderStatus,jdbcType=VARCHAR},#{managerId,jdbcType=DECIMAL},#{buCode,jdbcType=VARCHAR},
+      #{attributionId,jdbcType=DECIMAL},#{realBuType,jdbcType=VARCHAR},#{refundRules,jdbcType=VARCHAR},#{invokeInterfacePfStatus,jdbcType=VARCHAR},#{companyType,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{orderUpdateTime,jdbcType=TIMESTAMP},
+      #{buyoutPrice,jdbcType=DECIMAL},#{buyoutQuantity,jdbcType=DECIMAL},#{buyoutFlag,jdbcType=VARCHAR},#{buyoutTotalPrice,jdbcType=DECIMAL},
+      #{stockFlag,jdbcType=VARCHAR},#{orderSubType,jdbcType=VARCHAR},#{goodsEnglishName,jdbcType=VARCHAR},#{notifyType,jdbcType=VARCHAR},
+      #{lastAheadTime,jdbcType=TIMESTAMP},#{ebkSupplierGroupId,jdbcType=DECIMAL},#{refundQuantity,jdbcType=DECIMAL},#{refundLockQuantity,jdbcType=DECIMAL},#{confirmStatus,jdbcType=VARCHAR},#{productType,jdbcType=VARCHAR},#{destName,jdbcType=VARCHAR},#{ebkEmailFlag,jdbcType=VARCHAR},
+      #{priceConfirmStatus,jdbcType=VARCHAR},#{packageType,jdbcType=VARCHAR},#{settlementEntityCode,jdbcType=VARCHAR},#{nebulaProjectId,jdbcType=DECIMAL}
+      )
+  </insert>
+  
+   <insert id="insertForPreLockSeat" parameterType="com.lvmama.vst.back.order.po.OrdOrderItem" >
+    insert into ORD_ORDER_ITEM (ORDER_ITEM_ID, ORDER_ID, CATEGORY_ID, 
+      BRANCH_ID, CONTRACT_ID, ORDER_PACK_ID, 
+      SUPP_GOODS_ID, PRODUCT_NAME, SUPP_PRODUCT_NAME, PRICE, 
+      ACTUAL_SETTLEMENT_PRICE, SETTLEMENT_PRICE, 
+      QUANTITY, TOTAL_AMOUNT, TOTAL_SETTLEMENT_PRICE, VISIT_TIME, 
+      NEED_RESOURCE_CONFIRM, RESOURCE_STATUS, INFO_STATUS, 
+      MARKET_PRICE, PERFORM_STATUS, PERFORM_STATUS_CODE, 
+      CANCEL_STRATEGY, CONTENT, SETTLEMENT_STATUS,
+      MAIN_ITEM,PRODUCT_ID,SUPP_GOODS_NAME,SUPPLIER_ID,
+      DEDUCT_TYPE,CERT_CONFIRM_STATUS,CANCEL_CERT_CONFIRM_STATUS,DEDUCT_AMOUNT,BOOK_LIMIT_TYPE,
+      LAST_CANCEL_TIME,ORDER_MEMO,TICKET_TYPE,PAYMENT_STATUS,ORDER_STATUS,MANAGER_ID,BU_CODE,ATTRIBUTION_ID,REAL_BU_TYPE,REFUND_RULES,INVOKE_INTERFACE_PF_STATUS,COMPANY_TYPE,CREATE_TIME,ORDER_UPDATE_TIME,
+      BUYOUT_PRICE,BUYOUT_QUANTITY,BUYOUT_FLAG,BUYOUT_TOTAL_PRICE,STOCK_FLAG,ORDER_SUBTYPE,GOODS_ENGLISH_NAME,NOTIFY_TYPE,LAST_AHEAD_TIME,EBK_SUPPLIER_GROUP_ID,REFUND_QUANTITY,REFUND_LOCK_QUANTITY,CONFIRM_STATUS,PRODUCT_TYPE,DEST_NAME,EBK_EMAIL_FLAG,PRICE_CONFIRM_STATUS,PACKAGE_TYPE,SUPP_SETTLEMENT_ENTITY_CODE,NEBULA_PROJECT_ID
+      )
+    values (#{orderItemId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{categoryId,jdbcType=DECIMAL}, 
+      #{branchId,jdbcType=DECIMAL}, #{contractId,jdbcType=DECIMAL}, #{orderPackId,jdbcType=DECIMAL}, 
+      #{suppGoodsId,jdbcType=DECIMAL}, #{productName,jdbcType=VARCHAR}, #{suppProductName,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{actualSettlementPrice,jdbcType=DECIMAL}, #{settlementPrice,jdbcType=DECIMAL}, 
+      #{quantity,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{totalSettlementPrice,jdbcType=DECIMAL}, #{visitTime,jdbcType=TIMESTAMP}, 
+      #{needResourceConfirm,jdbcType=VARCHAR}, #{resourceStatus,jdbcType=VARCHAR}, #{infoStatus,jdbcType=VARCHAR}, 
+      #{marketPrice,jdbcType=DECIMAL}, #{performStatus,jdbcType=VARCHAR}, #{performStatusCode,jdbcType=VARCHAR}, 
+      #{cancelStrategy,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{settlementStatus,jdbcType=VARCHAR},
+      #{mainItem,jdbcType=VARCHAR},#{productId},#{suppGoodsName},#{supplierId}, #{deductType,jdbcType=VARCHAR},
+      #{certConfirmStatus,jdbcType=VARCHAR},#{cancelCertConfirmStatus,jdbcType=VARCHAR},
+      #{deductAmount,jdbcType=DECIMAL},#{bookLimitType,jdbcType=VARCHAR},#{lastCancelTime,jdbcType=TIMESTAMP},#{orderMemo,jdbcType=VARCHAR},
+      #{ticketType,jdbcType=VARCHAR},#{paymentStatus,jdbcType=VARCHAR},#{orderStatus,jdbcType=VARCHAR},#{managerId,jdbcType=DECIMAL},#{buCode,jdbcType=VARCHAR},
+      #{attributionId,jdbcType=DECIMAL},#{realBuType,jdbcType=VARCHAR},#{refundRules,jdbcType=VARCHAR},#{invokeInterfacePfStatus,jdbcType=VARCHAR},#{companyType,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{orderUpdateTime,jdbcType=TIMESTAMP},
+      #{buyoutPrice,jdbcType=DECIMAL},#{buyoutQuantity,jdbcType=DECIMAL},#{buyoutFlag,jdbcType=VARCHAR},#{buyoutTotalPrice,jdbcType=DECIMAL},
+      #{stockFlag,jdbcType=VARCHAR},#{orderSubType,jdbcType=VARCHAR},#{goodsEnglishName,jdbcType=VARCHAR},#{notifyType,jdbcType=VARCHAR},
+      #{lastAheadTime,jdbcType=TIMESTAMP},#{ebkSupplierGroupId,jdbcType=DECIMAL},#{refundQuantity,jdbcType=DECIMAL},#{refundLockQuantity,jdbcType=DECIMAL},#{confirmStatus,jdbcType=VARCHAR},#{productType,jdbcType=VARCHAR},#{destName,jdbcType=VARCHAR},#{ebkEmailFlag,jdbcType=VARCHAR},
+      #{priceConfirmStatus,jdbcType=VARCHAR},#{packageType,jdbcType=VARCHAR},#{settlementEntityCode,jdbcType=VARCHAR},#{nebulaProjectId,jdbcType=DECIMAL}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderItem" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderItemId" order="BEFORE" >
+      select SEQ_ORDER_ITEM_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_ITEM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORDER_ITEM_ID,
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="branchId != null" >
+        BRANCH_ID,
+      </if>
+      <if test="contractId != null" >
+        CONTRACT_ID,
+      </if>
+      <if test="orderPackId != null" >
+        ORDER_PACK_ID,
+      </if>
+      <if test="suppGoodsId != null" >
+        SUPP_GOODS_ID,
+      </if>
+      <if test="productName != null" >
+        PRODUCT_NAME,
+      </if>
+      <if test="suppProductName != null" >
+        SUPP_PRODUCT_NAME,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="actualSettlementPrice != null" >
+        ACTUAL_SETTLEMENT_PRICE,
+      </if>
+      <if test="settlementPrice != null" >
+        SETTLEMENT_PRICE,
+      </if>
+      <if test="quantity != null" >
+        QUANTITY,
+      </if>
+      <if test="totalSettlementPrice != null" >
+        TOTAL_SETTLEMENT_PRICE,
+      </if>
+      <if test="visitTime != null" >
+        VISIT_TIME,
+      </if>
+      <if test="needResourceConfirm != null" >
+        NEED_RESOURCE_CONFIRM,
+      </if>
+      <if test="resourceStatus != null" >
+        RESOURCE_STATUS,
+      </if>
+      <if test="infoStatus != null" >
+        INFO_STATUS,
+      </if>
+      <if test="marketPrice != null" >
+        MARKET_PRICE,
+      </if>
+      <if test="performStatus != null" >
+        PERFORM_STATUS,
+      </if>
+      <if test="performStatusCode != null" >
+        PERFORM_STATUS_CODE,
+      </if>
+      <if test="cancelStrategy != null" >
+        CANCEL_STRATEGY,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="settlementStatus != null" >
+        SETTLEMENT_STATUS,
+      </if>
+      <if test="mainItem != null" >
+        MAIN_ITEM,
+      </if>
+      <if test="productId != null" >
+        PRODUCT_ID,
+      </if>
+      <if test="suppGoodsName != null" >
+        SUPP_GOODS_NAME,
+      </if>
+      <if test="supplierId != null" >
+        SUPPLIER_ID,
+      </if>
+      <if test="deductType != null" >
+        DEDUCT_TYPE,
+      </if>
+      <if test="certConfirmStatus!=null">
+      	CERT_CONFIRM_STATUS,
+      </if>
+      <if test="cancelCertConfirmStatus!=null">
+      	CANCEL_CERT_CONFIRM_STATUS,
+      </if>
+      <if test="deductAmount!=null">
+      	DEDUCT_AMOUNT,
+      </if>
+      <if test="bookLimitType!=null">
+      	BOOK_LIMIT_TYPE,
+      </if>
+      <if test="lastCancelTime!=null">
+      	LAST_CANCEL_TIME,
+      </if>
+       <if test="orderMemo != null" >
+        ORDER_MEMO,
+      </if>
+      
+       <if test="ticketType != null" >
+        TICKET_TYPE ,
+      </if>
+      <if test="paymentStatus != null" >
+        PAYMENT_STATUS,
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS, 
+      </if>
+      <if test="managerId != null">
+      	MANAGER_ID,
+      </if>
+      <if test="buCode != null">
+      	BU_CODE,
+      </if>
+       <if test="attributionId != null">
+      	ATTRIBUTION_ID,
+      </if>
+      <if test="realBuType != null">
+      	REAL_BU_TYPE,
+      </if>
+      <if test="refundRules!= null">
+          REFUND_RULES,
+      </if>
+      <if test="invokeInterfacePfStatus!= null">
+          INVOKE_INTERFACE_PF_STATUS,
+      </if>
+      <if test="buyoutPrice != null" >
+      	BUYOUT_PRICE,
+      </if>
+      <if test="buyoutQuantity != null" >
+      	BUYOUT_QUANTITY,
+      </if>
+      <if test="buyoutFlag != null" >
+      	BUYOUT_FLAG,
+      </if>
+      <if test="buyoutTotalPrice != null" >
+      	BUYOUT_TOTAL_PRICE,
+      </if>
+      <if test="orderUpdateTime!= null">
+          ORDER_UPDATE_TIME,
+      </if>
+      <if test="goodsEnglishName != null" >
+      	GOODS_ENGLISH_NAME,
+      </if>
+       <if test="lastAheadTime!=null">
+      	LAST_AHEAD_TIME,
+      </if>
+      <if test="ebkSupplierGroupId!=null">
+      	EBK_SUPPLIER_GROUP_ID,
+      </if>
+      <if test="refundQuantity!=null">
+      	REFUND_QUANTITY,
+      </if>
+      <if test="refundLockQuantity!=null">
+      	REFUND_LOCK_QUANTITY,
+      </if>
+        <if test="productType!=null">
+            PRODUCT_TYPE,
+        </if>
+        <if test="destName!=null">
+            DEST_NAME,
+        </if>
+        <if test="priceConfirmStatus!=null">
+            PRICE_CONFIRM_STATUS,
+        </if>
+        <if test="packageType!=null">
+            PACKAGE_TYPE,
+        </if>
+        <if test="settlementEntityCode!=null">
+            SUPP_SETTLEMENT_ENTITY_CODE,
+        </if>
+        <if test="nebulaProjectId!=null">
+            NEBULA_PROJECT_ID
+        </if>        
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{orderItemId,jdbcType=DECIMAL},
+      <if test="buyoutPrice != null" >
+      	#{buyoutPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="buyoutQuantity != null" >
+      	#{buyoutQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="buyoutFlag != null" >
+      	#{buyoutFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="buyoutTotalPrice != null" >
+      	#{buyoutTotalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="branchId != null" >
+        #{branchId,jdbcType=DECIMAL},
+      </if>
+      <if test="contractId != null" >
+        #{contractId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPackId != null" >
+        #{orderPackId,jdbcType=DECIMAL},
+      </if>
+      <if test="suppGoodsId != null" >
+        #{suppGoodsId,jdbcType=DECIMAL},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="suppProductName != null" >
+        #{suppProductName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="actualSettlementPrice != null" >
+        #{actualSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="settlementPrice != null" >
+        #{settlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="totalSettlementPrice != null" >
+        #{totalSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="visitTime != null" >
+        #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="needResourceConfirm != null" >
+        #{needResourceConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceStatus != null" >
+        #{resourceStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="infoStatus != null" >
+        #{infoStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null" >
+        #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="performStatus != null" >
+        #{performStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="performStatusCode != null" >
+        #{performStatusCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelStrategy != null" >
+        #{cancelStrategy,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementStatus != null" >
+        #{settlementStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="mainItem != null" >
+        #{mainItem,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId},
+      </if>
+      <if test="suppGoodsName != null" >
+        #{suppGoodsName},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId},
+      </if>
+      <if test="deductType != null" >
+        #{deductType,jdbcType=VARCHAR},
+      </if>
+      <if test="certConfirmStatus!=null">
+      	#{certConfirmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelCertConfirmStatus!=null">
+      	#{cancelCertConfirmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deductAmount!=null">
+      	#{deductAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="bookLimitType!=null">
+      	#{bookLimitType,jdbcType=VARCHAR},
+      </if>
+      <if test="lastCancelTime!=null">
+      	#{lastCancelTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="orderMemo != null" >
+        #{orderMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketType != null" >
+         #{ticketType,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentStatus != null" >
+	    #{paymentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+	    #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId !=null">
+      	#{managerId,jdbcType=DECIMAL},
+      </if>
+      <if test="buCode != null" >
+	    #{buCode,jdbcType=VARCHAR},
+      </if>
+      <if test="attributionId !=null">
+      	#{attributionId,jdbcType=DECIMAL},
+      </if>
+      <if test="realBuType!= null" >
+	    #{realBuType,jdbcType=VARCHAR},
+      </if>
+      <if test="refundRules!= null" >
+          #{refundRules,jdbcType=VARCHAR},
+      </if>
+      <if test="invokeInterfacePfStatus!= null">
+          #{invokeInterfacePfStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUpdateTime!= null">
+          #{orderUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsEnglishName != null" >
+      #{goodsEnglishName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastAheadTime != null" >
+        #{lastAheadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ebkSupplierGroupId!=null">
+      	#{ebkSupplierGroupId,jdbcType=DECIMAL},
+      </if>
+      <if test="refundQuantity!=null">
+      	#{refundQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="refundLockQuantity!=null">
+      	#{refundLockQuantity,jdbcType=DECIMAL},
+      </if>
+        <if test="productType!=null">
+            #{productType,jdbcType=VARCHAR},
+        </if>
+        <if test="destName!=null">
+            #{destName,jdbcType=VARCHAR},
+        </if>
+        <if test="priceConfirmStatus!=null">
+            #{priceConfirmStatus,jdbcType=VARCHAR},
+        </if>
+        <if test="packageType!=null">
+            #{packageType,jdbcType=VARCHAR},
+        </if>
+        <if test="settlementEntityCode!=null">
+            #{settlementEntityCode,jdbcType=VARCHAR},
+        </if>
+		<if test="nebulaProjectId != null" >
+		  #{nebulaProjectId,jdbcType=DECIMAL}
+		</if>        
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderItem" >
+    update ORD_ORDER_ITEM
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="branchId != null" >
+        BRANCH_ID = #{branchId,jdbcType=DECIMAL},
+      </if>
+      <if test="contractId != null" >
+        CONTRACT_ID = #{contractId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPackId != null" >
+        ORDER_PACK_ID = #{orderPackId,jdbcType=DECIMAL},
+      </if>
+      <if test="suppGoodsId != null" >
+        SUPP_GOODS_ID = #{suppGoodsId,jdbcType=DECIMAL},
+      </if>
+      <if test="productName != null" >
+        PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="suppProductName != null" >
+        SUPP_PRODUCT_NAME = #{suppProductName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="actualSettlementPrice != null" >
+        ACTUAL_SETTLEMENT_PRICE = #{actualSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="settlementPrice != null" >
+        SETTLEMENT_PRICE = #{settlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="totalSettlementPrice != null" >
+        TOTAL_SETTLEMENT_PRICE = #{totalSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="buyoutPrice != null" >
+         BUYOUT_PRICE = #{buyoutPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="buyoutTotalPrice != null" >
+         BUYOUT_TOTAL_PRICE = #{buyoutTotalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="buyoutFlag != null" >
+          BUYOUT_FLAG = #{buyoutFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="buyoutQuantity != null" >
+          BUYOUT_QUANTITY=#{buyoutQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="visitTime != null" >
+        VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="needResourceConfirm != null" >
+        NEED_RESOURCE_CONFIRM = #{needResourceConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceStatus != null" >
+        RESOURCE_STATUS = #{resourceStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="infoStatus != null" >
+        INFO_STATUS = #{infoStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null" >
+        MARKET_PRICE = #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="performStatus != null" >
+        PERFORM_STATUS = #{performStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="performStatusCode != null" >
+        PERFORM_STATUS_CODE = #{performStatusCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelStrategy != null" >
+        CANCEL_STRATEGY = #{cancelStrategy,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementStatus != null" >
+        SETTLEMENT_STATUS = #{settlementStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="mainItem != null" >
+        MAIN_ITEM = #{mainItem,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        PRODUCT_ID = #{productId},
+      </if>
+      <if test="suppGoodsName != null" >
+        SUPP_GOODS_NAME = #{suppGoodsName},
+      </if>
+      <if test="supplierId != null" >
+        SUPPLIER_ID = #{supplierId},
+      </if>
+      <if test="deductType != null" >
+        DEDUCT_TYPE = #{deductType,jdbcType=VARCHAR},
+      </if>
+      <if test="certConfirmStatus!=null">
+      	CERT_CONFIRM_STATUS = #{certConfirmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelCertConfirmStatus!=null">
+      	CANCEL_CERT_CONFIRM_STATUS = #{cancelCertConfirmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deductAmount!=null">
+      	DEDUCT_AMOUNT = #{deductAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="bookLimitType!=null">
+      	BOOK_LIMIT_TYPE = #{bookLimitType,jdbcType=VARCHAR},
+      </if>
+      <if test="lastCancelTime!=null">
+      	LAST_CANCEL_TIME = #{lastCancelTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="orderMemo != null" >
+        ORDER_MEMO = #{orderMemo,jdbcType=VARCHAR},
+      </if>
+      
+      
+       <if test="ticketType != null" >
+        TICKET_TYPE = #{ticketType,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentStatus != null" >
+        PAYMENT_STATUS = #{paymentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceAmpleTime != null" >
+        RESOURCE_AMPLE_TIME = #{resourceAmpleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="infoPassTime != null" >
+        INFO_PASS_TIME = #{infoPassTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderUpdateTime != null" >
+        ORDER_UPDATE_TIME = #{orderUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsEnglishName != null" >
+      	GOODS_ENGLISH_NAME = #{goodsEnglishName,jdbcType=VARCHAR},
+      </if>
+      <if test="ebkSupplierGroupId!=null">
+      	EBK_SUPPLIER_GROUP_ID = #{ebkSupplierGroupId,jdbcType=DECIMAL},
+      </if>
+      <if test="refundQuantity!=null">
+      	REFUND_QUANTITY = #{refundQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="refundLockQuantity!=null">
+      	REFUND_LOCK_QUANTITY = #{refundLockQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmStatus">
+        CONFIRM_STATUS = #{confirmStatus,jdbcType=VARCHAR},
+      </if>
+        <if test="productType != null" >
+            PRODUCT_TYPE = #{productType,jdbcType=VARCHAR},
+        </if>
+        <if test="destName != null" >
+            DEST_NAME = #{destName,jdbcType=VARCHAR},
+        </if>
+
+        <if test="priceConfirmStatus!=null">
+            PRICE_CONFIRM_STATUS=#{priceConfirmStatus,jdbcType=VARCHAR},
+        </if>
+        <if test="settlementEntityCode!=null">
+            SUPP_SETTLEMENT_ENTITY_CODE=#{settlementEntityCode,jdbcType=VARCHAR},
+        </if>
+		<if test="nebulaProjectId != null" >
+		  NEBULA_PROJECT_ID = #{nebulaProjectId,jdbcType=DECIMAL},
+		</if>        
+		UPDATE_TIME = sysdate
+    </set>
+    where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+  </update>
+    <update id="updateContentById" parameterType="com.lvmama.vst.back.order.po.OrdOrderItem" >
+      update ORD_ORDER_ITEM set CONTENT=#{content,jdbcType=VARCHAR} where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+    </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdOrderItem" >
+    update ORD_ORDER_ITEM
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      BRANCH_ID = #{branchId,jdbcType=DECIMAL},
+      CONTRACT_ID = #{contractId,jdbcType=DECIMAL},
+      ORDER_PACK_ID = #{orderPackId,jdbcType=DECIMAL},
+      SUPP_GOODS_ID = #{suppGoodsId,jdbcType=DECIMAL},
+      PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      SUPP_PRODUCT_NAME = #{suppProductName,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      ACTUAL_SETTLEMENT_PRICE = #{actualSettlementPrice,jdbcType=DECIMAL},
+      SETTLEMENT_PRICE = #{settlementPrice,jdbcType=DECIMAL},
+      QUANTITY = #{quantity,jdbcType=DECIMAL},
+       TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},
+      TOTAL_SETTLEMENT_PRICE = #{totalSettlementPrice,jdbcType=DECIMAL},
+      VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      NEED_RESOURCE_CONFIRM = #{needResourceConfirm,jdbcType=VARCHAR},
+      RESOURCE_STATUS = #{resourceStatus,jdbcType=VARCHAR},
+      INFO_STATUS = #{infoStatus,jdbcType=VARCHAR},
+      MARKET_PRICE = #{marketPrice,jdbcType=DECIMAL},
+      PERFORM_STATUS = #{performStatus,jdbcType=VARCHAR},
+      PERFORM_STATUS_CODE = #{performStatusCode,jdbcType=VARCHAR},
+      CANCEL_STRATEGY = #{cancelStrategy,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      SETTLEMENT_STATUS = #{settlementStatus,jdbcType=VARCHAR},
+      MAIN_ITEM = #{mainItem,jdbcType=VARCHAR},
+      PRODUCT_ID = #{productId},
+      SUPP_GOODS_NAME = #{suppGoodsName},
+      SUPPLIER_ID = #{supplierId},
+      DEDUCT_TYPE = #{deductType,jdbcType=VARCHAR},
+      CERT_CONFIRM_STATUS = #{certConfirmStatus,jdbcType=VARCHAR},
+      CANCEL_CERT_CONFIRM_STATUS = #{cancelCertConfirmStatus,jdbcType=VARCHAR},
+	  DEDUCT_AMOUNT = #{deductAmount,jdbcType=DECIMAL},
+	  BOOK_LIMIT_TYPE = #{bookLimitType,jdbcType=VARCHAR},
+	  LAST_CANCEL_TIME = #{lastCancelTime,jdbcType=TIMESTAMP},
+	  ORDER_MEMO = #{orderMemo,jdbcType=VARCHAR},
+	  
+	  BUYOUT_PRICE = #{buyoutPrice,jdbcType=DECIMAL},
+      BUYOUT_TOTAL_PRICE = #{buyoutTotalPrice,jdbcType=DECIMAL},
+      
+        TICKET_TYPE = #{ticketType,jdbcType=VARCHAR},
+        PAYMENT_STATUS = #{paymentStatus,jdbcType=VARCHAR},
+        ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+      RESOURCE_AMPLE_TIME=#{resourceAmpleTime,jdbcType=TIMESTAMP},
+      INFO_PASS_TIME=#{infoPassTime,jdbcType=TIMESTAMP},
+      ORDER_UPDATE_TIME=#{orderUpdateTime,jdbcType=TIMESTAMP},
+        GOODS_ENGLISH_NAME = #{goodsEnglishName,jdbcType=VARCHAR},
+        PRODUCT_TYPE = #{productType,jdbcType=VARCHAR},
+        DEST_NAME = #{destName,jdbcType=VARCHAR},
+      EBK_SUPPLIER_GROUP_ID = #{ebkSupplierGroupId,jdbcType=DECIMAL},
+	  REFUND_QUANTITY = #{refundQuantity,jdbcType=DECIMAL},
+      	REFUND_LOCK_QUANTITY = #{refundLockQuantity,jdbcType=DECIMAL},
+      	UPDATE_TIME = sysdate
+    where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+  </update>
+  
+    
+  
+  <update id="updateByOrderIdSelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderItem" >
+    update ORD_ORDER_ITEM
+    <set >
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="branchId != null" >
+        BRANCH_ID = #{branchId,jdbcType=DECIMAL},
+      </if>
+      <if test="contractId != null" >
+        CONTRACT_ID = #{contractId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPackId != null" >
+        ORDER_PACK_ID = #{orderPackId,jdbcType=DECIMAL},
+      </if>
+      <if test="suppGoodsId != null" >
+        SUPP_GOODS_ID = #{suppGoodsId,jdbcType=DECIMAL},
+      </if>
+      <if test="productName != null" >
+        PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="actualSettlementPrice != null" >
+        ACTUAL_SETTLEMENT_PRICE = #{actualSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="settlementPrice != null" >
+        SETTLEMENT_PRICE = #{settlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="totalSettlementPrice != null" >
+        TOTAL_SETTLEMENT_PRICE = #{totalSettlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="visitTime != null" >
+        VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="needResourceConfirm != null" >
+        NEED_RESOURCE_CONFIRM = #{needResourceConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceStatus != null" >
+        RESOURCE_STATUS = #{resourceStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="infoStatus != null" >
+        INFO_STATUS = #{infoStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null" >
+        MARKET_PRICE = #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="performStatus != null" >
+        PERFORM_STATUS = #{performStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="performStatusCode != null" >
+        PERFORM_STATUS_CODE = #{performStatusCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelStrategy != null" >
+        CANCEL_STRATEGY = #{cancelStrategy,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementStatus != null" >
+        SETTLEMENT_STATUS = #{settlementStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="mainItem != null" >
+        MAIN_ITEM = #{mainItem,jdbcType=VARCHAR},
+      </if>
+      <if test="deductType != null" >
+        DEDUCT_TYPE = #{deductType,jdbcType=VARCHAR},
+      </if>
+      <if test="certConfirmStatus!=null">
+      	CERT_CONFIRM_STATUS = #{certConfirmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelCertConfirmStatus!=null">
+      	CANCEL_CERT_CONFIRM_STATUS = #{cancelCertConfirmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deductAmount!=null">
+      	DEDUCT_AMOUNT = #{deductAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="bookLimitType!=null">
+      	BOOK_LIMIT_TYPE = #{bookLimitType,jdbcType=VARCHAR},
+      </if>
+      <if test="lastCancelTime!=null">
+      	LAST_CANCEL_TIME = #{lastCancelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderMemo!=null">
+      	ORDER_MEMO = #{orderMemo,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+       <if test="ticketType != null" >
+        TICKET_TYPE = #{ticketType,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentStatus != null" >
+        PAYMENT_STATUS = #{paymentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceAmpleTime != null" >
+        RESOURCE_AMPLE_TIME = #{resourceAmpleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="infoPassTime != null" >
+        INFO_PASS_TIME = #{infoPassTime,jdbcType=TIMESTAMP},
+      </if>
+        <if test="productType != null" >
+            PRODUCT_TYPE = #{productType,jdbcType=VARCHAR},
+        </if>
+        <if test="destName != null" >
+            DEST_NAME = #{destName,jdbcType=VARCHAR},
+        </if>
+      <if test="orderUpdateTime != null" >
+        ORDER_UPDATE_TIME = #{orderUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundQuantity!=null">
+      	REFUND_QUANTITY = #{refundQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="refundLockQuantity!=null">
+      	REFUND_LOCK_QUANTITY = #{refundLockQuantity,jdbcType=DECIMAL},
+      </if>
+        <if test="settlementEntityCode!=null">
+            SUPP_SETTLEMENT_ENTITY_CODE = #{settlementEntityCode,jdbcType=DECIMAL},
+        </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByOrderItemIdSelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderItem" >
+	    update ORD_ORDER_ITEM
+	    <set >
+	      <if test="paymentStatus != null" >
+	        PAYMENT_STATUS = #{paymentStatus,jdbcType=VARCHAR},
+	      </if>
+	      <if test="orderUpdateTime != null" >
+      		  ORDER_UPDATE_TIME = #{orderUpdateTime,jdbcType=TIMESTAMP},
+     	 </if>
+	      UPDATE_TIME = sysdate
+	    </set>
+	    where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- 根据订单ID查询订单子项 -->
+  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_ITEM
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- 查询同商品的订单子项 -->
+  <select id="selectOrderIdByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    	SELECT * FROM ORD_ORDER_ITEM t1
+    	WHERE t1.SUPP_GOODS_ID IN ( SELECT t2.SUPP_GOODS_ID FROM ORD_ORDER_ITEM t2 WHERE t2.ORDER_ID = #{orderId,jdbcType=DECIMAL})
+    	AND t1.ORDER_ID != #{orderId,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- 根据订单ID查询订单子项 品类id-->
+  <select id="selectCategoryIdByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    CATEGORY_ID
+    from ORD_ORDER_ITEM
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL} group by CATEGORY_ID
+  </select>
+  
+  <!-- 根据orderItemId集合查询orderItem集合-->
+  <select id="selectOrderItemsByIds"  resultMap="BaseResultMap" >
+			select * from ORD_ORDER_ITEM where ORDER_ITEM_ID  in
+			   <foreach item="item" index="index" collection="list" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+	   </select>
+	   
+  <!-- 根据orderItemId集合查询orderItem的子集合-->
+  <select id="selectSubOrderItemsByIds"  resultMap="BaseResultMap" >
+			select ORDER_ITEM_ID,PERFORM_STATUS,VISIT_TIME,QUANTITY from ORD_ORDER_ITEM where ORDER_ITEM_ID  in
+			   <foreach item="item" index="index" collection="list" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+  </select>
+	   	   
+ <!-- 根据orderIds集合查询orderItem集合-->
+	   <select id="selectOrderItemsByorderIds"  resultMap="BaseResultMap" >
+			select * from ORD_ORDER_ITEM where order_id  in
+			   <foreach item="item" index="index" collection="list" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+	   </select>
+	   
+	   <select id="getOrderIdsForSendMail"  resultType="java.lang.Long" >
+			select ORDER_ID from ORD_ORDER_ITEM where PRODUCT_ID in (229142,270021,270020,269908,269904,269902,269899,269895,269888) 
+			AND  order_id  in
+		   <foreach item="item" index="index" collection="list" 
+                    open="(" separator="," close=")">
+                  #{item}
+           </foreach>
+                
+	   </select>
+ 
+       <select id="getOrderItemsForSendMail"  resultMap="BaseResultMap">
+			select * from ORD_ORDER_ITEM where PRODUCT_ID in (229142,269899,269902,270020,1522578,1614008,1615962,1618174,1618197,
+			1618466,1618480,1618489,1618509,1618552,1618563,1618586,1618590,1618592,1618594) 
+			AND  order_id  in
+		   <foreach item="item" index="index" collection="list" 
+                    open="(" separator="," close=")">
+                  #{item}
+           </foreach>
+	   </select>
+	   
+	    <select id="getOrderItemsForFlightTicket"  resultMap="BaseResultMap" >
+			select * from ORD_ORDER_ITEM where category_id=21 and order_id  in
+			   <foreach item="item" index="index" collection="list" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+	   </select>
+	   
+	   <!-- 根据开始结束下单时间和产品ID统计orderItem记录 -->
+	   <select id="countOrderItemByCreateTimeAndProductId"  resultType="java.lang.Long" >
+			 select count(1) from ORD_ORDER_ITEM item inner join ORD_ORDER ord
+			 on item.order_id=ord.order_id WHERE  ord.create_time between  #{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+			 and item.product_id =#{productId,jdbcType=VARCHAR}
+	   </select>
+	   
+  	   <!-- 根据开始结束下单时间和产品ID统计orderItem记录 -->
+		<select id="countOrderMainItemForO2oTicketByProductId"  resultType="Integer" >
+				 SELECT 
+				  COUNT(1) 
+				FROM
+				  ORD_ORDER_ITEM item 
+				WHERE EXISTS 
+				  (SELECT 
+				    1 
+				  FROM
+				    ORD_ORDER ORD
+				  WHERE item.order_id = ord.order_id 
+				    AND ord.create_time BETWEEN #{beginTime,jdbcType=DATE} 
+				    AND #{endTime,jdbcType=DATE}  
+				    AND ord.distributor_id = #{distributorId,jdbcType=DECIMAL}
+				    AND ord.distributor_code = #{distributorCode,jdbcType=VARCHAR} 
+				    AND ord.order_status='NORMAL'
+				) 
+				  AND item.main_item = 'true'
+				  AND item.product_id =#{productId,jdbcType=DECIMAL}
+				   AND item.create_time BETWEEN #{beginTime,jdbcType=DATE} 
+				    AND #{endTime,jdbcType=DATE}  
+				     AND item.create_time BETWEEN #{beginTime,jdbcType=DATE} 
+				    AND #{endTime,jdbcType=DATE}  
+				  
+				  
+		</select>
+	  
+     <!-- 获取订单状态为NORMAL状态且非对接酒店的orderItem记录 -->
+	   <select id="selectOrderItems"  resultMap="BaseResultMap" >
+			 select item.* from ORD_ORDER_ITEM item inner join ORD_ORDER ord  
+			 on item.order_id=ord.order_id WHERE ord.order_status='NORMAL' 
+			 and item.supplier_id not in ('5400','1') 
+			 and item.category_id ='1'
+			 and item.perform_status !='PERFORM'
+			 and ord.create_time >to_date('2015-04-02 00:00:00','yyyy-mm-dd hh24:mi:ss')
+	   </select>
+	<select id="getTicketItemCountByUserIdAndCreateTime" resultType="Long" parameterType="java.util.Map">
+			 select count(item.ORDER_ITEM_ID)
+			 from ORD_ORDER_ITEM item inner join ORD_ORDER ord on item.order_id=ord.order_id 
+			 where ((ord.payment_target='PAY' and ord.order_status='NORMAL') or (ord.payment_target='PREPAID' and ord.order_status='NORMAL' and ord.PAYMENT_STATUS='PAYED'))
+			  and item.CATEGORY_ID in(11,12,13) 
+			 <if test="userId != null" >
+			     and ord.USER_ID = #{userId}
+			 </if>
+			 <if test="createTime != null" >
+			     and ord.CREATE_TIME >= #{createTime}
+			 </if>
+	</select>
+
+   	
+    <select id="listOrderItemByConditions" resultMap="listOrderByConditionsResultMap" parameterType="java.util.Map">
+        <include refid="basic.pageSearchHead"/>
+          SELECT item.ORDER_ITEM_ID,item.ORDER_ID,item.PRODUCT_NAME,item.PRODUCT_ID,ord.PAYMENT_STATUS,
+          item.QUANTITY,ord.CREATE_TIME,item.VISIT_TIME,ord.OUGHT_AMOUNT,item.SETTLEMENT_PRICE,ord.ORDER_STATUS,item.price,item.TOTAL_SETTLEMENT_PRICE,item.SUPPLIER_ID,item.EBK_SUPPLIER_GROUP_ID,
+          item.COMPANY_TYPE
+          FROM ord_order_item item
+          left join ord_order ord on item.order_id=ord.order_id
+          left join ord_order_pack pack on item.order_id = pack.order_id
+          where 1=1
+             <include refid="listOrderByConditionsSQL"></include>
+        <include refid="basic.pageSearchFoot"/>
+   	</select>
+
+   	<select id="listOrderItemByConditionsCount" parameterType="java.util.Map" resultType="Long">
+        SELECT count(*) FROM ord_order_item item left join ord_order ord on item.order_id=ord.order_id
+        left join ord_order_pack pack on item.order_id = pack.order_id
+        where 1=1
+        <include refid="listOrderByConditionsSQL"></include>
+   	</select>
+
+    <!-- 2017-06-01 为该功能上线时间-->
+    <select id="findOrderItemNoCodeCount" parameterType="java.util.Map" resultType="Long">
+        SELECT count(*) FROM ord_order_item item
+        where 1=1 AND item.SUPP_SETTLEMENT_ENTITY_CODE IS NULL AND item.CREATE_TIME > to_date('2017-06-01 00:00:00', 'yyyy-mm-dd hh24:mi:ss')
+    </select>
+
+   <sql id="listOrderByConditionsSQL">
+        <if test="CATEGORY_ID != null and CATEGORY_ID!='' and CATEGORY_ID.size()>0 ">
+            and item.CATEGORY_ID in
+            <foreach item="categoryId" collection="CATEGORY_ID" open="(" separator="," close=")">
+                #{categoryId}
+            </foreach>
+        </if>
+
+        <if test="ORDER_ID != null ">
+            and ord.ORDER_ID = #{ORDER_ID,jdbcType=DECIMAL}
+        </if>
+
+        <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != '' ">
+            and ord.PAYMENT_STATUS = #{PAYMENT_STATUS,jdbcType=VARCHAR}
+        </if>
+        <if test="ORDER_STATUS  != null and ORDER_STATUS  != '' ">
+            and ord.ORDER_STATUS  = #{ORDER_STATUS ,jdbcType=VARCHAR}
+        </if>
+
+        <if test="PRODUCT_NAME != null and PRODUCT_NAME != '' ">
+            and item.PRODUCT_NAME like '%'||#{PRODUCT_NAME}||'%'
+        </if>
+        <if test="PRODUCT_ID != null ">
+            and item.PRODUCT_ID =#{PRODUCT_ID,jdbcType=DECIMAL}
+        </if>
+
+        <if test="SUPPLIER_ID != null and SUPPLIER_ID!='' and SUPPLIER_ID.size()>0 ">
+            and item.SUPPLIER_ID in
+            <foreach item="supplierId" collection="SUPPLIER_ID" open="(" separator="," close=")">
+                #{supplierId}
+            </foreach>
+        </if>
+        <if test="VISIT_TIME_BEGIN != null">
+            <![CDATA[  and item.visit_time >= #{VISIT_TIME_BEGIN} ]]>
+        </if>
+        <if test="VISIT_TIME_END != null">
+            <![CDATA[  and item.visit_time <= #{VISIT_TIME_END} ]]>
+        </if>
+        <if test="PACKAGE_TYPE != null and PACKAGE_TYPE != '' ">
+           <![CDATA[ and item.PACKAGE_TYPE = #{PACKAGE_TYPE,jdbcType=VARCHAR}]]>
+        </if>
+        <if test="CREATE_TIME_BEGIN != null">
+            <![CDATA[  and item.create_time >= to_date(TO_CHAR(#{CREATE_TIME_BEGIN,jdbcType=TIMESTAMP}, 'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss') ]]>
+        </if>
+        <if test="CREATE_TIME_END != null">
+            <![CDATA[  and item.create_time <= to_date(TO_CHAR(#{CREATE_TIME_END,jdbcType=TIMESTAMP}, 'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss')]]>
+        </if>
+    </sql>
+  
+ 	 <select id="getTicketItemListByUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+		    select item.*
+			from ORD_ORDER_ITEM item inner join ORD_ORDER ord on item.order_id=ord.order_id 
+		    where ((ord.payment_target='PAY' and ord.order_status='NORMAL') or (ord.payment_target='PREPAID' and ord.order_status='NORMAL' and ord.PAYMENT_STATUS='PAYED'))
+		     and ord.USER_ID = #{userId} and item.CATEGORY_ID in(11,12,13)
+	</select>
+	
+	<select id="getPageTicketItemListByUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+	<include refid="basic.pageSearchHead"/>
+		    select item.*
+			from ORD_ORDER_ITEM item inner join ORD_ORDER ord on item.order_id=ord.order_id  left join ord_pass_code opc on opc.order_item_id=item.order_item_id
+		    where ((ord.payment_target='PAY' and ord.order_status='NORMAL') or (ord.payment_target='PREPAID' and ord.order_status='NORMAL' and ord.PAYMENT_STATUS='PAYED'))
+		     and ord.USER_ID = #{userId} and item.CATEGORY_ID in(11,12,13,31) and opc.pass_code_id is not null
+	<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+	<select id="getTicketItemCountByUserId" parameterType="java.util.Map" resultType="Integer">
+		    select count(1)
+			from ORD_ORDER_ITEM item inner join ORD_ORDER ord on item.order_id=ord.order_id  left join ord_pass_code opc on opc.order_item_id=item.order_item_id
+		    where ((ord.payment_target='PAY' and ord.order_status='NORMAL') or (ord.payment_target='PREPAID' and ord.order_status='NORMAL' and ord.PAYMENT_STATUS='PAYED'))
+		     and ord.USER_ID = #{userId} and item.CATEGORY_ID in(11,12,13) and opc.pass_code_id is not null
+	</select>
+	
+	<update id="updateInvokeInterfacePfStatus" parameterType="java.util.Map" >
+	    update ORD_ORDER_ITEM
+	    set INVOKE_INTERFACE_PF_STATUS = #{invokeInterfacePfStatus}
+	    where ORDER_ITEM_ID in (${orderItemIds})
+	</update>
+	<update id="updateCourierStatus" parameterType="java.util.HashMap" >
+		update ORD_ORDER_ITEM
+		set COURIER_STATUS = #{courierStatus}
+		where ORDER_ITEM_ID = #{orderItemId}
+	</update>
+	
+	<!-- 获取当天门票的子订单 -->
+	<select id="queryTicketOrderItem" parameterType="java.util.Map"  resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+        select * from ord_order_item t
+		where t.visit_time = to_date(#{visitTime}, 'yyyy/MM/dd')
+ 		and t.category_id in (11,12,13,31)
+		and t.notintime_flag is null
+		<include refid="basic.pageSearchFoot"/>
+   	</select>
+   	
+  
+   	
+   	<!-- 获取该商品当天子订单列表[除了废单]-->
+	<select id="queryOrderItemListByParams" parameterType="java.util.Map"  resultMap="BaseResultMap">
+		SELECT 
+	    
+	    T.ORDER_ITEM_ID, T.ORDER_ID, T.CATEGORY_ID, T.BRANCH_ID, T.CONTRACT_ID, T.ORDER_PACK_ID, T.SUPP_GOODS_ID, 
+	    T.PRODUCT_NAME, T.SUPP_PRODUCT_NAME, T.PRICE, T.ACTUAL_SETTLEMENT_PRICE, T.SETTLEMENT_PRICE, T.QUANTITY, 
+	    T.TOTAL_AMOUNT, T.TOTAL_SETTLEMENT_PRICE, 
+	    T.VISIT_TIME, T.NEED_RESOURCE_CONFIRM, T.RESOURCE_STATUS, T.INFO_STATUS, T.MARKET_PRICE, T.PERFORM_STATUS, 
+	    T.PERFORM_STATUS_CODE, T.CANCEL_STRATEGY, T.CONTENT, T.SETTLEMENT_STATUS, T.MAIN_ITEM,T.PRODUCT_ID,T.SUPP_GOODS_NAME,
+	    T.SUPPLIER_ID, T.DEDUCT_TYPE,T.CERT_CONFIRM_STATUS,T.CANCEL_CERT_CONFIRM_STATUS,T.DEDUCT_AMOUNT,T.BOOK_LIMIT_TYPE,
+	    T.LAST_CANCEL_TIME,T.ORDER_MEMO,T.TICKET_TYPE,T.PAYMENT_STATUS,T.ORDER_STATUS,T.MANAGER_ID,T.BU_CODE,T.ATTRIBUTION_ID,
+	    T.REAL_BU_TYPE,T.REFUND_RULES,T.INVOKE_INTERFACE_PF_STATUS,T.RESOURCE_AMPLE_TIME,T.INFO_PASS_TIME,T.COURIER_STATUS,T.COMPANY_TYPE
+	    T.BUYOUT_PRICE,T.BUYOUT_QUANTITY,T.BUYOUT_FLAG
+	    
+	    FROM ORD_ORDER_ITEM T
+	    LEFT JOIN ORD_ORDER M ON T.ORDER_ID = M.ORDER_ID
+	    WHERE 1=1 
+	    AND M.ORDER_STATUS != 'CANCEL'
+	    AND T.IS_BUYOUT = #{isBuyout,jdbcType=DECIMAL}
+	    <if test ="precontrol_classification == 'Daily'">
+	    	AND T.VISIT_TIME = TO_DATE(#{visitTime},'yyyy/MM/dd')
+	    </if>
+	    <if test ="precontrol_classification == 'Cycle'">
+	    	AND T.VISIT_TIME BETWEEN TO_DATE(#{startDate},'yyyy/MM/dd') AND TO_DATE(#{endDate},'yyyy/MM/dd')
+	    </if>
+	    AND T.SUPP_GOODS_ID = #{suppGoodsId,jdbcType=DECIMAL}
+	    
+	    
+   	</select>
+   	
+     <!-- 通过时间查询，符合时间的门票订单信息 出游时间是 传入日期 并且 已经支付的 -->
+       <select id="queryTicketOrderItemByVisitDate" parameterType="java.util.Map"  resultMap="listOrderByDateResultMap">
+       <include refid="basic.pageSearchHead"/>
+    SELECT ORD.USER_ID,ORD.ORDER_ID,ITEM.PRODUCT_ID,ITEM.PRODUCT_NAME,ITEM.CONTENT,ORD.VISIT_TIME,ORD.CATEGORY_ID,ITEM.TICKET_TYPE,OPC.PASS_CODE_ID
+    FROM ORD_ORDER_ITEM ITEM INNER JOIN ORD_ORDER ORD ON ITEM.ORDER_ID=ORD.ORDER_ID  LEFT JOIN ORD_PASS_CODE OPC ON OPC.ORDER_ITEM_ID=ITEM.ORDER_ITEM_ID
+    WHERE ((ORD.PAYMENT_TARGET='PAY' AND ORD.ORDER_STATUS='NORMAL') OR (ORD.PAYMENT_TARGET='PREPAID' AND ORD.ORDER_STATUS='NORMAL' AND ORD.PAYMENT_STATUS='PAYED')) AND  ITEM.CATEGORY_ID IN(11,12,13)  
+     AND ord.VISIT_TIME = TO_DATE(#{visitTime},'yyyy/MM/dd')
+    <include refid="basic.pageSearchFoot"/>   
+       </select>
+       
+      <select id="getTotalCountForOrdOrderItem" parameterType="java.util.Map"  resultType="Integer">
+    SELECT count(1)
+    FROM ORD_ORDER_ITEM ITEM INNER JOIN ORD_ORDER ORD ON ITEM.ORDER_ID=ORD.ORDER_ID  LEFT JOIN ORD_PASS_CODE OPC ON OPC.ORDER_ITEM_ID=ITEM.ORDER_ITEM_ID
+    WHERE ((ORD.PAYMENT_TARGET='PAY' AND ORD.ORDER_STATUS='NORMAL') OR (ORD.PAYMENT_TARGET='PREPAID' AND ORD.ORDER_STATUS='NORMAL' AND ORD.PAYMENT_STATUS='PAYED')) AND  ITEM.CATEGORY_ID IN(11,12,13)  
+     AND ord.VISIT_TIME = TO_DATE(#{visitTime},'yyyy/MM/dd')
+     </select>
+
+    <!--查询一段时间内的子订单-->
+    <select id="queryOrderItemListByCreateTimeBetween" parameterType="java.util.Map"  resultMap="BaseResultMap">
+        <include refid="basic.pageSearchHead"/>
+        select item.*
+        from ORD_ORDER_ITEM item
+        where item.create_time
+        BETWEEN to_date(#{startTime,jdbcType=VARCHAR}, 'yyyy-MM-dd')
+        AND to_date(#{endTime,jdbcType=VARCHAR}, 'yyyy-MM-dd')
+        <include refid="basic.pageSearchFoot"/>
+    </select>
+
+   	<update id="updateNotInTimeFlag" parameterType="java.util.Map" >
+    	UPDATE ORD_ORDER_ITEM 
+    	SET NOTINTIME_FLAG=#{notInTimeFlag}
+    	WHERE ORDER_ITEM_ID = #{orderItemId}
+  	</update>
+  	
+  	
+  	<select id="getOrderIdByOrderItemId" parameterType="long" resultType="long">
+		select ORDER_ID from ORD_ORDER_ITEM where ORDER_ITEM_ID  = #{orderItemId}
+	</select>
+	
+	<select id="getOrderItemIdListByOrderId" parameterType="long" resultType="java.lang.Long">
+		select order_item_id from ord_order_item where order_id = #{orderId}
+	</select>
+		
+	    <select id="queryTicketOrderItemByOrderId" parameterType="java.util.Map"  resultMap="listOrderByConditionsResultMap">
+  		    select item.*,ord.OUGHT_AMOUNT,ord.ACTUAL_AMOUNT
+			from ORD_ORDER_ITEM item inner join ORD_ORDER ord on item.order_id=ord.order_id 
+		    where ((ord.payment_target='PAY' and ord.order_status='NORMAL') or (ord.payment_target='PREPAID' and ord.order_status='NORMAL' and ord.PAYMENT_STATUS='PAYED'))
+		     and ord.USER_NO  = #{userNo}  and item.order_id= #{orderId}
+       </select>
+	
+	<update id="updateOrderItemRefundQutityAndPrice" parameterType="com.lvmama.vst.back.order.po.OrdOrderItem" >
+    	UPDATE ORD_ORDER_ITEM 
+    	SET REFUND_QUANTITY=#{refundQuantity}, REFUND_PRICE = #{refundPrice}, UPDATE_TIME = sysdate
+    	WHERE ORDER_ITEM_ID = #{orderItemId} AND QUANTITY >= #{refundQuantity}
+  	</update>
+  	
+  	
+  	 <select id="selectUserTicketByParams" resultMap="userTicketResultMap" parameterType="java.util.Map">
+           select item.*,ord.payment_target
+            from ORD_ORDER_ITEM item inner join ORD_ORDER ord on item.order_id=ord.order_id 
+            where 
+            ord.order_status='NORMAL'
+             <if test="userId !=null and userId!='' ">
+                and ord.USER_ID = #{userId} 
+            </if>
+            and item.CATEGORY_ID in(11,12,13,31)
+            and (item.perform_status='UNPERFORM' or item.perform_status='PART_PERFORM')
+            <if test="visitDate !=null and visitDate!='' ">
+             AND ord.VISIT_TIME = TO_DATE(#{visitDate},'yyyy/MM/dd')
+            </if>
+    </select>
+    
+        
+   
+    <select id="queryUserOrderItemList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select item.*
+        from ORD_ORDER_ITEM item inner join ORD_ORDER ord on item.order_id=ord.order_id
+        where
+        ord.order_status='NORMAL'
+        <if test="userId !=null and userId!='' ">
+            and ord.USER_ID = #{userId}
+        </if>
+        and item.CATEGORY_ID in(11,12,13,31)
+        <if test="visitDate !=null and visitDate!='' ">
+            AND ord.VISIT_TIME = TO_DATE(#{visitDate},'yyyy/MM/dd')
+        </if>
+        <if test="productIds !=null">
+            AND
+            <foreach collection="productIds" index="index" item="productId"
+                     open="(" separator=" OR " close=")">
+                item.product_id= #{productId}
+            </foreach>
+        </if>
+        <include refid="basic.pageSearchFoot"/>
+    </select>
+    
+    
+<update id="updateOrderItemActSettlement" parameterType="java.util.HashMap" >
+		update ORD_ORDER_ITEM
+		<set>
+		 <if test="actualSettlementPrice != null" >
+        ACTUAL_SETTLEMENT_PRICE = #{actualSettlementPrice,jdbcType=DECIMAL},
+          </if>
+          <if test="settlementStatus != null" >
+        SETTLEMENT_STATUS = #{settlementStatus,jdbcType=VARCHAR},
+          </if>
+         <if test="priceConfirmStatus != null" >
+       	 	PRICE_CONFIRM_STATUS = #{priceConfirmStatus,jdbcType=VARCHAR},
+          </if>
+          UPDATE_TIME = sysdate
+	  </set>
+		where ORDER_ITEM_ID = #{orderItemId}
+</update>
+
+<update id="updateSubTypeByOrderId" parameterType="java.util.Map" >
+	update ORD_ORDER_ITEM o set o.order_subtype=#{subType} where o.order_id = #{orderId}	
+</update>
+
+<!--修改子订单价格确认状态(订单金额转义过程中)-->
+<update id="updatePriceConfirmStatusByOrderId" parameterType="java.util.HashMap" >
+		update ORD_ORDER_ITEM
+		<set>
+          <if test="priceConfirmStatus != null" >
+       	 	PRICE_CONFIRM_STATUS = #{priceConfirmStatus,jdbcType=VARCHAR},
+          </if>
+          UPDATE_TIME = sysdate
+	  </set>
+		where  ORDER_ID = #{orderId}
+</update>
+
+	<select id="getOverdueTicketSubOrderListBySupplierIds" resultMap="overdueTicketSubOrderMap">
+		<foreach item="item" index="index" separator="union" collection="supplierIdList">
+		(select rownum, o.order_id, 
+		o.order_status as main_order_status, o.resource_status as main_order_resource_status, 
+		oi.order_item_id, 
+		oi.order_status as suborder_status, oi.resource_status suborder_resource_status, oi.perform_status, 
+		oi.visit_time, oi.content, oi.order_memo,
+		r.supplier_id,
+		oi.notintime_flag
+		from ord_order o
+		inner join ord_order_item oi
+		on o.order_id = oi.order_id
+		inner join ORD_EXPIRED_REFUND r
+		on oi.order_item_id = r.order_item_id 
+		where (o.category_id = 11 or o.category_id = 12 or o.category_id = 13)
+		--and o.order_status = 'NORMAL'
+		--and o.resource_status = 'INFOPASS'
+		--and oi.order_status = 'NORMAL'
+		--and oi.resource_status = 'INFOPASS'
+		--and oi.perform_status = 'UNPERFORM'
+		and r.process_status = 0
+		<choose>
+		<when test="item != null">
+		and r.supplier_id = #{item}
+		</when>
+		<otherwise>
+		and r.supplier_id IS NULL
+		</otherwise>
+		</choose>
+		and rownum <![CDATA[<=]]> #{extractionQuantity}) 		
+		</foreach>		
+	</select>
+	
+    <select id="selectListByParams" parameterType="java.util.Map" resultMap="SimpleResultMap">
+	    SELECT
+	        TSUB.ORDER_ITEM_ID, TSUB.ORDER_ID, TSUB.CATEGORY_ID, TSUB.BRANCH_ID, TSUB.CONTRACT_ID, TSUB.ORDER_PACK_ID, TSUB.SUPP_GOODS_ID, TSUB.RESOURCE_STATUS, TSUB.CANCEL_STRATEGY, TSUB.PRODUCT_NAME,
+	        TSUB.CONTENT, TSUB.SUPPLIER_ID, TSUB.PAYMENT_STATUS, TSUB.ORDER_STATUS, TSUB.BU_CODE, TSUB.EXPIRED_REFUND_FLAG, TSUB.VISIT_TIME, T.DISTRIBUTOR_ID, T.DISTRIBUTOR_CODE, T.DISTRIBUTION_CHANNEL, TSUB.NOTIFY_TYPE,
+            TSUB.CREATE_TIME
+	    FROM
+	        ORD_ORDER T, ORD_ORDER_ITEM TSUB
+	    WHERE
+	        T.ORDER_ID = TSUB.ORDER_ID 
+	        <if test="orderId != null">
+	            AND T.ORDER_ID = #{orderId, jdbcType=DECIMAL} 
+	        </if>
+	        <if test="orderStatus != null">
+	            AND T.ORDER_STATUS = #{orderStatus, jdbcType=VARCHAR}
+	        </if>
+	        <if test="buCode != null">
+	            AND T.BU_CODE = #{buCode, jdbcType=VARCHAR}
+	        </if>
+	        <if test="categoryIds != null">
+	            AND T.CATEGORY_ID IN
+	            <foreach collection="categoryIds" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+	        </if>
+	        <if test="unDistributorId != null">
+	            AND T.DISTRIBUTOR_ID != #{unDistributorId, jdbcType=DECIMAL}
+	        </if>
+	        <if test="orderStatus != null">
+	            AND TSUB.ORDER_STATUS = #{orderStatus, jdbcType=VARCHAR}
+	        </if>
+	        <if test="buCode != null">
+	            AND TSUB.BU_CODE = #{buCode, jdbcType=VARCHAR}
+	        </if>
+	        <if test="categoryIds != null">
+	            AND TSUB.CATEGORY_ID IN
+	            <foreach collection="categoryIds" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+	        </if>
+	        <if test="expiredRefundFlagN != null">
+	            AND (TSUB.EXPIRED_REFUND_FLAG IS NULL OR TSUB.EXPIRED_REFUND_FLAG = 'N')
+	        </if>   
+    </select>
+	
+	<update id="updateOverdueTicketRefundProcessedFlagAndMemoInBatch">
+		update ORD_ORDER_ITEM set EXPIRED_REFUND_FLAG = 'Y', ORDER_MEMO = concat(ORDER_MEMO, '&lt;br />已成功过期退 子订单结算价格应该为0')
+		<if test="list != null">
+			where 
+			<foreach item="item" index="index" separator = " or " collection="list">
+				ORDER_ITEM_id = #{item}
+			</foreach>
+		</if>
+		<if test="list == null">
+			where 1 != 1
+		</if>
+	</update>
+	
+	<update id="updateOverdueTicketRefundProcessedFlag">
+		update ORD_ORDER_ITEM set EXPIRED_REFUND_FLAG = #{flag}
+		<if test="idList != null">
+			where 
+			<foreach item="item" index="index" separator = " or " collection="idList">
+				ORDER_ITEM_id = #{item}
+			</foreach>
+		</if>
+		<if test="idList == null">
+			where 1 != 1
+		</if>
+	</update>	
+	
+	<select id="getOverdueTicketSubOrderListBySpecifiedIds" resultMap="overdueTicketSubOrderMap">
+		select o.order_id, 
+		o.order_status as main_order_status, o.resource_status as main_order_resource_status, 
+		oi.order_item_id, 
+		oi.order_status as suborder_status, oi.resource_status suborder_resource_status, oi.perform_status, 
+		oi.visit_time, oi.content, oi.order_memo,
+		r.supplier_id,
+		oi.notintime_flag,
+		oi.buyout_flag,
+		oi.buyout_total_price,
+		oi.buyout_price,
+		oi.buyout_quantity,
+		oi.total_settlement_price,
+		oi.actual_settlement_price,
+		oi.quantity,
+		oi.supp_goods_id,
+		o.info_status as main_order_info_status,
+		oi.info_status as suborder_info_status
+		from ord_order o
+		inner join ord_order_item oi
+		on o.order_id = oi.order_id
+		inner join ORD_EXPIRED_REFUND r
+		on oi.order_item_id = r.order_item_id 
+		where (o.category_id = 11 or o.category_id = 12 or o.category_id = 13)
+		and r.process_status = 0
+		<if test="list != null">
+		and 
+		<foreach item="item" index="index" separator=" or " open="(" close=")" collection="list">
+		oi.order_item_id = #{item}
+		</foreach>
+		</if>		
+	</select>
+	
+	<select id="getSubOrderByIdForOverdueRefundProcessing" resultMap="overdueTicketSubOrderMap">
+		select o.order_id, 
+		o.order_status as main_order_status, o.resource_status as main_order_resource_status, 
+		oi.order_item_id, 
+		oi.order_status as suborder_status, oi.resource_status suborder_resource_status, oi.perform_status, 
+		oi.visit_time, oi.content, oi.order_memo,
+		oi.supplier_id,
+		oi.notintime_flag,
+		oi.buyout_flag,
+		oi.buyout_total_price,
+		oi.buyout_price,
+		oi.buyout_quantity,
+		oi.total_settlement_price,
+		oi.actual_settlement_price,
+		oi.quantity,
+		oi.supp_goods_id,
+		o.info_status as main_order_info_status,
+		oi.info_status as suborder_info_status
+		from ord_order o
+		inner join ord_order_item oi
+		on o.order_id = oi.order_id 
+		where (o.category_id = 11 or o.category_id = 12 or o.category_id = 13)
+		<if test="list != null">
+		and 
+		<foreach item="item" index="index" separator=" or " open="(" close=")" collection="list">
+		oi.order_item_id = #{item}
+		</foreach>
+		</if>	
+	</select>
+
+		<select id="getOrderItemIdForPreLockSeat"  resultType="java.lang.Long">
+		select SEQ_ORDER_ITEM_ID.nextval from dual
+		</select>
+		
+	<update id="updateTotalSettlementPriceByOrderId" parameterType="java.util.Map" >
+	    UPDATE ORD_ORDER_ITEM
+    	SET TOTAL_SETTLEMENT_PRICE =0,
+    	 UPDATE_TIME = sysdate
+    	WHERE ORDER_ID  in (${orderIds})
+	</update> 
+		
+</mapper>

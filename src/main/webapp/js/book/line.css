@@ -1,0 +1,45 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.hotel_line_title{height:40px; line-height:40px; overflow:hidden}
+.hotel_line_title .hotel_t{float:left; height:40px; line-height:40px;}
+.hotel_line_title .hotel_link{float:right; height:40px;}
+
+.hotel_line_wrap .hotel_line_tab{padding:15px 10px; border:0; border:1px solid #d8dce5; background:#f9f9f9;}
+.hotel_line_wrap .hotel_line_tab input,.hotel_line_wrap .hotel_line_tab select{vertical-align:middle; margin:0}
+.hotel_line_wrap p{text-align:center; margin:10px 0;}
+
+.hotel_ebk_wrap .hotel_tab_title{height:35px; line-height:35px; padding:0 8px; color:#fff; background:#538ed7;}
+.hotel_ebk_wrap .hotel_tab_box{border:1px solid #CCC; border-top:0; margin-bottom:10px;}
+.hotel_ebk_wrap .hotel_tab{padding:5px; margin-bottom:10px;}
+.hotel_ebk_wrap .hotel_tab h6{height:25px; line-height:25px; font-size:12px; padding-top:8px;}
+.hotel_ebk_wrap .listName{padding:0 8px; height:28px; line-height:28px; margin-top:5px; background:#f0f0f0;}
+.hotel_ebk_wrap .listName .proName{font-size:14px; color:#000; font-weight:bold}
+.hotel_ebk_wrap .hotel_tab input.input-date{vertical-align:middle; margin-bottom:0;}
+.hotel_ebk_wrap .descript{display:none; padding:0 8px; vertical-align:top; margin-top:8px;}
+.hotel_ebk_wrap .descript textarea{width:50%; height:60px;}
+.hotel_ebk_wrap .hotel_tab table td{vertical-align:middle;}
+.hotel_ebk_wrap .table_t{height:35px; line-height:35px; background:#7bb7f2; font-size:14px; font-weight:bold; padding:0 8px;}
+.hotel_ebk_wrap .hotel_sum{width:80px; vertical-align:middle; margin:0;}
+
+.hotel_ebk_wrap .trafficBox{padding:0 20px;}
+.hotel_ebk_wrap .trafficInfo{border-bottom:1px dashed #CCC; margin:5px 0;}
+.hotel_ebk_wrap .trafficTab{overflow:hidden; height:25px; padding-bottom:5px;}
+.hotel_ebk_wrap .trafficTab span{width:25%; height:25px; line-height:25px; display:block; float:left;}
+
+
+
+.hotel_ebk_wrap .hotel_submit {overflow:hidden; padding-bottom:10px;}
+.hotel_ebk_wrap .hotel_submit p{float:left; width:100%; margin-right:-160px; height:auto; color:#F00; font-weight:bold; font-size:14px;}
+.hotel_ebk_wrap .hotel_submit a{float:right;}
+
+/*修改日历控件样式*/
+.ui-calendar .month-next,.ui-calendar .month-prev,.ui-calendar-mini .calmonth .caltable th.sun,.ui-calendar-mini .calmonth .caltable th.sat{color:#348feb;}
+.ui-calendar .caltitle{background:#348feb;}
+.ui-calendar-mini .calmonth .caldate:hover, .ui-calendar-mini .calmonth .selectDay:hover{background:#348feb;}
+.ui-calendar-mini .calmonth .today{border:1px solid #d2e7fb; background:#eef5fd; color:#348feb} 
+.ui-calendar-mini .calmonth .calfest{color:#348feb;}
+.ui-calendar .calbox{margin-top:0;}
+.ui-calendar-mini .calmonth .selectDay{background:#348feb; color:#fff};
+

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_STATUSGROUP" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdStatusGroup" >
+    <id column="STATUS_GROUP_ID" property="statusGroupId" jdbcType="DECIMAL" />
+    <result column="FILEDS" property="fileds" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    STATUS_GROUP_ID, FILEDS,UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_STATUS_GROUP
+    where STATUS_GROUP_ID = #{statusGroupId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_STATUS_GROUP
+    where STATUS_GROUP_ID = #{statusGroupId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdStatusGroup" >
+    <selectKey resultType="java.lang.Long" keyProperty="statusGroupId" order="BEFORE" >
+      select seq_order_status_group_id.nextval from dual
+    </selectKey>
+    insert into ORD_STATUS_GROUP (STATUS_GROUP_ID, FILEDS)
+    values (#{statusGroupId,jdbcType=DECIMAL}, #{fileds,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdStatusGroup" >
+    <selectKey resultType="java.lang.Long" keyProperty="statusGroupId" order="BEFORE" >
+      select seq_order_status_group_id.nextval from dual
+    </selectKey>
+    insert into ORD_STATUS_GROUP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      STATUS_GROUP_ID,
+      <if test="fileds != null" >
+        FILEDS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{statusGroupId,jdbcType=DECIMAL},
+      <if test="fileds != null" >
+        #{fileds,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdStatusGroup" >
+    update ORD_STATUS_GROUP
+    <set >
+      <if test="fileds != null" >
+        FILEDS = #{fileds,jdbcType=VARCHAR},
+      </if>
+       UPDATE_TIME = SYSDATE
+    </set>
+    where STATUS_GROUP_ID = #{statusGroupId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdStatusGroup" >
+    update ORD_STATUS_GROUP
+    set FILEDS = #{fileds,jdbcType=VARCHAR},UPDATE_TIME = SYSDATE
+    where STATUS_GROUP_ID = #{statusGroupId,jdbcType=DECIMAL}
+  </update>
+  
+  
+  
+  
+  <sql id="Base_Query_Column_List" >
+   	  <if test="statusGroupId != null" >
+      and  STATUS_GROUP_ID = #{statusGroupId}
+      </if>
+	  <if test="fileds != null" >
+      and  FILEDS like '%'||#{fileds}||'%'  
+      </if>
+  </sql>
+  <sql id="select_by_param" >
+		select *	
+		from ORD_STATUS_GROUP  
+		where 1=1
+			<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+	<select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_STATUS_GROUP
+	     where 1=1
+			<include refid="Base_Query_Column_List" />
+	</select>
+</mapper>

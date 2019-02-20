@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_FUNCRELATION" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdFuncRelation" >
+    <id column="ORD_FUNCTION_RELATION_ID" property="ordFunctionRelationId" jdbcType="DECIMAL" />
+    <result column="ORD_FUNCTION_ID" property="ordFunctionId" jdbcType="DECIMAL" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+    <result column="STATUS_GROUP_ID" property="statusGroupId" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORD_FUNCTION_RELATION_ID, ORD_FUNCTION_ID, CATEGORY_ID, STATUS_GROUP_ID, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_FUNCTION_RELATION
+    where ORD_FUNCTION_RELATION_ID = #{ordFunctionRelationId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_FUNCTION_RELATION
+    where ORD_FUNCTION_RELATION_ID = #{ordFunctionRelationId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdFuncRelation" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordFunctionRelationId" order="BEFORE" >
+      select seq_order_func_relation_id.nextval from dual
+    </selectKey>
+    insert into ORD_FUNCTION_RELATION (ORD_FUNCTION_RELATION_ID, ORD_FUNCTION_ID, 
+      CATEGORY_ID, STATUS_GROUP_ID)
+    values (#{ordFunctionRelationId,jdbcType=DECIMAL}, #{ordFunctionId,jdbcType=DECIMAL}, 
+      #{categoryId,jdbcType=DECIMAL}, #{statusGroupId,jdbcType=DECIMAL})
+  </insert>
+  <select id="selectRelId" resultType="java.lang.Long">
+	    select seq_order_func_relation_id.currval from dual
+	</select>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdFuncRelation" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordFunctionRelationId" order="BEFORE" >
+      select seq_order_func_relation_id.nextval from dual
+    </selectKey>
+    insert into ORD_FUNCTION_RELATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORD_FUNCTION_RELATION_ID,
+      <if test="ordFunctionId != null" >
+        ORD_FUNCTION_ID,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="statusGroupId != null" >
+        STATUS_GROUP_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{ordFunctionRelationId,jdbcType=DECIMAL},
+      <if test="ordFunctionId != null" >
+        #{ordFunctionId,jdbcType=DECIMAL},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="statusGroupId != null" >
+        #{statusGroupId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdFuncRelation" >
+    update ORD_FUNCTION_RELATION
+    <set >
+      <if test="ordFunctionId != null" >
+        ORD_FUNCTION_ID = #{ordFunctionId,jdbcType=DECIMAL},
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="statusGroupId != null" >
+        STATUS_GROUP_ID = #{statusGroupId,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORD_FUNCTION_RELATION_ID = #{ordFunctionRelationId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdFuncRelation" >
+    update ORD_FUNCTION_RELATION
+    set ORD_FUNCTION_ID = #{ordFunctionId,jdbcType=DECIMAL},
+      CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      STATUS_GROUP_ID = #{statusGroupId,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where ORD_FUNCTION_RELATION_ID = #{ordFunctionRelationId,jdbcType=DECIMAL}
+  </update>
+  
+  
+  
+   <sql id="Base_Query_Column_List" >
+   	  <if test="ordFunctionRelationId != null" >
+      and  ORD_FUNCTION_RELATION_ID = #{ordFunctionRelationId}
+      </if>
+	  <if test="ordFunctionId != null" >
+      and  ORD_FUNCTION_ID = #{ordFunctionId}
+      </if>
+      <if test="categoryId != null" >
+      and  CATEGORY_ID = #{categoryId}
+      </if>
+      <if test="statusGroupId != null" >
+      and  STATUS_GROUP_ID = #{statusGroupId}
+      </if>
+      <if test="ordFunctionRelationId != null" >
+      and  ORD_FUNCTION_RELATION_ID = #{ordFunctionRelationId}
+      </if>
+  </sql>
+  <sql id="select_by_param" >
+		select *	
+		from ORD_FUNCTION_RELATION  
+		where 1=1
+			<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+</mapper>

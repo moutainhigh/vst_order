@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="BIZ_ORDER_CONNECTS_PROP" >
+
+    <resultMap id="BaseResultMap" type="com.lvmama.vst.back.play.connects.po.BizOrderConnectsProp" >
+        <id column="PROP_ID" property="propId" jdbcType="DECIMAL" />
+        <result column="BRANCH_ID" property="branchId" jdbcType="DECIMAL" />
+        <result column="PROP_NAME" property="propName" jdbcType="VARCHAR" />
+        <result column="PROP_CODE" property="propCode" jdbcType="VARCHAR" />
+        <result column="SEQ" property="seq" jdbcType="DECIMAL" />
+        <result column="MAX_LENGTH" property="maxLength" jdbcType="DECIMAL" />
+        <result column="REQUIRE" property="require" jdbcType="VARCHAR" />
+        <result column="TEXT_TYPE" property="textType" jdbcType="VARCHAR" />
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        PROP_ID, BRANCH_ID, PROP_NAME, PROP_CODE, SEQ, MAX_LENGTH, REQUIRE ,TEXT_TYPE, UPDATE_TIME
+    </sql>
+
+    <sql id="Base_Query_Column_List">
+        <if test="propId != null" >
+            and PROP_ID = #{propId}
+        </if>
+        <if test="branchId != null" >
+            and BRANCH_ID = #{branchId}
+        </if>
+        <if test="propName != null" >
+            and PROP_NAME = #{propName}
+        </if>
+        <if test="propCode != null" >
+            and PROP_CODE = #{propCode}
+        </if>
+        <if test="seq != null" >
+            and SEQ = #{seq}
+        </if>
+        <if test="maxLength != null" >
+            and MAX_LENGTH = #{maxLength}
+        </if>
+        <if test="require != null" >
+            and REQUIRE = #{require}
+        </if>
+        <if test="textType != null" >
+            and TEXT_TYPE = #{textType}
+        </if>
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from BIZ_ORDER_CONNECTS_PROP
+        where PROP_ID = #{propId,jdbcType=DECIMAL}
+    </select>
+
+    <select id="selectAllByParams" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from BIZ_ORDER_CONNECTS_PROP
+        where 1 = 1
+        <include refid="Base_Query_Column_List" />
+        <if test="orderby != null" >
+            order by ${orderby}
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.lvmama.vst.back.play.connects.po.BizOrderConnectsProp">
+        <selectKey resultType="java.lang.Long" keyProperty="propId" order="BEFORE">
+            select
+            SEQ_BIZ_ORDER_CONNECTS_PROP.nextval from dual
+        </selectKey>
+        INSERT INTO BIZ_ORDER_CONNECTS_PROP (
+        PROP_ID, BRANCH_ID, PROP_NAME, PROP_CODE, SEQ, MAX_LENGTH, REQUIRE,TEXT_TYPE
+        )
+        VALUES
+        (
+        #{propId,jdbcType=DECIMAL},
+        #{branchId,jdbcType=DECIMAL},
+        #{propName,jdbcType=VARCHAR},
+        #{propCode,jdbcType=VARCHAR},
+        #{seq,jdbcType=DECIMAL},
+        #{maxLength,jdbcType=DECIMAL},
+        #{require,jdbcType=VARCHAR},
+        #{textType,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.lvmama.vst.back.play.connects.po.BizOrderConnectsProp" >
+        <selectKey resultType="java.lang.Long" keyProperty="propId" order="BEFORE">
+            select
+            SEQ_BIZ_ORDER_CONNECTS_PROP.nextval from dual
+        </selectKey>
+        insert into BIZ_ORDER_CONNECTS_PROP
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="propId != null" >
+                PROP_ID,
+            </if>
+            <if test="branchId != null" >
+                BRANCH_ID,
+            </if>
+            <if test="propName != null" >
+                PROP_NAME,
+            </if>
+            <if test="propCode != null">
+                PROP_CODE,
+            </if>
+            <if test="seq != null">
+                SEQ,
+            </if>
+            <if test="maxLength != null">
+                MAX_LENGTH,
+            </if>
+            <if test="require != null">
+                REQUIRE,
+            </if>
+            <if test="textType != null">
+                TEXT_TYPE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="propId != null" >
+                #{propId,jdbcType=DECIMAL},
+            </if>
+            <if test="branchId != null" >
+                #{branchId,jdbcType=DECIMAL},
+            </if>
+            <if test="propName != null" >
+                #{propName,jdbcType=VARCHAR},
+            </if>
+            <if test="propCode != null" >
+                #{propCode,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null">
+                #{seq,jdbcType=DECIMAL},
+            </if>
+            <if test="maxLength != null">
+                #{maxLength,jdbcType=DECIMAL},
+            </if>
+            <if test="require != null">
+                #{require,jdbcType=VARCHAR},
+            </if>
+            <if test="textType != null">
+                #{textType,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+	<select id="selectPropId" resultType="java.lang.Long">
+	    select SEQ_BIZ_ORDER_CONNECTS_PROP.currval from dual
+	</select>
+  
+    <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.play.connects.po.BizOrderConnectsProp" >
+        update BIZ_ORDER_CONNECTS_PROP
+        <set >
+            <if test="branchId != null" >
+                BRANCH_ID =  #{branchId,jdbcType=DECIMAL},
+            </if>
+            <if test="propName != null" >
+                PROP_NAME = #{propName,jdbcType=VARCHAR},
+            </if>
+            <if test="propCode != null">
+                PROP_CODE = #{propCode,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null">
+                SEQ=#{seq,jdbcType=DECIMAL},
+            </if>
+            <if test="maxLength != null">
+                MAX_LENGTH = #{maxLength,jdbcType=DECIMAL},
+            </if>
+            <if test="require != null">
+                REQUIRE=#{require,jdbcType=VARCHAR},
+            </if>
+             <if test="textType != null">
+                TEXT_TYPE=#{textType,jdbcType=VARCHAR},
+            </if>
+            UPDATE_TIME = sysdate
+        </set>
+        where PROP_ID = #{propId,jdbcType=DECIMAL}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.play.connects.po.BizOrderConnectsProp" >
+        update BIZ_ORDER_CONNECTS_PROP
+        set
+        BRANCH_ID =  #{branchId,jdbcType=DECIMAL},
+        PROP_NAME = #{propName,jdbcType=VARCHAR},
+        PROP_CODE = #{propCode,jdbcType=VARCHAR},
+        SEQ = #{seq,jdbcType=DECIMAL},
+        MAX_LENGTH = #{maxLength,jdbcType=DECIMAL},
+        REQUIRE=#{require,jdbcType=VARCHAR},
+        TEXT_TYPE=#{textType,jdbcType=VARCHAR},
+        UPDATE_TIME = sysdate
+        where PROP_ID = #{propId,jdbcType=DECIMAL}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from BIZ_ORDER_CONNECTS_PROP
+        where PROP_ID = #{propId,jdbcType=DECIMAL}
+    </delete>
+
+    <delete id="deleteByParams" parameterType="java.util.Map">
+        DELETE FROM BIZ_ORDER_CONNECTS_PROP
+        WHERE
+        1=1
+        <include refid="Base_Query_Column_List" />
+    </delete>
+
+</mapper>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="COM_ACTIVITI_RELATION" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.pub.po.ComActivitiRelation" >
+    <id column="ACTIVITI_RELATION_ID" property="activitiRelationId" jdbcType="DECIMAL" />
+    <result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+    <result column="PROCESS_KEY" property="processKey" jdbcType="VARCHAR" />
+    <result column="PROCESS_ID" property="processId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="PROCESS_STATUS" jdbcType="VARCHAR" property="processStatus" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ACTIVITI_RELATION_ID, OBJECT_ID, OBJECT_TYPE, PROCESS_KEY, PROCESS_ID, CREATE_TIME,
+    PROCESS_STATUS, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from COM_ACTIVITI_RELATION
+    where ACTIVITI_RELATION_ID = #{activitiRelationId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from COM_ACTIVITI_RELATION
+    where ACTIVITI_RELATION_ID = #{activitiRelationId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.pub.po.ComActivitiRelation" >
+    <selectKey resultType="java.lang.Long" keyProperty="activitiRelationId" order="BEFORE" >
+      select SEQ_ACTIVITI_RELATION_ID.nextval from dual
+    </selectKey>
+    insert into COM_ACTIVITI_RELATION (ACTIVITI_RELATION_ID, OBJECT_ID, OBJECT_TYPE, 
+      PROCESS_KEY, PROCESS_ID, CREATE_TIME
+      )
+    values (#{activitiRelationId,jdbcType=DECIMAL}, #{objectId,jdbcType=DECIMAL}, #{objectType,jdbcType=VARCHAR}, 
+      #{processKey,jdbcType=VARCHAR}, #{processId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.pub.po.ComActivitiRelation" >
+    <selectKey resultType="java.lang.Long" keyProperty="activitiRelationId" order="BEFORE" >
+      select SEQ_ACTIVITI_RELATION_ID.nextval from dual
+    </selectKey>
+    insert into COM_ACTIVITI_RELATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ACTIVITI_RELATION_ID,
+      <if test="objectId != null" >
+        OBJECT_ID,
+      </if>
+      <if test="objectType != null" >
+        OBJECT_TYPE,
+      </if>
+      <if test="processKey != null" >
+        PROCESS_KEY,
+      </if>
+      <if test="processId != null" >
+        PROCESS_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{activitiRelationId,jdbcType=DECIMAL},
+      <if test="objectId != null" >
+        #{objectId,jdbcType=DECIMAL},
+      </if>
+      <if test="objectType != null" >
+        #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="processKey != null" >
+        #{processKey,jdbcType=VARCHAR},
+      </if>
+      <if test="processId != null" >
+        #{processId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.pub.po.ComActivitiRelation" >
+    update COM_ACTIVITI_RELATION
+    <set >
+      <if test="objectId != null" >
+        OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+      </if>
+      <if test="objectType != null" >
+        OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="processKey != null" >
+        PROCESS_KEY = #{processKey,jdbcType=VARCHAR},
+      </if>
+      <if test="processId != null" >
+        PROCESS_ID = #{processId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processStatus != null">
+        PROCESS_STATUS = #{processStatus,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ACTIVITI_RELATION_ID = #{activitiRelationId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.pub.po.ComActivitiRelation" >
+    update COM_ACTIVITI_RELATION
+    set OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+      OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      PROCESS_KEY = #{processKey,jdbcType=VARCHAR},
+      PROCESS_ID = #{processId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      PROCESS_STATUS = #{processStatus,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate
+    where ACTIVITI_RELATION_ID = #{activitiRelationId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="queryList" parameterType="com.lvmama.vst.back.pub.po.ComActivitiRelation" resultMap="BaseResultMap">
+  	select * from COM_ACTIVITI_RELATION where 1=1 
+  	<if test="objectId != null">
+  		and OBJECT_ID = #{objectId,jdbcType=DECIMAL} 
+  	</if>
+  	<if test="objectType != null">
+      and OBJECT_TYPE = #{objectType,jdbcType=VARCHAR} 
+    </if>
+    <if test="processKey != null">
+      and PROCESS_KEY = #{processKey,jdbcType=VARCHAR}
+     </if>
+  </select>
+  
+  <select id="queryClearProcessByCondition" resultType="java.lang.Long" parameterType="java.util.Map">
+  SELECT PROCESS_ID FROM (
+		SELECT CAR.PROCESS_ID, ROWNUM RW
+  FROM COM_ACTIVITI_RELATION CAR
+ WHERE CAR.PROCESS_STATUS = 'NORMAL'
+   AND ((CAR.OBJECT_TYPE = 'ORD_ORDER' AND EXISTS
+        (SELECT 1
+           FROM ORD_ORDER OO
+          WHERE 1=1
+           <if test="orderStatus != null">
+             AND OO.ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR}
+	       </if>
+	       <if test="paymentStatus != null">
+             AND OO.PAYMENT_STATUS = #{paymentStatus,jdbcType=VARCHAR}
+	       </if>
+	       <if test="paymentTarget != null">
+             AND OO.PAYMENT_TARGET = #{paymentTarget,jdbcType=VARCHAR}
+	       </if>
+	       <if test="createTime != null">
+	          <![CDATA[ AND OO.CREATE_TIME <=#{createTime,jdbcType=TIMESTAMP} ]]>
+	       </if>
+	       <if test="visitTime != null">
+	          <![CDATA[ AND OO.VISIT_TIME <=#{visitTime,jdbcType=TIMESTAMP} ]]>
+	       </if>
+            AND OO.ORDER_ID = CAR.OBJECT_ID))
+    OR (CAR.OBJECT_TYPE = 'ORD_ORDER_ITEM' AND EXISTS
+        (SELECT 1
+           FROM ORD_ORDER_ITEM OOI
+          WHERE OOI.ORDER_ITEM_ID = CAR.OBJECT_ID
+            AND EXISTS
+          (SELECT 1
+                   FROM ORD_ORDER OO
+                  WHERE 1=1
+           <if test="orderStatus != null">
+             AND OO.ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR}
+	       </if>
+	       <if test="paymentStatus != null">
+             AND OO.PAYMENT_STATUS = #{paymentStatus,jdbcType=VARCHAR}
+	       </if>
+	       <if test="paymentTarget != null">
+             AND OO.PAYMENT_TARGET = #{paymentTarget,jdbcType=VARCHAR}
+	       </if>
+	       <if test="createTime != null">
+	          <![CDATA[ AND OO.CREATE_TIME <=#{createTime,jdbcType=TIMESTAMP} ]]>
+	       </if>
+	       <if test="visitTime != null">
+	          <![CDATA[ AND OO.VISIT_TIME <=#{visitTime,jdbcType=TIMESTAMP} ]]>
+	       </if>
+                    AND OO.ORDER_ID = OOI.ORDER_ID)))) ORDER BY CREATE_TIME) TBL
+           <if test="limitCount != null">
+	          <![CDATA[ WHERE ROWNUM <= #{limitCount,jdbcType=DECIMAL}]]>
+	       </if>       
+	</select>
+	<update id="updateProcessStatus" parameterType="java.util.Map" >
+	    update COM_ACTIVITI_RELATION 
+	    set PROCESS_STATUS = #{processStatus,jdbcType=VARCHAR}
+	    where process_id = #{processId,jdbcType=VARCHAR}
+	</update>
+	
+</mapper>

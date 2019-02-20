@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_IDCARD_LIMIT_AGE" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.supp.po.SuppGoodsIDCardLimit" >
+    <id column="IDCARD_LIMIT_ID" property="idCardLimitId" jdbcType="DECIMAL" />
+    <result column="SUPP_GOODS_ID" property="suppGoodsId" jdbcType="DECIMAL" />
+    <result column="START_AGE" property="startAge" jdbcType="DECIMAL" />
+    <result column="END_AGE" property="endAge" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    IDCARD_LIMIT_ID, SUPP_GOODS_ID, START_AGE, END_AGE, CREATE_TIME, UPDATE_TIME
+  </sql>
+
+  <!-- 根据商品ID查询适用年龄 -->
+  <select id="selectByGoodsIdKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from SUPP_GOODS_IDCARD_LIMIT
+    where SUPP_GOODS_ID = #{suppGoodsId,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- 根据主键删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from SUPP_GOODS_IDCARD_LIMIT
+    where IDCARD_LIMIT_ID = #{idCardAgelimitId,jdbcType=DECIMAL}
+  </delete>
+
+  <!-- 新增适用年龄 -->
+  <insert id="insert" parameterType="com.lvmama.vst.back.supp.po.SuppGoodsIDCardLimit" >
+    <selectKey resultType="java.lang.Long" keyProperty="idCardLimitId" order="BEFORE" >
+      select SEQ_IDCARD_LIMIT_ID.nextval from dual
+    </selectKey>
+    insert into SUPP_GOODS_IDCARD_LIMIT (IDCARD_LIMIT_ID, SUPP_GOODS_ID, START_AGE, 
+      END_AGE, CREATE_TIME,UPDATE_TIME)
+    values (#{idCardLimitId,jdbcType=DECIMAL}, #{suppGoodsId,jdbcType=DECIMAL}, #{startAge,jdbcType=DECIMAL}, 
+      #{endAge,jdbcType=DECIMAL},sysdate,sysdate)
+  </insert>
+
+  <!-- 根据主键更新适用年龄段 -->
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.supp.po.SuppGoodsLimit" >
+    update SUPP_GOODS_IDCARD_LIMIT
+    set START_AGE = #{startAge,jdbcType=DECIMAL},
+      END_AGE = #{endAge,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where IDCARD_LIMIT_ID = #{idCardLimitId,jdbcType=DECIMAL}
+  </update>
+  
+    <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from SUPP_GOODS_IDCARD_LIMIT
+    where SUPP_GOODS_ID = #{suppGoodsId,jdbcType=DECIMAL}
+  </select>
+  <select id="queryCount" resultType="java.lang.Long" parameterType="java.lang.Long">
+    select count(1)
+     from SUPP_GOODS_IDCARD_LIMIT
+    where SUPP_GOODS_ID = #{suppGoodsId,jdbcType=DECIMAL}
+  </select>
+  <!-- 根据ID查询适用年龄 -->
+  <select id="selectByIdKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from SUPP_GOODS_IDCARD_LIMIT
+    where IDCARD_LIMIT_ID = #{idCardAgelimitId,jdbcType=DECIMAL}
+  </select>
+</mapper>

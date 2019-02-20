@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="JMS_ORDER_MESSAGE_INFO" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.JmsOrderMessageInfo" >
+    <id column="MESSAGE_INFO_ID" property="messageInfoId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="MESSAGE_TYPE" property="messageType" jdbcType="VARCHAR" />
+    <result column="RECEIVE_TIME" jdbcType="TIMESTAMP" property="receiveTime" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    MESSAGE_INFO_ID,
+    ORDER_ITEM_ID,
+    ORDER_ID,
+    MESSAGE_TYPE,
+    RECEIVE_TIME,
+    CREATE_TIME,
+    UPDATE_TIME
+  </sql>
+
+   <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+
+    <!-- 插入数据 -->
+    <insert id="insert" parameterType="com.lvmama.vst.back.order.po.JmsOrderMessageInfo" >
+        <selectKey resultType="java.lang.Long" keyProperty="messageInfoId" order="BEFORE" >
+            select SEQ_ORDER_MESSAGE_INFO_ID.nextval from dual
+        </selectKey>
+        insert into JMS_ORDER_MESSAGE_INFO (
+            MESSAGE_INFO_ID,
+            ORDER_ITEM_ID,
+            ORDER_ID,
+            MESSAGE_TYPE,
+            RECEIVE_TIME,
+            CREATE_TIME,
+            UPDATE_TIME
+        )
+        values (
+            #{messageInfoId,jdbcType=DECIMAL},
+            #{orderItemId,jdbcType=DECIMAL},
+            #{orderId,jdbcType=DECIMAL},
+            #{messageType,jdbcType=VARCHAR},
+            sysdate,
+            sysdate,
+            sysdate
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.JmsOrderMessageInfo" >
+        <selectKey resultType="java.lang.Long" keyProperty="messageInfoId" order="BEFORE" >
+            select SEQ_ORDER_MESSAGE_INFO_ID.nextval from dual
+        </selectKey>
+        insert into JMS_ORDER_MESSAGE_INFO
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            MESSAGE_INFO_ID,
+            <if test="orderItemId != null" >
+                ORDER_ITEM_ID,
+            </if>
+            <if test="orderId != null" >
+                ORDER_ID,
+            </if>
+            <if test="massageType != null" >
+                MESSAGE_TYPE,
+            </if>
+            RECEIVE_TIME,
+            CREATE_TIME,
+            UPDATE_TIME
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            #{messageInfoId,jdbcType=DECIMAL},
+            <if test="orderItemId != null" >
+                #{orderItemId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderId != null" >
+                #{orderId,jdbcType=DECIMAL},
+            </if>
+            <if test="massageType != null" >
+                #{massageType,jdbcType=VARCHAR},
+            </if>
+            sysdate,
+            sysdate,
+            sysdate
+        </trim>
+    </insert>
+
+
+    <sql id="select_by_param" >
+		select *	
+		from JMS_ORDER_MESSAGE_INFO
+		where 1=1
+            <include refid="Base_Query_Column_List" /> 
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from JMS_ORDER_MESSAGE_INFO
+        where MESSAGE_INFO_ID = #{messageInfoId,jdbcType=DECIMAL}
+    </select>
+
+    <sql id="Base_Query_Column_List" >
+        <if test="messageInfoId != null" >
+            and MESSAGE_INFO_ID = #{messageInfoId}
+        </if>
+        <if test="orderId != null" >
+            and ORDER_ID = #{orderId,jdbcType=DECIMAL}
+        </if>
+        <if test="orderItemId!=null">
+            and ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+        </if>
+        <if test="massageType != null" >
+            and MESSAGE_TYPE = #{massageType}
+        </if>
+    </sql>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.JmsOrderMessageInfo" >
+        update JMS_ORDER_MESSAGE_INFO
+        <set >
+            <if test="orderId != null" >
+                ORDER_ID = #{orderId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderItemId!=null">
+                ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+            </if>
+            <if test="massageType != null" >
+                MESSAGE_TYPE = #{massageType,jdbcType=VARCHAR},
+            </if>
+            RECEIVE_TIME = sysdate,
+            CREATE_TIME = sysdate,
+            UPDATE_TIME = sysdate
+        </set>
+        where MESSAGE_INFO_ID = #{messageInfoId,jdbcType=DECIMAL}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.JmsOrderMessageInfo" >
+        update JMS_ORDER_MESSAGE_INFO
+        set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+            ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+            MESSAGE_TYPE = #{massageType,jdbcType=VARCHAR},
+            RECEIVE_TIME = sysdate,
+            CREATE_TIME = sysdate,
+            UPDATE_TIME = sysdate
+        where MESSAGE_INFO_ID = #{messageInfoId,jdbcType=DECIMAL}
+    </update>
+
+    <!-- 根据订单ID查询消息列表 -->
+    <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from JMS_ORDER_MESSAGE_INFO
+        where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </select>
+
+    <!-- 根据子订单ID查询消息列表 -->
+    <select id="selectByOrderItemId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from JMS_ORDER_MESSAGE_INFO
+        where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from JMS_ORDER_MESSAGE_INFO
+        where MESSAGE_INFO_ID = #{messageInfoId,jdbcType=DECIMAL}
+    </delete>
+
+    <delete id="deleteByOrderId" parameterType="java.lang.Long" >
+        delete from JMS_ORDER_MESSAGE_INFO
+        where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </delete>
+
+    <delete id="deleteByOrderItemId" parameterType="java.lang.Long" >
+        delete from JMS_ORDER_MESSAGE_INFO
+        where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+    </delete>
+
+     <delete id="clearTwoMonthAgoMessageInfo">
+        DELETE FROM LVMAMA_ORD.JMS_ORDER_MESSAGE_INFO JM
+        WHERE TRUNC(JM.RECEIVE_TIME) <![CDATA[<=]]> TRUNC(ADD_MONTHS(SYSDATE,-2))
+    </delete>
+
+</mapper>

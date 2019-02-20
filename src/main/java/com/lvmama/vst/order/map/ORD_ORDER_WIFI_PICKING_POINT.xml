@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_WIFI_PICKING_POINT" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.wifi.po.OrdOrderWifiPickingPoint" >
+    <id column="ORD_PICKING_POINT_ID" property="ordPickingPointId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="DISTRICT_ID" property="districtId" jdbcType="DECIMAL" />
+    <result column="TAKE_PICKING_POINT_ID" property="takePickingPointId" jdbcType="DECIMAL" />
+    <result column="BACK_PICKING_POINT_ID" property="backPickingPointId" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List" >
+    ORD_PICKING_POINT_ID, ORDER_ITEM_ID,DISTRICT_ID, TAKE_PICKING_POINT_ID, BACK_PICKING_POINT_ID, UPDATE_TIME
+  </sql>
+  <!-- 查询条件 -->
+  <sql id="Base_Query_Column_List_Sales" >
+	 <if test="ordPickingPointId != null" >
+      	and ORD_PICKING_POINT_ID = #{ordPickingPointId}
+     </if>
+      <if test="districtId != null" >
+      	and DISTRICT_ID = #{districtId}
+     </if>
+      <if test="takePickingPointId != null" >
+      	and TAKE_PICKING_POINT_ID = #{takePickingPointId}
+     </if>
+      <if test="backPickingPointId != null" >
+      	and BACK_PICKING_POINT_ID = #{backPickingPointId}
+     </if>
+       <if test="orderItemId != null" >
+      	and ORDER_ITEM_ID = #{orderItemId}
+     </if>
+  </sql>
+  <!-- 查询下单取还件地址 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_WIFI_PICKING_POINT
+    where ORD_PICKING_POINT_ID = #{ordPickingPointId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+	    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_WIFI_PICKING_POINT where 1=1
+    <include refid="Base_Query_Column_List_Sales" />
+  </select> 
+  
+  <!-- 删除下单取还件地址 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_ORDER_WIFI_PICKING_POINT
+    where ORD_PICKING_POINT_ID = #{ordPickingPointId,jdbcType=DECIMAL}
+  </delete>
+  
+  <!-- 新增下单取还件地址 -->
+  <insert id="insert" parameterType="com.lvmama.vst.back.wifi.po.OrdOrderWifiPickingPoint" >
+  	<selectKey resultType="java.lang.Long" keyProperty="ordPickingPointId" order="BEFORE" >
+      select SEQ_WIFI_PICKING_POINT_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_WIFI_PICKING_POINT (ORD_PICKING_POINT_ID,ORDER_ITEM_ID,DISTRICT_ID, TAKE_PICKING_POINT_ID, 
+      BACK_PICKING_POINT_ID)
+    values (#{ordPickingPointId,jdbcType=DECIMAL},#{orderItemId,jdbcType=DECIMAL}, #{districtId,jdbcType=DECIMAL}, #{takePickingPointId,jdbcType=DECIMAL}, 
+      #{backPickingPointId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.wifi.po.OrdOrderWifiPickingPoint" >
+  <selectKey resultType="java.lang.Long" keyProperty="ordPickingPointId" order="BEFORE" >
+      select SEQ_WIFI_PICKING_POINT_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_WIFI_PICKING_POINT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ordPickingPointId != null" >
+        ORD_PICKING_POINT_ID,
+      </if>
+      <if test="orderItemId != null" >
+      	ORDER_ITEM_ID,
+     </if>
+      <if test="districtId != null" >
+        DISTRICT_ID,
+      </if>
+      <if test="takePickingPointId != null" >
+        TAKE_PICKING_POINT_ID,
+      </if>
+      <if test="backPickingPointId != null" >
+        BACK_PICKING_POINT_ID
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ordPickingPointId != null" >
+        #{ordPickingPointId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderItemId != null" >
+      	#{orderItemId,jdbcType=DECIMAL},
+     </if>
+      <if test="districtId != null" >
+        #{districtId,jdbcType=DECIMAL},
+      </if>
+      <if test="takePickingPointId != null" >
+        #{takePickingPointId,jdbcType=DECIMAL},
+      </if>
+      <if test="backPickingPointId != null" >
+        #{backPickingPointId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <!-- 修改下单取还件地址 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.wifi.po.OrdOrderWifiPickingPoint" >
+    update ORD_ORDER_WIFI_PICKING_POINT
+    <set >
+      <if test="districtId != null" >
+        DISTRICT_ID = #{districtId,jdbcType=DECIMAL},
+      </if>
+       <if test="orderItemId != null" >
+      	ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+     </if>
+      <if test="takePickingPointId != null" >
+        TAKE_PICKING_POINT_ID = #{takePickingPointId,jdbcType=DECIMAL},
+      </if>
+      <if test="backPickingPointId != null" >
+        BACK_PICKING_POINT_ID = #{backPickingPointId,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORD_PICKING_POINT_ID = #{ordPickingPointId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.wifi.po.OrdOrderWifiPickingPoint" >
+    update ORD_ORDER_WIFI_PICKING_POINT
+    set DISTRICT_ID = #{districtId,jdbcType=DECIMAL},
+    	ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      TAKE_PICKING_POINT_ID = #{takePickingPointId,jdbcType=DECIMAL},
+      BACK_PICKING_POINT_ID = #{backPickingPointId,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where ORD_PICKING_POINT_ID = #{ordPickingPointId,jdbcType=DECIMAL}
+  </update>
+</mapper>

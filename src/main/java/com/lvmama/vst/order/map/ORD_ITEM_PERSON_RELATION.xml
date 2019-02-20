@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ITEM_PERSON_RELATION" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdItemPersonRelation" >
+    <id column="ITEM_PERSION_RELATION_ID" property="itemPersionRelationId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="ORD_PERSON_ID" property="ordPersonId" jdbcType="DECIMAL" />
+    <result column="OPTION_CONTENT" property="optionContent" jdbcType="VARCHAR" />
+    <result column="SEQ" property="seq" jdbcType="DECIMAL" />
+    <result column="ROOM_NO" property="roomNo" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <resultMap id="PersonGoodRelation" type="java.util.HashMap" >
+    <result column="SUPP_GOODS_ID" property="SUPP_GOODS_ID" javaType="string" />
+    <result column="ORD_PERSON_ID" property="ORD_PERSON_ID" javaType="string" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ITEM_PERSION_RELATION_ID, ORDER_ITEM_ID,ORD_PERSON_ID,OPTION_CONTENT, SEQ, ROOM_NO,
+    UPDATE_TIME
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ITEM_PERSON_RELATION
+    where ITEM_PERSION_RELATION_ID = #{itemPersionRelationId,jdbcType=DECIMAL}
+  </select>
+  
+   <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select 
+	    <include refid="Base_Column_List" />
+	    from ORD_ITEM_PERSON_RELATION R where 1=1
+		<include refid="Base_Query_Column_List" />	
+   </select>
+   
+   <sql id="Base_Query_Column_List" >
+      <if test="itemPersionRelationId != null" >
+       and R.ITEM_PERSION_RELATION_ID = #{itemPersionRelationId}
+      </if>
+      <if test="orderItemId != null" >
+       and R.ORDER_ITEM_ID = #{orderItemId}
+      </if>
+      <if test="ordPersonId != null" >
+       and R.ORD_PERSON_ID = #{ordPersonId}
+      </if>
+      <if test="optionContent != null" >
+       and R.OPTION_CONTENT = #{optionContent}
+      </if>
+      <if test="seq != null" >
+       and R.SEQ = #{seq}
+      </if>
+      <if test="roomNo != null" >
+       and R.ROOM_NO = #{roomNo}
+      </if>      
+      
+       <if test="orderItemIdArray != null">
+			AND R.ORDER_ITEM_ID IN
+			<foreach collection="orderItemIdArray" index="index" item="item"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	  </if>
+	  <if test="orderId != null">
+	  	AND EXISTS(select 1 from  ORD_ORDER_ITEM I  where I.ORDER_ITEM_ID = R.ORDER_ITEM_ID and i.ORDER_ID = #{orderId})
+	  </if>
+	  
+  </sql>
+  
+  <select id="selectPersonGoodRelationByOrderId" parameterType="java.lang.String" resultMap="PersonGoodRelation">
+		SELECT I.SUPP_GOODS_ID, R.ORD_PERSON_ID FROM ORD_ITEM_PERSON_RELATION R,ORD_ORDER_ITEM I 
+		WHERE I.ORDER_ITEM_ID=R.ORDER_ITEM_ID AND I.ORDER_ID = #{orderId}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_ITEM_PERSON_RELATION
+    where ITEM_PERSION_RELATION_ID = #{itemPersionRelationId,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdItemPersonRelation" >
+  	<selectKey resultType="java.lang.Long" keyProperty="itemPersionRelationId" order="BEFORE" >
+      select SEQ_ORD_ITEM_PERSON_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ITEM_PERSON_RELATION 
+    (ITEM_PERSION_RELATION_ID, ORDER_ITEM_ID, ORD_PERSON_ID, 
+    OPTION_CONTENT, SEQ, ROOM_NO
+      )
+    values
+    (#{itemPersionRelationId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL}, #{ordPersonId,jdbcType=DECIMAL}, 
+    #{optionContent,jdbcType=VARCHAR}, #{seq,jdbcType=DECIMAL}, #{roomNo,jdbcType=DECIMAL}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdItemPersonRelation" >
+  	<selectKey resultType="java.lang.Long" keyProperty="itemPersionRelationId" order="BEFORE" >
+      select SEQ_ORD_ITEM_PERSON_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ITEM_PERSON_RELATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemPersionRelationId != null" >
+        ITEM_PERSION_RELATION_ID,
+      </if>
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID,
+      </if>
+      <if test="ordPersonId != null" >
+        ORD_PERSON_ID,
+      </if>
+      <if test="optionContent != null" >
+        OPTION_CONTENT,
+      </if>
+      <if test="seq != null" >
+        SEQ,
+      </if>
+      <if test="roomNo != null" >
+        ROOM_NO,
+      </if>      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemPersionRelationId != null" >
+        #{itemPersionRelationId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="ordPersonId != null" >
+        #{ordPersonId,jdbcType=DECIMAL},
+      </if>
+      <if test="optionContent != null" >
+        #{optionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=DECIMAL},
+      </if>
+      <if test="roomNo != null" >
+        #{roomNo,jdbcType=DECIMAL},
+      </if>      
+    </trim>
+  </insert>
+ 
+ <update id="updateSelective" parameterType="java.util.Map">
+    update ORD_ITEM_PERSON_RELATION  
+    <set >
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      </if>
+       <if test="ordPersonId != null" >
+        ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL},
+      </if>
+      <if test="optionContent != null" >
+        OPTION_CONTENT =#{optionContent,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where 1=1 
+     <if test="itemPersionRelationId != null" >
+       and ITEM_PERSION_RELATION_ID = #{itemPersionRelationId,jdbcType=DECIMAL}
+      </if> 
+     <if test="ordPersonId != null" >
+       and ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL}
+      </if>
+    <if test="oldOrderItemId != null" >
+        and ORDER_ITEM_ID = #{oldOrderItemId,jdbcType=DECIMAL}
+      </if>
+      
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdItemPersonRelation" >
+    update ORD_ITEM_PERSON_RELATION  
+    <set >
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      </if>
+       <if test="ordPersonId != null" >
+        ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL},
+      </if>
+      <if test="optionContent != null" >
+        OPTION_CONTENT = #{optionContent,jdbcType=DECIMAL},
+      </if>
+      <if test="seq != null" >
+        SEQ = #{seq,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where 1=1 
+     <if test="itemPersionRelationId != null" >
+       and ITEM_PERSION_RELATION_ID = #{itemPersionRelationId,jdbcType=DECIMAL}
+      </if> 
+     <if test="ordPersonId != null" >
+       and ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL}
+      </if>
+    <if test="orderItemId != null" >
+        and ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+      </if>
+      
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdItemPersonRelation" >
+    update ORD_ITEM_PERSON_RELATION set 
+    ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+    ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL},
+    OPTION_CONTENT = #{optionContent,jdbcType=DECIMAL},
+    SEQ = #{seq,jdbcType=DECIMAL},
+    UPDATE_TIME = sysdate
+    where ITEM_PERSION_RELATION_ID = #{itemPersionRelationId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="getPersonCountByProductId" parameterType="java.util.Map" resultType="Long">
+  	select count(1) 
+  	from ORD_ITEM_PERSON_RELATION ipr, ORD_ORDER_ITEM i, ORD_ORDER o
+	where 
+	<![CDATA[
+	ipr.ORDER_ITEM_ID = i.ORDER_ITEM_ID 
+	and i.PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+	and i.VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP}
+	and i.ORDER_ID = o.ORDER_ID 
+	and o.ORDER_STATUS <> 'CANCEL'
+	]]>
+  </select>
+  
+   <select id="insertBatch"  parameterType="java.util.List">  
+    insert into ORD_ITEM_PERSON_RELATION (ITEM_PERSION_RELATION_ID, ORDER_ITEM_ID, ORD_PERSON_ID)
+    select  SEQ_ORD_ITEM_PERSON_ID.NEXTVAL  ,A.* from(
+       <foreach collection="list" item="item" index="index" separator="union all" >  
+          (select #{item.orderItemId, jdbcType=DECIMAL},#{item.ordPersonId,jdbcType=DECIMAL} from dual)
+       </foreach>
+       )A
+   </select>
+   
+</mapper>

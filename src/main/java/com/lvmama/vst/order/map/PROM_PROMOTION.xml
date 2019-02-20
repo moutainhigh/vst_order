@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="PROM_PROMOTION" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.prom.po.PromPromotion" >
+    <id column="PROM_PROMOTION_ID" property="promPromotionId" jdbcType="DECIMAL" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="TIME_TYPE" property="timeType" jdbcType="VARCHAR" />
+    <result column="EXCLUSIVE" property="exclusive" jdbcType="CHAR" />
+    <result column="VALID" property="valid" jdbcType="CHAR" />
+    <result column="FEE_CHANNEL_CODE" property="feeChanelCode" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="RULE_TYPE" property="ruleType" jdbcType="VARCHAR" />
+    <result column="RULE_VALUE" property="ruleValue" jdbcType="VARCHAR" />
+    <result column="PRICE_TYPE" property="priceType" jdbcType="VARCHAR" />
+    <result column="FAVORABLE_TARGET" property="favorableTarget" jdbcType="VARCHAR" />
+    <result column="PROMITION_TYPE" property="promitionType" jdbcType="VARCHAR" />
+    <result column="BRANCHS" property="branchs" jdbcType="VARCHAR" />
+    <result column="INSTRS" property="instrs" jdbcType="VARCHAR" />
+    <result column="START_VISIT_TIME" property="startVistTime" jdbcType="TIMESTAMP" />
+    <result column="END_VISIT_TIME" property="endVistTime" jdbcType="TIMESTAMP" />
+    <result column="CHANNEL_ORDER" property="channelOrder" jdbcType="VARCHAR" />
+    <result column="CATEGROY_ID" property="categroyId" jdbcType="VARCHAR" />
+    <result column="OPERATOR_NAME" property="operatorName" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="ASSUME_DEPT" property="assumeDept" jdbcType="VARCHAR" />
+    <result column="PROM_AMOUNT" property="promAmount" jdbcType="DECIMAL" />
+    <result column="USED_AMOUNT" property="usedAmount" jdbcType="DECIMAL" />
+  </resultMap>
+
+	<update id="addPromAmount" parameterType="java.util.Map">
+		update PROM_PROMOTION set used_amount=(nvl(used_amount,0)+#{amount}) where PROM_PROMOTION_ID=#{promPromotionId}
+	</update>
+	
+	<update id="subtractPromAmount" parameterType="java.util.Map">
+		update PROM_PROMOTION set used_amount=(nvl(used_amount,0)-#{amount}) where PROM_PROMOTION_ID=#{promPromotionId}
+	</update>
+
+</mapper>

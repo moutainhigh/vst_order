@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_BLACK_LIST">
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.supp.po.SuppGoodsBlackList" >
+    <id column="BLACKLIST_ID" property="blacklistId" jdbcType="DECIMAL" />
+    <result column="BLACKLIST_NUM" property="blacklistNum" jdbcType="VARCHAR" />
+    <result column="GOOD_ID" property="goodId" jdbcType="DECIMAL" />
+    <result column="BLACKLIST_TYPE" property="blacklistType" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BLACKLIST_ID, BLACKLIST_NUM, GOOD_ID, BLACKLIST_TYPE, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from SUPP_GOODS_BLACKLIST
+    where BLACKLIST_ID = #{blacklistId,jdbcType=DECIMAL}
+  </select>
+
+  <select id="queryCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    select count(*)
+     from SUPP_GOODS_BLACKLIST
+    where GOOD_ID = #{goodId,jdbcType=DECIMAL}
+    <if test="blacklistType != null" >
+       and   BLACKLIST_TYPE = #{blacklistType,jdbcType=VARCHAR}
+    </if>
+    <if test="blacklistNum != null" >
+       and   BLACKLIST_NUM = #{blacklistNum,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from SUPP_GOODS_BLACKLIST
+    where GOOD_ID = #{goodId,jdbcType=DECIMAL}
+    <if test="blacklistType != null" >
+       and   BLACKLIST_TYPE = #{blacklistType,jdbcType=VARCHAR}
+    </if>
+    <if test="blacklistNum != null" >
+       and   BLACKLIST_NUM = #{blacklistNum,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from SUPP_GOODS_BLACKLIST
+    where BLACKLIST_ID = #{blacklistId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.supp.po.SuppGoodsBlackList" >
+    <selectKey resultType="java.lang.Long" keyProperty="blacklistId" order="BEFORE" >
+      select SEQ_SUPP_GOODS_BLACKLIST_ID.nextval from dual
+    </selectKey>
+    insert into SUPP_GOODS_BLACKLIST (BLACKLIST_ID, BLACKLIST_NUM, GOOD_ID, 
+      BLACKLIST_TYPE)
+    values (#{blacklistId,jdbcType=DECIMAL}, #{blacklistNum,jdbcType=VARCHAR}, #{goodId,jdbcType=DECIMAL}, 
+      #{blacklistType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.supp.po.SuppGoodsBlackList" >
+    <selectKey resultType="java.lang.Long" keyProperty="blacklistId" order="BEFORE" >
+      select SEQ_SUPP_GOODS_BLACKLIST_ID.nextval from dual
+    </selectKey>
+    insert into SUPP_GOODS_BLACKLIST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      BLACKLIST_ID,
+      <if test="blacklistNum != null" >
+        BLACKLIST_NUM,
+      </if>
+      <if test="goodId != null" >
+        GOOD_ID,
+      </if>
+      <if test="blacklistType != null" >
+        BLACKLIST_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{blacklistId,jdbcType=DECIMAL},
+      <if test="blacklistNum != null" >
+        #{blacklistNum,jdbcType=VARCHAR},
+      </if>
+      <if test="goodId != null" >
+        #{goodId,jdbcType=DECIMAL},
+      </if>
+      <if test="blacklistType != null" >
+        #{blacklistType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectBlacklistId" resultType="java.lang.Long">
+    select SEQ_SUPP_GOODS_BLACKLIST_ID.currval from dual
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.supp.po.SuppGoodsBlackList" >
+    update SUPP_GOODS_BLACKLIST
+    <set >
+      <if test="blacklistNum != null" >
+        BLACKLIST_NUM = #{blacklistNum,jdbcType=VARCHAR},
+      </if>
+      <if test="goodId != null" >
+        GOOD_ID = #{goodId,jdbcType=DECIMAL},
+      </if>
+      <if test="blacklistType != null" >
+        BLACKLIST_TYPE = #{blacklistType,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where BLACKLIST_ID = #{blacklistId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.supp.po.SuppGoodsBlackList" >
+    update SUPP_GOODS_BLACKLIST
+    set BLACKLIST_NUM = #{blacklistNum,jdbcType=VARCHAR},
+      GOOD_ID = #{goodId,jdbcType=DECIMAL},
+      BLACKLIST_TYPE = #{blacklistType,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate
+    where BLACKLIST_ID = #{blacklistId,jdbcType=DECIMAL}
+  </update>
+  <select id="findGoodsIdByBlackId" resultType="java.lang.Long" parameterType="java.lang.Long" >
+    select GOOD_ID
+    from SUPP_GOODS_BLACKLIST
+    <where>
+      BLACKLIST_ID = #{blacklistId,jdbcType=DECIMAL}
+    </where>
+  </select>
+</mapper>

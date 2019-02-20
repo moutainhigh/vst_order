@@ -1,0 +1,672 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://code.alibabatech.com/schema/dubbo
+						http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
+       default-autowire="byName">
+
+	 <dubbo:reference id="suppSettleRuleClientService" interface="com.lvmama.vst.back.client.supp.service.SuppSettleRuleClientService" />
+	 
+	 <dubbo:reference id="suppContractClientService" interface="com.lvmama.vst.back.client.supp.service.SuppContractClientService" />
+
+	 <dubbo:reference id="suppCommonClientRemote" interface="com.lvmama.vst.supp.client.elong.service.SuppCommonClientService" />
+        
+    
+    <dubbo:reference id="supplierOrderService" interface="com.lvmama.vst.supp.client.service.SupplierOrderService" group="vst_interfacePlatform"/>
+        
+     
+    <dubbo:reference id="supplierStockCheckService" interface="com.lvmama.vst.supp.client.service.SupplierStockCheckService"  group="vst_interfacePlatform"/>
+
+    <dubbo:reference id="supplierIdNoCheckService" interface="com.lvmama.vst.supp.client.service.SupplierIdNoCheckService"  group="vst_interfacePlatform"/>
+        
+	
+	<dubbo:reference id="orderDetailClientService" interface="com.lvmama.vst.supp.client.service.OrderDetailClientService" />
+     
+    <dubbo:reference id="distDistributorProdClientService" interface="com.lvmama.vst.back.client.dist.service.DistDistributorProdClientService" />   
+    
+    <dubbo:reference id="receiverUserService" interface="com.lvmama.vst.pet.adapter.IReceiverUserServiceAdapter" />
+        
+    
+    <dubbo:reference id="ordUserOrderService" interface="com.lvmama.vst.pet.adapter.IOrdUserOrderServiceAdapter" />
+        
+    
+	   <dubbo:reference id="visaService" interface="com.lvmama.vst.back.client.visa.service.VsiaService" />
+			
+    
+        <dubbo:reference id="bonusPayService" interface="com.lvmama.vst.pet.adapter.BonusPayServiceAdapter" />
+        
+    
+    <!-- <dubbo:reference id="userUserProxyService" interface="com.lvmama.vst.pet.adapter.UserUserProxyAdapter" /> -->
+    <dubbo:reference id="userUserProxy" interface="com.lvmama.comm.pet.service.user.UserUserProxy" /> 
+	<dubbo:reference id="csVipDubboService" interface="com.lvmama.crm.service.CsVipDubboService"/>
+        <!-- 会员相关接口 -->
+    <dubbo:reference id="memberHessianService" interface="com.lvmama.crm.service.MemberHessianService" />
+	<!-- 景乐产品信息接口 -->
+	<dubbo:reference id="scenicSuppGoodsDescServiceRemote" interface="com.lvmama.scenic.api.back.goods.service.ScenicSuppGoodsDescService" />
+	<dubbo:reference id="scenicSportSuppGoodsServiceRemote" interface="com.lvmama.scenic.api.play.good.service.ScenicSportSuppGoodsService" />
+	<dubbo:reference id="scenicSuppGoodsExpClientService" interface="com.lvmama.scenic.api.back.client.goods.service.ScenicSuppGoodsExpClientService"/>
+	<dubbo:reference id="scenicSuppGoodsDescJsonServiceRemote" interface="com.lvmama.scenic.api.back.goods.service.ScenicSuppGoodsDescJsonService" />
+    
+    <dubbo:reference id="wechatService" interface="com.lvmama.vst.pet.adapter.WechatServiceAdapter" />
+            
+    
+    <dubbo:reference id="settlementService" interface="com.lvmama.vst.pet.adapter.SettlementServiceAdapter" />
+        
+    
+    <dubbo:reference id="permOrganizationService" interface="com.lvmama.vst.pet.adapter.PermOrganizationServiceAdapter" />
+        
+    
+    <dubbo:reference id="orderRefundmentService" interface="com.lvmama.vst.pet.adapter.OrderRefundmentServiceAdapter" />
+        
+    
+    <dubbo:reference id="payPaymentService" interface="com.lvmama.vst.pet.adapter.IPayPaymentServiceAdapter" />
+    
+    <dubbo:reference id="payGlobalParamsControlService" interface="com.lvmama.comm.pet.service.pay.PayGlobalParamsControlService"/>
+        
+
+	<!-- <dubbo:reference id="permUserService" interface="com.lvmama.vst.pet.adapter.PermUserServiceAdapter" /> -->
+	<dubbo:reference id="permUserService" interface="com.lvmama.comm.pet.service.perm.PermUserService"/>
+	<dubbo:reference id="permUserPermissionService" interface="com.lvmama.comm.pet.service.perm.PermUserPermissionService"/>
+        
+    
+    <dubbo:reference id="supplierSettlementService" interface="com.lvmama.vst.pet.adapter.SupplierSettlementServiceAdapter" />
+        
+    
+    <dubbo:reference id="vstEmailService" interface="com.lvmama.vst.pet.adapter.VstEmailServiceAdapter" />
+        
+    
+    <dubbo:reference id="smsRemoteService" interface="com.lvmama.vst.pet.adapter.ISmsRemoteServiceAdapter" />
+		
+	
+	<dubbo:reference id="comFSService" interface="com.lvmama.vst.pet.adapter.IComFSServiceAdapter" />
+		
+    
+    <dubbo:reference id="processerClientService" interface="com.lvmama.vst.back.client.activiti.service.ProcesserClientService" />
+        
+	
+	<dubbo:reference id="distGoodsClientRemote" interface="com.lvmama.vst.back.client.dist.service.DistGoodsClientService" />
+		
+	
+    <dubbo:reference id="suppGoodsClientService" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsClientService" />
+        
+    
+    <dubbo:reference id="promotionService" interface="com.lvmama.vst.back.client.prom.service.PromotionService" />
+        
+    
+        <dubbo:reference id="buyPresentClientService" interface="com.lvmama.vst.back.client.prom.service.BuyPresentClientService" />
+        
+    
+    
+     <dubbo:reference id="compShipProductClientService" interface="com.lvmama.vst.back.client.compShip.service.CompShipProductClientService" />
+        
+    
+    <dubbo:reference id="suppGoodsTimePriceClientService" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsTimePriceClientService" />
+        
+    
+    <dubbo:reference id="suppSupplierClientService" interface="com.lvmama.vst.back.client.supp.service.SuppSupplierClientService" />
+        
+    
+    <dubbo:reference id="suppFaxClientService" interface="com.lvmama.vst.back.client.supp.service.SuppFaxClientService" />
+        
+    <dubbo:reference id="suppMailClientService" interface="com.lvmama.vst.back.client.supp.service.SuppMailClientService" />
+    
+    <dubbo:reference id="prodProductClientService" interface="com.lvmama.vst.back.client.prod.service.ProdProductClientService" />
+    
+    <dubbo:reference id="prodAdditionFlagClientService" interface="com.lvmama.vst.back.client.prod.service.ProdAdditionFlagClientService" />
+    
+    <dubbo:reference id="prodProductSaleReClientService" interface="com.lvmama.vst.back.client.prod.service.ProdProductSaleReClientService" />  
+    
+    <dubbo:reference id="prodProductBranchClientService" interface="com.lvmama.vst.back.client.prod.service.ProdProductBranchClientService" />
+        
+    
+    <dubbo:reference id="prodProductNoticeClientService" interface="com.lvmama.vst.back.client.prod.service.ProdProductNoticeClientService" />
+        
+    
+    <dubbo:reference id="categoryClientService" interface="com.lvmama.vst.back.client.biz.service.CategoryClientService" />
+        
+    <dubbo:reference id="bizCategoryQueryService" interface="com.lvmama.vst.back.biz.service.BizCategoryQueryService"/>
+    
+    <dubbo:reference id="categoryPropClientService" interface="com.lvmama.vst.back.client.biz.service.CategoryPropClientService" />
+        
+    
+    <dubbo:reference id="branchPropClientService" interface="com.lvmama.vst.back.client.biz.service.BranchPropClientService" />
+        
+    
+    <dubbo:reference id="dictClientService" interface="com.lvmama.vst.back.client.biz.service.DictClientService" />
+        
+    
+    <dubbo:reference id="distributorClientService" interface="com.lvmama.vst.back.client.dist.service.DistributorClientService" />
+        
+    
+    <dubbo:reference id="dictDefClientService" interface="com.lvmama.vst.back.client.biz.service.DictDefClientService" />
+        
+    
+    <dubbo:reference id="comLogClientService" interface="com.lvmama.vst.back.client.pub.service.ComLogClientService" />
+        
+    
+    <dubbo:reference id="districtClientService" interface="com.lvmama.vst.back.client.biz.service.DistrictClientService" />
+        
+    
+    <dubbo:reference id="distGoodsTimePriceClientService" interface="com.lvmama.vst.back.client.dist.service.DistGoodsTimePriceClientService" />
+		
+	
+	<dubbo:reference id="ordPrePayServiceRemote" interface="com.lvmama.vst.pet.adapter.IOrdPrePayServiceAdapter" />
+		
+	
+	<dubbo:reference id="petProdGoodsService" interface="com.lvmama.vst.pet.goods.PetProdGoodsAdapter" />
+		
+	
+	<dubbo:reference id="ebkFaxTaskClientService" interface="com.lvmama.vst.ebooking.client.ebk.serivce.EbkFaxTaskClientService" />
+
+	<dubbo:reference id="ebkMailTaskClientService" interface="com.lvmama.vst.ebooking.client.ebk.serivce.EbkMailTaskClientService" />
+
+	
+	<dubbo:reference id="prodProductPropClientService" interface="com.lvmama.vst.back.client.prod.service.ProdProductPropClientService" />
+        
+    
+    <dubbo:reference id="prodCuriseProductClientService" interface="com.lvmama.vst.back.client.prod.curise.service.ProdCuriseProductClientService" />
+        
+	
+	<!-- 推送远程服务 -->
+	<dubbo:reference id="comPushClientService" interface="com.lvmama.vst.back.client.pub.service.ComPushClientService" />
+		
+	
+	<dubbo:reference id="connRecordService" interface="com.lvmama.vst.pet.adapter.ConnRecordServiceAdapter" />
+        
+    
+    
+    <dubbo:reference id="favorService" interface="com.lvmama.vst.pet.adapter.FavorServiceAdapter" />
+        
+    <dubbo:reference id="prodPackageGroupClientService" interface="com.lvmama.vst.back.client.prod.service.ProdPackageGroupClientService" />
+        
+    
+    <dubbo:reference id="suppGoodsSaleReClientRemote" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsSaleReClientService" />
+		
+	
+	<dubbo:reference id="orderRequiredClientRemote" interface="com.lvmama.vst.back.client.biz.service.OrderRequiredClientService" />
+		
+	
+	    <dubbo:reference id="suppGoodsRebateClientService" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsRebateClientService" />
+        
+    
+    <dubbo:reference id="lvmamaBackSearchService" interface="com.lvmama.vst.search.lvmamaback.service.LvmamaBackSearchService" />
+        
+    
+    <dubbo:reference id="autoCompleteNewService" interface="com.lvmama.vst.search.client.service.AutoCompleteNewService" />
+        
+    
+    <dubbo:reference id="prodTrafficClientServiceRemote" interface="com.lvmama.vst.back.client.prod.service.ProdTrafficClientService" />
+        
+    
+   <dubbo:reference id="passportSendSmsServiceRemote" interface="com.lvmama.vst.back.client.passport.service.PassportSendSmsService" group="vst_interfacePlatform"/> 
+        
+	<dubbo:reference id="suppGoodsRelationClientService" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsRelationClientService" />
+    	
+	<dubbo:reference id="branchClientRemote" interface="com.lvmama.vst.back.client.biz.service.BranchClientService" />
+		
+
+	<dubbo:reference id="prodCalClientRemote" interface="com.lvmama.vst.back.client.prod.service.ProdCalClientService" />
+		
+	
+	<dubbo:reference id="destContentClientRemote" interface="com.lvmama.vst.back.client.biz.service.DestContentClientService" />
+		
+	<dubbo:reference id="prodProductBranchPropClientRemote" interface="com.lvmama.vst.back.client.prod.service.ProdProductBranchPropClientService" />
+		
+	
+	<dubbo:reference id="queryPaymentGatewayService" interface="com.lvmama.vst.pet.adapter.QueryPaymentGatewayServiceAdapter" />
+        
+    
+    <dubbo:reference id="prodGroupDateClientService" interface="com.lvmama.vst.back.client.prod.service.ProdGroupDateClientService" />
+        
+    <!-- 商品附加信息接口 -->
+    <dubbo:reference id="suppGoodsAdditionClientRemote" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsAdditionClientService" />
+         
+    
+    <!-- 产品附加信息接口 -->
+    <dubbo:reference id="prodProductAdditionClientRemote" interface="com.lvmama.vst.back.client.prod.service.ProdProductAdditionClientService" />
+        
+    
+    <dubbo:reference id="destClientService" interface="com.lvmama.vst.back.client.biz.service.DestClientService" />
+         
+    <dubbo:reference id="tntDistributorServiceRemote" interface="com.lvmama.vst.pet.adapter.TntDistributorServiceAdapter" />
+        
+
+    <!--对接机票系统-->
+	<!-- <dubbo:reference id="flightSearchService" interface="com.lvmama.vst.flight.client.product.service.FlightSearchService" /> -->
+        
+	<!-- 获取机型信息 -->
+	<dubbo:reference id="dictPropClientRemote" interface="com.lvmama.vst.back.client.biz.service.DictPropClientService" />
+		
+	
+    <!-- <dubbo:reference id="flightOrderServiceRemote" interface="com.lvmama.vst.flight.client.order.service.FlightOrderService" />
+ -->
+        
+    <!-- 根据产品ID获取成人数儿童数 -->
+ <dubbo:reference id="prodCalPriceClientRemote" interface="com.lvmama.vst.back.client.prod.service.ProdCalPriceClientService" />
+    <dubbo:reference id="prodCalSplitClientRemote" interface="com.lvmama.vst.back.client.prod.service.ProdCalSplitClientService"/>
+    
+    <!-- 产品是否限制优惠券 -->
+     <dubbo:reference id="markCouponLimitClientService" interface="com.lvmama.vst.back.client.prom.service.MarkCouponLimitClientService" />
+     <dubbo:reference id="couponOrderService" interface="com.lvmama.coupon.api.order.service.CouponOrderService"/>
+     <dubbo:reference id="allocationClientRemote" interface="com.lvmama.vst.back.client.ord.service.AllocationClientService"  timeout="600000"/>
+        
+    <dubbo:reference id="permUserRoleProxyService" interface="com.lvmama.vst.pet.adapter.PermUserRoleProxyAdapter" />
+     
+    <dubbo:reference id="prodLineRouteClientService" interface="com.lvmama.vst.back.client.prod.service.ProdLineRouteClientService" />
+    
+    <dubbo:reference id="ebkUserClientService" interface="com.lvmama.vst.ebooking.client.ebk.serivce.EbkUserClientService" />
+    
+    <dubbo:reference id="ebkCertifClientService" interface="com.lvmama.vst.ebooking.client.ebk.serivce.EbkCertifClientService" />
+    
+    <dubbo:reference id="bizBuEnumClientService" interface="com.lvmama.vst.back.client.biz.service.BizBuEnumClientService" />
+
+    <dubbo:reference id="bizOrganizationClientRemote" interface="com.lvmama.vst.back.client.biz.service.IBizOrganizationClientService" />
+
+	<!-- Added by yangzhenzhong at 2015/9/2 begin  商品时间价格借口：获取保留房非保留房-->
+	<dubbo:reference id="suppGoodsTimePriceClientRemote" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsTimePriceClientService"/> 
+	<!-- end -->  
+	<!-- 资源预控接口 -->
+	<dubbo:reference id="resControlBudgetRemote" interface="com.lvmama.vst.back.client.precontrol.service.ResPreControlService"/>
+	
+	
+	<!-- 限购接口 -->
+    <dubbo:reference id="promForbidBuyClientService" interface="com.lvmama.vst.back.client.prom.service.PromForbidBuyClientService" />
+    
+    <!--  酒店赠品-->
+    <dubbo:reference id="hotelFreebieClientService" interface="com.lvmama.vst.back.client.hotelFreebie.service.HotelFreebieClientService" />
+	<dubbo:reference id="petOrderMessageService" interface="com.lvmama.vst.pet.adapter.PetOrderMessageServiceAdapter"/>
+    
+    <!-- 结算变价单接口 -->
+    <dubbo:reference id="settlementPriceChangeService" interface="com.lvmama.vst.pet.adapter.SettlementPriceChangeServiceAdapter" />
+   
+    <!--获取二维码 -->
+	<dubbo:reference id="supplierOrderOtherService" interface="com.lvmama.vst.supp.client.service.SupplierOrderOtherService"  group="vst_interfacePlatform"/>
+    
+    <!--马戏票商品-->
+    <dubbo:reference id="suppGoodsCircusClientServiceRemote" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsCircusClientService" />
+    
+    <dubbo:reference id="suppGoodsCircusDetailClientServiceRemote" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsCircusDetailClientService" />
+    <!--调用促销接口 -->
+    <dubbo:reference id="vstPromotionOrderServiceRemote" interface="com.lvmama.vst.back.service.VstPromotionOrderService"/>
+    
+    <dubbo:reference id="petMessageService" interface="com.lvmama.vst.pet.adapter.PetMessageServiceAdapter"  timeout="600000"/>
+
+	<!-- 主从商品 -->
+	<dubbo:reference id="suppGoodsSkuRelationServiceRemote" interface="com.lvmama.vst.back.client.ticket.service.SuppGoodsSkuRelationClientService"/>
+	
+	<dubbo:reference id="wifiClientServiceRemote" interface="com.lvmama.vst.back.client.wifi.service.WifiClientService"/>
+
+<!--     <dubbo:reference id="vstOrderRefundServiceVstSupp" interface="com.lvmama.vst.supp.client.service.VstOrderRefundService" group="vst_supp"/> -->
+    <dubbo:reference id="vstOrderRefundServiceVstSupp" interface="com.lvmama.vst.supp.client.service.VstOrderRefundService" group="dest-schedule"/>
+
+    <dubbo:reference id="vstOrderRefundServiceVstBack" interface="com.lvmama.vst.supp.client.service.VstOrderRefundService" group="vst_back"/>
+        
+    <dubbo:reference id="wifiSuppGoodsClientServiceRemote" interface="com.lvmama.vst.back.client.wifi.service.WifiSuppGoodsClientService" />
+    
+    <dubbo:reference id="bizSystemConfigureClientRemote" interface="com.lvmama.vst.back.client.biz.service.BizSystemConfigureClientService"/>
+
+    <dubbo:reference id="passportService" interface="com.lvmama.vst.back.client.passport.service.PassportService"/>
+
+    <dubbo:reference id="passcodeService" interface="com.lvmama.vst.back.client.passport.service.PassCodeService"/>
+
+	<dubbo:reference id="prodPackLineClientRemote" interface="com.lvmama.vst.back.client.prod.service.ProdPackLineClientService"/>
+	
+	<!-- <dubbo:reference id="visaApprovalClientServiceRemote" interface="com.lvmama.vst.back.client.visa.service.VisaApprovalClientService"/> -->
+	
+	<dubbo:reference id="lineRouteClientServiceRemote" interface="com.lvmama.vst.back.client.prod.service.LineRouteClientService"/>
+	
+	<dubbo:reference id="prodContractDetailClientRemote" interface="com.lvmama.vst.back.client.prod.service.ProdContractDetailClientService"/>
+	
+	<dubbo:reference id="resPrecontrolPolicyClientService" interface="com.lvmama.vst.back.client.precontrol.service.ResPrecontrolPolicyClientService"/>
+	
+	<dubbo:reference id="resPrecontrolBindGoodsClientService" interface="com.lvmama.vst.back.client.precontrol.service.ResPrecontrolBindGoodsClientService"/>
+	
+	<dubbo:reference id="resWarmRuleClientService" interface="com.lvmama.vst.back.client.precontrol.service.ResWarmRuleClientService"/>
+	
+	<dubbo:reference id="fitFlightBookingCallBackService" interface="com.lvmama.lvf.openapi.vstclient.service.fit.FitFlightBookingCallBackService"/>
+	
+	<dubbo:reference id="pcOrderService" interface="com.lvmama.lvf.openapi.vstclient.service.PCOrderService"/>
+	
+	<dubbo:reference id="prodVisaDocDateClientService" interface="com.lvmama.vst.back.client.prod.service.ProdVisaDocDateClientService" />
+	
+	<dubbo:reference id="tntGoodsChannelCouponServiceRemote" interface="com.lvmama.vst.pet.adapter.TntGoodsChannelCouponAdapter" timeout="600000"/>
+
+	<dubbo:reference id="suppGoodsConnectsAdditionalClientServiceRemote"  interface="com.lvmama.vst.back.play.connects.client.SuppGoodsConnectsAdditionalClientService"/>
+
+    <dubbo:reference id="tntOrderQueryServiceRemote" interface="com.lvmama.vst.pet.adapter.TntOrderQueryServiceAdapter" />
+
+    <dubbo:reference id="vstCommOrderQueryService" interface="com.lvmama.vst.api.order.service.VstCommOrderQueryService" />
+	
+
+	<!-- 在线退款 -->
+    <dubbo:reference id="vstOrderRefundServiceRemote" interface="com.lvmama.vst.pet.adapter.VstOrderUserRefundServiceAdapter" />
+
+	<dubbo:reference id="channelWechatService" interface="com.lvmama.channel.api.wechat.service.ChannelWechatService" timeout="50000000"/>
+
+    <dubbo:reference id="pushAdapterServiceRemote" interface="com.lvmama.vst.back.pub.service.PushAdapterServiceRemote" />
+
+	<dubbo:reference id="petOrderPayMessageService" interface="com.lvmama.vst.pet.adapter.PetOrderPayMessageServiceAdapter"/>
+	
+	<!-- 供应商订单服务相关接口-->
+    <dubbo:reference id="suppOrderClientService" interface="com.lvmama.vst.supp.client.service.SuppOrderClientService"/>
+    
+    <!-- 门票 EBOOKING 通关-->
+	<!-- <dubbo:reference id="ebkPassClientServiceRemote" interface="com.lvmama.vst.ebooking.client.ebk.serivce.EbkPassClientService" group="ticket" timeout="600000"/> -->
+	<dubbo:reference id="ebkTicketPostClientServiceRemote" interface="com.lvmama.vst.ebooking.client.ebk.serivce.EbkTicketPostClientService"/>
+
+     <!-- 获取订单游客信息 -->
+    <dubbo:reference id="categoryOrderServiceRemote" interface="com.lvmama.vst.back.client.ord.service.CategoryOrderService" />
+    <!-- 买赠接口-->
+    <dubbo:reference id="promBuyPresenterServiceRemote" interface="com.lvmama.vst.back.client.prom.service.PromBuyPresenterService" />
+    <!-- 赠送流量-->
+    <dubbo:reference id="raiyiService" interface="com.lvmama.vst.back.client.passport.service.RaiyiService" group="vst_passport"/>
+    
+    <!-- 下单必填项 -->
+    <dubbo:reference id="comOrderRequiredClientRemote" interface="com.lvmama.vst.back.client.pub.service.ComOrderRequiredClientService"/>
+    
+    <dubbo:reference id="ordRefundApplyServiceRemote" interface="com.lvmama.vst.pet.adapter.OrdRefundApplyServiceAdapter"/>
+
+    <dubbo:reference id="insPolicyClientService" interface="com.lvmama.vst.insurant.client.service.InsPolicyClientService"/>
+
+    <dubbo:reference id="distDistributorProdClientRemote" interface="com.lvmama.vst.back.client.dist.service.DistDistributorProdClientService" />
+    
+    <dubbo:reference id="ordFormInfoClientService" interface="com.lvmama.vst.back.client.ord.service.OrdFormInfoClientService" />
+
+    <!--新酒套餐的产品附加信息 -->
+	<dubbo:reference id="newHotelCombProdAdditionClientRemote" interface="com.lvmama.vst.back.newHotelcomb.service.INewHotelCombProdAdditionService"/>
+	<!--新酒套餐的时间价格表 -->
+	<dubbo:reference id="newHotelCombTimePriceClientRemote" interface="com.lvmama.vst.back.newHotelcomb.service.INewHotelCombTimePriceService"/>
+
+
+    <dubbo:reference id="suppGoodsEditPermServiceRemote"  interface="com.lvmama.vst.back.goods.service.SuppGoodsEditPermRemoteService"/>
+
+	<!--对接机票-->
+    <dubbo:reference id="flightSearchService_dubbo" interface="com.lvmama.vst.flight.client.product.service.FlightSearchService"/>
+
+   	<dubbo:reference id="flightOrderServiceRemote_dubbo" interface="com.lvmama.vst.flight.client.order.service.FlightOrderService"/>
+   	<!--财务发票服务 -->
+	<dubbo:reference id="invoiceRemoteService" interface="com.lvmama.finance.service.InvoiceRemoteService" />
+
+    <dubbo:reference id="setSettlementItemService" interface="com.lvmama.finance.comm.finance.service.SetSettlementItemService" />
+
+    <dubbo:reference id="settlementServiceNew" interface="com.lvmama.finance.comm.vst.service.SettlementService" />
+
+    <!--新的变价单服务 -->
+    <dubbo:reference id="settlementPriceChangeServiceNew" interface="com.lvmama.finance.comm.finance.service.SettlementPriceChangeService" />
+
+    <dubbo:reference id="promForbidBuyRemoteService" interface="com.lvmama.vst.prom.service.PromForbidBuyRemoteService"/>
+
+	
+	<!-- 投拆退款单查询 -->
+	<dubbo:reference id="syncExecutePetService" interface="com.lvmama.vst.back.client.prom.service.SyncExecutePetService" />	
+
+    
+
+    <dubbo:reference id="suppTicketProductClientRemote" interface="com.lvmama.vst.suppTicket.client.product.service.SuppTicketProductClientService"/>
+    <dubbo:reference id="passportProductService" interface="com.lvmama.vst.back.client.passport.service.PassportProductService" />
+    
+
+    
+
+	<dubbo:reference id="apiRemoteCreditCardValidate" interface="com.lvmama.dest.dock.service.interfaces.ApiCreditCardValidate" />
+	<dubbo:reference id="apiRemoteApiSuppOrderService" interface="com.lvmama.dest.dock.service.interfaces.ApiSuppOrderService" />
+	<dubbo:reference id="apiRemoteOrderDetailClientService" interface="com.lvmama.dest.dock.service.interfaces.ApiOrderDetailClientService" />
+
+    <!--对接酒店接口 起-->
+    <dubbo:reference id="hotelOrderService" interface="com.lvmama.dest.api.order.interfaces.IHotelOrderService"/>
+
+    <dubbo:reference id="hotelOrderProductQueryRemote" interface="com.lvmama.dest.api.vst.orderproduct.service.IHotelOrderProductQueryService"/>
+    <dubbo:reference id="hotelProductQrVstApiServiceRemote" interface="com.lvmama.dest.api.vst.prod.service.IHotelProductQrVstApiService"/>
+    <dubbo:reference id="hotelGoodsTimePriceQVstApiRemote" interface="com.lvmama.dest.api.vst.goods.service.IHotelGoodsTimePriceQVstApiService"/>
+    <dubbo:reference id="hotelGoodsStockApiServiceRemote" interface="com.lvmama.dest.api.goods.interfaces.IHotelGoodsStockApiService"/>
+    <dubbo:reference id="hotelGoodsQueryVstApiServiceRemote" interface="com.lvmama.dest.api.vst.goods.service.IHotelGoodsQueryVstApiService"/>
+    <dubbo:reference id="hotelProdBranchPropQueryVstApiRemote" interface="com.lvmama.dest.api.vst.prod.service.IHotelProdBranchPropQueryVstApiService"/>
+    <dubbo:reference id="hotelFreebieQueryApiRemote" interface="com.lvmama.dest.api.goods.interfaces.IHotelFreebieQueryApiService"/>
+    <!--对接酒店接口 止-->
+
+    <!--拼团-->
+    <dubbo:reference id="apiGroupOrderDetailService" interface="com.lvmama.order.grouppurchase.api.order.IApiGroupOrderDetailService"  group="groupPurchaseOrder"/>
+
+    <!--商品查询适配器-->
+    <dubbo:reference id="suppGoodsClientAdapterRemote" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsHotelAdapterClientService"/>
+    
+    <dubbo:reference id="suppGoodsTimePriceAdapterClientRemote" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsTimePriceAdapterClientService" />
+
+
+
+	<!-- 订单确认 -->
+    <dubbo:reference id="confirmClientService" interface="com.lvmama.vst.back.client.ord.service.OrderConfirmClientService" />
+
+    <!-- 查询日志的接口 -->
+	<dubbo:reference id="queryLogClientService" interface="com.lvmama.log.client.QueryLogClientService" />
+
+    <dubbo:reference id="distGoodsTimePriceClientServiceHotelAdaptor" interface="com.lvmama.vst.back.client.dist.adaptor.DistGoodsTimePriceClientServiceAdaptor"/>
+    
+	 <!-- 目的地关联查询 -->
+    <dubbo:reference id="prodDestReclientRemote" interface="com.lvmama.vst.back.client.prod.service.ProdDestReClientService"/>
+    
+    <!-- 演出票基础信息查询 -->
+    <dubbo:reference id="showTicketBaseInfoClientServiceRemote" interface="com.lvmama.vst.back.client.show.service.ShowTicketBaseInfoClientService"/>
+
+    <dubbo:reference id="publicWorkOrderService" interface="com.lvmama.comm.pet.service.work.PublicWorkOrderService"/>
+
+    <!--查产品(适配酒店产品)-->
+    <dubbo:reference id="prodProductHotelAdapterClientServiceRemote" interface="com.lvmama.vst.back.prod.adapter.ProdProductHotelAdapterClientService"/>
+
+	 <!-- 签证商品信息 -->
+    <dubbo:reference id="visaGoodsServiceRemote" interface="com.lvmama.visa.api.service.VisaGoodsService"/>
+    <!-- 签证其他 -->
+    <dubbo:reference id="visaProductServiceRemote" interface="com.lvmama.visa.api.service.VisaProductService"/>
+	<!-- 签证材料拆分后的 -->
+	<dubbo:reference id="visaApprovalClientService" interface="com.lvmama.visa.api.service.VisaApprovalClientService"/>
+    <!-- 邮轮取消订单回滚库存 -->
+    <dubbo:reference id="shipOrderTimePriceApiClientServiceImpl" interface="com.lvmama.ship.api.ship.order.client.ShipOrderTimePriceApiClientService"/>
+    
+    <!--refund-->
+    <dubbo:reference id="orderRefundServiceAdapter" interface="com.lvmama.vst.pet.adapter.refund.OrderRefundServiceAdapter"/>
+
+    <!--结算实体 服务接口-->
+    <dubbo:reference id="suppSettlementEntityClientServiceImplRemote" interface="com.lvmama.vst.back.client.supp.service.SuppSettlementEntityClientService" />
+
+    <!-- ebk邮件附件查询服务 -->
+    <dubbo:reference id="ebkEmailAttchClientServiceRemote" interface="com.lvmama.vst.ebooking.client.ebk.serivce.EbkEmailAttchClientService" />
+
+    <!--酒店&&酒套餐退改服务-->
+    <dubbo:reference id="prodRefundService" interface="com.lvmama.dest.api.prodrefund.interfaces.IProdRefundService"/>
+
+    <!--酒店&&酒套餐规格服务-->
+    <dubbo:reference id="hotelBranchQueryApiService" interface="com.lvmama.dest.api.product.interfaces.IHotelBranchQueryApiService"/>
+
+
+    <!--酒店&&酒套餐产品服务-->
+    <dubbo:reference id="hotelProductQueryApiService" interface="com.lvmama.dest.api.product.interfaces.IHotelProductQueryApiService"/>
+
+    <!--酒店&&酒套餐产品服务-->
+    <dubbo:reference id="hotelCombProductService" interface="com.lvmama.dest.api.hotelcomb.interfaces.IHotelCombProductService"/>
+
+    <!--酒套餐上班服务-->
+    <dubbo:reference id="hotelGoodsQueryApiService" interface="com.lvmama.dest.api.goods.interfaces.IHotelGoodsQueryApiService"/>
+
+    <!--酒店套餐订单服务-->
+    <dubbo:reference id="hotelCombOrderService" interface="com.lvmama.dest.api.hotelcomb.interfaces.IHotelCombOrderService"/>
+
+    <!-- 意向单 -->
+	<dubbo:reference id="intentionOrderClientServiceRemote" interface="com.lvmama.vst.back.intentionOrder.service.IntentionOrderClientService"/>
+
+	<dubbo:reference id="businessRuleClientRemote" interface="com.lvmama.vst.back.client.biz.service.BusinessRuleClientService"/>
+
+	<dubbo:reference id="ebkOrderClientServiceReomte" interface="com.lvmama.vst.ebooking.client.ebk.serivce.EbkOrderClientService"/>
+
+	<dubbo:reference id="ebkSupplierGroupClientRemote"  interface="com.lvmama.vst.ebooking.client.ebk.serivce.EbkSupplierGroupClientService" />
+
+	<!-- 后台下单查询 -->
+	<dubbo:reference id="ordOrderProductServiceRemote"  interface="com.lvmama.vst.back.prod.service.IOrdOrderProductService" />
+
+    <!-- 酒店子系统共享库存获取 -->
+    <dubbo:reference id="hotelGoodsGroupQueryVstApiServiceRemote" interface="com.lvmama.dest.api.vst.goods.service.IHotelGoodsGroupQueryVstApiService" />
+ 	<!-- 行程描述接口 -->
+    <dubbo:reference id="prodLineRouteDescriptionClientService" interface="com.lvmama.vst.back.dujia.client.comm.route.service.ProdLineRouteDescriptionClientService" />
+
+    <!-- 订单退款信息查询接口 -->
+    <dubbo:reference id="orderRefundSplitServiceAdapter" interface="com.lvmama.vst.pet.adapter.refund.OrderRefundSplitServiceAdapter"/>
+
+    <!-- 邮轮商品接口 -->
+    <dubbo:reference id="shipGoodsService" interface="com.lvmama.ship.api.ship.prod.service.ShipGoodsService" />
+    
+    <!-- 弹窗 -->
+    <dubbo:reference id="popupHintService" interface="com.lvmama.vst.pet.adapter.SuperComMessageClientServiceAdapter" />
+
+    <!-- 其他巴士信息查询接口 -->
+    <dubbo:reference id="suppGoodsBusClientRemote" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsBusClientService" />
+    <!-- 长隆查询接口-->
+    <dubbo:reference id="passCodeForChangLongService" interface="com.lvmama.vst.ticket.service.PassCodeForChangLongService"/>
+    
+    <dubbo:reference id="OrdRefundBussinessServiceRemote" interface="com.lvmama.vst.order.refundSplit.OrdRefundBussinessService"/>
+
+    <!-- 酒套餐时间价格计划 -->
+    <dubbo:reference id="hotelCombPricePlanServiceRemote" interface="com.lvmama.dest.api.hotelcomb.interfaces.IHotelCombPricePlanService"/>
+
+    <dubbo:reference id="distGoodsTimePriceHotelClientService" interface="com.lvmama.vst.back.client.dist.service.DistGoodsTimePriceHotelClientService"/>
+
+    <dubbo:reference id="ordRefundApplyService" interface="com.lvmama.comm.pet.service.sale.OrdRefundApplyService"/>
+
+    <!-- 线路成团率 -->
+    <dubbo:reference id="prodGroupDateAddtionalClientService" interface="com.lvmama.vst.back.client.prod.service.ProdGroupDateAddtionalClientService"/>
+    
+    <dubbo:reference id="SuppGoodsGroupStockAdapterClientServiceRemote" interface="com.lvmama.vst.back.client.goods.service.SuppGoodsGroupStockAdapterClientService"/>
+    
+    <dubbo:reference id="ProdRefundRuleClientServiceRemote" interface="com.lvmama.vst.back.client.prod.service.ProdRefundRuleClientService"/>
+	
+    <!-- 过期退接口 -->
+    <dubbo:reference id="overdueRefundService" interface="com.lvmama.vst.supp.client.service.OverdueRefundService" group="vst_passport" />
+	
+   
+   	<!-- 订单附加信息查询 -->
+   	<dubbo:reference id="hotelCombOrderAdditionInfoServiceRemote" interface="com.lvmama.dest.api.hotelcomb.interfaces.IHotelCombOrderAdditionInfoService"/>
+
+
+	<dubbo:reference id="interimProcesserClientForTicketService" interface="com.lvmama.vst.back.client.ticket.service.InterimProcesserClientForTicketService"/>
+
+    <!-- 酒套餐合同费用查询 -->
+   	<dubbo:reference id="hotelcombGoodsExtServiceRemote" interface="com.lvmama.dest.api.hotelcomb.interfaces.IHotelcombGoodsExtService"/> 
+   	
+   	<!-- 酒套餐产品属性查询 -->
+   	<dubbo:reference id="hotelCombProductPropValueRemote" interface="com.lvmama.dest.api.hotelcomb.interfaces.IHotelCombProductPropValueService"/>
+
+    <dubbo:reference id="markChannelServiceRemote" interface="com.lvmama.vst.pet.adapter.MarkChannelServiceAdapter"/>
+   	
+	<!-- super_order后台我的消息 -->
+	<dubbo:reference id="superComMessageServiceRemote" interface="com.lvmama.comm.pet.service.pub.ComMessageService"/>
+	
+	<dubbo:reference id="apiDockProviderService"  interface="com.lvmama.dest.service.provider.ApiDockProviderService"/>
+	<!-- 酒店关房接口 -->
+	<dubbo:reference id="hotelHouseControlVstApiService"  interface="com.lvmama.dest.api.vst.goods.service.IHotelHouseControlVstApiService"/>
+	<!-- elasticsearch查询酒店 -->
+	<dubbo:reference id="keywordSearchService"  interface="com.lvmama.searchclient.search.service.KeywordSearchService"/>
+	
+	<dubbo:reference id="hotelGroupPackGoodslVstApiRemote"  interface="com.lvmama.dest.api.vst.pack.service.IHotelGroupPackGoodslVstApiService"/>
+	
+	<dubbo:reference id="vstOrdOrderStatusService" interface="com.lvmama.vst.order.service.VstOrdOrderStatusService" />
+	
+	<dubbo:reference id="orderServiceProxy" interface="com.lvmama.comm.bee.service.ord.OrderService"/>
+	
+	<dubbo:reference id="ordSaleServiceService" interface="com.lvmama.comm.pet.service.sale.OrdSaleServiceService"/>
+
+    <!--景乐门票接口-->
+    <dubbo:reference id="scenicTicketProductService" interface="com.lvmama.scenic.api.prod.service.ScenicTicketProductService"/>
+
+	<!-- 工作流新接口  -->
+	<dubbo:reference id="apiNewOrderWorkflowService"  interface="com.lvmama.order.workflow.api.IApiOrderWorkflowService"/>	
+    
+    <dubbo:reference id="prodProductDescriptionClientService" interface="com.lvmama.vst.back.dujia.client.comm.prod.service.ProdProductDescriptionClientService"/>
+
+    <!-- 时间价格表 -->
+    <dubbo:reference id="showGoodsAddTimePriceApiServiceRemote" interface="com.lvmama.price.api.strategy.service.ShowGoodsAddTimePriceApiService"/>
+
+	<!--询单系统接口  -->
+	<dubbo:reference id="apiSupplierInquiryService" interface="com.lvmama.order.inquiry.api.service.IApiSupplierInquiryService"/>
+    <dubbo:reference id="apiOrderStatusUpdateProcessService" interface="com.lvmama.order.process.api.status.IApiOrderStatusUpdateProcessService"/>
+	
+    <dubbo:reference id="suppGoodsAddTimePriceApiServiceRemote" interface="com.lvmama.price.api.strategy.service.SuppGoodsAddTimePriceApiService"/>
+    <dubbo:reference id="suppGoodsNotimeTimePriceApiServiceRemote" interface="com.lvmama.price.api.strategy.service.SuppGoodsNotimeTimePriceApiService"/>
+
+    <!--super订单表数据同步-->
+    <dubbo:reference id="unityOrderService" interface="com.lvmama.comm.bee.service.ord.UnityOrderService"/>
+    <dubbo:reference id="suppGoodsAdditionApiServiceRemote" interface="com.lvmama.price.api.capacity.service.SuppGoodsAdditionApiService"/>  
+    <dubbo:reference id="tradeOrderQueryServiceRemote" interface="com.lvmama.pay.api.service.TradeOrderQueryService"/>
+    <dubbo:reference id="apiOrderApportionService" interface="com.lvmama.order.apportion.IApiOrderApportionService"/>
+    
+       <!-- 产品 -->
+   <dubbo:reference id="vstFinanceProductService" interface="com.lvmama.vst.api.prod.service.VstProductService"/>
+	<!-- 下单新接口 -->
+	<dubbo:reference id="apiHotelOrderTradeService" interface="com.lvmama.order.trade.hotel.api.service.IApiHotelOrderTradeService"/>
+	<!-- 联系人接口 -->
+	<dubbo:reference id="apiHotelOrderReceiverUserService" interface="com.lvmama.order.trade.hotel.api.user.IApiHotelOrderReceiverUserService"/>
+	<!-- 价格计算 -->
+	<dubbo:reference id="apiHotelOrderTradePriceService" interface="com.lvmama.order.trade.hotel.api.price.IApiHotelOrderTradePriceService"/>
+	<!-- 库存校验 -->
+	<dubbo:reference id="apiHotelOrderStockCheckService" interface="com.lvmama.order.trade.hotel.api.stock.IApiHotelOrderStockCheckService"/>
+
+    <dubbo:reference id="apiReviseDateFeeRelatedOrderService" interface="com.lvmama.order.service.api.ticket.IApiReviseDateFeeRelatedOrderService"/>
+
+    <!--公共tag查询-->
+    <dubbo:reference id="apiOrderTagService" interface="com.lvmama.order.service.api.comm.order.IApiOrderTagService"/>
+    
+    <!-- lvmm_order_process取消订单服务 -->
+    <dubbo:reference id="apiOrderCancelProcessService" interface="com.lvmama.order.process.api.cancel.IApiOrderCancelProcessService"/>
+
+    <!--商品规格附加属性查询-->
+    <dubbo:reference id="suppGoodsBranchPropClientServiceRemote" interface="com.lvmama.vst.back.goods.service.ISuppGoodsBranchPropClientService"/>
+    
+    <!-- 快照查询接口 -->
+    <dubbo:reference id="apiOrderSnapshotService" interface="com.lvmama.order.snap.api.IApiOrderSnapshotService" />
+
+    <!-- 超级会员 -->
+    <dubbo:reference id="crmUserLabelService" interface="com.lvmama.crm.outer.user.api.CrmUserLabelService" />
+	<!-- 苏宁订单关系查询 -->
+	<dubbo:reference id="apiOrdOrderPartnerRelationService" interface="com.lvmama.order.service.api.comm.order.IApiOrdOrderPartnerRelationService" />
+    <!-- 发票信息 -->
+    <dubbo:reference id="apiInvoiceApplyQueryService" interface="com.lvmama.order.service.api.comm.invoice.IApiInvoiceApplyQueryService" />
+    <dubbo:reference id="apiInvoiceApplyUpdateService" interface="com.lvmama.order.service.api.comm.invoice.IApiInvoiceApplyUpdateService" />
+    <!-- 子单取消信息 -->
+    <dubbo:reference id="apiOrderItemCancelService" interface="com.lvmama.order.service.api.comm.order.IApiOrderItemCancelService" />
+    <!-- 工作流流程定义接口 -->
+    <dubbo:reference id="apiOrdProcessKeyService" interface="com.lvmama.order.service.api.comm.workflow.IApiOrdProcessKeyService"/>
+    <dubbo:reference id="apiOrderQueryService" interface="com.lvmama.order.service.api.comm.order.IApiOrderQueryService"/>
+    <dubbo:reference id="apiVstOrdComAuditProcessService" interface="com.lvmama.order.workorder.process.api.vstorder.IApiVstOrdComAuditProcessService"/>    
+    <dubbo:reference id="hotelGoodsPropDescriptionApiService" interface="com.lvmama.dest.api.goods.interfaces.IHotelGoodsPropDescriptionApiService" />
+    <!--酒店商品附加属性服务-->
+	<dubbo:reference id="hotelGoodsPropApiServiceRemote" interface="com.lvmama.dest.api.goods.interfaces.IHotelGoodsPropApiService"/>
+	<dubbo:reference id="comPhotoQueryClientRemote" interface="com.lvmama.vst.back.client.pub.service.ComPhotoQueryClientService" />
+
+    <!--新系统 订单快递单查询服务-->
+    <dubbo:reference id="apiOrderExpressService" interface="com.lvmama.order.service.api.comm.order.IApiOrderQueryService" />
+
+    <!-- 快递单工作流 -->
+    <dubbo:reference id="apiOrderExpressProcessService" interface="com.lvmama.order.process.api.express.IApiOrderExpressProcessService"/>
+
+    <!--改期记录-->
+    <dubbo:reference id="apiOrderRescheduleDateService" interface="com.lvmama.order.service.api.ticket.IApiOrderRescheduleDateService" />
+
+    <!-- ebk邮件凭证查询服务 -->
+    <dubbo:reference id="apiEbkEmailQueryService" interface="com.lvmama.order.service.api.comm.ebk.IApiEbkEmailQueryService"/>
+    <!-- ebk邮件凭证工作流服务 -->
+    <dubbo:reference id="apiEbkEmailProcessService" interface="com.lvmama.order.process.api.ebk.IApiEbkEmailProcessService"/>
+
+    <!--  Ebk邮件相关 -->
+    <dubbo:reference id="ebkEmailClientService" interface="com.lvmama.vst.ebooking.client.ebk.serivce.EbkEmailClientService"/>
+
+    <!--取消订单-->
+    <dubbo:reference id="apiOrderItemCancelProcessService" interface="com.lvmama.order.process.api.cancel.IApiOrderItemCancelProcessService"/>
+
+
+    <!-- ES订单查询接口 -->
+	<dubbo:reference id="apiLvoOrderService" interface="com.lvmama.order.search.api.comm.IApiLvoOrderService"/>
+
+    <!-- 佣金信息查询接口 -->
+    <dubbo:reference id="apiOrdOrderCommissionQueryService" interface="com.lvmama.order.service.api.comm.order.IApiOrdOrderCommissionQueryService"/>
+
+</beans>

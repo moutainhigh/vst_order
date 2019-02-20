@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_GUARANTEE_CREDIT_CARD" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdGuaranteeCreditCard" >
+    <id column="ORD_GUARANTEE_CREDIT_CARD_ID" property="ordGuaranteeCreditCardId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="CARD_NO" property="cardNo" jdbcType="VARCHAR" />
+    <result column="CVV" property="cvv" jdbcType="VARCHAR" />
+    <result column="EXPIRATION_YEAR" property="expirationYear" jdbcType="DECIMAL" />
+    <result column="EXPIRATION_MONTH" property="expirationMonth" jdbcType="DECIMAL" />
+    <result column="HOLDER_NAME" property="holderName" jdbcType="VARCHAR" />
+    <result column="ID_TYPE" property="idType" jdbcType="VARCHAR" />
+    <result column="ID_NO" property="idNo" jdbcType="VARCHAR" />
+    <result column="GUARANTEE_AMOUNT" property="guaranteeAmount" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORD_GUARANTEE_CREDIT_CARD_ID, ORDER_ID, CARD_NO, CVV, EXPIRATION_YEAR, EXPIRATION_MONTH, 
+    HOLDER_NAME, ID_TYPE, ID_NO, GUARANTEE_AMOUNT, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_GUARANTEE_CREDIT_CARD
+    where ORD_GUARANTEE_CREDIT_CARD_ID = #{ordGuaranteeCreditCardId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_GUARANTEE_CREDIT_CARD
+    where ORD_GUARANTEE_CREDIT_CARD_ID = #{ordGuaranteeCreditCardId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdGuaranteeCreditCard" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordGuaranteeCreditCardId" order="BEFORE" >
+      select SEQ_GUARANTEE_CREDIT_CARD_ID.nextval from dual
+    </selectKey>
+    insert into ORD_GUARANTEE_CREDIT_CARD (ORD_GUARANTEE_CREDIT_CARD_ID, ORDER_ID, 
+      CARD_NO, CVV, EXPIRATION_YEAR, 
+      EXPIRATION_MONTH, HOLDER_NAME, ID_TYPE, 
+      ID_NO, GUARANTEE_AMOUNT)
+    values (#{ordGuaranteeCreditCardId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, 
+      #{cardNo,jdbcType=VARCHAR}, #{cvv,jdbcType=VARCHAR}, #{expirationYear,jdbcType=DECIMAL}, 
+      #{expirationMonth,jdbcType=DECIMAL}, #{holderName,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, 
+      #{idNo,jdbcType=VARCHAR}, #{guaranteeAmount,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdGuaranteeCreditCard" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordGuaranteeCreditCardId" order="BEFORE" >
+      select SEQ_GUARANTEE_CREDIT_CARD_ID.nextval from dual
+    </selectKey>
+    insert into ORD_GUARANTEE_CREDIT_CARD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORD_GUARANTEE_CREDIT_CARD_ID,
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="cardNo != null" >
+        CARD_NO,
+      </if>
+      <if test="cvv != null" >
+        CVV,
+      </if>
+      <if test="expirationYear != null" >
+        EXPIRATION_YEAR,
+      </if>
+      <if test="expirationMonth != null" >
+        EXPIRATION_MONTH,
+      </if>
+      <if test="holderName != null" >
+        HOLDER_NAME,
+      </if>
+      <if test="idType != null" >
+        ID_TYPE,
+      </if>
+      <if test="idNo != null" >
+        ID_NO,
+      </if>
+      <if test="guaranteeAmount != null" >
+        GUARANTEE_AMOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{ordGuaranteeCreditCardId,jdbcType=DECIMAL},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cvv != null" >
+        #{cvv,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationYear != null" >
+        #{expirationYear,jdbcType=DECIMAL},
+      </if>
+      <if test="expirationMonth != null" >
+        #{expirationMonth,jdbcType=DECIMAL},
+      </if>
+      <if test="holderName != null" >
+        #{holderName,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null" >
+        #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeAmount != null" >
+        #{guaranteeAmount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdGuaranteeCreditCard" >
+    update ORD_GUARANTEE_CREDIT_CARD
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="cardNo != null" >
+        CARD_NO = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cvv != null" >
+        CVV = #{cvv,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationYear != null" >
+        EXPIRATION_YEAR = #{expirationYear,jdbcType=DECIMAL},
+      </if>
+      <if test="expirationMonth != null" >
+        EXPIRATION_MONTH = #{expirationMonth,jdbcType=DECIMAL},
+      </if>
+      <if test="holderName != null" >
+        HOLDER_NAME = #{holderName,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null" >
+        ID_TYPE = #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        ID_NO = #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeAmount != null" >
+        GUARANTEE_AMOUNT = #{guaranteeAmount,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORD_GUARANTEE_CREDIT_CARD_ID = #{ordGuaranteeCreditCardId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdGuaranteeCreditCard" >
+    update ORD_GUARANTEE_CREDIT_CARD
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      CARD_NO = #{cardNo,jdbcType=VARCHAR},
+      CVV = #{cvv,jdbcType=VARCHAR},
+      EXPIRATION_YEAR = #{expirationYear,jdbcType=DECIMAL},
+      EXPIRATION_MONTH = #{expirationMonth,jdbcType=DECIMAL},
+      HOLDER_NAME = #{holderName,jdbcType=VARCHAR},
+      ID_TYPE = #{idType,jdbcType=VARCHAR},
+      ID_NO = #{idNo,jdbcType=VARCHAR},
+      GUARANTEE_AMOUNT = #{guaranteeAmount,jdbcType=DECIMAL},
+      UPDATE_TIME = sysdate
+    where ORD_GUARANTEE_CREDIT_CARD_ID = #{ordGuaranteeCreditCardId,jdbcType=DECIMAL}
+  </update>
+  <select id="getByOrderId" parameterType="com.lvmama.vst.back.order.po.OrdGuaranteeCreditCard" resultMap="BaseResultMap">
+  	select * from ORD_GUARANTEE_CREDIT_CARD where ORDER_ID = #{orderId,jdbcType=DECIMAL} and rownum=1
+  </select>
+  <select id="selectOrderIds" resultType="java.lang.Long">
+  	select distinct oo.order_id from ORD_GUARANTEE_CREDIT_CARD cc,ORD_ORDER oo
+  		where cc.order_id=oo.order_id
+  		and oo.GUARANTEE='GUARANTEE'
+  		and oo.CREATE_TIME &lt;sysdate-10/60/24
+  		and oo.CREATE_TIME &gt; sysdate-1/24
+  		and cc.CARD_NO is not null
+  </select>
+</mapper>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_HOTEL_TIME_RATE" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderHotelTimeRate" >
+    <id column="HOTEL_TIME_RATE_ID" property="hotelTimeRateId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="SETTLEMENT_PRICE" property="settlementPrice" jdbcType="DECIMAL" />
+    <result column="MARKET_PRICE" property="marketPrice" jdbcType="DECIMAL" />
+    <result column="BREAKFAST_TICKET" property="breakfastTicket" jdbcType="DECIMAL" />
+    <result column="PERFORM_FLAG" property="performFlag" jdbcType="VARCHAR" />
+    <result column="BUYOUT_FLAG" property="buyoutFlag" jdbcType="VARCHAR" />
+    <result column="BUYOUT_NUM" property="buyoutNum" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    HOTEL_TIME_RATE_ID, ORDER_ITEM_ID, VISIT_TIME, QUANTITY, PRICE, SETTLEMENT_PRICE, 
+    MARKET_PRICE, BREAKFAST_TICKET,PERFORM_FLAG,BUYOUT_FLAG,BUYOUT_NUM, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_ORDER_HOTEL_TIME_RATE
+    where HOTEL_TIME_RATE_ID = #{hotelTimeRateId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_ORDER_HOTEL_TIME_RATE
+    where HOTEL_TIME_RATE_ID = #{hotelTimeRateId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderHotelTimeRate" >
+    <selectKey resultType="java.lang.Long" keyProperty="hotelTimeRateId" order="BEFORE" >
+      select SEQ_HOTEL_TIME_RATE_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_HOTEL_TIME_RATE (HOTEL_TIME_RATE_ID, ORDER_ITEM_ID, VISIT_TIME, 
+      QUANTITY, PRICE, SETTLEMENT_PRICE, 
+      MARKET_PRICE, BREAKFAST_TICKET,PERFORM_FLAG,BUYOUT_FLAG,BUYOUT_NUM, UPDATE_TIME)
+    values (#{hotelTimeRateId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL}, #{visitTime,jdbcType=TIMESTAMP}, 
+      #{quantity,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{settlementPrice,jdbcType=DECIMAL}, 
+      #{marketPrice,jdbcType=DECIMAL}, #{breakfastTicket,jdbcType=DECIMAL},#{performFlag},#{buyoutFlag,jdbcType=VARCHAR},#{buyoutNum,jdbcType=DECIMAL},#{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderHotelTimeRate" >
+    <selectKey resultType="java.lang.Long" keyProperty="hotelTimeRateId" order="BEFORE" >
+      select SEQ_HOTEL_TIME_RATE_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_HOTEL_TIME_RATE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      HOTEL_TIME_RATE_ID,
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID,
+      </if>
+      <if test="visitTime != null" >
+        VISIT_TIME,
+      </if>
+      <if test="quantity != null" >
+        QUANTITY,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="settlementPrice != null" >
+        SETTLEMENT_PRICE,
+      </if>
+      <if test="marketPrice != null" >
+        MARKET_PRICE,
+      </if>
+      <if test="breakfastTicket != null" >
+        BREAKFAST_TICKET,
+      </if>
+      <if test="performFlag != null" >
+        PERFORM_FLAG,
+      </if>
+      <if test="buyoutFlag != null" >
+        BUYOUT_FLAG,
+      </if>
+      <if test="buyoutFlag != null" >
+        BUYOUT_NUM,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{hotelTimeRateId,jdbcType=DECIMAL},
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="visitTime != null" >
+        #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="settlementPrice != null" >
+        #{settlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="marketPrice != null" >
+        #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="breakfastTicket != null" >
+        #{breakfastTicket,jdbcType=DECIMAL},
+      </if>
+      <if test="performFlag != null" >
+        #{performFlag},
+      </if>
+      <if test="buyoutFlag != null" >
+        #{buyoutFlag},
+      </if>
+      <if test="buyoutFlag != null" >
+        #{buyoutNum},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdOrderHotelTimeRate" >
+    update ORD_ORDER_HOTEL_TIME_RATE
+    <set >
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      </if>
+      <if test="visitTime != null" >
+        VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="settlementPrice != null" >
+        SETTLEMENT_PRICE = #{settlementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="marketPrice != null" >
+        MARKET_PRICE = #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="breakfastTicket != null" >
+        BREAKFAST_TICKET = #{breakfastTicket,jdbcType=DECIMAL},
+      </if>
+      <if test="performFlag != null" >
+        PERFORM_FLAG = #{performFlag},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where HOTEL_TIME_RATE_ID = #{hotelTimeRateId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdOrderHotelTimeRate" >
+    update ORD_ORDER_HOTEL_TIME_RATE
+    set ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL},
+      VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      QUANTITY = #{quantity,jdbcType=DECIMAL},
+      PRICE = #{price,jdbcType=DECIMAL},
+      SETTLEMENT_PRICE = #{settlementPrice,jdbcType=DECIMAL},
+      MARKET_PRICE = #{marketPrice,jdbcType=DECIMAL},
+      BREAKFAST_TICKET = #{breakfastTicket,jdbcType=DECIMAL},
+      PERFORM_FLAG = #{performFlag},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where HOTEL_TIME_RATE_ID = #{hotelTimeRateId,jdbcType=DECIMAL}
+  </update>
+  
+  
+  
+   <sql id="Base_Query_Column_List" >
+      <if test="orderItemId != null" >
+      and    ORDER_ITEM_ID = #{orderItemId}
+      </if>
+      <if test="visitTime != null" >
+      and    VISIT_TIME = #{visitTime}
+      </if>
+      <if test="quantity != null" >
+       and   QUANTITY = #{quantity}
+      </if>
+      <if test="price != null" >
+      and    PRICE = #{price}
+      </if>
+      <if test="settlementPrice != null" >
+      and    SETTLEMENT_PRICE = #{settlementPrice}
+      </if>
+      <if test="marketPrice != null" >
+      and    MARKET_PRICE = #{marketPrice}
+      </if>
+      <if test="breakfastTicket != null" >
+      and    BREAKFAST_TICKET = #{breakfastTicket}
+      </if>
+     <if test="orderItemIdArray != null">
+       AND ORDER_ITEM_ID IN
+       <foreach collection="orderItemIdArray" index="index" item="item"
+                open="(" separator="," close=")">
+         #{item}
+       </foreach>
+     </if>
+  </sql>
+  
+    <sql id="select_by_param" >
+		select *	
+		from ORD_ORDER_HOTEL_TIME_RATE  
+		where 1=1
+			<include refid="Base_Query_Column_List" />	
+    </sql>
+    
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+	
+	<select id="selectListByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="select_by_param"/>
+	</select>
+	
+	<select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_ORDER_HOTEL_TIME_RATE
+	     where 1=1
+			<include refid="Base_Query_Column_List" />
+	</select>
+  <select id="findOrdOrderItemHotelLastLeaveTimeByItemId" parameterType="java.lang.Long" resultType="java.util.Date">
+  		select r.visit_time from ord_order_hotel_time_rate r where r.order_item_id=#{ordOrderItemId} order by r.visit_time
+  </select>
+  
+</mapper>

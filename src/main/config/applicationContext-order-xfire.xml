@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!--订单分摊job-->
+	<bean id="orderApportionJobWsService" class="org.codehaus.xfire.spring.ServiceBean">
+		<property name="name" value="orderApportionJobServiceWs"/>
+		<property name="serviceClass" value="com.lvmama.comm.TaskServiceInterface"/>
+		<property name="serviceBean" ref="orderApportionJobWS"/>
+	</bean>
+	
+	<!-- 邮寄门票订单邮件通知JOB -->
+	<bean id="mailTicketOrderDataProcessJob" class="com.lvmama.vst.order.job.MailTicketOrderDataProcessJobService" />
+	<bean id="mailTicketOrderDataProcessJobService" class="org.codehaus.xfire.spring.ServiceBean">
+	    <property name="name" value="mailTicketOrderDataProcessJobWs"/>
+	    <property name="serviceClass" value="com.lvmama.comm.TaskServiceInterface"/>
+	    <property name="serviceBean" ref="mailTicketOrderDataProcessJob" />
+	</bean>
+	
+	<bean id="overdueTicketSynStateJob" class="com.lvmama.vst.order.job.overdue.service.impl.OverdueTicketSynStateTaskServiceImpl" />
+	<bean id="overdueTicketSynStateJobService" class="org.codehaus.xfire.spring.ServiceBean">
+	    <property name="name" value="overdueTicketSynStateJobWs"/>
+	    <property name="serviceClass" value="com.lvmama.comm.TaskServiceInterface"/>
+	    <property name="serviceBean" ref="overdueTicketSynStateJob" />
+	</bean>
+	
+	<bean id="overdueTicketProcessingService" class="com.lvmama.vst.order.job.overdue.service.impl.OverdueTicketProcessingServiceImpl" />
+	<bean id="overdueTicketProcessingServiceJob" class="org.codehaus.xfire.spring.ServiceBean">
+		<property name="name" value="overdueTicketProcessingServiceJob" />
+		<property name="serviceClass" value="com.lvmama.comm.TaskServiceInterface" />
+		<property name="serviceBean" ref="overdueTicketProcessingService" />
+	</bean>
+</beans>

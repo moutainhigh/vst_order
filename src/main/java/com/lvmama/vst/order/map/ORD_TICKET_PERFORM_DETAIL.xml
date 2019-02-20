@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_TICKET_PERFORM_DETAIL" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdTicketPerformDetail" >
+    <id column="TICKET_PERFORM_DETAIL_ID" property="ticketPerformDetailId" jdbcType="DECIMAL" />
+    <result column="TICKET_PERFORM_ID" property="ticketPerformId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="ACTUAL_ADULT" property="actualAdult" jdbcType="DECIMAL" />
+    <result column="ACTUAL_CHILD" property="actualChild" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="PERFORM_TIME" property="performTime" jdbcType="TIMESTAMP" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TICKET_PERFORM_DETAIL_ID, TICKET_PERFORM_ID, ORDER_ITEM_ID, ACTUAL_ADULT, ACTUAL_CHILD,
+    CREATE_TIME,PERFORM_TIME, MEMO,UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_TICKET_PERFORM_DETAIL
+    where TICKET_PERFORM_DETAIL_ID = #{ticketPerformDetailId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByOrderItem" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_TICKET_PERFORM_DETAIL
+    where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+    order by PERFORM_TIME 
+  </select>
+  <!-- 根据orderItemId集合查询ORD_TICKET_PERFORM_DETAIL集合-->
+  <!-- <select id="selectByOrderItems"  resultMap="BaseResultMap" >
+	select 
+    <include refid="Base_Column_List" />
+    from ORD_TICKET_PERFORM_DETAIL where ORDER_ITEM_ID  in
+	   <foreach item="item" index="index" collection="list" 
+              open="(" separator="," close=")">
+             #{item}
+       </foreach>
+   </select>-->
+ 
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdTicketPerformDetail" >
+    <selectKey resultType="java.lang.Long" keyProperty="ticketPerformDetailId" order="BEFORE" >
+      select SEQ_ORD_TICKET_PERFORM_DETAIL.nextval from dual
+    </selectKey>
+    insert into ORD_TICKET_PERFORM_DETAIL (TICKET_PERFORM_DETAIL_ID, TICKET_PERFORM_ID, ORDER_ITEM_ID, 
+     ACTUAL_ADULT,ACTUAL_CHILD, CREATE_TIME, PERFORM_TIME, MEMO)
+    values (#{ticketPerformDetailId,jdbcType=DECIMAL}, #{ticketPerformId,jdbcType=DECIMAL}, #{orderItemId,jdbcType=DECIMAL}, 
+     #{actualAdult,jdbcType=DECIMAL}, #{actualChild,jdbcType=DECIMAL},
+      #{createTime,jdbcType=TIMESTAMP},#{performTime,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR})
+  </insert>
+ 
+   <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select 
+	    <include refid="Base_Column_List" />
+	    from ORD_TICKET_PERFORM_DETAIL where 1=1 
+		<include refid="Base_Query_Column_List" />	
+   </select>
+   
+   <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_TICKET_PERFORM_DETAIL 
+	     where 1=1  
+			<include refid="Base_Query_Column_List" />
+   </select>
+	
+   <sql id="Base_Query_Column_List" >
+     <if test="ticketPerformId != null" >
+        and  ticket_perform_id = #{ticketPerformId}
+      </if>
+      <if test="orderItemId != null" >
+        and  ORDER_ITEM_ID = #{orderItemId}
+      </if>
+      <if test="createTime != null" >
+        and  CREATE_TIME = #{createTime}
+      </if>
+      <if test="memo != null" >
+        and  MEMO = #{memo}
+      </if>
+  </sql>
+  
+  <select id="selectCountByOrderItem" parameterType="java.lang.Long" resultType="java.lang.Long">
+  	select count(*) from ORD_TICKET_PERFORM_DETAIL where ORDER_ITEM_ID = #{orderItemId}
+  </select>
+</mapper>

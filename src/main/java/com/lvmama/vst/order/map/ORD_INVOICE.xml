@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_INVOICE" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdInvoice" >
+    <id column="ORD_INVOICE_ID" property="ordInvoiceId" jdbcType="DECIMAL" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="APPROVE_STATUS" property="approveStatus" jdbcType="VARCHAR" />
+    <result column="BILL_STATUS" property="billStatus" jdbcType="VARCHAR" />
+    <result column="DELIVER_STATUS" property="deliverStatus" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="DETAIL" property="detail" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="INVOICE_NO" property="invoiceNo" jdbcType="VARCHAR" />
+    <result column="DELIVERY_TYPE" property="deliveryType" jdbcType="VARCHAR" />
+    <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="EXPRESS_NO" property="expressNo" jdbcType="VARCHAR" />
+    <result column="RED_FLAG" property="redFlag" jdbcType="VARCHAR" />
+    <result column="RED_REQ_TIME" property="redReqTime" jdbcType="TIMESTAMP" />
+    <result column="LOGISTICS_STATUS" property="logisticsStatus" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+    <result column="BILL_DATE" property="billDate" jdbcType="TIMESTAMP"/>
+    <result column="COMPANY_TYPE" property="companyType" jdbcType="VARCHAR"/>
+    <result column="PURCHASE_WAY" property="purchaseWay" jdbcType="VARCHAR"/>
+    <result column="TAX_NUMBER" property="taxNumber" jdbcType="VARCHAR"/>
+    <result column="BUYER_ADDRESS" property="buyerAddress" jdbcType="VARCHAR"/>
+    <result column="BUYER_TELEPHONE" property="buyerTelephone" jdbcType="VARCHAR"/>
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR"/>
+    <result column="ACCOUNT_BANK_ACCOUNT" property="accountBankAccount" jdbcType="VARCHAR"/>
+    <result column="INVOICE_CODE" property="invoiceCode" jdbcType="VARCHAR" />
+    <result column="INVOICE_TYPE" property="invoiceType" jdbcType="DECIMAL" />
+    <result column="INVOICE_TYPE_CODE" property="invoiceTypeCode" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORD_INVOICE_ID, TITLE, CONTENT, CREATE_TIME, BILL_DATE, APPROVE_STATUS, BILL_STATUS, DELIVER_STATUS, 
+    MEMO, DETAIL, AMOUNT, INVOICE_NO, DELIVERY_TYPE, COMPANY, USER_ID, EXPRESS_NO, RED_FLAG, 
+    RED_REQ_TIME, LOGISTICS_STATUS,STATUS,COMPANY_TYPE,PURCHASE_WAY,TAX_NUMBER,BUYER_ADDRESS,
+    BUYER_TELEPHONE,BANK_ACCOUNT,ACCOUNT_BANK_ACCOUNT,INVOICE_CODE,INVOICE_TYPE,INVOICE_TYPE_CODE, UPDATE_TIME
+  </sql>
+    <select id="selectOrdInvoiceListByParam" resultMap="BaseResultMap" parameterType="java.util.Map" >
+ 	<include refid="basic.pageSearchHead"/>
+      SELECT oi.* 
+      FROM ORD_INVOICE oi, O2O_ORD_INVOICE_RELATION ooir, ORD_INVOICE_RELATION oir
+      where oi.ORD_INVOICE_ID = ooir.INVOICE_ID  and oi.ORD_INVOICE_ID = oir.ORD_INVOICE_ID
+	    <include refid="pageWhere" />
+	    <include refid="basic.pageSearchFoot"/>  
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_INVOICE
+    where ORD_INVOICE_ID = #{ordInvoiceId,jdbcType=DECIMAL}
+  </select>
+  <select id="getInvoiceAmountSum" resultType="java.lang.Long"  parameterType="java.lang.Long">
+		select sum(oi.amount) from ORD_INVOICE oi,ORD_INVOICE_RELATION ir where
+			oi.ORD_INVOICE_ID = ir.ORD_INVOICE_ID
+		and ir.order_id = #{orderId}
+		<if test="excludeInvoiceId != null" >
+		and oi.ORD_INVOICE_ID !=#{excludeInvoiceId}
+		</if>
+		and oi.status not in('CANCEL','RED')	
+ </select>
+ 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_INVOICE
+    where ORD_INVOICE_ID = #{ordInvoiceId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdInvoice" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordInvoiceId" order="BEFORE" >
+      select SEQ_ORD_INVOICE_ID.nextval from dual
+    </selectKey>
+    insert into ORD_INVOICE (ORD_INVOICE_ID, TITLE, CONTENT, 
+      CREATE_TIME, APPROVE_STATUS, BILL_STATUS, 
+      DELIVER_STATUS, MEMO, DETAIL, 
+      AMOUNT, INVOICE_NO, DELIVERY_TYPE, 
+      COMPANY, USER_ID, EXPRESS_NO, 
+      RED_FLAG, RED_REQ_TIME, LOGISTICS_STATUS,STATUS,COMPANY_TYPE,
+      PURCHASE_WAY,TAX_NUMBER,BUYER_ADDRESS,BUYER_TELEPHONE,BANK_ACCOUNT,ACCOUNT_BANK_ACCOUNT
+      )
+    values (#{ordInvoiceId,jdbcType=DECIMAL}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{approveStatus,jdbcType=VARCHAR}, #{billStatus,jdbcType=VARCHAR}, 
+      #{deliverStatus,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{invoiceNo,jdbcType=VARCHAR}, #{deliveryType,jdbcType=VARCHAR}, 
+      #{company,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{expressNo,jdbcType=VARCHAR}, 
+      #{redFlag,jdbcType=VARCHAR}, #{redReqTime,jdbcType=TIMESTAMP}, #{logisticsStatus,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+      #{companyType,jdbcType=VARCHAR},
+      #{purchaseWay,jdbcType=VARCHAR},#{taxNumber,jdbcType=VARCHAR},#{buyerAddress,jdbcType=VARCHAR},
+      #{buyerTelephone,jdbcType=VARCHAR},#{bankAccount,jdbcType=VARCHAR},#{accountBankAccount,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdInvoice" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordInvoiceId" order="BEFORE" >
+      select SEQ_ORD_INVOICE_ID.nextval from dual
+    </selectKey>
+    insert into ORD_INVOICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORD_INVOICE_ID,
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="approveStatus != null" >
+        APPROVE_STATUS,
+      </if>
+      <if test="billStatus != null" >
+        BILL_STATUS,
+      </if>
+      <if test="deliverStatus != null" >
+        DELIVER_STATUS,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="detail != null" >
+        DETAIL,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="invoiceNo != null" >
+        INVOICE_NO,
+      </if>
+      <if test="deliveryType != null" >
+        DELIVERY_TYPE,
+      </if>
+      <if test="company != null" >
+        COMPANY,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="expressNo != null" >
+        EXPRESS_NO,
+      </if>
+      <if test="redFlag != null" >
+        RED_FLAG,
+      </if>
+      <if test="redReqTime != null" >
+        RED_REQ_TIME,
+      </if>
+      <if test="logisticsStatus != null" >
+        LOGISTICS_STATUS,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{ordInvoiceId,jdbcType=DECIMAL},
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveStatus != null" >
+        #{approveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="billStatus != null" >
+        #{billStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverStatus != null" >
+        #{deliverStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceNo != null" >
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryType != null" >
+        #{deliveryType,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null" >
+        #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="redFlag != null" >
+        #{redFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="redReqTime != null" >
+        #{redReqTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logisticsStatus != null" >
+        #{logisticsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdInvoice" >
+    update ORD_INVOICE
+    <set >
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveStatus != null" >
+        APPROVE_STATUS = #{approveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="billStatus != null" >
+        BILL_STATUS = #{billStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverStatus != null" >
+        DELIVER_STATUS = #{deliverStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        DETAIL = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceNo != null" >
+        INVOICE_NO = #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryType != null" >
+        DELIVERY_TYPE = #{deliveryType,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        COMPANY = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null" >
+        EXPRESS_NO = #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="redFlag != null" >
+        RED_FLAG = #{redFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="redReqTime != null" >
+        RED_REQ_TIME = #{redReqTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logisticsStatus != null" >
+        LOGISTICS_STATUS = #{logisticsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="billDate != null" >
+        BILL_DATE = #{billDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoiceCode != null" >
+        INVOICE_CODE = #{invoiceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceType != null" >
+        INVOICE_TYPE = #{invoiceType,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceTypeCode != null" >
+        INVOICE_TYPE_CODE = #{invoiceTypeCode,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where ORD_INVOICE_ID = #{ordInvoiceId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdInvoice" >
+    update ORD_INVOICE
+    set TITLE = #{title,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      BILL_DATE = #{billDate,jdbcType=TIMESTAMP},
+      APPROVE_STATUS = #{approveStatus,jdbcType=VARCHAR},
+      BILL_STATUS = #{billStatus,jdbcType=VARCHAR},
+      DELIVER_STATUS = #{deliverStatus,jdbcType=VARCHAR},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      DETAIL = #{detail,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      INVOICE_NO = #{invoiceNo,jdbcType=VARCHAR},
+      DELIVERY_TYPE = #{deliveryType,jdbcType=VARCHAR},
+      COMPANY = #{company,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      EXPRESS_NO = #{expressNo,jdbcType=VARCHAR},
+      RED_FLAG = #{redFlag,jdbcType=VARCHAR},
+      RED_REQ_TIME = #{redReqTime,jdbcType=TIMESTAMP},
+      LOGISTICS_STATUS = #{logisticsStatus,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      UPDATE_TIME = sysdate
+    where ORD_INVOICE_ID = #{ordInvoiceId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="getOrdInvoiceListByParam2" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	SELECT * FROM (
+  	select oi.* from ORD_INVOICE oi 
+  	where oi.STATUS='APPROVE'
+  		<if test="companyType != null and companyType == 'XINGLV'" >
+	    and (oi.COMPANY_TYPE = #{companyType,jdbcType=VARCHAR} or oi.COMPANY_TYPE is null)
+	    </if>
+	    <if test="companyType != null and companyType == 'GUOLV'" >
+	    and oi.COMPANY_TYPE = #{companyType,jdbcType=VARCHAR}
+	    </if>
+  		and exists(select 1 from ord_invoice_relation oir,ord_order oo where oir.order_id= oo.order_id
+  			and oo.visit_time &lt;=#{endVisitTime,jdbcType=TIMESTAMP}
+  			and oir.ord_invoice_id = oi.ord_invoice_id
+  		)
+  		and not exists(select 1 from ord_invoice_relation oir,ord_order oo where oir.order_id= oo.order_id
+  			and (oo.order_status='CANCEL'
+  			<![CDATA[
+  			OR oo.payment_status <>'PAYED'
+  			]]>)
+  			and oir.ord_invoice_id = oi.ord_invoice_id
+  		)
+  		order by oi.ord_invoice_id asc
+  		) WHERE rownum &lt;=10
+  </select>
+  
+ <select id="getOrdInvoiceListByParam" resultMap="BaseResultMap" parameterType="java.util.Map" >
+ <include refid="basic.pageSearchHead"/>
+   select distinct oi.* from ORD_INVOICE oi,ORD_INVOICE_RELATION oo,ord_order ord
+     where oi.ORD_INVOICE_ID = oo.ORD_INVOICE_ID and oo.order_id = ord.order_id 
+    <if test="orderId != null" >
+    and oo.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </if>
+    <if test="userId != null" >
+    and oi.USER_ID = #{userId,jdbcType=VARCHAR}
+    </if>
+    <if test="userNo != null" >
+    and ord.USER_NO = #{userNo,jdbcType=VARCHAR}
+    </if>
+    <if test="invoiceNo != null" >
+    and oi.INVOICE_NO = #{invoiceNo,jdbcType=VARCHAR}
+    </if>
+    <if test="company != null" >
+    and oi.COMPANY = #{company,jdbcType=VARCHAR}
+    </if>
+    <if test="approveStatus != null" >
+    and oi.APPROVE_STATUS = #{approveStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="deliveryType != null" >
+    and oi.DELIVERY_TYPE = #{deliveryType,jdbcType=VARCHAR}
+    </if>
+    <if test="deliverStatus != null" >
+    and oi.DELIVER_STATUS = #{deliverStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="filialeName != null" >
+    and ord.FILIALE_NAME = #{filialeName,jdbcType=VARCHAR}
+    </if>
+    <if test="ordInvoiceId != null" >
+    and oi.ORD_INVOICE_ID = #{ordInvoiceId,jdbcType=DECIMAL}
+    </if>
+    <if test="status != null" >
+    and oi.STATUS = #{status,jdbcType=VARCHAR}
+    </if>
+    <if test="redFlag != null" >
+    and oi.RED_FLAG = #{redFlag,jdbcType=VARCHAR}
+    </if>
+    <if test="startTime != null">
+     and oi.CREATE_TIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="billStartTime != null">
+    and oi.BILL_DATE between #{billStartTime,jdbcType=TIMESTAMP} and #{billEndTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="visitTime != null" >
+    <![CDATA[ and ord.VISIT_TIME < #{visitTime} ]]>
+    </if>
+    <include refid="basic.pageSearchFoot"/>  
+  </select>
+  
+  <select id="getOrdInvoiceListByOrderId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select oi.* from ORD_INVOICE oi,ORD_INVOICE_RELATION oo
+       where oi.ORD_INVOICE_ID = oo.ORD_INVOICE_ID 
+    <if test="orderId != null" >
+        and oo.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </if>
+  </select>
+  
+   <select id="getOrdInvoiceListByOrderIdList" resultMap="BaseResultMap" >
+   select oi.* from ORD_INVOICE oi,ORD_INVOICE_RELATION oo
+       where oi.ORD_INVOICE_ID = oo.ORD_INVOICE_ID 
+        and oo.ORDER_ID IN
+    <foreach item="item" index="index" collection="list"
+      open="(" separator="," close=")">
+        #{item}
+  	</foreach>
+  </select>
+  
+  
+  <select id="getInvoiceCount" resultType="java.lang.Long"  parameterType="java.lang.Long">
+	select count(distinct(oi.ord_invoice_id)) from ORD_INVOICE oi,ORD_INVOICE_RELATION oo,ord_order ord
+      where oi.ORD_INVOICE_ID = oo.ORD_INVOICE_ID and oo.order_id = ord.order_id 
+    <if test="orderId != null" >
+    and oo.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+    </if>
+    <if test="invoiceNo != null" >
+    and oi.INVOICE_NO = #{invoiceNo,jdbcType=VARCHAR}
+    </if>
+    <if test="userId != null" >
+    and oi.USER_ID = #{userId,jdbcType=VARCHAR}
+    </if>
+    <if test="userNo != null" >
+    and ord.USER_NO = #{userNo,jdbcType=VARCHAR}
+    </if>
+    <if test="company != null" >
+    and oi.COMPANY = #{company,jdbcType=VARCHAR}
+    </if>
+    <if test="approveStatus != null" >
+    and oi.APPROVE_STATUS = #{approveStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="deliveryType != 请选择">
+    and oi.DELIVERY_TYPE = #{deliveryType,jdbcType=VARCHAR}
+    </if>
+    <if test="deliverStatus != null" >
+    and oi.DELIVER_STATUS = #{deliverStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="ordInvoiceId != null" >
+    and oi.ORD_INVOICE_ID = #{ordInvoiceId,jdbcType=DECIMAL}
+    </if>
+    <if test="status != null" >
+    and oi.STATUS = #{status,jdbcType=VARCHAR}
+    </if>
+    <if test="redFlag != null" >
+    and oi.RED_FLAG = #{redFlag,jdbcType=VARCHAR}
+    </if>
+    <if test="filialeName != null" >
+    and ord.FILIALE_NAME = #{filialeName,jdbcType=VARCHAR}
+    </if>
+    <if test="startTime != null">
+     and oi.CREATE_TIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="billStartTime != null">
+    and oi.BILL_DATE between #{billStartTime,jdbcType=TIMESTAMP} and #{billEndTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="visitTime != null" >
+    <![CDATA[ and ord.VISIT_TIME < #{visitTime,jdbcType=TIMESTAMP} ]]>
+    </if>
+ </select>
+
+ <select id="getStatusOrdInvoiceListByParam" resultMap="BaseResultMap" parameterType="java.util.Map" >
+   select distinct oi.* from ORD_INVOICE oi 
+     where 1=1 
+     <if test="invoiceNo != null" >
+    and oi.INVOICE_NO = #{invoiceNo,jdbcType=VARCHAR}
+    </if>
+    <if test="userId != null" >
+    and oi.USER_ID = #{userId,jdbcType=VARCHAR}
+    </if>
+    <if test="company != null" >
+    and oi.COMPANY = #{company,jdbcType=VARCHAR}
+    </if>
+    <if test="approveStatus != null" >
+    and oi.APPROVE_STATUS = #{approveStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="deliveryType != 请选择">
+    and oi.DELIVERY_TYPE = #{deliveryType,jdbcType=VARCHAR}
+    </if>
+    <if test="deliverStatus != null" >
+    and oi.DELIVER_STATUS = #{deliverStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="ordInvoiceId != null" >
+    and oi.ORD_INVOICE_ID = #{ordInvoiceId,jdbcType=DECIMAL}
+    </if>
+    <if test="redFlag != null" >
+    and oi.RED_FLAG = #{redFlag,jdbcType=VARCHAR}
+    </if>
+    <if test="billedStatus != null" >
+    and oi.STATUS = #{billedStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="approveStatus != null" >
+    or oi.STATUS = #{approveStatus,jdbcType=VARCHAR}
+    </if>
+  </select>
+ 
+ <select id="selectNotCancelInvoiceCountByOrderId" resultType="java.lang.Long"  parameterType="java.lang.Long">
+		select count(*) from ORD_INVOICE o 
+		  WHERE EXISTS (SELECT 1 FROM ORD_INVOICE_RELATION r 
+		                 where r.ORD_INVOICE_ID = o.ORD_INVOICE_ID 
+		                 <if test="orderId != null">
+		                     and r.ORDER_ID = #{orderId,jdbcType=DECIMAL})
+		                 </if>
+		                 <if test="status != null">
+		                     and o.STATUS != #{status,jdbcType=VARCHAR}
+		                 </if>
+</select>
+<sql id="pageWhere">
+      <if test="subCompanyId != null">
+         and  ooir.SUB_COMPANY_ID = #{subCompanyId,jdbcType=DECIMAL}   
+	  </if>
+	  <if test="branchOfficeId != null">
+	     AND ooir.BRANCH_OFFICE_ID = #{branchOfficeId,jdbcType=DECIMAL}         
+	  </if>
+	  <if test="storeId != null">
+         AND ooir.STORE_ID = #{storeId,jdbcType=DECIMAL}
+	  </if>
+	  <if test="startApplyTime != null and endApplyTime != null" >
+       AND  oi.CREATE_TIME BETWEEN #{startApplyTime,jdbcType=TIMESTAMP} AND  #{endApplyTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="startApplyTime != null and endApplyTime == null" >
+       AND  oi.CREATE_TIME = #{startApplyTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="invoiceNo != null and invoiceNo !='' " >
+       And  oi.INVOICE_NO = #{invoiceNo,jdbcType=VARCHAR}
+     </if>
+	 <if test="orderId != null" >
+       And  oir.ORDER_ID = #{orderId,jdbcType=VARCHAR}
+     </if>
+     <if test="status != null and status != ''" >
+       And  oi.STATUS = #{status,jdbcType=VARCHAR}
+     </if>
+  </sql>
+</mapper>

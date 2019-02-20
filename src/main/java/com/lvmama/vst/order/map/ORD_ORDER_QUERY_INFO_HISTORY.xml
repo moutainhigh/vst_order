@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ORDER_QUERY_INFO_HISTORY" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdOrderQueryInfo" >
+    <id column="QUERY_INFO_ID" property="queryInfoId" jdbcType="DECIMAL" />
+	<result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+	<result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+	<result column="BACK_USER_ID" property="backUserId" jdbcType="VARCHAR" />
+	<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	<result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+	<result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+	<result column="INFO_STATUS" property="infoStatus" jdbcType="VARCHAR" />
+	<result column="RESOURCE_STATUS" property="resourceStatus" jdbcType="VARCHAR" />
+	<result column="PAYMENT_STATUS" property="paymentStatus" jdbcType="VARCHAR" />
+	<result column="PAYMENT_TIME" property="paymentTime" jdbcType="TIMESTAMP" />
+	<result column="CERT_CONFIRM_STATUS" property="certConfirmStatus" jdbcType="VARCHAR" />
+	<result column="NOTICE_REGIMENT_STATUS" property="noticeRegimentStatus" jdbcType="VARCHAR" />
+	<result column="DISTRIBUTOR_ID" property="distributorId" jdbcType="DECIMAL" />
+	<result column="MAIN_PRODUCT_ID" property="mainProductId" jdbcType="DECIMAL" />
+	<result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+	<result column="MAIN_PRODUCT_NAME" property="mainProductName" jdbcType="VARCHAR" />
+	<result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+	<result column="SUPP_GOODS_NAME" property="suppGoodsName" jdbcType="VARCHAR" />
+	<result column="SUPP_GOODS_ID" property="suppGoodsId" jdbcType="DECIMAL" />
+	<result column="MAIN_MANAGER_ID" property="mainManagerId" jdbcType="DECIMAL" />
+	<result column="MANAGER_ID" property="managerId" jdbcType="DECIMAL" />
+	<result column="MAIN_BU_CODE" property="mainBuCode" jdbcType="VARCHAR" />
+	<result column="BU_CODE" property="buCode" jdbcType="VARCHAR" />
+	<result column="MAIN_CATEGORY_ID" property="mainCategoryId" jdbcType="DECIMAL" />
+	<result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+	<result column="SUPPLIER_ID" property="supplierId" jdbcType="DECIMAL" />
+	<result column="PAYMENT_TARGET" property="paymentTarget" jdbcType="VARCHAR" />
+	<result column="FILIALE_NAME" property="filialeName" jdbcType="VARCHAR" />
+	<result column="BOOKER_NAME" property="bookerName" jdbcType="VARCHAR" />
+	<result column="BOOKER_MOBILE" property="bookerMobile" jdbcType="VARCHAR" />
+	<result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+	<result column="CONTACT_MOBILE" property="contactMobile" jdbcType="VARCHAR" />
+	<result column="CONTACT_PHONE" property="contactPhone" jdbcType="VARCHAR" />
+	<result column="CONTACT_EMAIL" property="contactEmail" jdbcType="VARCHAR" />
+	<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    QUERY_INFO_ID,ORDER_ID,ORDER_ITEM_ID,BACK_USER_ID,CREATE_TIME,VISIT_TIME,ORDER_STATUS,INFO_STATUS,
+    RESOURCE_STATUS,PAYMENT_STATUS,PAYMENT_TIME,CERT_CONFIRM_STATUS,NOTICE_REGIMENT_STATUS,DISTRIBUTOR_ID,MAIN_PRODUCT_ID,
+    PRODUCT_ID,MAIN_PRODUCT_NAME,PRODUCT_NAME,SUPP_GOODS_NAME,SUPP_GOODS_ID,MAIN_MANAGER_ID,MANAGER_ID,MAIN_BU_CODE,
+    BU_CODE,MAIN_CATEGORY_ID,CATEGORY_ID,SUPPLIER_ID,PAYMENT_TARGET,FILIALE_NAME,BOOKER_NAME,BOOKER_MOBILE,CONTACT_NAME,
+    CONTACT_MOBILE,CONTACT_PHONE,CONTACT_EMAIL,UPDATE_TIME
+  </sql>
+  <select id="selectHistId" resultType="java.lang.Long">
+	    select SEQ_ORDER_QUERY_INFO_HIST_ID.currval from dual
+	</select>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdOrderQueryInfo" >
+    <selectKey resultType="java.lang.Long" keyProperty="queryInfoId" order="BEFORE" >
+      select SEQ_ORDER_QUERY_INFO_HIST_ID.nextval from dual
+    </selectKey>
+    insert into ORD_ORDER_QUERY_INFO_HISTORY (QUERY_INFO_ID,ORDER_ID,ORDER_ITEM_ID,BACK_USER_ID,CREATE_TIME,VISIT_TIME,ORDER_STATUS,INFO_STATUS,
+    RESOURCE_STATUS,PAYMENT_STATUS,PAYMENT_TIME,CERT_CONFIRM_STATUS,NOTICE_REGIMENT_STATUS,DISTRIBUTOR_ID,MAIN_PRODUCT_ID,
+    PRODUCT_ID,MAIN_PRODUCT_NAME,PRODUCT_NAME,SUPP_GOODS_NAME,SUPP_GOODS_ID,MAIN_MANAGER_ID,MANAGER_ID,MAIN_BU_CODE,
+    BU_CODE,MAIN_CATEGORY_ID,CATEGORY_ID,SUPPLIER_ID,PAYMENT_TARGET,FILIALE_NAME,BOOKER_NAME,BOOKER_MOBILE,CONTACT_NAME,
+    CONTACT_MOBILE,CONTACT_PHONE,CONTACT_EMAIL)
+    values (#{queryInfoId, jdbcType=DECIMAL},#{orderId, jdbcType=DECIMAL},#{orderItemId, jdbcType=DECIMAL},
+    #{backUserId, jdbcType=VARCHAR},#{createTime, jdbcType=TIMESTAMP},#{visitTime, jdbcType=TIMESTAMP},#{orderStatus, jdbcType=VARCHAR},
+    #{infoStatus, jdbcType=VARCHAR},#{resourceStatus, jdbcType=VARCHAR},#{paymentStatus, jdbcType=VARCHAR},#{paymentTime, jdbcType=TIMESTAMP},
+    #{certConfirmStatus, jdbcType=VARCHAR},#{noticeRegimentStatus, jdbcType=VARCHAR},#{distributorId, jdbcType=DECIMAL},
+    #{mainProductId, jdbcType=DECIMAL},#{productId, jdbcType=DECIMAL},#{mainProductName, jdbcType=VARCHAR},#{productName, jdbcType=VARCHAR},
+    #{suppGoodsName, jdbcType=VARCHAR},#{suppGoodsId, jdbcType=DECIMAL},#{mainManagerId, jdbcType=DECIMAL},#{managerId, jdbcType=DECIMAL},
+    #{mainBuCode, jdbcType=VARCHAR},#{buCode, jdbcType=VARCHAR},#{mainCategoryId, jdbcType=DECIMAL},#{categoryId, jdbcType=DECIMAL},
+    #{supplierId, jdbcType=DECIMAL},#{paymentTarget, jdbcType=VARCHAR},#{filialeName, jdbcType=VARCHAR},#{bookerName, jdbcType=VARCHAR},
+    #{bookerMobile, jdbcType=VARCHAR},#{contactName, jdbcType=VARCHAR},#{contactMobile, jdbcType=VARCHAR},#{contactPhone, jdbcType=VARCHAR},
+    #{contactEmail, jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdOrderQueryInfo">
+	update ORD_ORDER_QUERY_INFO_HISTORY
+	<set>
+		<if test="orderId != null">
+			ORDER_ID = #{orderId, jdbcType=DECIMAL},
+		</if>
+		<if test="orderItemId != null">
+			ORDER_ITEM_ID = #{orderItemId, jdbcType=DECIMAL},
+		</if>
+		<if test="backUserId != null">
+			BACK_USER_ID = #{backUserId, jdbcType=VARCHAR},
+		</if>
+		<if test="createTime != null">
+			CREATE_TIME = #{createTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="visitTime != null">
+			VISIT_TIME = #{visitTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="orderStatus != null">
+			ORDER_STATUS = #{orderStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="infoStatus != null">
+			INFO_STATUS = #{infoStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="resourceStatus != null">
+			RESOURCE_STATUS = #{resourceStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="paymentStatus != null">
+			PAYMENT_STATUS = #{paymentStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="paymentTime != null">
+			PAYMENT_TIME = #{paymentTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="certConfirmStatus != null">
+			CERT_CONFIRM_STATUS = #{certConfirmStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="noticeRegimentStatus != null">
+			NOTICE_REGIMENT_STATUS = #{noticeRegimentStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="distributorId != null">
+			DISTRIBUTOR_ID = #{distributorId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainProductId != null">
+			MAIN_PRODUCT_ID = #{mainProductId, jdbcType=DECIMAL},
+		</if>
+		<if test="productId != null">
+			PRODUCT_ID = #{productId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainProductName != null">
+			MAIN_PRODUCT_NAME = #{mainProductName, jdbcType=VARCHAR},
+		</if>
+		<if test="productName != null">
+			PRODUCT_NAME = #{productName, jdbcType=VARCHAR},
+		</if>
+		<if test="suppGoodsName != null">
+			SUPP_GOODS_NAME = #{suppGoodsName, jdbcType=VARCHAR},
+		</if>
+		<if test="suppGoodsId != null">
+			SUPP_GOODS_ID = #{suppGoodsId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainManagerId != null">
+			MAIN_MANAGER_ID = #{mainManagerId, jdbcType=DECIMAL},
+		</if>
+		<if test="managerId != null">
+			MANAGER_ID = #{managerId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainBuCode != null">
+			MAIN_BU_CODE = #{mainBuCode, jdbcType=VARCHAR},
+		</if>
+		<if test="buCode != null">
+			BU_CODE = #{buCode, jdbcType=VARCHAR},
+		</if>
+		<if test="mainCategoryId != null">
+			ORDER_ID = #{mainCategoryId, jdbcType=DECIMAL},
+		</if>
+		<if test="categoryId != null">
+			CATEGORY_ID = #{categoryId, jdbcType=DECIMAL},
+		</if>
+		<if test="supplierId != null">
+			SUPPLIER_ID = #{supplierId, jdbcType=DECIMAL},
+		</if>
+		<if test="paymentTarget != null">
+			PAYMENT_TARGET = #{paymentTarget, jdbcType=VARCHAR},
+		</if>
+		<if test="filialeName != null">
+			FILIALE_NAME = #{filialeName, jdbcType=VARCHAR},
+		</if>
+		<if test="bookerName != null">
+			BOOKER_NAME = #{bookerName, jdbcType=VARCHAR},
+		</if>
+		<if test="bookerMobile != null">
+			BOOKER_MOBILE = #{bookerMobile, jdbcType=VARCHAR},
+		</if>
+		<if test="contactName != null">
+			CONTACT_NAME = #{contactName, jdbcType=VARCHAR},
+		</if>
+		<if test="contactMobile != null">
+			CONTACT_MOBILE = #{contactMobile, jdbcType=VARCHAR},
+		</if>
+		<if test="contactPhone != null">
+			CONTACT_PHONE = #{contactPhone, jdbcType=VARCHAR},
+		</if>
+		<if test="contactEmail != null">
+			CONTACT_EMAIL = #{contactEmail, jdbcType=VARCHAR},
+		</if>
+		UPDATE_TIME = SYSDATE
+	</set>
+	where QUERY_INFO_ID = #{queryInfoId,jdbcType=DECIMAL}
+</update>
+<update id="updateByOrderId" parameterType="com.lvmama.vst.back.order.po.OrdOrderQueryInfo">
+	update ORD_ORDER_QUERY_INFO_HISTORY
+	<set>
+		<if test="orderItemId != null">
+			ORDER_ITEM_ID = #{orderItemId, jdbcType=DECIMAL},
+		</if>
+		<if test="backUserId != null">
+			BACK_USER_ID = #{backUserId, jdbcType=VARCHAR},
+		</if>
+		<if test="createTime != null">
+			CREATE_TIME = #{createTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="visitTime != null">
+			VISIT_TIME = #{visitTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="orderStatus != null">
+			ORDER_STATUS = #{orderStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="infoStatus != null">
+			INFO_STATUS = #{infoStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="resourceStatus != null">
+			RESOURCE_STATUS = #{resourceStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="paymentStatus != null">
+			PAYMENT_STATUS = #{paymentStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="paymentTime != null">
+			PAYMENT_TIME = #{paymentTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="certConfirmStatus != null">
+			CERT_CONFIRM_STATUS = #{certConfirmStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="noticeRegimentStatus != null">
+			NOTICE_REGIMENT_STATUS = #{noticeRegimentStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="distributorId != null">
+			DISTRIBUTOR_ID = #{distributorId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainProductId != null">
+			MAIN_PRODUCT_ID = #{mainProductId, jdbcType=DECIMAL},
+		</if>
+		<if test="productId != null">
+			PRODUCT_ID = #{productId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainProductName != null">
+			MAIN_PRODUCT_NAME = #{mainProductName, jdbcType=VARCHAR},
+		</if>
+		<if test="productName != null">
+			PRODUCT_NAME = #{productName, jdbcType=VARCHAR},
+		</if>
+		<if test="suppGoodsName != null">
+			SUPP_GOODS_NAME = #{suppGoodsName, jdbcType=VARCHAR},
+		</if>
+		<if test="suppGoodsId != null">
+			SUPP_GOODS_ID = #{suppGoodsId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainManagerId != null">
+			MAIN_MANAGER_ID = #{mainManagerId, jdbcType=DECIMAL},
+		</if>
+		<if test="managerId != null">
+			MANAGER_ID = #{managerId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainBuCode != null">
+			MAIN_BU_CODE = #{mainBuCode, jdbcType=VARCHAR},
+		</if>
+		<if test="buCode != null">
+			BU_CODE = #{buCode, jdbcType=VARCHAR},
+		</if>
+		<if test="mainCategoryId != null">
+			ORDER_ID = #{mainCategoryId, jdbcType=DECIMAL},
+		</if>
+		<if test="categoryId != null">
+			CATEGORY_ID = #{categoryId, jdbcType=DECIMAL},
+		</if>
+		<if test="supplierId != null">
+			SUPPLIER_ID = #{supplierId, jdbcType=DECIMAL},
+		</if>
+		<if test="paymentTarget != null">
+			PAYMENT_TARGET = #{paymentTarget, jdbcType=VARCHAR},
+		</if>
+		<if test="filialeName != null">
+			FILIALE_NAME = #{filialeName, jdbcType=VARCHAR},
+		</if>
+		<if test="bookerName != null">
+			BOOKER_NAME = #{bookerName, jdbcType=VARCHAR},
+		</if>
+		<if test="bookerMobile != null">
+			BOOKER_MOBILE = #{bookerMobile, jdbcType=VARCHAR},
+		</if>
+		<if test="contactName != null">
+			CONTACT_NAME = #{contactName, jdbcType=VARCHAR},
+		</if>
+		<if test="contactMobile != null">
+			CONTACT_MOBILE = #{contactMobile, jdbcType=VARCHAR},
+		</if>
+		<if test="contactPhone != null">
+			CONTACT_PHONE = #{contactPhone, jdbcType=VARCHAR},
+		</if>
+		<if test="contactEmail != null">
+			CONTACT_EMAIL = #{contactEmail, jdbcType=VARCHAR},
+		</if>
+		UPDATE_TIME = SYSDATE
+	</set>
+	where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+</update>
+
+<update id="updateByOrderItemId" parameterType="com.lvmama.vst.back.order.po.OrdOrderQueryInfo">
+	update ORD_ORDER_QUERY_INFO_HISTORY
+	<set>
+		<if test="backUserId != null">
+			BACK_USER_ID = #{backUserId, jdbcType=VARCHAR},
+		</if>
+		<if test="createTime != null">
+			CREATE_TIME = #{createTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="visitTime != null">
+			VISIT_TIME = #{visitTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="orderStatus != null">
+			ORDER_STATUS = #{orderStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="infoStatus != null">
+			INFO_STATUS = #{infoStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="resourceStatus != null">
+			RESOURCE_STATUS = #{resourceStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="paymentStatus != null">
+			PAYMENT_STATUS = #{paymentStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="paymentTime != null">
+			PAYMENT_TIME = #{paymentTime, jdbcType=TIMESTAMP},
+		</if>
+		<if test="certConfirmStatus != null">
+			CERT_CONFIRM_STATUS = #{certConfirmStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="noticeRegimentStatus != null">
+			NOTICE_REGIMENT_STATUS = #{noticeRegimentStatus, jdbcType=VARCHAR},
+		</if>
+		<if test="distributorId != null">
+			DISTRIBUTOR_ID = #{distributorId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainProductId != null">
+			MAIN_PRODUCT_ID = #{mainProductId, jdbcType=DECIMAL},
+		</if>
+		<if test="productId != null">
+			PRODUCT_ID = #{productId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainProductName != null">
+			MAIN_PRODUCT_NAME = #{mainProductName, jdbcType=VARCHAR},
+		</if>
+		<if test="productName != null">
+			PRODUCT_NAME = #{productName, jdbcType=VARCHAR},
+		</if>
+		<if test="suppGoodsName != null">
+			SUPP_GOODS_NAME = #{suppGoodsName, jdbcType=VARCHAR},
+		</if>
+		<if test="suppGoodsId != null">
+			SUPP_GOODS_ID = #{suppGoodsId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainManagerId != null">
+			MAIN_MANAGER_ID = #{mainManagerId, jdbcType=DECIMAL},
+		</if>
+		<if test="managerId != null">
+			MANAGER_ID = #{managerId, jdbcType=DECIMAL},
+		</if>
+		<if test="mainBuCode != null">
+			MAIN_BU_CODE = #{mainBuCode, jdbcType=VARCHAR},
+		</if>
+		<if test="buCode != null">
+			BU_CODE = #{buCode, jdbcType=VARCHAR},
+		</if>
+		<if test="mainCategoryId != null">
+			ORDER_ID = #{mainCategoryId, jdbcType=DECIMAL},
+		</if>
+		<if test="categoryId != null">
+			CATEGORY_ID = #{categoryId, jdbcType=DECIMAL},
+		</if>
+		<if test="supplierId != null">
+			SUPPLIER_ID = #{supplierId, jdbcType=DECIMAL},
+		</if>
+		<if test="paymentTarget != null">
+			PAYMENT_TARGET = #{paymentTarget, jdbcType=VARCHAR},
+		</if>
+		<if test="filialeName != null">
+			FILIALE_NAME = #{filialeName, jdbcType=VARCHAR},
+		</if>
+		<if test="bookerName != null">
+			BOOKER_NAME = #{bookerName, jdbcType=VARCHAR},
+		</if>
+		<if test="bookerMobile != null">
+			BOOKER_MOBILE = #{bookerMobile, jdbcType=VARCHAR},
+		</if>
+		<if test="contactName != null">
+			CONTACT_NAME = #{contactName, jdbcType=VARCHAR},
+		</if>
+		<if test="contactMobile != null">
+			CONTACT_MOBILE = #{contactMobile, jdbcType=VARCHAR},
+		</if>
+		<if test="contactPhone != null">
+			CONTACT_PHONE = #{contactPhone, jdbcType=VARCHAR},
+		</if>
+		<if test="contactEmail != null">
+			CONTACT_EMAIL = #{contactEmail, jdbcType=VARCHAR},
+		</if>
+		UPDATE_TIME = SYSDATE
+	</set>
+	where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+</update>
+</mapper>

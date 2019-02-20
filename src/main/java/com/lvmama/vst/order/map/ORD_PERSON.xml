@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_PERSON" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdPerson" >
+    <id column="ORD_PERSON_ID" property="ordPersonId" jdbcType="DECIMAL" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+    <result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+    <result column="FIRST_NAME" property="firstName" jdbcType="VARCHAR" />
+    <result column="LAST_NAME" property="lastName" jdbcType="VARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="ID_TYPE" property="idType" jdbcType="VARCHAR" />
+    <result column="ID_NO" property="idNo" jdbcType="VARCHAR" />
+    <result column="PERSON_TYPE" property="personType" jdbcType="VARCHAR" />
+    <result column="NATIONALITY" property="nationality" jdbcType="VARCHAR" />
+    <result column="FULL_NAME" property="fullName" jdbcType="VARCHAR" />
+    <result column="PEOPLE_TYPE" property="peopleType" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="EXP_DATE" property="expDate" jdbcType="TIMESTAMP" />
+    <result column="ISSUED" property="issued" jdbcType="VARCHAR" />
+    <result column="ISSUE_DATE" property="issueDate" jdbcType="TIMESTAMP" />
+    <result column="BIRTH_PLACE" property="birthPlace" jdbcType="VARCHAR" />
+    <result column="PASSPORT_URL" property="passportUrl" jdbcType="VARCHAR" />
+    <result column="OUTBOUND_PHONE" property="outboundPhone" jdbcType="VARCHAR" />
+    <result column="GUIDE_CERTIFICATE" property="guideCertificate" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+   <resultMap id="personAddssResultMap" type="com.lvmama.vst.back.order.po.OrdPerson" >
+    <id column="ORD_PERSON_ID" property="ordPersonId" jdbcType="DECIMAL" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+    <result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+    <result column="FIRST_NAME" property="firstName" jdbcType="VARCHAR" />
+    <result column="LAST_NAME" property="lastName" jdbcType="VARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="ID_TYPE" property="idType" jdbcType="VARCHAR" />
+    <result column="ID_NO" property="idNo" jdbcType="VARCHAR" />
+    <result column="PERSON_TYPE" property="personType" jdbcType="VARCHAR" />
+    <result column="NATIONALITY" property="nationality" jdbcType="VARCHAR" />
+    <result column="FULL_NAME" property="fullName" jdbcType="VARCHAR" />
+    <result column="PEOPLE_TYPE" property="peopleType" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="EXP_DATE" property="expDate" jdbcType="TIMESTAMP" />
+    <result column="ISSUED" property="issued" jdbcType="VARCHAR" />
+    <result column="ISSUE_DATE" property="issueDate" jdbcType="TIMESTAMP" />
+    <result column="BIRTH_PLACE" property="birthPlace" jdbcType="VARCHAR" />
+    <result column="PASSPORT_URL" property="passportUrl" jdbcType="VARCHAR" />
+    <result column="GUIDE_CERTIFICATE" property="guideCertificate" jdbcType="VARCHAR" />
+    <collection  column="OBJECT_ID" property="addressList" ofType="com.lvmama.vst.back.order.po.OrdAddress" >
+    	<id column="ord_person_id_1" property="ordPersonId" jdbcType="DECIMAL"/>
+    	<result column="ord_address_id" property="ordAddressId" jdbcType="DECIMAL"/>
+	    <result column="province" property="province" jdbcType="VARCHAR" />
+	    <result column="city" property="city" jdbcType="VARCHAR" />
+	    <result column="district" property="district" jdbcType="VARCHAR" />
+	    <result column="street" property="street" jdbcType="VARCHAR" />
+	    <result column="postal_code" property="postalCode" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  
+  <resultMap id="OrderpersonInvoiceInfoAddress" type="com.lvmama.vst.back.order.po.OrderpersonInvoiceInfoAddress" >
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="DELIVERY_TYPE" property="deliveryType" jdbcType="VARCHAR" />
+    <result column="PURCHASE_WAY" property="purchaseWay" jdbcType="VARCHAR"/>
+    <result column="TAX_NUMBER" property="taxNumber" jdbcType="VARCHAR"/>
+    <result column="FULL_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="POSTAL_CODE" property="postalCode" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="STREET" property="street" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="selectOrdPersonListWithAddress" resultMap="personAddssResultMap" parameterType="java.util.Map" >
+  	select a.*,b.ord_address_id,b.ord_person_id as ord_person_id_1, b.province,b.city,b.district,b.street,b.postal_code 
+    from (select 
+     <include refid="Base_Column_List" /> 
+    	from ord_person where 
+    	OBJECT_ID =#{objectId,jdbcType=DECIMAL}
+     <include refid="Base_Query_Column_List"/>
+    )a 
+   	left join ord_address b on a.ord_person_id = b.ord_person_id
+  </select>
+  
+  <sql id="Base_Column_List" >
+    ORD_PERSON_ID, OBJECT_TYPE, OBJECT_ID, FIRST_NAME, LAST_NAME, GENDER, MOBILE, PHONE, OUTBOUND_PHONE,
+    FAX, EMAIL, ID_TYPE, ID_NO, PERSON_TYPE, NATIONALITY, FULL_NAME,PEOPLE_TYPE,BIRTHDAY,ISSUED,EXP_DATE,ISSUE_DATE,BIRTH_PLACE,PASSPORT_URL,GUIDE_CERTIFICATE,UPDATE_TIME
+  </sql>
+  
+   <sql id="Base_Query_Column_List" >
+      <if test="ordPersonId != null" >
+       and ORD_PERSON_ID = #{ordPersonId}
+      </if>
+      <if test="objectType != null" >
+       and OBJECT_TYPE = #{objectType}
+      </if>
+      <if test="objectId != null" >
+       and OBJECT_ID = #{objectId}
+      </if>
+      <if test="firstName != null" >
+       and FIRST_NAME = #{firstName}
+      </if>
+      <if test="lastName != null" >
+       and LAST_NAME = #{lastName}
+      </if>
+      <if test="gender != null" >
+       and GENDER = #{gender}
+      </if>
+      <if test="mobile != null" >
+       and MOBILE = #{mobile}
+      </if>
+      <if test="phone != null" >
+       and PHONE = #{phone}
+      </if>
+      <if test="fax != null" >
+       and FAX = #{fax}
+      </if>
+      <if test="email != null" >
+       and EMAIL = #{email}
+      </if>
+      <if test="idType != null" >
+       and ID_TYPE = #{idType}
+      </if>
+      <if test="idNo != null" >
+       and ID_NO = #{idNo}
+      </if>
+      <if test="personType != null" >
+       and PERSON_TYPE = #{personType}
+      </if>
+      <if test="nationality != null" >
+       and NATIONALITY = #{nationality}
+      </if>
+      <if test="fullName != null" >
+       and FULL_NAME = #{fullName}
+      </if>
+      <if test="peopleType != null" >
+       and PEOPLE_TYPE = #{peopleType}
+      </if>
+      <if test="birthday != null" >
+       and BIRTHDAY = #{birthday}
+      </if>
+       <if test="issued != null" >
+       and ISSUED = #{issued}
+      </if>
+       <if test="expDate != null" >
+       and EXP_DATE = #{expDate}
+      </if>
+       <if test="issueDate != null" >
+       and ISSUE_DATE = #{issueDate}
+      </if>
+       <if test="birthPlace != null" >
+       and BIRTH_PLACE = #{birthPlace}
+      </if>
+      <if test="passportUrl != null" >
+       and PASSPORT_URL = #{passportUrl}
+      </if>
+      <if test="updateTime != null" >
+       and UPDATE_TIME = #{updateTime}
+      </if>
+  </sql>
+  <sql id="select_by_param" >
+		select 
+	    <include refid="Base_Column_List" />
+	    from ORD_PERSON where 1=1
+		<include refid="Base_Query_Column_List" />	 order by ORD_PERSON_ID
+   </sql>
+   
+	<select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_PERSON
+    where ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_PERSON
+    where ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdPerson" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordPersonId" order="BEFORE" >
+      select SEQ_ORD_PERSON_ID.nextval from dual
+    </selectKey>
+    insert into ORD_PERSON (ORD_PERSON_ID, OBJECT_TYPE, OBJECT_ID, 
+      FIRST_NAME, LAST_NAME, GENDER, 
+      MOBILE, PHONE, FAX, 
+      EMAIL, ID_TYPE, ID_NO, 
+      PERSON_TYPE, NATIONALITY, FULL_NAME,PEOPLE_TYPE,BIRTHDAY,ISSUED,EXP_DATE,BIRTH_PLACE,ISSUE_DATE,PASSPORT_URL,GUIDE_CERTIFICATE,UPDATE_TIME)
+    values (#{ordPersonId,jdbcType=DECIMAL}, #{objectType,jdbcType=VARCHAR}, #{objectId,jdbcType=DECIMAL}, 
+      #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, #{idNo,jdbcType=VARCHAR}, 
+      #{personType,jdbcType=VARCHAR}, #{nationality,jdbcType=VARCHAR}, #{fullName,jdbcType=VARCHAR},
+      #{peopleType,jdbcType=VARCHAR},#{birthday,jdbcType=TIMESTAMP},#{issued,jdbcType=VARCHAR},
+      #{expDate,jdbcType=TIMESTAMP},#{birthPlace,jdbcType=VARCHAR},#{issueDate,jdbcType=TIMESTAMP},#{passportUrl,jdbcType=VARCHAR},#{guideCertificate,jdbcType=VARCHAR},#{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdPerson" >
+    <selectKey resultType="java.lang.Long" keyProperty="ordPersonId" order="BEFORE" >
+      select SEQ_ORD_PERSON_ID.nextval from dual
+    </selectKey>
+    insert into ORD_PERSON
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORD_PERSON_ID,
+      <if test="objectType != null" >
+        OBJECT_TYPE,
+      </if>
+      <if test="objectId != null" >
+        OBJECT_ID,
+      </if>
+      <if test="firstName != null" >
+        FIRST_NAME,
+      </if>
+      <if test="lastName != null" >
+        LAST_NAME,
+      </if>
+      <if test="gender != null" >
+        GENDER,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="fax != null" >
+        FAX,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="idType != null" >
+        ID_TYPE,
+      </if>
+      <if test="idNo != null" >
+        ID_NO,
+      </if>
+      <if test="personType != null" >
+        PERSON_TYPE,
+      </if>
+      <if test="nationality != null" >
+        NATIONALITY,
+      </if>
+      <if test="fullName != null" >
+        FULL_NAME,
+      </if>
+       <if test="peopleType != null" >
+        PEOPLE_TYPE,
+      </if>
+       <if test="birthday != null" >
+        BIRTHDAY,
+      </if>
+       <if test="issued != null" >
+        ISSUED,
+      </if>
+       <if test="expDate != null" >
+        EXP_DATE,
+      </if>
+      <if test="birthPlace != null" >
+        BIRTH_PLACE,
+      </if>
+       <if test="issueDate != null" >
+        ISSUE_DATE,
+      </if>
+      <if test="passportUrl != null" >
+        PASSPORT_URL,
+      </if>
+      <if test="outboundPhone!=null">
+      OUTBOUND_PHONE,
+      </if>
+      <if test="guideCertificate!=null">
+      GUIDE_CERTIFICATE,
+      </if>
+      <if test="updateTime!=null">
+      UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{ordPersonId,jdbcType=DECIMAL},
+      <if test="objectType != null" >
+        #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="objectId != null" >
+        #{objectId,jdbcType=DECIMAL},
+      </if>
+      <if test="firstName != null" >
+        #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null" >
+        #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="personType != null" >
+        #{personType,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null" >
+        #{fullName,jdbcType=VARCHAR},
+      </if>
+       <if test="peopleType != null" >
+        #{peopleType,jdbcType=VARCHAR},
+      </if>
+       <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+       <if test="issued != null" >
+        #{issued,jdbcType=VARCHAR},
+      </if>
+       <if test="expDate != null" >
+        #{expDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="birthPlace != null" >
+        #{birthPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="issueDate != null" >
+        #{issueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passportUrl != null" >
+        #{passportUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundPhone!=null">
+        #{outboundPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="guideCertificate!=null">
+        #{guideCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime!=null">
+        #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdPerson" >
+    update ORD_PERSON
+    <set >
+      <if test="objectType != null" >
+        OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="objectId != null" >
+        OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+      </if>
+      <if test="firstName != null" >
+        FIRST_NAME = #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        LAST_NAME = #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        FAX = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null" >
+        ID_TYPE = #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        ID_NO = #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="personType != null" >
+        PERSON_TYPE = #{personType,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        NATIONALITY = #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null" >
+        FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      </if>
+       <if test="peopleType != null" >
+        PEOPLE_TYPE = #{peopleType,jdbcType=VARCHAR},
+      </if>
+       <if test="birthday != null" >
+        BIRTHDAY=#{birthday,jdbcType=TIMESTAMP},
+      </if>
+       <if test="issued != null" >
+        ISSUED = #{issued,jdbcType=VARCHAR},
+      </if>
+       <if test="expDate != null" >
+        EXP_DATE=#{expDate,jdbcType=TIMESTAMP},
+      </if>
+       <if test="birthPlace != null" >
+        BIRTH_PLACE= #{birthPlace,jdbcType=VARCHAR},
+      </if>
+       <if test="issueDate != null" >
+        ISSUE_DATE= #{issueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passportUrl != null" >
+        PASSPORT_URL= #{passportUrl,jdbcType=VARCHAR},
+      </if>
+       <if test="outboundPhone!=null">
+      	OUTBOUND_PHONE = #{outboundPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime!=null">
+      	UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    where ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL}
+  </update>
+
+    <!--更新游玩人信息 begin-->
+    <update id="updateTraveller" parameterType="com.lvmama.vst.back.order.po.OrdPerson" >
+        update ORD_PERSON
+        <set >
+            <if test="objectType != null" >
+                OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+            </if>
+            <if test="objectId != null" >
+                OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+            </if>
+            <if test="personType != null" >
+                PERSON_TYPE = #{personType,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime!=null">
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+                FIRST_NAME = #{firstName,jdbcType=VARCHAR},
+                LAST_NAME = #{lastName,jdbcType=VARCHAR},
+                GENDER = #{gender,jdbcType=VARCHAR},
+                MOBILE = #{mobile,jdbcType=VARCHAR},
+                PHONE = #{phone,jdbcType=VARCHAR},
+                FAX = #{fax,jdbcType=VARCHAR},
+                EMAIL = #{email,jdbcType=VARCHAR},
+                ID_TYPE = #{idType,jdbcType=VARCHAR},
+                ID_NO = #{idNo,jdbcType=VARCHAR},
+                NATIONALITY = #{nationality,jdbcType=VARCHAR},
+                FULL_NAME = #{fullName,jdbcType=VARCHAR},
+                PEOPLE_TYPE = #{peopleType,jdbcType=VARCHAR},
+                BIRTHDAY=#{birthday,jdbcType=TIMESTAMP},
+                ISSUED = #{issued,jdbcType=VARCHAR},
+                EXP_DATE=#{expDate,jdbcType=TIMESTAMP},
+                BIRTH_PLACE= #{birthPlace,jdbcType=VARCHAR},
+                ISSUE_DATE= #{issueDate,jdbcType=TIMESTAMP},
+                PASSPORT_URL= #{passportUrl,jdbcType=VARCHAR}
+        </set>
+        where ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL}
+    </update>
+    <!--更新游玩人信息 end-->
+
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdPerson" >
+    update ORD_PERSON
+    set OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+      FIRST_NAME = #{firstName,jdbcType=VARCHAR},
+      LAST_NAME = #{lastName,jdbcType=VARCHAR},
+      GENDER = #{gender,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      OUTBOUND_PHONE = #{outboundPhone,jdbcType=VARCHAR},
+      FAX = #{fax,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      ID_TYPE = #{idType,jdbcType=VARCHAR},
+      ID_NO = #{idNo,jdbcType=VARCHAR},
+      PERSON_TYPE = #{personType,jdbcType=VARCHAR},
+      PEOPLE_TYPE = #{peopleType,jdbcType=VARCHAR},
+      FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      BIRTHDAY=#{birthday,jdbcType=TIMESTAMP},
+      ISSUED= #{issued,jdbcType=VARCHAR},
+      EXP_DATE=#{expDate,jdbcType=TIMESTAMP},
+      BIRTH_PLACE= #{birthPlace,jdbcType=VARCHAR},
+      ISSUE_DATE=#{issueDate,jdbcType=TIMESTAMP},
+      PASSPORT_URL= #{passportUrl,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ORD_PERSON_ID = #{ordPersonId,jdbcType=DECIMAL}
+    
+  </update>
+  
+  <select id="selectLatestContactPerson" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from ord_person
+	where object_type='ORDER'
+	and person_type='CONTACT'
+	and object_id in (
+		select max(order_id) from ord_order where user_no = #{userNo,jdbcType=DECIMAL}
+	)
+  </select>
+  <delete id="deleteByOrderId" parameterType="java.lang.Long">
+  	delete from ORD_PERSON
+    where OBJECT_ID = #{orderId}
+  </delete>
+  
+   <sql id="select_by_param_apply_invoice" >
+        select  TITLE, CONTENT, DELIVERY_TYPE, PURCHASE_WAY,TAX_NUMBER, FULL_NAME, MOBILE, POSTAL_CODE, PROVINCE, CITY, STREET, update_time
+        from (
+              select t.TITLE ,t.CONTENT,t.DELIVERY_TYPE,t.PURCHASE_WAY,t.TAX_NUMBER,t.FULL_NAME,t.MOBILE,oa.POSTAL_CODE,oa.PROVINCE,oa.CITY,oa.STREET, t.update_time 
+              from( 
+                      select  TITLE ,CONTENT,DELIVERY_TYPE,PURCHASE_WAY,TAX_NUMBER,FULL_NAME,MOBILE,ORD_PERSON_ID, oaii.update_time 
+                      from  Ord_Person op, ORD_APPLY_INVOICE_INFO oaii
+                      where op.OBJECT_ID = oaii.ORDER_ID and op.OBJECT_TYPE = 'ORD_APPLY_INVOICE_INFO' and oaii.STATUS not in ('CANCEL', 'FAILURE')
+                      and oaii.USER_ID = #{userId} and oaii.DELIVERY_TYPE = 'EXPRESS'
+                 ) t, ORD_ADDRESS oa  WHERE t.ord_person_Id = oa.ord_person_id  order by t.update_time desc  
+           ) where rownum = 1
+   </sql>
+	<select id="selectByParamsApplyInvoice" parameterType="java.util.Map" resultMap="OrderpersonInvoiceInfoAddress">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param_apply_invoice"/>
+		<include refid="basic.pageSearchFoot"/>  
+	</select>
+	
+ <select id="selectInvoicePersonByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_PERSON
+    where OBJECT_ID = #{orderId,jdbcType=DECIMAL}
+  </select>
+
+  <select id="getOrdApplyInvoicePersonByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_PERSON
+    where OBJECT_ID = #{orderId,jdbcType=DECIMAL} AND OBJECT_TYPE = 'ORD_APPLY_INVOICE_INFO'
+  </select>
+
+</mapper>

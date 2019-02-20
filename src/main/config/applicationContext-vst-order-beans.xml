@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/util 
+           http://www.springframework.org/schema/util/spring-util.xsd
+           http://www.springframework.org/schema/task
+		   http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		   http://www.springframework.org/schema/aop 
+		   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+           
+ 	<context:annotation-config />
+ 	<context:component-scan base-package="com.lvmama.vst.flight, com.lvmama.vst.order, com.lvmama.vst.neworder,com.lvmama.vst.back.goods, com.lvmama.vst.comm.dao, com.lvmama.vst.back.order.dao,com.lvmama.vst.pet.adapter,com.lvmama.vst.precontrol,com.lvmama.order.snapshot,com.lvmama.order.workflow.client">
+ 		 <!-- 排除vst.back目录下Controller的service注入 -->         
+		 <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<bean id="propertyConfigurer" class="com.lvmama.config.ZooKeeperPropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+		<property name="ignoreResourceNotFound" value="true"/>
+		<property name="locations">
+			<list>
+				<!--<value>classpath*:elasticsearch.properties</value>
+				<value>classpath*:router_redis.properties</value>
+				<value>classpath*:zk_configuration.properties</value>-->
+				<value>classpath:sweet-config.properties</value>
+				<value>classpath*:ord_route_jedis.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 手动按类型注入文件服务 -->
+	<bean id="fsClient" class="com.lvmama.comm.pet.fs.client.FSClient" autowire="byType" />
+	
+	<!-- 支持异步方法执行 -->
+	<task:executor id="myexecutor" pool-size="50-100" queue-capacity="1000" rejection-policy="CALLER_RUNS"/>
+	<task:annotation-driven executor="myexecutor"/>
+
+	<!-- 酒店套餐接口链路处理集合 -->
+	<util:list id="hotelCommitOrderChainList">
+		<ref bean="submitOrderParamterProcessChain"/><!--参数校验-->
+		<!--ref bean="uniqueOrderCheckChain"/--><!--重复订单校验-->
+		<ref bean="orderJMSMessageChain"/><!--消息处理-->
+		<ref bean="orderWorkFlowMessageChain"/><!--工作流处理-->
+	</util:list>
+
+	<util:list id="hotelOrderOtherInterfaceChainList">
+		<ref bean="paramterProcessChain"/><!--参数校验-->
+	</util:list>
+
+
+
+	<!--酒店套餐取消链路处理-->
+	<util:list id="hotelCombCancelProcessorChain">
+		<ref bean="cancelForRefundProcessor"/>
+		<ref bean="cancelForWorkflowProcessor"/>
+	</util:list>
+
+	<util:list id="category_sort_list">
+		<value type="java.lang.Long">2</value>
+		<value type="java.lang.Long">15</value>
+		<value type="java.lang.Long">16</value><!--与产品经理（技术刘伟）确认，当地游提至第3位，其他顺延-->
+		<value type="java.lang.Long">18</value>
+		<value type="java.lang.Long">17</value>
+		
+		<value type="java.lang.Long">42</value>
+		<value type="java.lang.Long">4</value>
+		<value type="java.lang.Long">1</value>
+		<value type="java.lang.Long">13</value>
+		<value type="java.lang.Long">11</value>
+		<value type="java.lang.Long">31</value>
+		<value type="java.lang.Long">12</value>
+		<value type="java.lang.Long">28</value>
+		<value type="java.lang.Long">43</value>
+		<value type="java.lang.Long">44</value>
+		<value type="java.lang.Long">45</value>
+		<value type="java.lang.Long">3</value>
+	</util:list>
+	
+	<!-- 支付等待时间 -->
+	
+	<util:map id="wait_payment_time_minute" key-type="java.lang.String" map-class="java.util.HashMap" value-type="java.lang.Integer">
+		<!--酒店  2*60 -->
+		<entry key="category_hotel"         value="120"/>
+		<!-- 景点门票  2*60-->
+		<entry key="category_single_ticket" value="1440"/>
+		<!-- 其它票 -->
+		<entry key="category_other_ticket" value="1440"/>
+		<!-- 组合套餐票 -->
+		<entry key="category_comb_ticket" value="1440"/>
+		<!-- 玩乐演出票 -->
+		<entry key="category_show_ticket" value="1440"/>
+		
+		<!-- 跟团游    国内短线 -->
+		<entry key="category_route_group_INNERSHORTLINE" value="120"/>
+		<!-- 跟团游    国内长线 -->
+		<entry key="category_route_group_INNERLONGLINE" value="120"/>
+		<!-- 跟团游   出境/港澳台-->
+		<entry key="category_route_group_FOREIGNLINE" value="720"/>
+		
+		<!-- 定制游 国内短线 -->
+		<entry key="category_route_custoimzed_INNERSHORTLINE" value="1800"/>
+		<!-- 定制游    国内长线 -->
+		<entry key="category_route_custoimzed_INNERLONGLINE" value="1800"/>
+		<!-- 定制游   出境/港澳台-->
+		<entry key="category_route_custoimzed_FOREIGNLINE" value="1800"/>
+		
+		<!-- 当地游 国内-->
+		<entry key="category_route_local_INNERLINE" value="120"/>
+		<!-- 当地游 出境/港澳台-->
+		<entry key="category_route_local_FOREIGNLINE" value="720"/>
+		
+		<!-- 酒店套餐 国内-->
+		<entry key="category_route_hotelcomb_INNERLINE" value="120"/>
+		<!-- 酒店套餐 出境/港澳台-->
+		<entry key="category_route_hotelcomb_FOREIGNLINE" value="720"/>
+		
+		<!-- 自由行 出境/港澳台-->
+		<entry key="category_route_freedom_FOREIGNLINE" value="720"/>
+		<!-- 自由行 国内-->
+		<entry key="category_route_freedom_INNERLINE" value="120"/>
+		
+		<!-- 其它机票 -->
+		<entry key="category_traffic_aero_other" value="1800"/>
+		<!-- 其它火车票 -->
+		<entry key="category_traffic_train_other" value="1800"/>
+		<!-- 其它巴士 -->
+		<entry key="category_traffic_bus_other" value="1800"/>
+		<!-- 其它船票 -->
+		<entry key="category_traffic_ship_other" value="1800"/>
+		<!--岸上观光  -->
+		<entry key="category_sightseeing"   value="720"/>
+		<!-- 邮轮组合产品 -->
+		<entry key="category_comb_cruise" value="720"/>
+		<!--签证  -->
+		<entry key="category_visa" value="120"/>
+		<!-- 保险 -->
+		<entry key="category_insurance" value="1440"/>
+		<!-- 邮轮 -->
+		<entry key="category_cruise" value="720"/>
+		<!--  邮轮附加项-->
+		<entry key="category_cruise_addition"  value="720"/>
+		<!--wifi品类-->
+		<entry key="category_wifi"  value="1440"/>
+		<!-- 交通接驳 -->
+		<entry key="category_connects"  value="120"/>
+		<!-- 美食 -->
+		<entry key="category_food"  value="120"/>
+		<!-- 娱乐 -->
+		<entry key="category_sport"  value="120"/>
+		<!-- 购物 -->
+		<entry key="category_shop"  value="120"/>
+	</util:map>
+	
+	
+	<util:map id="orderOrderFactoryMap" key-type="java.lang.String" map-class="java.util.HashMap">
+		<entry key="init_2" value-ref="cruiseOrderItemBussiness"/>
+		<entry key="init_7" value-ref="cruiseOrderItemBussiness"/>
+		<entry key="init_8" value-ref="cruiseOrderItemBussiness"/>
+		<entry key="init_9" value-ref="cruiseOrderItemBussiness"/>
+		<entry key="init_10" value-ref="cruiseOrderItemBussiness"/>
+		
+		<!-- 签证 -->
+		<entry key="init_4" value-ref="visaOrderItemInitBussiness"/>
+	
+    	<!-- 子订单初始化类 -->
+    	<entry key="init_11" value-ref="ticketOrderInitBussiness"/>
+    	<entry key="init_12" value-ref="ticketOrderInitBussiness"/>
+    	<entry key="init_13" value-ref="ticketOrderInitBussiness"/>
+    	<entry key="init_3"  value-ref="insureOrderInitBussiness"/>
+    	<entry key="init_1"  value-ref="hotelOrderItemBussiness"/>
+        <entry key="init_31" value-ref="ticketOrderInitBussiness"/>
+    	<!-- 线路子订单 -->
+    	<entry key="init_15" value-ref="routeOrderItemBussiness"/>
+    	<entry key="init_16" value-ref="routeOrderItemBussiness"/>
+    	<entry key="init_17" value-ref="hotelcombOrderItemBussiness"/>
+    	<entry key="init_18" value-ref="routeOrderItemBussiness"/>
+    	<entry key="init_42" value-ref="routeOrderItemBussiness"/>
+ 
+    	
+    	<!-- 交通 -->
+    	<entry key="init_20" value-ref="trafficOrderItemInitBussiness"/>
+    	<entry key="init_21" value-ref="trafficOrderItemInitBussiness"/>
+    	<entry key="init_22" value-ref="trafficOrderItemInitBussiness"/>
+    	<entry key="init_23" value-ref="trafficOrderItemInitBussiness"/>
+    	<entry key="init_24" value-ref="trafficOrderItemInitBussiness"/>
+    	<entry key="init_25" value-ref="trafficOrderItemInitBussiness"/>
+    	<entry key="init_26" value-ref="trafficOrderItemInitBussiness"/>
+    	<entry key="init_27" value-ref="trafficOrderItemInitBussiness"/>
+    	<!--wifi电话卡-->
+    	<entry key="init_28" value-ref="wifiOrderInitBussiness"/>
+    	<!--交通接驳-->
+    	<entry key="init_41" value-ref="connectsOrderInitBussiness"/>
+    	<!-- 美食 -->
+    	<entry key="init_43" value-ref="playOrderInitBussiness"/>
+    	<!-- 娱乐 -->
+    	<entry key="init_44" value-ref="playOrderInitBussiness"/>
+    	<!-- 购物 -->
+    	<entry key="init_45" value-ref="playOrderInitBussiness"/>
+    	
+    	<!-- 快递 -->
+    	<entry key="init_90" value-ref="expressOrderItemInitBussiness"/>
+        <!--  -->
+    	<entry key="init_99" value-ref="preSaleOrderItemBussiness"/>
+    	<!-- 初始化pack信息 -->
+    	<entry key="initPack_13" value-ref="ticketOrderPackInitBussiness"/>
+    	<!-- 邮轮组合产品 -->
+    	<entry key="initPack_8" value-ref="cruiseOrderPackInitBussiness"/>
+    	
+    	<!-- 跟团游 -->
+    	<entry key="initPack_15" value-ref="supplierRouteOrderPackInitBussiness"/>
+    	<entry key="initPack_15_lvmama" value-ref="lvmamaRouteOrderPackInitBussiness"/>
+    	
+    	<!-- 定制游 -->
+    	<entry key="initPack_42" value-ref="supplierRouteOrderPackInitBussiness"/>
+    	<entry key="initPack_42_lvmama" value-ref="lvmamaRouteOrderPackInitBussiness"/>
+    	
+    	<!-- <entry key="initPack_16" value-ref="supplierRouteOrderPackInitBussiness"/> -->
+    	<!-- <entry key="initPack_17" value-ref="routeOrderPackInitBussiness"/> -->
+    	<!-- 自由行 -->
+    	<entry key="initPack_18" value-ref="supplierRouteOrderPackInitBussiness"/>
+    	<entry key="initPack_18_lvmama" value-ref="lvmamaRouteOrderPackInitBussiness"/>
+
+
+		<!-- 交通+X -->
+		<entry key="initPack_29" value-ref="autoPackRouteOrderPackInitBussiness"/>
+		<entry key="initPack_29_lvmama" value-ref="autoPackRouteOrderPackInitBussiness"/>
+    	
+    	<!-- 子订单保存类  -->
+    	<entry key="saveItem_2" value-ref="cruiseOrderItemSaveBussiness"/>
+    	<entry key="saveItem_7" value-ref="cruiseOrderItemSaveBussiness"/>
+    	<entry key="saveItem_8" value-ref="cruiseOrderItemSaveBussiness"/>
+    	<entry key="saveItem_9" value-ref="cruiseOrderItemSaveBussiness"/>
+    	<entry key="saveItem_10" value-ref="cruiseOrderItemSaveBussiness"/>
+    	    	
+    	<!-- 门票子订单 -->
+    	<entry key="saveItem_11" value-ref="ticketOrderItemSaveBussiness"/>
+    	<entry key="saveItem_12" value-ref="ticketOrderItemSaveBussiness"/>
+    	<entry key="saveItem_13" value-ref="ticketOrderItemSaveBussiness"/>
+        <entry key="saveItem_31" value-ref="ticketOrderItemSaveBussiness"/>
+    	<!-- 保险子项保存 -->
+    	<entry key="saveItem_3" value-ref="insureOrderItemSaveBussiness"/>
+    	<!-- 单酒店 -->
+    	<entry key="saveItem_1" value-ref="hotelOrderItemSaveBussiness"/>
+    	<entry key="saveItem_15" value-ref="routeOrderItemSaveBussiness"/>
+    	<entry key="saveItem_16" value-ref="routeOrderItemSaveBussiness"/>
+    	<entry key="saveItem_18" value-ref="routeOrderItemSaveBussiness"/>
+		<entry key="saveItem_42" value-ref="routeOrderItemSaveBussiness"/>
+		<!--  酒套餐-->
+		   	<entry key="saveItem_32" value-ref="newOrderItemSaveBussiness"/>
+    	<!-- presale -->
+    	<entry key="saveItem_99" value-ref="preSaleOrderItemSaveBussiness"/>
+    	<!--wifi电话卡-->
+    	<entry key="saveItem_28" value-ref="wifiOrderItemSaveBussiness"/>
+    	<entry key="saveItem_defaultOrderItemSaveBussiness" value-ref="defaultOrderItemSaveBussiness"/>
+    	<!--当地玩乐-->
+    	<entry key="saveItem_41" value-ref="localPlayOrderItemSaveBussiness"/>
+    	<!--美食-->
+    	<entry key="saveItem_43" value-ref="playOrderItemSaveBussiness"/>
+    	<!--娱乐-->
+    	<entry key="saveItem_44" value-ref="playOrderItemSaveBussiness"/>
+    	<!--购物-->
+    	<entry key="saveItem_45" value-ref="playOrderItemSaveBussiness"/>
+    	<!-- 促销接口 -->
+    	<entry key="orderProm_product" value-ref="productPromotionBussiness"/>
+    	<entry key="orderProm_goods" value-ref="suppGoodsPromotionBussiness"/>
+    	
+    	<!-- 时间价格表 -->
+    	<!-- 门票 -->
+    	<entry key="timePrice_category_single_ticket" value-ref="orderTicketAddTimePriceService"/>
+        <entry key="timePrice_category_show_ticket" value-ref="orderTicketShowAddTimePriceService"/>
+        <entry key="timePrice_category_single_ticket_notime" value-ref="orderTicketNoTimePriceService"/>
+    	<entry key="timePrice_category_comb_ticket" value-ref="orderTicketAddTimePriceService"/>
+    	<entry key="timePrice_category_comb_ticket_notime" value-ref="orderTicketNoTimePriceService"/>
+    	<entry key="timePrice_category_other_ticket" value-ref="orderTicketAddTimePriceService"/>
+    	<entry key="timePrice_category_other_ticket_notime" value-ref="orderTicketNoTimePriceService"/>
+    	
+    	<!-- 酒店  -->
+    	<entry key="timePrice_category_hotel" value-ref="orderTimePriceService"/>
+    	<!-- 邮轮 -->
+    	<entry key="timePrice_category_cruise" value-ref="orderMultiTimePriceService"/>
+    	<entry key="timePrice_category_sightseeing" value-ref="orderSingleTimePriceService"/>
+    	<entry key="timePrice_category_cruise_addition" value-ref="orderSingleTimePriceService"/>
+    	<entry key="timePrice_category_visa" value-ref="orderSimpleTimePriceService"/>
+    	
+    	<!-- 线路 -->
+    	<entry key="timePrice_category_route_hotelcomb" value-ref="orderHotelCompTimePriceService"/>
+    	<entry key="timePrice_category_route_group" value-ref="orderLineTimePriceService"/>
+    	<entry key="timePrice_category_route_freedom" value-ref="orderLineTimePriceService"/>
+    	<entry key="timePrice_category_route_local" value-ref="orderLineTimePriceService"/>
+    	<entry key="timePrice_category_route_customized" value-ref="orderLineTimePriceService"/>
+    	
+    	<!-- 大交通 -->
+    	<entry key="timePrice_category_traffic_aeroplane" value-ref="orderTrafficTimePriceService"/>
+    	<entry key="timePrice_category_traffic_aero_other" value-ref="orderTrafficTimePriceService"/>
+    	<entry key="timePrice_category_traffic_train" value-ref="orderTrafficTimePriceService"/>
+    	<entry key="timePrice_category_traffic_train_other" value-ref="orderTrafficTimePriceService"/>
+    	<entry key="timePrice_category_traffic_bus" value-ref="orderTrafficTimePriceService"/>
+    	<entry key="timePrice_category_traffic_bus_other" value-ref="orderTrafficTimePriceService"/>
+    	<entry key="timePrice_category_traffic_ship" value-ref="orderTrafficTimePriceService"/>
+    	<entry key="timePrice_category_traffic_ship_other" value-ref="orderTrafficTimePriceService"/>
+    	
+    	<!-- 保险 -->
+    	<entry key="timePrice_category_insurance" value-ref="orderTicketNoTimePriceService"/>
+    	<entry key="timePrice_category_other" value-ref="orderTicketNoTimePriceService"/>
+    	<!--wifi电话卡-->
+    	<entry key="timePrice_category_wifi" value-ref="orderWifiAddTimePriceService"/>
+    	<!--交通接驳-->
+    	<entry key="timePrice_category_connects" value-ref="orderConnectsAddTimePriceService"/>
+    	<entry key="timePrice_category_food" value-ref="orderPlayAddTimePriceService"/>
+    	<entry key="timePrice_category_sport" value-ref="orderPlayAddTimePriceService"/>
+    	<entry key="timePrice_category_shop" value-ref="orderPlayAddTimePriceService"/>
+
+        <!--预售-->
+        <entry key="timePrice_category_presale" value-ref="orderPreSaleTimePriceService"/>
+    </util:map>
+    
+    <!-- refund -->
+    <util:map id="orderRefundFactoryMap" key-type="java.lang.String" map-class="java.util.HashMap">
+    	<!-- amount -->
+    	<entry key="order_refund_amount_1" value-ref="orderRefundHotelAmountService" />
+    	<entry key="order_refund_amount_17" value-ref="orderRefundHotelCombAmountService" />
+    	<entry key="order_refund_amount_181" value-ref="orderRefundRouteSceneHotelAmountService" />
+    	<!-- process -->
+    	<entry key="order_refund_process_1" value-ref="orderRefundHotelProcesserService" />
+    	<entry key="order_refund_process_181" value-ref="orderRefundRouteSceneHotelProcesserService" />
+    	<!-- front -->
+    	<entry key="order_refund_front_1" value-ref="orderRefundHotelFrontService" />
+    	<entry key="order_refund_front_17" value-ref="orderRefundHotelCombFrontService" />
+    	<entry key="order_refund_front_181" value-ref="orderRefundRouteSceneHotelFrontService" />
+    </util:map>
+    
+    <util:map id="attributionManagerMap" key-type="java.lang.Long" map-class="java.util.HashMap" value-type="java.lang.Long">
+    	<!-- 云南	孙爱	4877 -->
+    	<entry key="12" value="4877"/>
+    	<!-- 贵州、 湖南 	詹筱怡	4350 -->
+    	<entry key="11" value="4350"/>
+		<entry key="16" value="4350"/>
+		<!-- 河南、陕西、山西、宁夏、内蒙古、甘肃、青海   倪小琳 1575 -->
+		<entry key="9" value="1575"/>
+		<entry key="23" value="1575"/>
+		<entry key="31" value="1575"/>
+		<entry key="19" value="1575"/>
+		<entry key="20" value="1575"/>
+		<entry key="25" value="1575"/>
+		<entry key="18" value="1575"/>
+		<!-- 西藏、四川  金洁泓	4623 -->
+		<entry key="13" value="4623"/>
+		<entry key="15" value="4623"/>
+		<!-- 江苏、浙江、上海、江西、安徽 	姚顺涛	6044 -->
+		<entry key="29" value="6044"/>
+		<entry key="1" value="6044"/>
+		<entry key="27" value="6044"/>
+		<entry key="8" value="6044"/>
+		<entry key="2" value="6044"/>
+		<!-- 福建、广东、广西、湖北	 周文斌	3599 -->
+		<entry key="21" value="3599"/>
+		<entry key="17" value="3599"/>
+		<entry key="22" value="3599"/>
+		<entry key="24" value="3599"/>
+		<!-- 北京、天津、河北、黑龙江、吉林、辽宁、山东	孟树超	583 -->
+		<entry key="3" value="583"/>
+		<entry key="30" value="583"/>
+		<entry key="4" value="583"/>
+		<entry key="7" value="583"/>
+		<entry key="6" value="583"/>
+		<entry key="5" value="583"/>
+		<entry key="28" value="583"/>
+		<!-- 海南、 三亚	涂求明	596 -->
+		<entry key="10" value="596"/>
+		<entry key="32" value="596"/>
+    </util:map>
+	
+    <import resource="classpath*:applicationContext-vst-comm-beans.xml"/>
+	<!-- <import resource="classpath*:applicationContext-vst-order-util.xml"/> -->
+	<import resource="classpath*:applicationContext-vst-order-database.xml" />
+	<import resource="classpath*:applicationContent-vst-order-remote.xml"/>
+	<import resource="classpath*:applicationContext-vst-order-processer.xml"/>
+	<import resource="classpath*:applicationContext-vst-order-trigger.xml"/>
+	<import resource="classpath*:applicationContext-vst-order-service-dubbo-provider.xml"/>
+	<import resource="classpath*:applicationContext-vst-comm-dubbo-provider.xml"/>
+	<import resource="classpath*:applicationContext-vst-order-remote-dubbo.xml"/>
+	<import resource="classpath*:applicationContext-vst-order-kafka.xml" />
+	<import resource="classpath*:applicationContext-package-bridge-beans.xml"/>
+	<import resource="classpath*:applicationContext-vst-order-zk.xml"/>
+	<!-- 订单路由 -->
+	<import resource="classpath*:applicationContext-lvmama-order-route-bean.xml"/>
+	<!-- 调度平台2.0控制job -->
+	<import resource="classpath*:applicationContext-order-xfire.xml"/>
+	<!-- 增加独立消息队列服务 add by wuxz 2017-11-24 -->
+	<import resource="classpath*:applicationContext-vst-order-jms.xml"/>
+	<!-- lvmm_order_jedis -->
+	<import resource="classpath*:applicationContext-order-base-jedis.xml"/>
+	<!--由以前的hessian转换成bubbo，暂时用别名与配置文件过渡-->
+	<alias name="${flightSearchServiceId:flightSearchService_dubbo}"  alias="flightSearchService"/>
+	<alias name="${flightOrderServiceRemoteId:flightOrderServiceRemote_dubbo}"  alias="flightOrderServiceRemote"/>
+</beans>

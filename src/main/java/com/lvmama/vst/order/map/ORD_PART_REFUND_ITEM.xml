@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ORD_PART_REFUND_ITEM">
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdPartRefundItem">
+  
+    <result column="ORDER_ITEM_ID" jdbcType="DECIMAL" property="orderItemId" />
+    <result column="ORDER_ID" jdbcType="DECIMAL" property="orderId" />
+    <result column="REFUND_QUANTITY" jdbcType="DECIMAL" property="refundQuantity" />
+    <result column="REFUND_LOCK_QUANTITY" jdbcType="DECIMAL" property="refundLockQuantity" />
+    <result column="REFUND_PERSON" jdbcType="VARCHAR" property="refundPerson" />
+    <result column="REFUND_LOCK_PERSON" jdbcType="VARCHAR" property="refundLockPerson" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    *
+  </sql>
+  
+  <sql id="update_sql">
+		update ORD_PART_REFUND_ITEM
+        <set>
+            <if  test="orderId !=null" >
+                ORDER_ID= #{orderId,jdbcType=DECIMAL},
+            </if>
+             <if  test="refundQuantity !=null" >
+                REFUND_QUANTITY= #{refundQuantity,jdbcType=DECIMAL},
+            </if>
+            <if  test="refundLockQuantity !=null" >
+                REFUND_LOCK_QUANTITY= #{refundLockQuantity,jdbcType=DECIMAL},
+            </if>
+            <if  test="refundPerson !=null" >
+                REFUND_PERSON=#{refundPerson,jdbcType=VARCHAR},
+            </if>
+            <if  test="refundLockPerson !=null" >
+                REFUND_LOCK_PERSON=#{refundLockPerson,jdbcType=VARCHAR},
+            </if>
+            UPDATE_TIME = SYSDATE
+        </set>
+	</sql>
+  
+  <select id="getOrdPartRefundItemByOrderItemId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from ORD_PART_REFUND_ITEM where ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+  </select>
+  
+  <update id="updateOrdPartRefundItemByOrderItemId" parameterType="com.lvmama.vst.back.order.po.OrdPartRefundItem" >
+        <include refid="update_sql"/>
+        where ORDER_ITEM_ID=#{orderItemId,jdbcType=DECIMAL}
+    </update>
+    
+    <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.OrdPartRefundItem">
+		insert into ORD_PART_REFUND_ITEM
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			ORDER_ITEM_ID,
+			<if  test="orderId !=null" >
+                ORDER_ID,
+            </if>
+             <if  test="refundQuantity !=null" >
+                REFUND_QUANTITY,
+            </if>
+            <if  test="refundLockQuantity !=null" >
+                REFUND_LOCK_QUANTITY,
+            </if>
+            <if  test="refundPerson !=null" >
+                REFUND_PERSON,
+            </if>
+            <if  test="refundLockPerson !=null" >
+                REFUND_LOCK_PERSON,
+            </if>
+        </trim>
+    	<trim prefix="values (" suffix=")" suffixOverrides="," >
+    		#{orderItemId,jdbcType=DECIMAL},
+    		<if  test="orderId !=null" >
+                #{orderId,jdbcType=DECIMAL},
+            </if>
+             <if  test="refundQuantity !=null" >
+                #{refundQuantity,jdbcType=DECIMAL},
+            </if>
+            <if  test="refundLockQuantity !=null" >
+                #{refundLockQuantity,jdbcType=DECIMAL},
+            </if>
+            <if  test="refundPerson !=null" >
+                #{refundPerson,jdbcType=VARCHAR},
+            </if>
+            <if  test="refundLockPerson !=null" >
+                #{refundLockPerson,jdbcType=VARCHAR},
+            </if>
+         </trim>
+    </insert>
+  
+  
+</mapper>

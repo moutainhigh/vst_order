@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_ITEM_ADDITSUPPGOODS" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrderItemAdditSuppGoods" >
+    <id column="ORDER_ITEM_ADDIT_ID" property="orderItemAdditId"  jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID"  property="orderItemId"  jdbcType="DECIMAL" />
+    <result column="ADD_SUPPGOOD_ID"  property="addItSuppGoodsId" jdbcType="DECIMAL" />
+     <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+     <result column="CREATE_DAY" property="createDay" jdbcType="TIMESTAMP"/>
+     <result column="CREATE_DATA" jdbcType="DECIMAL" property="createData" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMap2" type="com.lvmama.vst.back.order.vo.OrderItemAdditSuppGoodsVo" >
+    <id column="ORDER_ITEM_ADDIT_ID" property="orderItemAdditId" jdbcType="DECIMAL" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="DECIMAL" />
+    <result column="ADD_SUPPGOOD_ID" property="addItSuppGoodsId" jdbcType="DECIMAL" />
+     <result column="QUANTITY" property="quamtity" jdbcType="DECIMAL" />
+     <result column="CREATE_DAY" property="createDay" jdbcType="TIMESTAMP"/>
+     <result column="CREATE_DATA" jdbcType="DECIMAL" property="createData" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+     <result column="ADDI_GOODS_NAME" property="addiGoodsName" jdbcType="VARCHAR"/>
+       <result column="ADDI_SUPP_GOODS_TYPE" property="addiSuppGoodsType"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+  
+  
+   ORDER_ITEM_ADDIT_ID,ORDER_ITEM_ID,ADD_SUPPGOOD_ID, QUANTITY, CREATE_DAY,ADDIT_GOODS_NAME,ADDIT_SUPP_GOODS_TYPE,
+   CREATE_DATA, UPDATE_TIME
+  </sql>
+  <select id="getOrderItemAdditSuppGoodsList"  resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  select   <include refid="Base_Column_List"/>
+  from ORD_ITEM_ADDISUPPGOODS  t left join ADDIT_SUPP_GOODS s on t.ADD_SUPPGOOD_ID = s.ADDIT_SUPP_GOODS_ID
+  where t.ORDER_ITEM_ID=#{orderItemId}  
+  </select>
+  
+  
+  <insert id="addOrderItemAdditSupp"  parameterType="com.lvmama.vst.back.order.po.OrderItemAdditSuppGoods">
+      	<selectKey resultType="java.lang.Long" keyProperty="orderItemAdditId" order="BEFORE" >
+      select SEQ_ORD_ITEM_PERSON_ID.nextval from dual
+    </selectKey>
+     insert into ORD_ITEM_ADDISUPPGOODS(ORDER_ITEM_ADDIT_ID,ORDER_ITEM_ID,ADD_SUPPGOOD_ID,QUANTITY,CREATE_DAY)
+     values(#{orderItemAdditId,jdbcType=DECIMAL},#{orderItemId,jdbcType=DECIMAL},#{addItSuppGoodsId,jdbcType=DECIMAL},#{quantity,jdbcType=DECIMAL},#{createDay,jdbcType=TIMESTAMP})
+  </insert>
+  
+</mapper>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_RESPONSIBLE" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.OrdResponsible" >
+    <id column="RESPONSIBLE_ID" property="responsibleId" jdbcType="DECIMAL" />
+    <result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+    <result column="OPERATOR_NAME" property="operatorName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="ORG_ID" property="orgId" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMap2" type="com.lvmama.vst.back.order.po.OrdResponsible" >
+    <result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    RESPONSIBLE_ID, OBJECT_ID, OBJECT_TYPE, OPERATOR_NAME, CREATE_TIME,ORG_ID,UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORD_RESPONSIBLE
+    where RESPONSIBLE_ID = #{responsibleId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ORD_RESPONSIBLE
+    where RESPONSIBLE_ID = #{responsibleId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.OrdResponsible" >
+  	<selectKey resultType="java.lang.Long" keyProperty="responsibleId" order="BEFORE">
+			select
+			SEQ_ORD_RESPONSIBLE_ID.nextval as id from DUAL
+	    </selectKey>
+    insert into ORD_RESPONSIBLE (RESPONSIBLE_ID, OBJECT_ID, OBJECT_TYPE, 
+      OPERATOR_NAME, CREATE_TIME,ORG_ID)
+    values (#{responsibleId,jdbcType=DECIMAL}, #{objectId,jdbcType=DECIMAL}, #{objectType,jdbcType=VARCHAR}, 
+      #{operatorName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{orgId,jdbcType=DECIMAL})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.OrdResponsible" >
+    update ORD_RESPONSIBLE
+    <set >
+      <if test="objectId != null" >
+        OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+      </if>
+      <if test="objectType != null" >
+        OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null" >
+        OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="orgId != null" >
+       	ORG_ID = #{orgId,jdbcType=DECIMAL},
+      </if>
+       UPDATE_TIME = SYSDATE
+    </set>
+    where RESPONSIBLE_ID = #{responsibleId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.OrdResponsible" >
+    update ORD_RESPONSIBLE
+    set OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+      OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      ORG_ID = #{orgId,jdbcType=DECIMAL},UPDATE_TIME = SYSDATE
+    where RESPONSIBLE_ID = #{responsibleId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectWaitObjectList" resultMap="BaseResultMap2" parameterType="java.util.Map">
+  	  <include refid="basic.pageSearchHead"/>
+  		SELECT oo.order_id,'ORD_ORDER' FROM ORD_ORDER oo where 
+	  		oo.create_time &lt; sysdate-1 
+	  		and oo.ORDER_STATUS='NORMAL'
+	  		and not exists(select 1 from ORD_RESPONSIBLE res where 
+	  			res.object_id=oo.order_id and res.object_type='ORD_ORDER'
+	  		)
+  		union
+  		select oo.order_id,'ORD_ORDER' FROM ORD_ORDER oo,ORD_ORDER_ITEM ooi where 
+  			oo.order_id = ooi.order_id
+	  		and oo.create_time &lt; sysdate-1 
+	  		and oo.ORDER_STATUS='NORMAL'
+	  		and not exists(select 1 from ORD_RESPONSIBLE res where 
+	  			res.object_id=ooi.order_item_id and res.object_type='ORD_ORDER_ITEM'
+	  		)
+	  	<include refid="basic.pageSearchFoot"/>
+  </select>
+  
+  <select id="getResponsibleByObject" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select * from ORD_RESPONSIBLE where OBJECT_ID = #{objectId,jdbcType=DECIMAL} and
+      OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectResponsibleList" resultType="java.util.Map"  parameterType="java.util.Map">
+  	<include refid="basic.pageSearchHead"/>
+  	<include refid="select_responsible_params"/>
+  	<include refid="basic.pageSearchFoot"/>
+  </select>
+  
+  <select id="selectResponsibleCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+  	select count(*) from(
+  	<include refid="select_responsible_params"/>
+  	)
+  </select>
+  
+  <sql id="select_responsible_params">
+  	select 
+	<choose>
+		<when test="objectType=='ORDER'">
+			distinct oo.order_id
+		</when>
+		<when test="objectType=='ORDER_ITEM'">
+			ooi.order_item_id
+		</when>
+	</choose>
+	,oo.create_time
+	 from ord_order oo,ord_order_item ooi
+	 where
+  	 ooi.order_id=oo.order_id
+  		<if test="orderId!=null">
+  			and oo.order_id=#{orderId}
+  		</if>
+  		<if test="operatorName!=null||orgIds!=null">
+  			and exists(SELECT 1 FROM ORD_RESPONSIBLE res where 
+  				<choose>
+  					<when test="objectType=='ORDER'">
+  						res.object_id=oo.order_id and res.object_type='ORDER'
+  					</when>
+  					<when test="objectType=='ORDER_ITEM'">
+  						res.object_id=ooi.order_item_id and res.object_type='ORDER_ITEM'
+  					</when>
+  				</choose>
+  				<if test="operatorName!=null">
+  					and res.OPERATOR_NAME=#{operatorName} 
+  				</if>
+  				<if test="orgIds!=null">
+  					and res.org_id in
+  				<foreach collection="orgIds" item="id" open="(" close=")" separator=",">
+  					#{id}
+  				</foreach>
+  				</if>
+  				)
+  		</if>
+  		<if test="createTimeBegin!=null">
+  			and oo.create_time &gt;=#{createTimeBegin}
+  		</if>
+  		<if test="createTimeEnd!=null">
+  			and oo.create_time &lt;=#{createTimeEnd}
+  		</if>
+  		<if test="visitTimeBegin!=null">
+  			and ooi.visit_time &gt;=#{visitTimeBegin}
+  		</if>
+  		<if test="visitTimeEnd!=null">
+  			and ooi.visit_time &lt;=#{visitTimeEnd}
+  		</if>
+  		<if test="orderStatus!=null">
+  			and oo.order_status = #{orderStatus}
+  		</if>
+  		<if test="infoStatus!=null">
+  			and oo.order_status = #{infoStatus}
+  		</if>
+  		<if test="resourceStatus!=null">
+  			and oo.resource_status = #{resourceStatus}
+  		</if>
+  		<if test="paymentStatus!=null">
+  			and oo.payment_status = #{paymentStatus}
+  		</if>
+  		<if test="certificateStatus!=null">
+  			and oo.CERT_CONFIRM_STATUS = #{certificateStatus}
+  		</if>
+  		<if test="productId!=null">
+  			and ooi.product_id = #{productId}
+  		</if>
+  		<if test="supplierId!=null">
+  			and ooi.supplier_id = #{supplierId}
+  		</if>
+  		<if test="contactName!=null || contactMobile!=null">
+  			and exists(select 1 from ord_person op where op.object_id=oo.order_id and op.person_type='CONTACT'
+  			<if test="contactName!=null">
+  			and op.full_name = #{contactName}
+  			</if>
+  			<if test="contactMobile!=null">
+  			and op.mobile = #{contactMobile}
+  			</if>
+  			)
+  		</if>
+  </sql>
+   <sql id="Base_Query_Column_List" >
+  	  <if test="objectId != null" >
+        AND OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+      </if>
+      <if test="objectType != null" >
+        AND OBJECT_TYPE = #{objectType,jdbcType=VARCHAR}
+      </if>
+      <if test="operatorName != null" >
+        AND OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        AND CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="orgIds != null and orgIds!=''">
+		AND ORG_ID IN 
+		<foreach collection="orgIds" index="index" item="item"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	 </if>
+	 <if test="objectIds != null and objectIds!=''">
+		AND OBJECT_ID IN 
+		<foreach collection="objectIds" index="index" item="item"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	 </if>
+  </sql>
+  <sql id="select_by_param" >
+		select *	
+		from ORD_RESPONSIBLE  
+		where 1=1
+		<include refid="Base_Query_Column_List" />	
+  </sql>
+  <select id="selectByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="basic.pageSearchHead"/>
+		<include refid="select_by_param"/>
+		<include refid="basic.pageSearchFoot"/>  
+  </select>
+   <select id="getTotalCount" parameterType="java.util.Map" resultType="Integer">
+		select  count(1)
+		from ORD_RESPONSIBLE
+	    where 1=1
+		<include refid="Base_Query_Column_List" />
+  </select>
+</mapper>

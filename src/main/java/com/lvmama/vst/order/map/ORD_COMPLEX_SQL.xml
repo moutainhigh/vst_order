@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ORD_COMPLEX_SQL">
+	<select id="selectDistinctAdditionStatusByOrderIds" resultMap="ORD_ADDITION_STATUS.BaseResultMap">
+		SELECT  ORD_ADDITION_STATUS.*
+		FROM ORD_ADDITION_STATUS
+		WHERE
+		ORD_ADDITION_STATUS.ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="selectDistinctAddressByorderIds" resultMap="ORD_ADDRESS.BaseResultMap">
+		SELECT  ORD_ADDRESS.*
+		FROM ORD_ADDRESS
+		WHERE
+		ORD_ADDRESS.ORD_PERSON_ID IN
+		(SELECT ORD_PERSON_ID
+		FROM ORD_PERSON
+		WHERE OBJECT_TYPE = 'ORDER'
+		AND OBJECT_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		)
+	</select>
+
+	<select id="selectDistinctCourierListingByOrderIds" resultMap="ORD_COURIER_LISTING.BaseResultMap">
+		SELECT  ORD_COURIER_LISTING.*
+		FROM ORD_COURIER_LISTING
+		WHERE
+		ORD_COURIER_LISTING.ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="selectDistinctFormInfoByOrderIds" resultMap="ORD_FORM_INFO.BaseResultMap">
+		SELECT  ORD_FORM_INFO.*
+		FROM ORD_FORM_INFO
+		WHERE ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="selectDistinctCreditCardByOrderIds" resultMap="ORD_GUARANTEE_CREDIT_CARD.BaseResultMap">
+		SELECT  ORD_GUARANTEE_CREDIT_CARD.*
+		FROM
+		ORD_GUARANTEE_CREDIT_CARD
+		WHERE ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="selectPersonRelationByorderIds" resultMap="ORD_ITEM_PERSON_RELATION.BaseResultMap">
+		SELECT *
+		FROM ORD_ITEM_PERSON_RELATION
+		WHERE
+		ORD_ITEM_PERSON_RELATION.ORDER_ITEM_ID IN
+		(SELECT ORDER_ITEM_ID
+		FROM ORD_ORDER_ITEM
+		WHERE ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		)
+	</select>
+
+	<select id="selectDistinctAmountItemByOrderIds" resultMap="ORD_ORDER_AMOUNT_ITEM.BaseResultMap">
+		SELECT  ORD_ORDER_AMOUNT_ITEM.*
+		FROM ORD_ORDER_AMOUNT_ITEM
+		WHERE ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="selectDistinctHotelTimeRatesByOrderIds" resultMap="ORD_ORDER_HOTEL_TIME_RATE.BaseResultMap">
+		SELECT  ORD_ORDER_HOTEL_TIME_RATE.*
+ 		 FROM ORD_ORDER_HOTEL_TIME_RATE
+		 WHERE ORDER_ITEM_ID IN
+       	(SELECT ORDER_ITEM_ID
+          FROM  ORD_ORDER_ITEM
+          WHERE ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		)
+	</select>
+
+	<select id="selectDistinctHotelTimeRatesSortByOrderIds"
+		resultMap="ORD_ORDER_HOTEL_TIME_RATE.BaseResultMap">
+		SELECT  ORD_ORDER_HOTEL_TIME_RATE.*
+		FROM
+		ORD_ORDER_HOTEL_TIME_RATE
+		WHERE ORDER_ITEM_ID IN
+		(SELECT ORDER_ITEM_ID
+		FROM ORD_ORDER_ITEM
+		WHERE
+		ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		)
+		ORDER BY ORD_ORDER_HOTEL_TIME_RATE.VISIT_TIME ASC
+	</select>
+	
+		<select id="selectDistinctWifiTimeRatesByOrderIds" resultMap="ORD_ORDER_WIFI_TIME_RATE.BaseResultMap">
+		SELECT  ORD_ORDER_WIFI_TIME_RATE.*
+ 		 FROM ORD_ORDER_WIFI_TIME_RATE
+		 WHERE ORDER_ITEM_ID IN
+       	(SELECT ORDER_ITEM_ID
+          FROM  ORD_ORDER_ITEM
+          WHERE ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		)
+	</select>
+
+	<select id="selectDistinctWifiTimeRatesSortByOrderIds"
+		resultMap="ORD_ORDER_WIFI_TIME_RATE.BaseResultMap">
+		SELECT  ORD_ORDER_WIFI_TIME_RATE.*
+		FROM
+		ORD_ORDER_WIFI_TIME_RATE
+		WHERE ORDER_ITEM_ID IN
+		(SELECT ORDER_ITEM_ID
+		FROM ORD_ORDER_ITEM
+		WHERE
+		ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		)
+		ORDER BY ORD_ORDER_WIFI_TIME_RATE.VISIT_TIME ASC
+	</select>
+
+	<select id="selectDistinctOrderItemsByorderIds" resultMap="ORD_ORDER_ITEM.BaseResultMap">
+		SELECT  ORD_ORDER_ITEM.* FROM ORD_ORDER_ITEM WHERE ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="selectDistinctOrderPacksByOrderIds" resultMap="ORD_ORDER_PACK.BaseResultMap">
+		SELECT  ORD_ORDER_PACK.*
+		FROM ORD_ORDER_PACK
+		WHERE ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="selectDistinctStocksByOrderIds" resultMap="ORD_ORDER_STOCK.BaseResultMap">
+		SELECT  ORD_ORDER_STOCK.*
+		FROM ORD_ORDER_STOCK
+		WHERE
+		ORDER_ITEM_ID IN
+		(SELECT ORDER_ITEM_ID
+		FROM ORD_ORDER_ITEM
+		WHERE ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		)
+	</select>
+
+	<select id="selectDistinctStocksByOrderItemId" resultMap="ORD_ORDER_STOCK.BaseResultMap" parameterType="java.lang.Long">
+		SELECT  ORD_ORDER_STOCK.*
+		FROM ORD_ORDER_STOCK
+		WHERE
+		ORDER_ITEM_ID = #{orderItemId,jdbcType=DECIMAL}
+	</select>
+
+	<select id="selectDistinctOrderPersonsByOrderIds" resultMap="ORD_PERSON.BaseResultMap">
+		SELECT  ORD_PERSON.*
+		FROM ORD_PERSON
+		WHERE
+		ORD_PERSON.OBJECT_TYPE = 'ORDER'
+		AND ORD_PERSON.OBJECT_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		ORDER BY ORD_PERSON_ID 
+	</select>
+
+	<select id="selectDistinctTravelContractByOrderIds" resultMap="ORD_TRAVEL_CONTRACT.BaseResultMap">
+		SELECT  ORD_TRAVEL_CONTRACT.*
+		FROM ORD_TRAVEL_CONTRACT
+		WHERE
+		ORD_TRAVEL_CONTRACT.ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<select id="selectDistinctPickingPointByOrderIds"
+		resultMap="ORD_ORDER_WIFI_PICKING_POINT.BaseResultMap">
+		SELECT  ORD_ORDER_WIFI_PICKING_POINT.*
+		FROM
+		ORD_ORDER_WIFI_PICKING_POINT
+		WHERE ORDER_ITEM_ID IN
+		(SELECT ORDER_ITEM_ID
+		FROM ORD_ORDER_ITEM
+		WHERE
+		ORDER_ID IN
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		)
+	</select>
+
+	<select id="selectConnectsServicePropByOrderIds" resultMap="ORDER_CONNECTS_SERVICE_PROP.BaseResultMap">
+		select prop.PROP_ID,prop.Branch_Id,prop.PROP_NAME,prop.PROP_CODE,prop.SEQ,prop.MAX_LENGTH,prop.REQUIRE,orderProp.ORDER_SERVICE_ID,orderProp.ORDER_ID,orderProp.PROP_VALUE
+		from BIZ_ORDER_CONNECTS_PROP prop, order_connects_service_prop orderProp
+		where prop.prop_id = orderProp.Prop_Id
+		and orderProp.Order_Id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		order by prop.seq asc
+	</select>
+
+</mapper>

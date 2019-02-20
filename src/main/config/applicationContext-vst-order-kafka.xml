@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <!-- 生产者实例-->
+	<bean id="msgProducer" class="com.lvmama.vst.comm.kafka.producer.DefaultMsgProducer" init-method="init" destroy-method="close">
+        <property name="bootstrapServers" value="${kafka_bootstrap_servers}"/>
+        <property name="sendEnable" value="${kafka.enable}"/>
+        <property name="properties">
+            <props>
+                <prop key="serializer.class" >kafka.serializer.StringEncoder</prop>
+                <prop key="request.required.acks">1</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- lvmm_log: 消息日志 -->
+    <bean id="lvmmLogClientService" class="com.lvmama.vst.comlog.LvmmLogClientServiceImpl">
+        <property name="lvmamaLogProducerProxy">
+            <bean class="com.lvmama.vst.comm.kafka.producer.SimpleProducterProxy">
+                <property name="topic" value="VST_LOG" />
+                <property name="msgProducer" ref="msgProducer" />
+            </bean>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="VST_SEARCH_SALE" >
+  <resultMap id="BaseResultMap" type="com.lvmama.vst.back.order.po.VstSearchSale" >
+    <id column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+    <result column="WEEK_SALE" property="weekSale" jdbcType="DECIMAL" />
+    <result column="QUANTITY_SALE" property="quantitySale" jdbcType="DECIMAL" />
+    <result column="SALE_PER" property="salePer" jdbcType="FLOAT" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PRODUCT_ID, WEEK_SALE, QUANTITY_SALE, SALE_PER, UPDATE_TIME
+  </sql>
+  <select id="selectByProductId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from VST_SEARCH_SALE
+    where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteAll" >
+    delete from VST_SEARCH_SALE
+  </delete>
+  <insert id="insert" parameterType="com.lvmama.vst.back.order.po.VstSearchSale" >
+    insert into VST_SEARCH_SALE (PRODUCT_ID, WEEK_SALE, QUANTITY_SALE, 
+      SALE_PER)
+    values (#{productId,jdbcType=DECIMAL}, #{weekSale,jdbcType=DECIMAL}, #{quantitySale,jdbcType=DECIMAL}, 
+      #{salePer,jdbcType=FLOAT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvmama.vst.back.order.po.VstSearchSale" >
+    insert into VST_SEARCH_SALE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        PRODUCT_ID,
+      </if>
+      <if test="weekSale != null" >
+        WEEK_SALE,
+      </if>
+      <if test="quantitySale != null" >
+        QUANTITY_SALE,
+      </if>
+      <if test="salePer != null" >
+        SALE_PER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=DECIMAL},
+      </if>
+      <if test="weekSale != null" >
+        #{weekSale,jdbcType=DECIMAL},
+      </if>
+      <if test="quantitySale != null" >
+        #{quantitySale,jdbcType=DECIMAL},
+      </if>
+      <if test="salePer != null" >
+        #{salePer,jdbcType=FLOAT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvmama.vst.back.order.po.VstSearchSale" >
+    update VST_SEARCH_SALE
+    <set >
+      <if test="weekSale != null" >
+        WEEK_SALE = #{weekSale,jdbcType=DECIMAL},
+      </if>
+      <if test="quantitySale != null" >
+        QUANTITY_SALE = #{quantitySale,jdbcType=DECIMAL},
+      </if>
+      <if test="salePer != null" >
+        SALE_PER = #{salePer,jdbcType=FLOAT},
+      </if>
+      UPDATE_TIME = sysdate
+    </set>
+    where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvmama.vst.back.order.po.VstSearchSale" >
+    update VST_SEARCH_SALE
+    set WEEK_SALE = #{weekSale,jdbcType=DECIMAL},
+      QUANTITY_SALE = #{quantitySale,jdbcType=DECIMAL},
+      SALE_PER = #{salePer,jdbcType=FLOAT},
+      UPDATE_TIME = sysdate
+    where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectProductWeekSale" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	<include refid="basic.pageSearchHead"/>
+ select product_id,count(1) as WEEK_SALE  from (
+  select product_id,order_id from ord_order_item where order_id in(
+  select order_id from ord_order where create_time between #{beginDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP}
+   and category_id in(select category_id from biz_category  where parent_id =
+	(select category_id from biz_category where category_code=#{categoryCode,jdbcType=VARCHAR})))
+  and category_id in(select category_id from biz_category  where parent_id =
+	(select category_id from biz_category where category_code=#{categoryCode,jdbcType=VARCHAR}))
+  and  order_pack_id is null
+	 group by product_id,order_id)
+	group by product_id order by product_id 
+	<include refid="basic.pageSearchFoot"/>  
+  </select>
+  
+  <select id="selectHotelWeekSale" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	<include refid="basic.pageSearchHead"/>
+  select product_id,count(1) as WEEK_SALE  from (
+  select product_id,order_id from ord_order_item where order_id in(
+  select order_id from ord_order where create_time between #{beginDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP}
+   and category_id in(select category_id from biz_category where category_code=#{categoryCode,jdbcType=VARCHAR}))
+  and category_id in(select category_id from biz_category where category_code=#{categoryCode,jdbcType=VARCHAR})
+  and  order_pack_id is null
+	 group by product_id,order_id)
+	group by product_id order by product_id 
+	<include refid="basic.pageSearchFoot"/>  
+  </select>
+  
+    <select id="countHotelWeekSale" resultType="Integer" parameterType="java.util.Map" >
+    select count(1) from(
+     select product_id,count(1) as WEEK_SALE  from (
+  select product_id,order_id from ord_order_item where order_id in(
+  select order_id from ord_order where create_time between #{beginDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP}
+   and category_id in(select category_id from biz_category where category_code=#{categoryCode,jdbcType=VARCHAR}))
+  and category_id in(select category_id from biz_category where category_code=#{categoryCode,jdbcType=VARCHAR})
+  and  order_pack_id is null
+	 group by product_id,order_id)
+	group by product_id order by product_id 
+    )
+  </select>
+  
+  
+    <select id="selectPackProductWeekSale" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	<include refid="basic.pageSearchHead"/>
+ select product_id,count(1) as WEEK_SALE  from (
+  select product_id,order_id from ord_order_pack where order_id in(
+  select order_id from ord_order where create_time between #{beginDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP}
+   and category_id in(select category_id from biz_category  where parent_id =
+	(select category_id from biz_category where category_code=#{categoryCode,jdbcType=VARCHAR})))
+  and category_id in(select category_id from biz_category  where parent_id =
+	(select category_id from biz_category where category_code=#{categoryCode,jdbcType=VARCHAR}))
+	 group by product_id,order_id)
+	group by product_id order by product_id 
+	<include refid="basic.pageSearchFoot"/>  
+  </select>
+  
+  
+  
+  
+    <select id="countProductWeekSale" resultType="Integer" parameterType="java.util.Map" >
+    select count(1) from(
+     select product_id,count(1) as WEEK_SALE  from (
+  select product_id,order_id from ord_order_item where order_id in(
+  select order_id from ord_order where create_time between #{beginDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP}
+   and category_id in(select category_id from biz_category  where parent_id =
+	(select category_id from biz_category where category_code=#{categoryCode,jdbcType=VARCHAR})))
+  and category_id in(select category_id from biz_category  where parent_id =
+	(select category_id from biz_category where category_code=#{categoryCode,jdbcType=VARCHAR}))
+  and  order_pack_id is null
+	 group by product_id,order_id)
+	group by product_id
+    )
+  </select>
+  
+  
+      <select id="countPackProductWeekSale" resultType="Integer" parameterType="java.util.Map" >
+    select count(1) from(
+     select product_id,count(1) as WEEK_SALE  from (
+  select product_id,order_id from ord_order_pack where order_id in(
+  select order_id from ord_order where create_time between #{beginDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP}
+   and category_id in(select category_id from biz_category  where parent_id =
+	(select category_id from biz_category where category_code=#{categoryCode,jdbcType=VARCHAR})))
+  and category_id in(select category_id from biz_category  where parent_id =
+	(select category_id from biz_category where category_code=#{categoryCode,jdbcType=VARCHAR}))
+	 group by product_id,order_id)
+	group by product_id
+    )
+  </select>
+  
+  
+</mapper>
